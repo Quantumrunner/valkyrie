@@ -610,25 +610,38 @@ public class EditorComponentEvent : EditorComponent
             select.AddItem("EventStart", traits);
         }
 
-        if (noMorale)
+        //Morale exists only in descent
+        if (game.gameType is D2EGameType)
         {
-            select.AddItem("NoMorale", traits, Color.gray);
-        }
-        else
-        {
-           select.AddItem("NoMorale", traits);
-        }
-
-        if (eliminated)
-        {
-            select.AddItem("Eliminated", traits, Color.gray);
-        }
-        else
-        {
-           select.AddItem("Eliminated", traits);
+            if (noMorale)
+            {
+                select.AddItem("NoMorale", traits, Color.gray);
+            }
+            else
+            {
+                select.AddItem("NoMorale", traits);
+            }
         }
 
-        select.AddItem("Mythos", traits);
+        //Eliminated only exists in MoM
+        if (game.gameType is MoMGameType)
+        {
+            if (eliminated)
+            {
+                select.AddItem("Eliminated", traits, Color.gray);
+            }
+            else
+            {
+                select.AddItem("Eliminated", traits);
+            }
+        }
+
+        //Mythos phase only exists in MoM
+        if (game.gameType is MoMGameType)
+        {
+            select.AddItem("Mythos", traits);
+        }
+
         select.AddItem("EndRound", traits);
         select.AddItem("StartRound", traits);
 
@@ -638,7 +651,11 @@ public class EditorComponentEvent : EditorComponent
         foreach (KeyValuePair<string, MonsterData> kv in game.cd.monsters)
         {
             select.AddItem("Defeated" + kv.Key, traits);
-            select.AddItem("DefeatedUnique" + kv.Key, traits);
+            //Add defeated unique triggers only for descent because Unique Monster do not exist in MoM
+            if (game.gameType is D2EGameType)
+            {
+                select.AddItem("DefeatedUnique" + kv.Key, traits);
+            }
         }
 
         HashSet<string> vars = new HashSet<string>();
@@ -664,6 +681,7 @@ public class EditorComponentEvent : EditorComponent
             if (kv.Value is QuestData.CustomMonster)
             {
                 select.AddItem("Defeated" + kv.Key, traits);
+                //Add defeated unique triggers only for descent because Unique Monster do not exist in MoM
                 if (game.gameType is D2EGameType)
                 {
                     select.AddItem("DefeatedUnique" + kv.Key, traits);
@@ -679,6 +697,7 @@ public class EditorComponentEvent : EditorComponent
             if (kv.Value is QuestData.Spawn)
             {
                 select.AddItem("Defeated" + kv.Key, traits);
+                //Add defeated unique triggers only for descent because Unique Monster do not exist in MoM
                 if (game.gameType is D2EGameType)
                 {
                     select.AddItem("DefeatedUnique" + kv.Key, traits);

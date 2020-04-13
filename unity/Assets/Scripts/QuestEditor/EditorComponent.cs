@@ -39,6 +39,9 @@ public class EditorComponent {
     // The editor scroll area;
     public UIElementScrollVertical scrollArea;
 
+    //Those descent peril variables are only used for internal use and should not appear in the ui
+    private static readonly List<string> InternalPerilVariables = new List<string> { "$perilMinor11", "$perilm2value", "$perild1value", "$perilDeadly2Count" };
+
     // Update redraws the selection UI
     virtual public void Update()
     {
@@ -644,12 +647,11 @@ public class EditorComponent {
             list.AddItem(s, traits);
         }
 
-
         foreach (PerilData e in game.cd.perils.Values)
         {
             foreach (string s in ExtractVarsFromEvent(e))
             {
-                if (s[0] == '$')
+                if (s[0] == '$' && !InternalPerilVariables.Contains(s))
                 {
                     dollarVars.Add(s);
                 }
