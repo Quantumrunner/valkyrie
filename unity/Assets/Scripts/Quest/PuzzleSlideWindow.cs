@@ -7,7 +7,7 @@ public class PuzzleSlideWindow
 {
 
     public EventManager.Event eventData;
-    Assets.Scripts.Content.QuestComponent.Puzzle QUEST_PUZZLE_QUEST_COMPONENT;
+    Assets.Scripts.Content.QuestComponent.PuzzleQuestComponent QUEST_PUZZLE_QUEST_COMPONENT_QUEST_COMPONENT;
     public PuzzleSlide puzzle;
     public int lastMoves = 0;
 
@@ -16,16 +16,16 @@ public class PuzzleSlideWindow
         eventData = e;
         Game game = Game.Get();
 
-        QUEST_PUZZLE_QUEST_COMPONENT = e.QEvent as Assets.Scripts.Content.QuestComponent.Puzzle;
+        QUEST_PUZZLE_QUEST_COMPONENT_QUEST_COMPONENT = e.QEventQuestComponent as Assets.Scripts.Content.QuestComponent.PuzzleQuestComponent;
 
-        if (game.quest.puzzle.ContainsKey(QUEST_PUZZLE_QUEST_COMPONENT.sectionName))
+        if (game.quest.puzzle.ContainsKey(QUEST_PUZZLE_QUEST_COMPONENT_QUEST_COMPONENT.sectionName))
         {
-            puzzle = game.quest.puzzle[QUEST_PUZZLE_QUEST_COMPONENT.sectionName] as PuzzleSlide;
+            puzzle = game.quest.puzzle[QUEST_PUZZLE_QUEST_COMPONENT_QUEST_COMPONENT.sectionName] as PuzzleSlide;
             lastMoves = puzzle.moves;
         }
         else
         {
-            puzzle = new PuzzleSlide(QUEST_PUZZLE_QUEST_COMPONENT.puzzleLevel);
+            puzzle = new PuzzleSlide(QUEST_PUZZLE_QUEST_COMPONENT_QUEST_COMPONENT.puzzleLevel);
         }
 
         CreateWindow();
@@ -60,7 +60,7 @@ public class PuzzleSlideWindow
 
         ui = new UIElement();
         ui.SetLocation(UIScaler.GetHCenter(8.5f), 5, 3, 2);
-        ui.SetText(EventManager.OutputSymbolReplace(QUEST_PUZZLE_QUEST_COMPONENT.skill));
+        ui.SetText(EventManager.OutputSymbolReplace(QUEST_PUZZLE_QUEST_COMPONENT_QUEST_COMPONENT.skill));
         ui.SetFontSize(UIScaler.GetMediumFont());
         new UIElementBorder(ui);
 
@@ -121,11 +121,11 @@ public class PuzzleSlideWindow
     {
         Destroyer.Dialog();
         Game game = Game.Get();
-        if (game.quest.puzzle.ContainsKey(QUEST_PUZZLE_QUEST_COMPONENT.sectionName))
+        if (game.quest.puzzle.ContainsKey(QUEST_PUZZLE_QUEST_COMPONENT_QUEST_COMPONENT.sectionName))
         {
-            game.quest.puzzle.Remove(QUEST_PUZZLE_QUEST_COMPONENT.sectionName);
+            game.quest.puzzle.Remove(QUEST_PUZZLE_QUEST_COMPONENT_QUEST_COMPONENT.sectionName);
         }
-        game.quest.puzzle.Add(QUEST_PUZZLE_QUEST_COMPONENT.sectionName, puzzle);
+        game.quest.puzzle.Add(QUEST_PUZZLE_QUEST_COMPONENT_QUEST_COMPONENT.sectionName, puzzle);
 
         game.quest.eManager.currentEvent = null;
         game.quest.eManager.currentEvent = null;
@@ -136,9 +136,9 @@ public class PuzzleSlideWindow
     {
         Destroyer.Dialog();
         Game game = Game.Get();
-        if (game.quest.puzzle.ContainsKey(QUEST_PUZZLE_QUEST_COMPONENT.sectionName))
+        if (game.quest.puzzle.ContainsKey(QUEST_PUZZLE_QUEST_COMPONENT_QUEST_COMPONENT.sectionName))
         {
-            game.quest.puzzle.Remove(QUEST_PUZZLE_QUEST_COMPONENT.sectionName);
+            game.quest.puzzle.Remove(QUEST_PUZZLE_QUEST_COMPONENT_QUEST_COMPONENT.sectionName);
         }
 
         game.quest.eManager.EndEvent();

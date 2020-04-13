@@ -7,7 +7,7 @@ using Assets.Scripts.UI;
 
 public class EditorComponentUI : EditorComponentEvent
 {
-    Ui UI_QUEST_COMPONENT_COMPONENT;
+    UiQuestComponent UI_QUEST_COMPONENT_QUEST_COMPONENT_COMPONENT;
 
     UIElementEditable locXUIE;
     UIElementEditable locYUIE;
@@ -34,7 +34,7 @@ public class EditorComponentUI : EditorComponentEvent
 
     override public float AddSubEventComponents(float offset)
     {
-        UI_QUEST_COMPONENT_COMPONENT = component as Ui;
+        UI_QUEST_COMPONENT_QUEST_COMPONENT_COMPONENT = component as UiQuestComponent;
 
         UIElement ui = new UIElement(Game.EDITOR, scrollArea.GetScrollTransform());
         ui.SetLocation(0, offset, 4.5f, 1);
@@ -42,7 +42,7 @@ public class EditorComponentUI : EditorComponentEvent
 
         ui = new UIElement(Game.EDITOR, scrollArea.GetScrollTransform());
         ui.SetLocation(4.5f, offset, 15, 1);
-        ui.SetText(UI_QUEST_COMPONENT_COMPONENT.imageName);
+        ui.SetText(UI_QUEST_COMPONENT_QUEST_COMPONENT_COMPONENT.imageName);
         ui.SetButton(delegate { SetImage(); });
         new UIElementBorder(ui);
         offset += 2;
@@ -55,7 +55,7 @@ public class EditorComponentUI : EditorComponentEvent
         ui.SetLocation(6, offset, 6, 1);
         ui.SetButton(delegate { ChangeUnits(); });
         new UIElementBorder(ui);
-        if (UI_QUEST_COMPONENT_COMPONENT.verticalUnits)
+        if (UI_QUEST_COMPONENT_QUEST_COMPONENT_COMPONENT.verticalUnits)
         {
             ui.SetText(new StringKey("val", "VERTICAL"));
         }
@@ -92,7 +92,7 @@ public class EditorComponentUI : EditorComponentEvent
 
         locXUIE = new UIElementEditable(Game.EDITOR, scrollArea.GetScrollTransform());
         locXUIE.SetLocation(2, offset, 3, 1);
-        locXUIE.SetText(UI_QUEST_COMPONENT_COMPONENT.location.x.ToString());
+        locXUIE.SetText(UI_QUEST_COMPONENT_QUEST_COMPONENT_COMPONENT.location.x.ToString());
         locXUIE.SetSingleLine();
         locXUIE.SetButton(delegate { UpdateNumbers(); });
         new UIElementBorder(locXUIE);
@@ -103,7 +103,7 @@ public class EditorComponentUI : EditorComponentEvent
 
         locYUIE = new UIElementEditable(Game.EDITOR, scrollArea.GetScrollTransform());
         locYUIE.SetLocation(7, offset, 3, 1);
-        locYUIE.SetText(UI_QUEST_COMPONENT_COMPONENT.location.y.ToString());
+        locYUIE.SetText(UI_QUEST_COMPONENT_QUEST_COMPONENT_COMPONENT.location.y.ToString());
         locYUIE.SetSingleLine();
         locYUIE.SetButton(delegate { UpdateNumbers(); });
         new UIElementBorder(locYUIE);
@@ -115,12 +115,12 @@ public class EditorComponentUI : EditorComponentEvent
 
         sizeUIE = new UIElementEditable(Game.EDITOR, scrollArea.GetScrollTransform());
         sizeUIE.SetLocation(5, offset, 3, 1);
-        sizeUIE.SetText(UI_QUEST_COMPONENT_COMPONENT.size.ToString());
+        sizeUIE.SetText(UI_QUEST_COMPONENT_QUEST_COMPONENT_COMPONENT.size.ToString());
         sizeUIE.SetSingleLine();
         sizeUIE.SetButton(delegate { UpdateNumbers(); });
         new UIElementBorder(sizeUIE);
 
-        if (UI_QUEST_COMPONENT_COMPONENT.imageName.Length == 0)
+        if (UI_QUEST_COMPONENT_QUEST_COMPONENT_COMPONENT.imageName.Length == 0)
         {
             ui = new UIElement(Game.EDITOR, scrollArea.GetScrollTransform());
             ui.SetLocation(10, offset, 5, 1);
@@ -128,7 +128,7 @@ public class EditorComponentUI : EditorComponentEvent
 
             aspectUIE = new UIElementEditable(Game.EDITOR, scrollArea.GetScrollTransform());
             aspectUIE.SetLocation(15, offset, 3, 1);
-            aspectUIE.SetText(UI_QUEST_COMPONENT_COMPONENT.aspect.ToString());
+            aspectUIE.SetText(UI_QUEST_COMPONENT_QUEST_COMPONENT_COMPONENT.aspect.ToString());
             aspectUIE.SetSingleLine();
             aspectUIE.SetButton(delegate { UpdateNumbers(); });
             new UIElementBorder(aspectUIE);
@@ -136,7 +136,7 @@ public class EditorComponentUI : EditorComponentEvent
 
             textUIE = new UIElementEditablePaneled(Game.EDITOR, scrollArea.GetScrollTransform());
             textUIE.SetLocation(0.5f, offset, 19, 38);
-            textUIE.SetText(UI_QUEST_COMPONENT_COMPONENT.uiText.Translate(true));
+            textUIE.SetText(UI_QUEST_COMPONENT_QUEST_COMPONENT_COMPONENT.uiText.Translate(true));
             offset += textUIE.HeightToTextPadding(1);
             textUIE.SetButton(delegate { UpdateUIText(); });
             new UIElementBorder(textUIE);
@@ -148,7 +148,7 @@ public class EditorComponentUI : EditorComponentEvent
 
             textSizeUIE = new UIElementEditable(Game.EDITOR, scrollArea.GetScrollTransform());
             textSizeUIE.SetLocation(7, offset, 3, 1);
-            textSizeUIE.SetText(UI_QUEST_COMPONENT_COMPONENT.textSize.ToString());
+            textSizeUIE.SetText(UI_QUEST_COMPONENT_QUEST_COMPONENT_COMPONENT.textSize.ToString());
             textSizeUIE.SetSingleLine();
             textSizeUIE.SetButton(delegate { UpdateTextSize(); });
             new UIElementBorder(textSizeUIE);
@@ -159,7 +159,7 @@ public class EditorComponentUI : EditorComponentEvent
 
             ui = new UIElement(Game.EDITOR, scrollArea.GetScrollTransform());
             ui.SetLocation(14.5f, offset, 5, 1);
-            ui.SetText(new StringKey("val", UI_QUEST_COMPONENT_COMPONENT.textColor));
+            ui.SetText(new StringKey("val", UI_QUEST_COMPONENT_QUEST_COMPONENT_COMPONENT.textColor));
             ui.SetButton(delegate { SetColour(); });
             new UIElementBorder(ui);
             offset += 2;
@@ -170,17 +170,17 @@ public class EditorComponentUI : EditorComponentEvent
 
             ui = new UIElement(Game.EDITOR, scrollArea.GetScrollTransform());
             ui.SetLocation(8.5f, offset, 4.5f, 1);
-            ui.SetText(new StringKey("val", UI_QUEST_COMPONENT_COMPONENT.textBackgroundColor));
+            ui.SetText(new StringKey("val", UI_QUEST_COMPONENT_QUEST_COMPONENT_COMPONENT.textBackgroundColor));
             ui.SetButton(delegate { SetBackgroundColour(); });
             new UIElementBorder(ui);
             offset += 2;
 
             ui = new UIElement(Game.EDITOR, scrollArea.GetScrollTransform());
             ui.SetLocation(0.5f, offset, 8, 1);
-            ui.SetText(UI_QUEST_COMPONENT_COMPONENT.textColor);
+            ui.SetText(UI_QUEST_COMPONENT_QUEST_COMPONENT_COMPONENT.textColor);
             ui.SetButton(delegate { ToggleBorder(); });
             new UIElementBorder(ui);
-            if (UI_QUEST_COMPONENT_COMPONENT.border)
+            if (UI_QUEST_COMPONENT_QUEST_COMPONENT_COMPONENT.border)
             {
                 ui.SetText(new StringKey("val", "BORDER"));
             }
@@ -198,7 +198,7 @@ public class EditorComponentUI : EditorComponentEvent
 
     public void DrawAlignSelection(float offset, int x, int y, string label)
     {
-        Color selected = (UI_QUEST_COMPONENT_COMPONENT.hAlign == x && UI_QUEST_COMPONENT_COMPONENT.vAlign == y) ? Color.white : new Color(0.3f, 0.3f, 0.3f);
+        Color selected = (UI_QUEST_COMPONENT_QUEST_COMPONENT_COMPONENT.hAlign == x && UI_QUEST_COMPONENT_QUEST_COMPONENT_COMPONENT.vAlign == y) ? Color.white : new Color(0.3f, 0.3f, 0.3f);
         UIElement ui = new UIElement(Game.EDITOR, scrollArea.GetScrollTransform());
         ui.SetLocation(5 + x, offset + y, 1, 1);
         ui.SetText(label, selected);
@@ -208,7 +208,7 @@ public class EditorComponentUI : EditorComponentEvent
 
     public void DrawUIComponent()
     {
-        game.quest.ChangeAlpha(UI_QUEST_COMPONENT_COMPONENT.sectionName, 1f);
+        game.quest.ChangeAlpha(UI_QUEST_COMPONENT_QUEST_COMPONENT_COMPONENT.sectionName, 1f);
 
         // Create a grey zone outside of the 16x9 boundary
         // Find Quest Ui panel
@@ -239,7 +239,7 @@ public class EditorComponentUI : EditorComponentEvent
         panelb.rectTransform.SetInsetAndSizeFromParentEdge(RectTransform.Edge.Top, 0, 0);
         panelb.rectTransform.SetInsetAndSizeFromParentEdge(RectTransform.Edge.Left, 0, 0);
 
-        if (UI_QUEST_COMPONENT_COMPONENT.verticalUnits)
+        if (UI_QUEST_COMPONENT_QUEST_COMPONENT_COMPONENT.verticalUnits)
         {
             // Size bars for wider screens
             // Position and Scale assume a 16x9 aspect
@@ -247,11 +247,11 @@ public class EditorComponentUI : EditorComponentEvent
             float hOffset = (float)Screen.width - templateWidth;
             panela.rectTransform.SetInsetAndSizeFromParentEdge(RectTransform.Edge.Top, 0, Screen.height);
 
-            if (UI_QUEST_COMPONENT_COMPONENT.hAlign < 0)
+            if (UI_QUEST_COMPONENT_QUEST_COMPONENT_COMPONENT.hAlign < 0)
             {
                 panela.rectTransform.SetInsetAndSizeFromParentEdge(RectTransform.Edge.Right, 0, hOffset);
             }
-            else if (UI_QUEST_COMPONENT_COMPONENT.hAlign > 0)
+            else if (UI_QUEST_COMPONENT_QUEST_COMPONENT_COMPONENT.hAlign > 0)
             {
                 panela.rectTransform.SetInsetAndSizeFromParentEdge(RectTransform.Edge.Left, 0, hOffset);
             }
@@ -270,11 +270,11 @@ public class EditorComponentUI : EditorComponentEvent
             float vOffset = (float)Screen.height - templateHeight;
             panela.rectTransform.SetInsetAndSizeFromParentEdge(RectTransform.Edge.Left, 0, Screen.width);
 
-            if (UI_QUEST_COMPONENT_COMPONENT.vAlign < 0)
+            if (UI_QUEST_COMPONENT_QUEST_COMPONENT_COMPONENT.vAlign < 0)
             {
                 panela.rectTransform.SetInsetAndSizeFromParentEdge(RectTransform.Edge.Bottom, 0, vOffset);
             }
-            else if (UI_QUEST_COMPONENT_COMPONENT.vAlign > 0)
+            else if (UI_QUEST_COMPONENT_QUEST_COMPONENT_COMPONENT.vAlign > 0)
             {
                 panela.rectTransform.SetInsetAndSizeFromParentEdge(RectTransform.Edge.Top, 0, vOffset);
             }
@@ -318,36 +318,36 @@ public class EditorComponentUI : EditorComponentEvent
 
     public void SelectImage(string image)
     {
-        UI_QUEST_COMPONENT_COMPONENT.imageName = image;
-        Game.Get().quest.Remove(UI_QUEST_COMPONENT_COMPONENT.sectionName);
-        Game.Get().quest.Add(UI_QUEST_COMPONENT_COMPONENT.sectionName);
-        if (UI_QUEST_COMPONENT_COMPONENT.imageName.Length > 0)
+        UI_QUEST_COMPONENT_QUEST_COMPONENT_COMPONENT.imageName = image;
+        Game.Get().quest.Remove(UI_QUEST_COMPONENT_QUEST_COMPONENT_COMPONENT.sectionName);
+        Game.Get().quest.Add(UI_QUEST_COMPONENT_QUEST_COMPONENT_COMPONENT.sectionName);
+        if (UI_QUEST_COMPONENT_QUEST_COMPONENT_COMPONENT.imageName.Length > 0)
         {
-            LocalizationRead.dicts["qst"].Remove(UI_QUEST_COMPONENT_COMPONENT.uitext_key);
-            UI_QUEST_COMPONENT_COMPONENT.border = false;
-            UI_QUEST_COMPONENT_COMPONENT.aspect = 1;
+            LocalizationRead.dicts["qst"].Remove(UI_QUEST_COMPONENT_QUEST_COMPONENT_COMPONENT.uitext_key);
+            UI_QUEST_COMPONENT_QUEST_COMPONENT_COMPONENT.border = false;
+            UI_QUEST_COMPONENT_QUEST_COMPONENT_COMPONENT.aspect = 1;
         }
         else
         {
-            LocalizationRead.updateScenarioText(UI_QUEST_COMPONENT_COMPONENT.uitext_key, "");
+            LocalizationRead.updateScenarioText(UI_QUEST_COMPONENT_QUEST_COMPONENT_COMPONENT.uitext_key, "");
         }
         Update();
     }
 
     public void ChangeUnits()
     {
-        UI_QUEST_COMPONENT_COMPONENT.verticalUnits = !UI_QUEST_COMPONENT_COMPONENT.verticalUnits;
-        Game.Get().quest.Remove(UI_QUEST_COMPONENT_COMPONENT.sectionName);
-        Game.Get().quest.Add(UI_QUEST_COMPONENT_COMPONENT.sectionName);
+        UI_QUEST_COMPONENT_QUEST_COMPONENT_COMPONENT.verticalUnits = !UI_QUEST_COMPONENT_QUEST_COMPONENT_COMPONENT.verticalUnits;
+        Game.Get().quest.Remove(UI_QUEST_COMPONENT_QUEST_COMPONENT_COMPONENT.sectionName);
+        Game.Get().quest.Add(UI_QUEST_COMPONENT_QUEST_COMPONENT_COMPONENT.sectionName);
         Update();
     }
 
     public void SetAlign(int x, int y)
     {
-        UI_QUEST_COMPONENT_COMPONENT.hAlign = x;
-        UI_QUEST_COMPONENT_COMPONENT.vAlign = y;
-        Game.Get().quest.Remove(UI_QUEST_COMPONENT_COMPONENT.sectionName);
-        Game.Get().quest.Add(UI_QUEST_COMPONENT_COMPONENT.sectionName);
+        UI_QUEST_COMPONENT_QUEST_COMPONENT_COMPONENT.hAlign = x;
+        UI_QUEST_COMPONENT_QUEST_COMPONENT_COMPONENT.vAlign = y;
+        Game.Get().quest.Remove(UI_QUEST_COMPONENT_QUEST_COMPONENT_COMPONENT.sectionName);
+        Game.Get().quest.Add(UI_QUEST_COMPONENT_QUEST_COMPONENT_COMPONENT.sectionName);
         Update();
     }
 
@@ -355,22 +355,22 @@ public class EditorComponentUI : EditorComponentEvent
     {
         if (!locXUIE.GetText().Equals(""))
         {
-            float.TryParse(locXUIE.GetText(), out UI_QUEST_COMPONENT_COMPONENT.location.x);
+            float.TryParse(locXUIE.GetText(), out UI_QUEST_COMPONENT_QUEST_COMPONENT_COMPONENT.location.x);
         }
         if (!locYUIE.GetText().Equals(""))
         {
-            float.TryParse(locYUIE.GetText(), out UI_QUEST_COMPONENT_COMPONENT.location.y);
+            float.TryParse(locYUIE.GetText(), out UI_QUEST_COMPONENT_QUEST_COMPONENT_COMPONENT.location.y);
         }
         if (!sizeUIE.GetText().Equals(""))
         {
-            float.TryParse(sizeUIE.GetText(), out UI_QUEST_COMPONENT_COMPONENT.size);
+            float.TryParse(sizeUIE.GetText(), out UI_QUEST_COMPONENT_QUEST_COMPONENT_COMPONENT.size);
         }
         if (aspectUIE != null && !aspectUIE.GetText().Equals(""))
         {
-            float.TryParse(aspectUIE.GetText(), out UI_QUEST_COMPONENT_COMPONENT.aspect);
+            float.TryParse(aspectUIE.GetText(), out UI_QUEST_COMPONENT_QUEST_COMPONENT_COMPONENT.aspect);
         }
-        Game.Get().quest.Remove(UI_QUEST_COMPONENT_COMPONENT.sectionName);
-        Game.Get().quest.Add(UI_QUEST_COMPONENT_COMPONENT.sectionName);
+        Game.Get().quest.Remove(UI_QUEST_COMPONENT_QUEST_COMPONENT_COMPONENT.sectionName);
+        Game.Get().quest.Add(UI_QUEST_COMPONENT_QUEST_COMPONENT_COMPONENT.sectionName);
         Update();
     }
 
@@ -380,18 +380,18 @@ public class EditorComponentUI : EditorComponentEvent
 
         if (!textUIE.Empty() && textUIE.Changed())
         {
-            LocalizationRead.updateScenarioText(UI_QUEST_COMPONENT_COMPONENT.uitext_key, textUIE.GetText());
+            LocalizationRead.updateScenarioText(UI_QUEST_COMPONENT_QUEST_COMPONENT_COMPONENT.uitext_key, textUIE.GetText());
         }
-        game.quest.Remove(UI_QUEST_COMPONENT_COMPONENT.sectionName);
-        game.quest.Add(UI_QUEST_COMPONENT_COMPONENT.sectionName);
+        game.quest.Remove(UI_QUEST_COMPONENT_QUEST_COMPONENT_COMPONENT.sectionName);
+        game.quest.Add(UI_QUEST_COMPONENT_QUEST_COMPONENT_COMPONENT.sectionName);
         Update();
     }
 
     public void UpdateTextSize()
     {
-        float.TryParse(textSizeUIE.GetText(), out UI_QUEST_COMPONENT_COMPONENT.textSize);
-        Game.Get().quest.Remove(UI_QUEST_COMPONENT_COMPONENT.sectionName);
-        Game.Get().quest.Add(UI_QUEST_COMPONENT_COMPONENT.sectionName);
+        float.TryParse(textSizeUIE.GetText(), out UI_QUEST_COMPONENT_QUEST_COMPONENT_COMPONENT.textSize);
+        Game.Get().quest.Remove(UI_QUEST_COMPONENT_QUEST_COMPONENT_COMPONENT.sectionName);
+        Game.Get().quest.Add(UI_QUEST_COMPONENT_QUEST_COMPONENT_COMPONENT.sectionName);
         Update();
     }
 
@@ -412,9 +412,9 @@ public class EditorComponentUI : EditorComponentEvent
 
     public void SelectColour(string color)
     {
-        UI_QUEST_COMPONENT_COMPONENT.textColor = color;
-        Game.Get().quest.Remove(UI_QUEST_COMPONENT_COMPONENT.sectionName);
-        Game.Get().quest.Add(UI_QUEST_COMPONENT_COMPONENT.sectionName);
+        UI_QUEST_COMPONENT_QUEST_COMPONENT_COMPONENT.textColor = color;
+        Game.Get().quest.Remove(UI_QUEST_COMPONENT_QUEST_COMPONENT_COMPONENT.sectionName);
+        Game.Get().quest.Add(UI_QUEST_COMPONENT_QUEST_COMPONENT_COMPONENT.sectionName);
         Update();
     }
 
@@ -435,15 +435,15 @@ public class EditorComponentUI : EditorComponentEvent
 
     public void SelectBackgroundColour(string color)
     {
-        UI_QUEST_COMPONENT_COMPONENT.textBackgroundColor = color;
-        Game.Get().quest.Remove(UI_QUEST_COMPONENT_COMPONENT.sectionName);
-        Game.Get().quest.Add(UI_QUEST_COMPONENT_COMPONENT.sectionName);
+        UI_QUEST_COMPONENT_QUEST_COMPONENT_COMPONENT.textBackgroundColor = color;
+        Game.Get().quest.Remove(UI_QUEST_COMPONENT_QUEST_COMPONENT_COMPONENT.sectionName);
+        Game.Get().quest.Add(UI_QUEST_COMPONENT_QUEST_COMPONENT_COMPONENT.sectionName);
         Update();
     }
 
     public void ToggleBorder()
     {
-        UI_QUEST_COMPONENT_COMPONENT.border = !UI_QUEST_COMPONENT_COMPONENT.border;
+        UI_QUEST_COMPONENT_QUEST_COMPONENT_COMPONENT.border = !UI_QUEST_COMPONENT_QUEST_COMPONENT_COMPONENT.border;
         Update();
     }
 }

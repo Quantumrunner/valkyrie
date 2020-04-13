@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using Assets.Scripts.Content;
 using Assets.Scripts.Content.QuestComponent;
 using Assets.Scripts.UI;
-using Event = Assets.Scripts.Content.QuestComponent.Event;
 
 // This class manages the Quest editor Interface
 // FIXME: Rename, not a good name any more
@@ -209,58 +208,58 @@ public class QuestEditorData {
         }
 
         // Determine the component type and select
-        if (game.quest.qd.components[name] is Tile)
+        if (game.quest.qd.components[name] is TileQuestComponent)
         {
             SelectAsTile(name);
             return;
         }
 
-        if (game.quest.qd.components[name] is Door)
+        if (game.quest.qd.components[name] is DoorQuestComponent)
         {
             SelectAsDoor(name);
             return;
         }
-        if (game.quest.qd.components[name] is Token)
+        if (game.quest.qd.components[name] is TokenQuestComponent)
         {
             SelectAsToken(name);
             return;
         }
-        if (game.quest.qd.components[name] is Ui)
+        if (game.quest.qd.components[name] is UiQuestComponent)
         {
             SelectAsUI(name);
             return;
         }
-        if (game.quest.qd.components[name] is Spawn)
+        if (game.quest.qd.components[name] is SpawnQuestComponent)
         {
             SelectAsSpawn(name);
             return;
         }
-        if (game.quest.qd.components[name] is MPlace)
+        if (game.quest.qd.components[name] is MPlaceQuestComponent)
         {
             SelectAsMPlace(name);
             return;
         }
-        if (game.quest.qd.components[name] is Assets.Scripts.Content.QuestComponent.Puzzle)
+        if (game.quest.qd.components[name] is Assets.Scripts.Content.QuestComponent.PuzzleQuestComponent)
         {
             SelectAsPuzzle(name);
             return;
         }
-        if (game.quest.qd.components[name] is QItem)
+        if (game.quest.qd.components[name] is QItemQuestComponent)
         {
             SelectAsItem(name);
             return;
         }
-        if (game.quest.qd.components[name] is CustomMonster)
+        if (game.quest.qd.components[name] is CustomMonsterQuestComponent)
         {
             SelectAsCustomMonster(name);
             return;
         }
-        if (game.quest.qd.components[name] is Activation)
+        if (game.quest.qd.components[name] is ActivationQuestComponent)
         {
             SelectAsActivation(name);
             return;
         }
-        if (game.quest.qd.components[name] is Event)
+        if (game.quest.qd.components[name] is EventQuestComponent)
         {
             SelectAsEvent(name);
             return;
@@ -347,12 +346,12 @@ public class QuestEditorData {
         {
             index++;
         }
-        Tile tile = new Tile("Tile" + index);
-        game.quest.qd.components.Add("Tile" + index, tile);
+        TileQuestComponent tileQuestComponent = new TileQuestComponent("Tile" + index);
+        game.quest.qd.components.Add("Tile" + index, tileQuestComponent);
 
         CameraController cc = GameObject.FindObjectOfType<CameraController>();
-        tile.location.x = game.gameType.TileRound() * Mathf.Round(cc.gameObject.transform.position.x / game.gameType.TileRound());
-        tile.location.y = game.gameType.TileRound() * Mathf.Round(cc.gameObject.transform.position.y / game.gameType.TileRound());
+        tileQuestComponent.location.x = game.gameType.TileRound() * Mathf.Round(cc.gameObject.transform.position.x / game.gameType.TileRound());
+        tileQuestComponent.location.y = game.gameType.TileRound() * Mathf.Round(cc.gameObject.transform.position.y / game.gameType.TileRound());
 
         game.quest.Add("Tile" + index);
         SelectComponent("Tile" + index);
@@ -367,12 +366,12 @@ public class QuestEditorData {
         {
             index++;
         }
-        Door door = new Door("Door" + index);
-        game.quest.qd.components.Add("Door" + index, door);
+        DoorQuestComponent doorQuestComponent = new DoorQuestComponent("Door" + index);
+        game.quest.qd.components.Add("Door" + index, doorQuestComponent);
 
         CameraController cc = GameObject.FindObjectOfType<CameraController>();
-        door.location.x = game.gameType.SelectionRound() * Mathf.Round(cc.gameObject.transform.position.x / game.gameType.SelectionRound());
-        door.location.y = game.gameType.SelectionRound() * Mathf.Round(cc.gameObject.transform.position.y / game.gameType.SelectionRound());
+        doorQuestComponent.location.x = game.gameType.SelectionRound() * Mathf.Round(cc.gameObject.transform.position.x / game.gameType.SelectionRound());
+        doorQuestComponent.location.y = game.gameType.SelectionRound() * Mathf.Round(cc.gameObject.transform.position.y / game.gameType.SelectionRound());
 
         game.quest.Add("Door" + index);
         SelectComponent("Door" + index);
@@ -387,12 +386,12 @@ public class QuestEditorData {
         {
             index++;
         }
-        Token token = new Token("Token" + index);
-        game.quest.qd.components.Add("Token" + index, token);
+        TokenQuestComponent tokenQuestComponent = new TokenQuestComponent("Token" + index);
+        game.quest.qd.components.Add("Token" + index, tokenQuestComponent);
 
         CameraController cc = GameObject.FindObjectOfType<CameraController>();
-        token.location.x = game.gameType.SelectionRound() * Mathf.Round(cc.gameObject.transform.position.x / game.gameType.SelectionRound());
-        token.location.y = game.gameType.SelectionRound() * Mathf.Round(cc.gameObject.transform.position.y / game.gameType.SelectionRound());
+        tokenQuestComponent.location.x = game.gameType.SelectionRound() * Mathf.Round(cc.gameObject.transform.position.x / game.gameType.SelectionRound());
+        tokenQuestComponent.location.y = game.gameType.SelectionRound() * Mathf.Round(cc.gameObject.transform.position.y / game.gameType.SelectionRound());
 
         game.quest.Add("Token" + index);
         SelectComponent("Token" + index);
@@ -407,8 +406,8 @@ public class QuestEditorData {
         {
             index++;
         }
-        Ui ui = new Ui("Ui" + index);
-        game.quest.qd.components.Add("Ui" + index, ui);
+        UiQuestComponent uiQuestComponent = new UiQuestComponent("Ui" + index);
+        game.quest.qd.components.Add("Ui" + index, uiQuestComponent);
         SelectComponent("Ui" + index);
     }
 
@@ -421,7 +420,7 @@ public class QuestEditorData {
         {
             index++;
         }
-        game.quest.qd.components.Add("Spawn" + index, new Spawn("Spawn" + index));
+        game.quest.qd.components.Add("Spawn" + index, new SpawnQuestComponent("Spawn" + index));
         SelectComponent("Spawn" + index);
     }
 
@@ -434,7 +433,7 @@ public class QuestEditorData {
         {
             index++;
         }
-        game.quest.qd.components.Add("MPlace" + index, new MPlace("MPlace" + index));
+        game.quest.qd.components.Add("MPlace" + index, new MPlaceQuestComponent("MPlace" + index));
         SelectComponent("MPlace" + index);
     }
 
@@ -447,7 +446,7 @@ public class QuestEditorData {
         {
             index++;
         }
-        game.quest.qd.components.Add("Event" + index, new Event("Event" + index));
+        game.quest.qd.components.Add("Event" + index, new EventQuestComponent("Event" + index));
         SelectComponent("Event" + index);
     }
 
@@ -460,7 +459,7 @@ public class QuestEditorData {
         {
             index++;
         }
-        game.quest.qd.components.Add("Puzzle" + index, new Assets.Scripts.Content.QuestComponent.Puzzle("Puzzle" + index));
+        game.quest.qd.components.Add("Puzzle" + index, new Assets.Scripts.Content.QuestComponent.PuzzleQuestComponent("Puzzle" + index));
         SelectComponent("Puzzle" + index);
     }
     
@@ -473,7 +472,7 @@ public class QuestEditorData {
         {
             index++;
         }
-        game.quest.qd.components.Add("QItem" + index, new QItem("QItem" + index));
+        game.quest.qd.components.Add("QItem" + index, new QItemQuestComponent("QItem" + index));
         SelectComponent("QItem" + index);
     }
 
@@ -486,7 +485,7 @@ public class QuestEditorData {
         {
             index++;
         }
-        game.quest.qd.components.Add("CustomMonster" + index, new CustomMonster("CustomMonster" + index));
+        game.quest.qd.components.Add("CustomMonster" + index, new CustomMonsterQuestComponent("CustomMonster" + index));
         SelectComponent("CustomMonster" + index);
     }
 
@@ -499,7 +498,7 @@ public class QuestEditorData {
         {
             index++;
         }
-        game.quest.qd.components.Add("Activation" + index, new Activation("Activation" + index));
+        game.quest.qd.components.Add("Activation" + index, new ActivationQuestComponent("Activation" + index));
         SelectComponent("Activation" + index);
     }
 

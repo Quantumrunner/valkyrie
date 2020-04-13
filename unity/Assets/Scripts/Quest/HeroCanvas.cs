@@ -238,7 +238,7 @@ public class HeroCanvas : MonoBehaviour {
         if (GameObject.FindGameObjectWithTag(Game.DIALOG) != null)
         {
             // Check if we are in a hero selection dialog
-            if (game.quest.eManager.currentEvent != null && game.quest.eManager.currentEvent.QEvent.maxHeroes != 0)
+            if (game.quest.eManager.currentEvent != null && game.quest.eManager.currentEvent.QEventQuestComponent.maxHeroes != 0)
             {
                 // Invert hero selection
                 target.selected = !target.selected;

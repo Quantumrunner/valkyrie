@@ -25,18 +25,18 @@ public class DialogWindow {
         text = eventData.GetText();
 
         // hero list can be populated from another event
-        if (!eventData.QEvent.heroListName.Equals(""))
+        if (!eventData.QEventQuestComponent.heroListName.Equals(""))
         {
             // Try to find the event
-            if (!game.quest.heroSelection.ContainsKey(eventData.QEvent.heroListName))
+            if (!game.quest.heroSelection.ContainsKey(eventData.QEventQuestComponent.heroListName))
             {
-                ValkyrieDebug.Log("Warning: Hero selection in event: " + eventData.QEvent.sectionName + " from event " + eventData.QEvent.heroListName + " with no data.");
-                game.quest.log.Add(new Quest.LogEntry("Warning: Hero selection in event: " + eventData.QEvent.sectionName + " from event " + eventData.QEvent.heroListName + " with no data.", true));
+                ValkyrieDebug.Log("Warning: Hero selection in event: " + eventData.QEventQuestComponent.sectionName + " from event " + eventData.QEventQuestComponent.heroListName + " with no data.");
+                game.quest.log.Add(new Quest.LogEntry("Warning: Hero selection in event: " + eventData.QEventQuestComponent.sectionName + " from event " + eventData.QEventQuestComponent.heroListName + " with no data.", true));
             }
             else
             {
                 // Get selection data from other event
-                foreach (Quest.Hero h in game.quest.heroSelection[eventData.QEvent.heroListName])
+                foreach (Quest.Hero h in game.quest.heroSelection[eventData.QEventQuestComponent.heroListName])
                 {
                     h.selected = true;
                 }
@@ -45,11 +45,11 @@ public class DialogWindow {
         // Update selection status
         game.heroCanvas.UpdateStatus();
 
-        if (eventData.QEvent.quota > 0 || eventData.QEvent.quotaVar.Length > 0)
+        if (eventData.QEventQuestComponent.quota > 0 || eventData.QEventQuestComponent.quotaVar.Length > 0)
         {
-            if (eventData.QEvent.quotaVar.Length > 0)
+            if (eventData.QEventQuestComponent.quotaVar.Length > 0)
             {
-                quota = Mathf.RoundToInt(game.quest.vars.GetValue(eventData.QEvent.quotaVar));
+                quota = Mathf.RoundToInt(game.quest.vars.GetValue(eventData.QEventQuestComponent.quotaVar));
             }
             CreateQuotaWindow();
         }
@@ -108,7 +108,7 @@ public class DialogWindow {
         }
 
         // Do we have a cancel button?
-        if (eventData.QEvent.cancelable)
+        if (eventData.QEventQuestComponent.cancelable)
         {
             ui = new UIElement();
             ui.SetLocation(hOffsetCancel, offsetCancel, 8, 2);
@@ -176,7 +176,7 @@ public class DialogWindow {
         new UIElementBorder(ui);
 
         // Do we have a cancel button?
-        if (eventData.QEvent.cancelable)
+        if (eventData.QEventQuestComponent.cancelable)
         {
             ui = new UIElement();
             ui.SetLocation(UIScaler.GetHCenter(-4f), offset + 2.5f, 8, 2);
@@ -189,11 +189,11 @@ public class DialogWindow {
 
     public void DrawItem()
     {
-        if (eventData.QEvent.highlight) return;
+        if (eventData.QEventQuestComponent.highlight) return;
 
         string item = "";
         int items = 0;
-        foreach (string s in eventData.QEvent.addComponents)
+        foreach (string s in eventData.QEventQuestComponent.addComponents)
         {
             if (s.IndexOf("QItem") == 0)
             {
@@ -236,24 +236,24 @@ public class DialogWindow {
     public void onQuota()
     {
         Game game = Game.Get();
-        if (eventData.QEvent.quotaVar.Length > 0)
+        if (eventData.QEventQuestComponent.quotaVar.Length > 0)
         {
-            game.quest.vars.SetValue(eventData.QEvent.quotaVar, quota);
+            game.quest.vars.SetValue(eventData.QEventQuestComponent.quotaVar, quota);
             onButton(1);
             return;
         }
         
-        if (game.quest.eventQuota.ContainsKey(eventData.QEvent.sectionName))
+        if (game.quest.eventQuota.ContainsKey(eventData.QEventQuestComponent.sectionName))
         {
-            game.quest.eventQuota[eventData.QEvent.sectionName] += quota;
+            game.quest.eventQuota[eventData.QEventQuestComponent.sectionName] += quota;
         }
         else
         {
-            game.quest.eventQuota.Add(eventData.QEvent.sectionName, quota);
+            game.quest.eventQuota.Add(eventData.QEventQuestComponent.sectionName, quota);
         }
-        if (game.quest.eventQuota[eventData.QEvent.sectionName] >= eventData.QEvent.quota)
+        if (game.quest.eventQuota[eventData.QEventQuestComponent.sectionName] >= eventData.QEventQuestComponent.quota)
         {
-            game.quest.eventQuota.Remove(eventData.QEvent.sectionName);
+            game.quest.eventQuota.Remove(eventData.QEventQuestComponent.sectionName);
             onButton(1);
         }
         else
@@ -281,7 +281,7 @@ public class DialogWindow {
         Destroyer.Dialog();
 
         // If the user started this event button is undoable
-        if (eventData.QEvent.cancelable)
+        if (eventData.QEventQuestComponent.cancelable)
         {
             game.quest.Save();
         }
@@ -290,7 +290,7 @@ public class DialogWindow {
         game.quest.log.Add(new Quest.LogEntry(text.Replace("\n", "\\n")));
 
         // Add this to the eventList
-        game.quest.eventList.Add(eventData.QEvent.sectionName);
+        game.quest.eventList.Add(eventData.QEventQuestComponent.sectionName);
 
         // Event manager handles the aftermath
         game.quest.eManager.EndEvent(num-1);
@@ -313,8 +313,8 @@ public class DialogWindow {
         }
 
         // Check that count matches
-        if (eventData.QEvent.maxHeroes < heroList.Count && eventData.QEvent.maxHeroes != 0) return false;
-        if (eventData.QEvent.minHeroes > heroList.Count) return false;
+        if (eventData.QEventQuestComponent.maxHeroes < heroList.Count && eventData.QEventQuestComponent.maxHeroes != 0) return false;
+        if (eventData.QEventQuestComponent.minHeroes > heroList.Count) return false;
 
         // Clear selection
         foreach (Quest.Hero h in game.quest.heroes)
@@ -323,12 +323,12 @@ public class DialogWindow {
         }
 
         // If this event has previous selected heroes clear the data
-        if (game.quest.heroSelection.ContainsKey(eventData.QEvent.sectionName))
+        if (game.quest.heroSelection.ContainsKey(eventData.QEventQuestComponent.sectionName))
         {
-            game.quest.heroSelection.Remove(eventData.QEvent.sectionName);
+            game.quest.heroSelection.Remove(eventData.QEventQuestComponent.sectionName);
         }
         // Add this selection to the Quest
-        game.quest.heroSelection.Add(eventData.QEvent.sectionName, heroList);
+        game.quest.heroSelection.Add(eventData.QEventQuestComponent.sectionName, heroList);
 
         // Update hero image state
         game.heroCanvas.UpdateStatus();

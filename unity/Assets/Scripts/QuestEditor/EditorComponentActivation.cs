@@ -15,7 +15,7 @@ public class EditorComponentActivation : EditorComponent
     private readonly StringKey NO_ATTACK_MESSAGE = new StringKey("val", "NO_ATTACK_MESSAGE");
 
 
-    Activation ACTIVATION_QUEST_COMPONENT_COMPONENT;
+    ActivationQuestComponent ACTIVATION_QUEST_COMPONENT_QUEST_COMPONENT_COMPONENT;
 
     UIElementEditablePaneled abilityUIE;
     UIElementEditable moveButtonUIE;
@@ -26,8 +26,8 @@ public class EditorComponentActivation : EditorComponent
     public EditorComponentActivation(string nameIn) : base()
     {
         Game game = Game.Get();
-        ACTIVATION_QUEST_COMPONENT_COMPONENT = game.quest.qd.components[nameIn] as Activation;
-        component = ACTIVATION_QUEST_COMPONENT_COMPONENT;
+        ACTIVATION_QUEST_COMPONENT_QUEST_COMPONENT_COMPONENT = game.quest.qd.components[nameIn] as ActivationQuestComponent;
+        component = ACTIVATION_QUEST_COMPONENT_QUEST_COMPONENT_COMPONENT;
         name = component.sectionName;
         Update();
     }
@@ -35,7 +35,7 @@ public class EditorComponentActivation : EditorComponent
     override protected void RefreshReference()
     {
         base.RefreshReference();
-        ACTIVATION_QUEST_COMPONENT_COMPONENT = component as Activation;
+        ACTIVATION_QUEST_COMPONENT_QUEST_COMPONENT_COMPONENT = component as ActivationQuestComponent;
     }
 
     override public float AddSubComponents(float offset)
@@ -55,7 +55,7 @@ public class EditorComponentActivation : EditorComponent
 
         abilityUIE = new UIElementEditablePaneled(Game.EDITOR, scrollArea.GetScrollTransform());
         abilityUIE.SetLocation(0.5f, offset, 19, 18);
-        abilityUIE.SetText(ACTIVATION_QUEST_COMPONENT_COMPONENT.ability.Translate());
+        abilityUIE.SetText(ACTIVATION_QUEST_COMPONENT_QUEST_COMPONENT_COMPONENT.ability.Translate());
         offset += abilityUIE.HeightToTextPadding(1);
         abilityUIE.SetButton(delegate { UpdateAbility(); });
         new UIElementBorder(abilityUIE);
@@ -69,7 +69,7 @@ public class EditorComponentActivation : EditorComponent
         ui.SetLocation(14.5f, offset++, 5, 1);
         ui.SetButton(delegate { ToggleMasterFirst(); });
         new UIElementBorder(ui);
-        if (ACTIVATION_QUEST_COMPONENT_COMPONENT.masterFirst)
+        if (ACTIVATION_QUEST_COMPONENT_QUEST_COMPONENT_COMPONENT.masterFirst)
         {
             ui.SetText(FIRST);
         }
@@ -80,7 +80,7 @@ public class EditorComponentActivation : EditorComponent
 
         masterActionsUIE = new UIElementEditablePaneled(Game.EDITOR, scrollArea.GetScrollTransform());
         masterActionsUIE.SetLocation(0.5f, offset, 19, 18);
-        masterActionsUIE.SetText(ACTIVATION_QUEST_COMPONENT_COMPONENT.masterActions.Translate(true));
+        masterActionsUIE.SetText(ACTIVATION_QUEST_COMPONENT_QUEST_COMPONENT_COMPONENT.masterActions.Translate(true));
         offset += masterActionsUIE.HeightToTextPadding(1);
         masterActionsUIE.SetButton(delegate { UpdateMasterActions(); });
         new UIElementBorder(masterActionsUIE);
@@ -94,7 +94,7 @@ public class EditorComponentActivation : EditorComponent
         ui.SetLocation(14.5f, offset++, 5, 1);
         ui.SetButton(delegate { ToggleMinionFirst(); });
         new UIElementBorder(ui);
-        if (ACTIVATION_QUEST_COMPONENT_COMPONENT.minionFirst)
+        if (ACTIVATION_QUEST_COMPONENT_QUEST_COMPONENT_COMPONENT.minionFirst)
         {
             ui.SetText(FIRST);
         }
@@ -105,15 +105,15 @@ public class EditorComponentActivation : EditorComponent
 
         minionActionsUIE = new UIElementEditablePaneled(Game.EDITOR, scrollArea.GetScrollTransform());
         minionActionsUIE.SetLocation(0.5f, offset, 19, 18);
-        minionActionsUIE.SetText(ACTIVATION_QUEST_COMPONENT_COMPONENT.minionActions.Translate(true));
+        minionActionsUIE.SetText(ACTIVATION_QUEST_COMPONENT_QUEST_COMPONENT_COMPONENT.minionActions.Translate(true));
         offset += minionActionsUIE.HeightToTextPadding(1);
         minionActionsUIE.SetButton(delegate { UpdateMinionActions(); });
         new UIElementBorder(minionActionsUIE);
 
         offset++;
 
-        if (ACTIVATION_QUEST_COMPONENT_COMPONENT.tests == null)
-            ACTIVATION_QUEST_COMPONENT_COMPONENT.tests = new VarTests();
+        if (ACTIVATION_QUEST_COMPONENT_QUEST_COMPONENT_COMPONENT.tests == null)
+            ACTIVATION_QUEST_COMPONENT_QUEST_COMPONENT_COMPONENT.tests = new VarTests();
 
         offset = AddEventVarConditionComponents(offset);
 
@@ -128,7 +128,7 @@ public class EditorComponentActivation : EditorComponent
 
         abilityUIE = new UIElementEditablePaneled(Game.EDITOR, scrollArea.GetScrollTransform());
         abilityUIE.SetLocation(0.5f, offset, 19, 18);
-        abilityUIE.SetText(ACTIVATION_QUEST_COMPONENT_COMPONENT.ability.Translate(true));
+        abilityUIE.SetText(ACTIVATION_QUEST_COMPONENT_QUEST_COMPONENT_COMPONENT.ability.Translate(true));
         offset += abilityUIE.HeightToTextPadding(1);
         abilityUIE.SetButton(delegate { UpdateAbility(); });
         new UIElementBorder(abilityUIE);
@@ -140,7 +140,7 @@ public class EditorComponentActivation : EditorComponent
 
         moveButtonUIE = new UIElementEditable(Game.EDITOR, scrollArea.GetScrollTransform());
         moveButtonUIE.SetLocation(9.5f, offset, 10, 1);
-        moveButtonUIE.SetText(ACTIVATION_QUEST_COMPONENT_COMPONENT.moveButton.Translate(true));
+        moveButtonUIE.SetText(ACTIVATION_QUEST_COMPONENT_QUEST_COMPONENT_COMPONENT.moveButton.Translate(true));
         moveButtonUIE.SetSingleLine();
         moveButtonUIE.SetButton(delegate { UpdateMoveButton(); });
         new UIElementBorder(moveButtonUIE);
@@ -152,7 +152,7 @@ public class EditorComponentActivation : EditorComponent
 
         masterActionsUIE = new UIElementEditablePaneled(Game.EDITOR, scrollArea.GetScrollTransform());
         masterActionsUIE.SetLocation(0.5f, offset, 19, 18);
-        masterActionsUIE.SetText(ACTIVATION_QUEST_COMPONENT_COMPONENT.masterActions.Translate(true));
+        masterActionsUIE.SetText(ACTIVATION_QUEST_COMPONENT_QUEST_COMPONENT_COMPONENT.masterActions.Translate(true));
         offset += masterActionsUIE.HeightToTextPadding(1);
         masterActionsUIE.SetButton(delegate { UpdateMasterActions(); });
         new UIElementBorder(masterActionsUIE);
@@ -164,7 +164,7 @@ public class EditorComponentActivation : EditorComponent
 
         moveUIE = new UIElementEditablePaneled(Game.EDITOR, scrollArea.GetScrollTransform());
         moveUIE.SetLocation(0.5f, offset, 19, 8);
-        moveUIE.SetText(ACTIVATION_QUEST_COMPONENT_COMPONENT.move.Translate(true));
+        moveUIE.SetText(ACTIVATION_QUEST_COMPONENT_QUEST_COMPONENT_COMPONENT.move.Translate(true));
         offset += moveUIE.HeightToTextPadding(1);
         moveUIE.SetButton(delegate { UpdateMove(); });
         new UIElementBorder(moveUIE);
@@ -178,7 +178,7 @@ public class EditorComponentActivation : EditorComponent
         if (!abilityUIE.Empty() && abilityUIE.Changed())
         {
             //insert the text in the current language
-            LocalizationRead.updateScenarioText(ACTIVATION_QUEST_COMPONENT_COMPONENT.ability_key, abilityUIE.GetText());
+            LocalizationRead.updateScenarioText(ACTIVATION_QUEST_COMPONENT_QUEST_COMPONENT_COMPONENT.ability_key, abilityUIE.GetText());
             if (!abilityUIE.HeightAtTextPadding(1))
             {
                 Update();
@@ -190,12 +190,12 @@ public class EditorComponentActivation : EditorComponent
     {
         if (moveButtonUIE.Empty())
         {
-            LocalizationRead.dicts["qst"].Remove(ACTIVATION_QUEST_COMPONENT_COMPONENT.movebutton_key);
+            LocalizationRead.dicts["qst"].Remove(ACTIVATION_QUEST_COMPONENT_QUEST_COMPONENT_COMPONENT.movebutton_key);
         }
         else if (moveButtonUIE.Changed())
         {
             //insert the text in the current language
-            LocalizationRead.updateScenarioText(ACTIVATION_QUEST_COMPONENT_COMPONENT.movebutton_key, moveButtonUIE.GetText());
+            LocalizationRead.updateScenarioText(ACTIVATION_QUEST_COMPONENT_QUEST_COMPONENT_COMPONENT.movebutton_key, moveButtonUIE.GetText());
         }
     }
 
@@ -203,11 +203,11 @@ public class EditorComponentActivation : EditorComponent
     {
         if (masterActionsUIE.Empty())
         {
-            LocalizationRead.dicts["qst"].Remove(ACTIVATION_QUEST_COMPONENT_COMPONENT.master_key);
+            LocalizationRead.dicts["qst"].Remove(ACTIVATION_QUEST_COMPONENT_QUEST_COMPONENT_COMPONENT.master_key);
         }
         else if (masterActionsUIE.Changed())
         {
-            LocalizationRead.updateScenarioText(ACTIVATION_QUEST_COMPONENT_COMPONENT.master_key, masterActionsUIE.GetText());
+            LocalizationRead.updateScenarioText(ACTIVATION_QUEST_COMPONENT_QUEST_COMPONENT_COMPONENT.master_key, masterActionsUIE.GetText());
         }
         if (!masterActionsUIE.HeightAtTextPadding(1))
         {
@@ -219,11 +219,11 @@ public class EditorComponentActivation : EditorComponent
     {
         if (minionActionsUIE.Empty())
         {
-            LocalizationRead.dicts["qst"].Remove(ACTIVATION_QUEST_COMPONENT_COMPONENT.minion_key);
+            LocalizationRead.dicts["qst"].Remove(ACTIVATION_QUEST_COMPONENT_QUEST_COMPONENT_COMPONENT.minion_key);
         }
         else if (minionActionsUIE.Changed())
         {
-            LocalizationRead.updateScenarioText(ACTIVATION_QUEST_COMPONENT_COMPONENT.minion_key, minionActionsUIE.GetText());
+            LocalizationRead.updateScenarioText(ACTIVATION_QUEST_COMPONENT_QUEST_COMPONENT_COMPONENT.minion_key, minionActionsUIE.GetText());
         }
         if (!minionActionsUIE.HeightAtTextPadding(1))
         {
@@ -235,11 +235,11 @@ public class EditorComponentActivation : EditorComponent
     {
         if (moveUIE.Empty())
         {
-            LocalizationRead.dicts["qst"].Remove(ACTIVATION_QUEST_COMPONENT_COMPONENT.move_key);
+            LocalizationRead.dicts["qst"].Remove(ACTIVATION_QUEST_COMPONENT_QUEST_COMPONENT_COMPONENT.move_key);
         }
         else if (moveUIE.Changed())
         {
-            LocalizationRead.updateScenarioText(ACTIVATION_QUEST_COMPONENT_COMPONENT.move_key, moveUIE.GetText());
+            LocalizationRead.updateScenarioText(ACTIVATION_QUEST_COMPONENT_QUEST_COMPONENT_COMPONENT.move_key, moveUIE.GetText());
         }
         if (!moveUIE.HeightAtTextPadding(1))
         {
@@ -249,13 +249,13 @@ public class EditorComponentActivation : EditorComponent
 
     public void ToggleMasterFirst()
     {
-        ACTIVATION_QUEST_COMPONENT_COMPONENT.masterFirst = !ACTIVATION_QUEST_COMPONENT_COMPONENT.masterFirst;
+        ACTIVATION_QUEST_COMPONENT_QUEST_COMPONENT_COMPONENT.masterFirst = !ACTIVATION_QUEST_COMPONENT_QUEST_COMPONENT_COMPONENT.masterFirst;
         Update();
     }
 
     public void ToggleMinionFirst()
     {
-        ACTIVATION_QUEST_COMPONENT_COMPONENT.minionFirst = !ACTIVATION_QUEST_COMPONENT_COMPONENT.minionFirst;
+        ACTIVATION_QUEST_COMPONENT_QUEST_COMPONENT_COMPONENT.minionFirst = !ACTIVATION_QUEST_COMPONENT_QUEST_COMPONENT_COMPONENT.minionFirst;
         Update();
     }
 }

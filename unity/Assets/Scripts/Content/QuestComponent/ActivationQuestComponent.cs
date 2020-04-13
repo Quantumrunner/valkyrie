@@ -3,7 +3,7 @@
 namespace Assets.Scripts.Content.QuestComponent
 {
     // Quest defined Monster activation
-    public class Activation : QuestComponent
+    public class ActivationQuestComponent : QuestComponent
     {
         new public static string type = "Activation";
         public bool minionFirst = false;
@@ -22,7 +22,7 @@ namespace Assets.Scripts.Content.QuestComponent
         public StringKey move { get { return genQuery("move"); } }
 
         // Create new (editor)
-        public Activation(string s) : base(s)
+        public ActivationQuestComponent(string s) : base(s)
         {
             source = "monsters.ini";
             LocalizationRead.updateScenarioText(ability_key, "-");
@@ -30,7 +30,7 @@ namespace Assets.Scripts.Content.QuestComponent
         }
 
         // Create from ini data
-        public Activation(string name, Dictionary<string, string> data, string path) : base(name, data, path)
+        public ActivationQuestComponent(string name, Dictionary<string, string> data, string path) : base(name, data, path)
         {
             typeDynamic = type;
             if (data.ContainsKey("minionfirst"))

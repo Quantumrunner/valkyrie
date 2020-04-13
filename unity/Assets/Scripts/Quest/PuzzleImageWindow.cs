@@ -9,7 +9,7 @@ public class PuzzleImageWindow
 {
 
     public EventManager.Event eventData;
-    Assets.Scripts.Content.QuestComponent.Puzzle QUEST_PUZZLE_QUEST_COMPONENT;
+    Assets.Scripts.Content.QuestComponent.PuzzleQuestComponent QUEST_PUZZLE_QUEST_COMPONENT_QUEST_COMPONENT;
     public PuzzleImage puzzle;
     public int previousMoves = 0;
     public Sprite[][] imageSprite;
@@ -21,29 +21,29 @@ public class PuzzleImageWindow
         eventData = e;
         Game game = Game.Get();
 
-        QUEST_PUZZLE_QUEST_COMPONENT = e.QEvent as Assets.Scripts.Content.QuestComponent.Puzzle;
+        QUEST_PUZZLE_QUEST_COMPONENT_QUEST_COMPONENT = e.QEventQuestComponent as Assets.Scripts.Content.QuestComponent.PuzzleQuestComponent;
 
-        if (game.quest.puzzle.ContainsKey(QUEST_PUZZLE_QUEST_COMPONENT.sectionName))
+        if (game.quest.puzzle.ContainsKey(QUEST_PUZZLE_QUEST_COMPONENT_QUEST_COMPONENT.sectionName))
         {
-            puzzle = game.quest.puzzle[QUEST_PUZZLE_QUEST_COMPONENT.sectionName] as PuzzleImage;
+            puzzle = game.quest.puzzle[QUEST_PUZZLE_QUEST_COMPONENT_QUEST_COMPONENT.sectionName] as PuzzleImage;
             previousMoves = puzzle.moves;
         }
         else
         {
-            puzzle = new PuzzleImage(QUEST_PUZZLE_QUEST_COMPONENT.puzzleLevel, QUEST_PUZZLE_QUEST_COMPONENT.puzzleAltLevel);
+            puzzle = new PuzzleImage(QUEST_PUZZLE_QUEST_COMPONENT_QUEST_COMPONENT.puzzleLevel, QUEST_PUZZLE_QUEST_COMPONENT_QUEST_COMPONENT.puzzleAltLevel);
         }
 
-        height = 19f / QUEST_PUZZLE_QUEST_COMPONENT.puzzleAltLevel;
-        width = 19f / QUEST_PUZZLE_QUEST_COMPONENT.puzzleLevel;
+        height = 19f / QUEST_PUZZLE_QUEST_COMPONENT_QUEST_COMPONENT.puzzleAltLevel;
+        width = 19f / QUEST_PUZZLE_QUEST_COMPONENT_QUEST_COMPONENT.puzzleLevel;
 
         Texture2D newTex = null;
-        if (game.cd.puzzles.ContainsKey(QUEST_PUZZLE_QUEST_COMPONENT.imageType))
+        if (game.cd.puzzles.ContainsKey(QUEST_PUZZLE_QUEST_COMPONENT_QUEST_COMPONENT.imageType))
         {
-            newTex = ContentData.FileToTexture(game.cd.puzzles[QUEST_PUZZLE_QUEST_COMPONENT.imageType].image);
+            newTex = ContentData.FileToTexture(game.cd.puzzles[QUEST_PUZZLE_QUEST_COMPONENT_QUEST_COMPONENT.imageType].image);
         }
         else
         {
-            newTex = ContentData.FileToTexture(System.IO.Path.GetDirectoryName(game.quest.qd.questPath) + Path.DirectorySeparatorChar + QUEST_PUZZLE_QUEST_COMPONENT.imageType);
+            newTex = ContentData.FileToTexture(System.IO.Path.GetDirectoryName(game.quest.qd.questPath) + Path.DirectorySeparatorChar + QUEST_PUZZLE_QUEST_COMPONENT_QUEST_COMPONENT.imageType);
         }
         if (newTex.width > newTex.height)
         {
@@ -54,13 +54,13 @@ public class PuzzleImageWindow
             width = width * newTex.width / newTex.height;
         }
 
-        imageSprite = new Sprite[QUEST_PUZZLE_QUEST_COMPONENT.puzzleLevel][];
-        for (int i = 0; i < QUEST_PUZZLE_QUEST_COMPONENT.puzzleLevel; i++)
+        imageSprite = new Sprite[QUEST_PUZZLE_QUEST_COMPONENT_QUEST_COMPONENT.puzzleLevel][];
+        for (int i = 0; i < QUEST_PUZZLE_QUEST_COMPONENT_QUEST_COMPONENT.puzzleLevel; i++)
         {
-            imageSprite[i] = new Sprite[QUEST_PUZZLE_QUEST_COMPONENT.puzzleAltLevel];
-            for (int j = 0; j < QUEST_PUZZLE_QUEST_COMPONENT.puzzleAltLevel; j++)
+            imageSprite[i] = new Sprite[QUEST_PUZZLE_QUEST_COMPONENT_QUEST_COMPONENT.puzzleAltLevel];
+            for (int j = 0; j < QUEST_PUZZLE_QUEST_COMPONENT_QUEST_COMPONENT.puzzleAltLevel; j++)
             {
-                imageSprite[i][j] = Sprite.Create(newTex, new Rect(i * newTex.width / QUEST_PUZZLE_QUEST_COMPONENT.puzzleLevel, (QUEST_PUZZLE_QUEST_COMPONENT.puzzleAltLevel - (j + 1)) * newTex.height / QUEST_PUZZLE_QUEST_COMPONENT.puzzleAltLevel, newTex.width / QUEST_PUZZLE_QUEST_COMPONENT.puzzleLevel, newTex.height / QUEST_PUZZLE_QUEST_COMPONENT.puzzleAltLevel), Vector2.zero, 1, 0, SpriteMeshType.FullRect);
+                imageSprite[i][j] = Sprite.Create(newTex, new Rect(i * newTex.width / QUEST_PUZZLE_QUEST_COMPONENT_QUEST_COMPONENT.puzzleLevel, (QUEST_PUZZLE_QUEST_COMPONENT_QUEST_COMPONENT.puzzleAltLevel - (j + 1)) * newTex.height / QUEST_PUZZLE_QUEST_COMPONENT_QUEST_COMPONENT.puzzleAltLevel, newTex.width / QUEST_PUZZLE_QUEST_COMPONENT_QUEST_COMPONENT.puzzleLevel, newTex.height / QUEST_PUZZLE_QUEST_COMPONENT_QUEST_COMPONENT.puzzleAltLevel), Vector2.zero, 1, 0, SpriteMeshType.FullRect);
             }
         }
 
@@ -82,7 +82,7 @@ public class PuzzleImageWindow
 
         ui = new UIElement();
         ui.SetLocation(UIScaler.GetHCenter(9.75f), 10, 3, 2);
-        ui.SetText(EventManager.OutputSymbolReplace(QUEST_PUZZLE_QUEST_COMPONENT.skill));
+        ui.SetText(EventManager.OutputSymbolReplace(QUEST_PUZZLE_QUEST_COMPONENT_QUEST_COMPONENT.skill));
         ui.SetFontSize(UIScaler.GetMediumFont());
         new UIElementBorder(ui);
 
@@ -177,11 +177,11 @@ public class PuzzleImageWindow
     {
         Destroyer.Dialog();
         Game game = Game.Get();
-        if (game.quest.puzzle.ContainsKey(QUEST_PUZZLE_QUEST_COMPONENT.sectionName))
+        if (game.quest.puzzle.ContainsKey(QUEST_PUZZLE_QUEST_COMPONENT_QUEST_COMPONENT.sectionName))
         {
-            game.quest.puzzle.Remove(QUEST_PUZZLE_QUEST_COMPONENT.sectionName);
+            game.quest.puzzle.Remove(QUEST_PUZZLE_QUEST_COMPONENT_QUEST_COMPONENT.sectionName);
         }
-        game.quest.puzzle.Add(QUEST_PUZZLE_QUEST_COMPONENT.sectionName, puzzle);
+        game.quest.puzzle.Add(QUEST_PUZZLE_QUEST_COMPONENT_QUEST_COMPONENT.sectionName, puzzle);
 
         game.quest.eManager.currentEvent = null;
         game.quest.eManager.currentEvent = null;
@@ -192,9 +192,9 @@ public class PuzzleImageWindow
     {
         Destroyer.Dialog();
         Game game = Game.Get();
-        if (game.quest.puzzle.ContainsKey(QUEST_PUZZLE_QUEST_COMPONENT.sectionName))
+        if (game.quest.puzzle.ContainsKey(QUEST_PUZZLE_QUEST_COMPONENT_QUEST_COMPONENT.sectionName))
         {
-            game.quest.puzzle.Remove(QUEST_PUZZLE_QUEST_COMPONENT.sectionName);
+            game.quest.puzzle.Remove(QUEST_PUZZLE_QUEST_COMPONENT_QUEST_COMPONENT.sectionName);
         }
 
         game.quest.eManager.EndEvent();
@@ -253,12 +253,12 @@ public class PuzzleImageWindow
                 yDiff = 0;
             }
 
-            if (screenPos.x == (win.QUEST_PUZZLE_QUEST_COMPONENT.puzzleLevel - 1) && xDiff > 0)
+            if (screenPos.x == (win.QUEST_PUZZLE_QUEST_COMPONENT_QUEST_COMPONENT.puzzleLevel - 1) && xDiff > 0)
             {
                 xDiff = 0;
             }
 
-            if (screenPos.y == (win.QUEST_PUZZLE_QUEST_COMPONENT.puzzleAltLevel - 1) && yDiff < 0)
+            if (screenPos.y == (win.QUEST_PUZZLE_QUEST_COMPONENT_QUEST_COMPONENT.puzzleAltLevel - 1) && yDiff < 0)
             {
                 yDiff = 0;
             }

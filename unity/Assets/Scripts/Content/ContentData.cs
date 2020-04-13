@@ -5,7 +5,6 @@ using System.Linq;
 using Assets.Scripts.Content;
 using Assets.Scripts.Content.QuestComponent;
 using ValkyrieTools;
-using Event = Assets.Scripts.Content.QuestComponent.Event;
 
 /// <summary>
 /// This class reads and stores all of the content for a base game and expansions.</summary>
@@ -1702,7 +1701,7 @@ public class GenericData
 }
 
 // Perils are content data that inherits from QuestData for reasons.
-public class PerilData : Event
+public class PerilData : EventQuestComponent
 {
     new public static string type = "Peril";
     public int priority = 0;

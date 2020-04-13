@@ -3,7 +3,7 @@
 namespace Assets.Scripts.Content.QuestComponent
 {
     // Ui is an image/button that is displayed to the user
-    public class Ui : Event
+    public class UiQuestComponent : EventQuestComponent
     {
         new public static string type = "Ui";
         public string imageName = "";
@@ -22,7 +22,7 @@ namespace Assets.Scripts.Content.QuestComponent
         public StringKey uiText { get { return genQuery("uitext"); } }
 
         // Create new with name (used by editor)
-        public Ui(string s) : base(s)
+        public UiQuestComponent(string s) : base(s)
         {
             source = "ui.ini";
             locationSpecified = true;
@@ -31,7 +31,7 @@ namespace Assets.Scripts.Content.QuestComponent
         }
 
         // Create from ini data
-        public Ui(string name, Dictionary<string, string> data, Game game, string path) : base(name, data, path, Quest.currentFormat)
+        public UiQuestComponent(string name, Dictionary<string, string> data, Game game, string path) : base(name, data, path, Quest.currentFormat)
         {
             locationSpecified = true;
             typeDynamic = type;

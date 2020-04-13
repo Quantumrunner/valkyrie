@@ -3,14 +3,13 @@ using Assets.Scripts.UI;
 using UnityEngine;
 using System.Collections.Generic;
 using Assets.Scripts.Content.QuestComponent;
-using Event = Assets.Scripts.Content.QuestComponent.Event;
 
 
 // Tokens are events that are tied to a token placed on the board
 public class ShopInterface : Quest.BoardComponent
 {
     GameObject panel;
-    Event EVENT_QUEST_COMPONENT_DATA;
+    EventQuestComponent EVENT_QUEST_COMPONENT_QUEST_COMPONENT_DATA;
 
     // Construct with Quest info and reference to Game
     public ShopInterface(List<string> items, Game gameObject, string eventName) : base(gameObject)
@@ -28,12 +27,12 @@ public class ShopInterface : Quest.BoardComponent
             }
             game.quest.shops.Add(eventName, contentItems);
         }
-        EVENT_QUEST_COMPONENT_DATA = game.quest.qd.components[eventName] as Event;
+        EVENT_QUEST_COMPONENT_QUEST_COMPONENT_DATA = game.quest.qd.components[eventName] as EventQuestComponent;
 
         Update();
     }
 
-    public override Event GetEvent()
+    public override EventQuestComponent GetEvent()
     {
         return null;
     }
@@ -49,7 +48,7 @@ public class ShopInterface : Quest.BoardComponent
     public void Update()
     {
         Remove();
-        game.quest.activeShop = EVENT_QUEST_COMPONENT_DATA.sectionName;
+        game.quest.activeShop = EVENT_QUEST_COMPONENT_QUEST_COMPONENT_DATA.sectionName;
         DrawButtons();
         DrawShopItems();
         DrawPartyItems();
@@ -60,11 +59,11 @@ public class ShopInterface : Quest.BoardComponent
     {
         float offset = 3;
 
-        for (int i = 0; i < EVENT_QUEST_COMPONENT_DATA.buttons.Count; i++)
+        for (int i = 0; i < EVENT_QUEST_COMPONENT_QUEST_COMPONENT_DATA.buttons.Count; i++)
         {
-            StringKey label = new StringKey(null, EventManager.OutputSymbolReplace(EVENT_QUEST_COMPONENT_DATA.buttons[i].Translate()), false);
+            StringKey label = new StringKey(null, EventManager.OutputSymbolReplace(EVENT_QUEST_COMPONENT_QUEST_COMPONENT_DATA.buttons[i].Translate()), false);
             Color colour = Color.white;
-            string colorRGB = ColorUtil.FromName(EVENT_QUEST_COMPONENT_DATA.buttonColors[i]);
+            string colorRGB = ColorUtil.FromName(EVENT_QUEST_COMPONENT_QUEST_COMPONENT_DATA.buttonColors[i]);
             // Check format is valid
             if ((colorRGB.Length != 7 && colorRGB.Length != 9) || (colorRGB[0] != '#'))
             {
@@ -97,7 +96,7 @@ public class ShopInterface : Quest.BoardComponent
     {
         if (GameObject.FindGameObjectWithTag(Game.DIALOG) != null) return;
         game.quest.Save();
-        game.quest.eManager.EndEvent(EVENT_QUEST_COMPONENT_DATA, i);
+        game.quest.eManager.EndEvent(EVENT_QUEST_COMPONENT_QUEST_COMPONENT_DATA, i);
     }
 
     public void DrawShopItems()
@@ -115,7 +114,7 @@ public class ShopInterface : Quest.BoardComponent
 
         float vOffset = 0.5f;
 
-        foreach (string s in game.quest.shops[EVENT_QUEST_COMPONENT_DATA.sectionName])
+        foreach (string s in game.quest.shops[EVENT_QUEST_COMPONENT_QUEST_COMPONENT_DATA.sectionName])
         {
             string itemName = s;
             ui = new UIElement(Game.SHOP, scrollArea.GetScrollTransform());
@@ -276,7 +275,7 @@ public class ShopInterface : Quest.BoardComponent
         if (game.quest.vars.GetValue("$%gold") < GetPurchasePrice(itemData)) return;
 
         game.quest.vars.SetValue("$%gold", game.quest.vars.GetValue("$%gold") - GetPurchasePrice(itemData));
-        game.quest.shops[EVENT_QUEST_COMPONENT_DATA.sectionName].Remove(item);
+        game.quest.shops[EVENT_QUEST_COMPONENT_QUEST_COMPONENT_DATA.sectionName].Remove(item);
         game.quest.items.Add(item);
         Update();
     }
@@ -286,7 +285,7 @@ public class ShopInterface : Quest.BoardComponent
         if (GameObject.FindGameObjectWithTag(Game.DIALOG) != null) return;
 
         game.quest.vars.SetValue("$%gold", game.quest.vars.GetValue("$%gold") + GetSellPrice(game.cd.items[item]));
-        game.quest.shops[EVENT_QUEST_COMPONENT_DATA.sectionName].Add(item);
+        game.quest.shops[EVENT_QUEST_COMPONENT_QUEST_COMPONENT_DATA.sectionName].Add(item);
         game.quest.items.Remove(item);
         Update();
     }

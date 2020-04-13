@@ -3,7 +3,7 @@
 namespace Assets.Scripts.Content.QuestComponent
 {
     // Scenario starting item
-    public class QItem : QuestComponent
+    public class QItemQuestComponent : QuestComponent
     {
         new public static string type = "QItem";
         public string[] itemName;
@@ -13,7 +13,7 @@ namespace Assets.Scripts.Content.QuestComponent
         public string inspect = "";
 
         // Create new (editor)
-        public QItem(string s) : base(s)
+        public QItemQuestComponent(string s) : base(s)
         {
             source = "items.ini";
             typeDynamic = type;
@@ -24,7 +24,7 @@ namespace Assets.Scripts.Content.QuestComponent
         }
 
         // Create from ini data
-        public QItem(string name, Dictionary<string, string> data, string path) : base(name, data, path)
+        public QItemQuestComponent(string name, Dictionary<string, string> data, string path) : base(name, data, path)
         {
             typeDynamic = type;
             if (data.ContainsKey("itemname"))

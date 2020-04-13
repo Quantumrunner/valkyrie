@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using Assets.Scripts.Content.QuestComponent;
 using ValkyrieTools;
-using Event = Assets.Scripts.Content.QuestComponent.Event;
 
 // Class for managing token and door operation
 // One object is created and attached to the token canvas
@@ -86,7 +85,7 @@ public class TokenBoard : MonoBehaviour {
         if (game.gameType is MoMGameType)
         {
             Texture2D newTex = ContentData.FileToTexture(me.cMonster.image);
-            AddPlacedMonsterImg("", newTex, 1, 1, me.QEvent.location.x, me.QEvent.location.y);
+            AddPlacedMonsterImg("", newTex, 1, 1, me.QEventQuestComponent.location.x, me.QEventQuestComponent.location.y);
         }
         // Check for a placement list at this hero count
         else if (me.qMonster.placement[count].Length == 0)
@@ -94,7 +93,7 @@ public class TokenBoard : MonoBehaviour {
             if (me.cMonster.ContainsTrait("lieutenant"))
             {
                 Texture2D newTex = ContentData.FileToTexture(me.cMonster.image);
-                AddPlacedMonsterImg("", newTex, 1, 1, me.QEvent.location.x, me.QEvent.location.y);
+                AddPlacedMonsterImg("", newTex, 1, 1, me.QEventQuestComponent.location.x, me.QEventQuestComponent.location.y);
             }
             else
             {
@@ -206,7 +205,7 @@ public class TokenBoard : MonoBehaviour {
 
         if (place.Length > 0)
         {
-            MPlace mp = game.quest.qd.components[place] as MPlace;
+            MPlaceQuestComponent mp = game.quest.qd.components[place] as MPlaceQuestComponent;
             posX = mp.location.x;
             posY = mp.location.y;
             
@@ -245,7 +244,7 @@ public class TokenBoard : MonoBehaviour {
 
 
     // Add a signal to place a monster group
-    public void AddAreaMonster(Spawn m)
+    public void AddAreaMonster(SpawnQuestComponent m)
     {
         Game game = Game.Get();
         Sprite tileSprite;
@@ -277,7 +276,7 @@ public class TokenBoard : MonoBehaviour {
     }
 
     // Add highlight for event
-    public void AddHighlight(Event e)
+    public void AddHighlight(EventQuestComponent e)
     {
         string item = "";
         int items = 0;

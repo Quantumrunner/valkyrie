@@ -50,10 +50,10 @@ public class EventManager
         // Find Quest events
         foreach (KeyValuePair<string, QuestComponent> kv in game.quest.qd.components)
         {
-            if (kv.Value is Assets.Scripts.Content.QuestComponent.Event)
+            if (kv.Value is Assets.Scripts.Content.QuestComponent.EventQuestComponent)
             {
                 // If the event is a monster type cast it
-                if (kv.Value is Spawn)
+                if (kv.Value is SpawnQuestComponent)
                 {
                     events.Add(kv.Key, new MonsterEvent(kv.Key));
                 }
@@ -100,7 +100,7 @@ public class EventManager
     {
         foreach (KeyValuePair<string, Event> kv in events)
         {
-            if (kv.Value.QEvent != null && kv.Value.QEvent.trigger.Equals(type))
+            if (kv.Value.QEventQuestComponent != null && kv.Value.QEventQuestComponent.trigger.Equals(type))
             {
                 QueueEvent(kv.Key, trigger);
             }
@@ -174,20 +174,20 @@ public class EventManager
         }
 
         // Play audio
-        if (game.cd.audio.ContainsKey(e.QEvent.audio))
+        if (game.cd.audio.ContainsKey(e.QEventQuestComponent.audio))
         {
-            game.audioControl.Play(game.cd.audio[e.QEvent.audio].file);
+            game.audioControl.Play(game.cd.audio[e.QEventQuestComponent.audio].file);
         }
-        else if (e.QEvent.audio.Length > 0)
+        else if (e.QEventQuestComponent.audio.Length > 0)
         {
-            game.audioControl.Play(Quest.FindLocalisedMultimediaFile(e.QEvent.audio, Path.GetDirectoryName(game.quest.qd.questPath)));
+            game.audioControl.Play(Quest.FindLocalisedMultimediaFile(e.QEventQuestComponent.audio, Path.GetDirectoryName(game.quest.qd.questPath)));
         }
 
         // Set Music
-        if (e.QEvent.music.Count > 0)
+        if (e.QEventQuestComponent.music.Count > 0)
         {
             List<string> music = new List<string>();
-            foreach (string s in e.QEvent.music)
+            foreach (string s in e.QEventQuestComponent.music)
             {
                 if (game.cd.audio.ContainsKey(s))
                 {
@@ -201,12 +201,12 @@ public class EventManager
             game.audioControl.PlayMusic(music);
             if (music.Count > 1)
             {
-                game.quest.music = new List<string>(e.QEvent.music);
+                game.quest.music = new List<string>(e.QEventQuestComponent.music);
             }
         }
 
         // Perform var operations
-        game.quest.vars.Perform(e.QEvent.operations);
+        game.quest.vars.Perform(e.QEventQuestComponent.operations);
         // Update morale change
         if (game.gameType is D2EGameType)
         {
@@ -257,47 +257,47 @@ public class EventManager
             }
 
             // Display the location(s)
-            if (qe.QEvent.locationSpecified && e.QEvent.display)
+            if (qe.QEventQuestComponent.locationSpecified && e.QEventQuestComponent.display)
             {
                 game.tokenBoard.AddMonster(qe);
             }
         }
 
         // Highlight a space on the board
-        if (e.QEvent.highlight)
+        if (e.QEventQuestComponent.highlight)
         {
-            game.tokenBoard.AddHighlight(e.QEvent);
+            game.tokenBoard.AddHighlight(e.QEventQuestComponent);
         }
 
         // Is this a shop?
         List<string> itemList = new List<string>();
-        foreach (string s in e.QEvent.addComponents)
+        foreach (string s in e.QEventQuestComponent.addComponents)
         {
             if (s.IndexOf("QItem") == 0)
             {
                 // Fix #998
                 if (game.gameType.TypeName() == "MoM" && itemList.Count==1)
                 {
-                    ValkyrieDebug.Log("WARNING: only one QItem can be used in event " + e.QEvent.sectionName + ", ignoring other items");
+                    ValkyrieDebug.Log("WARNING: only one QItem can be used in event " + e.QEventQuestComponent.sectionName + ", ignoring other items");
                     break;
                 }
                 itemList.Add(s);
             }
         }
         // Add board components
-        game.quest.Add(e.QEvent.addComponents, itemList.Count > 1);
+        game.quest.Add(e.QEventQuestComponent.addComponents, itemList.Count > 1);
         // Remove board components
-        game.quest.Remove(e.QEvent.removeComponents);
+        game.quest.Remove(e.QEventQuestComponent.removeComponents);
 
         // Move camera
-        if (e.QEvent.locationSpecified && !(e.QEvent is Ui))
+        if (e.QEventQuestComponent.locationSpecified && !(e.QEventQuestComponent is UiQuestComponent))
         {
-            CameraController.SetCamera(e.QEvent.location);
+            CameraController.SetCamera(e.QEventQuestComponent.location);
         }
 
-        if (e.QEvent is Assets.Scripts.Content.QuestComponent.Puzzle)
+        if (e.QEventQuestComponent is Assets.Scripts.Content.QuestComponent.PuzzleQuestComponent)
         {
-            Assets.Scripts.Content.QuestComponent.Puzzle p = e.QEvent as Assets.Scripts.Content.QuestComponent.Puzzle;
+            Assets.Scripts.Content.QuestComponent.PuzzleQuestComponent p = e.QEventQuestComponent as Assets.Scripts.Content.QuestComponent.PuzzleQuestComponent;
             if (p.puzzleClass.Equals("slide"))
             {
                 new PuzzleSlideWindow(e);
@@ -318,22 +318,22 @@ public class EventManager
         }
 
         // Set camera limits
-        if (e.QEvent.minCam)
+        if (e.QEventQuestComponent.minCam)
         {
-            CameraController.SetCameraMin(e.QEvent.location);
+            CameraController.SetCameraMin(e.QEventQuestComponent.location);
         }
-        if (e.QEvent.maxCam)
+        if (e.QEventQuestComponent.maxCam)
         {
-            CameraController.SetCameraMax(e.QEvent.location);
+            CameraController.SetCameraMax(e.QEventQuestComponent.location);
         }
 
         // Is this a shop?
         if (itemList.Count > 1 && !game.quest.boardItems.ContainsKey("#shop"))
         {
-            game.quest.boardItems.Add("#shop", new ShopInterface(itemList, Game.Get(), e.QEvent.sectionName));
+            game.quest.boardItems.Add("#shop", new ShopInterface(itemList, Game.Get(), e.QEventQuestComponent.sectionName));
             game.quest.ordered_boardItems.Add("#shop");
         }
-        else if (!e.QEvent.display)
+        else if (!e.QEventQuestComponent.display)
         {
             // Only raise dialog if there is text, otherwise auto confirm
             EndEvent();
@@ -357,21 +357,21 @@ public class EventManager
         if (e is MonsterEvent)
         {
             // Display the location(s)
-            if (e.QEvent.locationSpecified && e.QEvent.display)
+            if (e.QEventQuestComponent.locationSpecified && e.QEventQuestComponent.display)
             {
                 game.tokenBoard.AddMonster(e as MonsterEvent);
             }
         }
 
         // Highlight a space on the board
-        if (e.QEvent.highlight)
+        if (e.QEventQuestComponent.highlight)
         {
-            game.tokenBoard.AddHighlight(e.QEvent);
+            game.tokenBoard.AddHighlight(e.QEventQuestComponent);
         }
 
-        if (e.QEvent is Assets.Scripts.Content.QuestComponent.Puzzle)
+        if (e.QEventQuestComponent is Assets.Scripts.Content.QuestComponent.PuzzleQuestComponent)
         {
-            Assets.Scripts.Content.QuestComponent.Puzzle p = e.QEvent as Assets.Scripts.Content.QuestComponent.Puzzle;
+            Assets.Scripts.Content.QuestComponent.PuzzleQuestComponent p = e.QEventQuestComponent as Assets.Scripts.Content.QuestComponent.PuzzleQuestComponent;
             if (p.puzzleClass.Equals("slide"))
             {
                 new PuzzleSlideWindow(e);
@@ -392,17 +392,17 @@ public class EventManager
     // Event ended
     public void EndEvent(int state = 0)
     {
-        EndEvent(currentEvent.QEvent, state);
+        EndEvent(currentEvent.QEventQuestComponent, state);
     }
 
     // Event ended
-    public void EndEvent(Assets.Scripts.Content.QuestComponent.Event eventData, int state=0)
+    public void EndEvent(Assets.Scripts.Content.QuestComponent.EventQuestComponent eventQuestComponentData, int state=0)
     {
         // Get list of next events
         List<string> eventList = new List<string>();
-        if (eventData.nextEvent.Count > state)
+        if (eventQuestComponentData.nextEvent.Count > state)
         {
-            eventList = eventData.nextEvent[state];
+            eventList = eventQuestComponentData.nextEvent[state];
         }
 
         // Only take enabled events from list
@@ -458,7 +458,7 @@ public class EventManager
         if (enabledEvents.Count > 0)
         {
             // Are we picking at random?
-            if (eventData.randomEvents)
+            if (eventQuestComponentData.randomEvents)
             {
                 // Add a random event
                 game.quest.eManager.QueueEvent(enabledEvents[UnityEngine.Random.Range(0, enabledEvents.Count)], false);
@@ -512,7 +512,7 @@ public class EventManager
     public class Event
     {
         public Game game;
-        public Assets.Scripts.Content.QuestComponent.Event QEvent;
+        public Assets.Scripts.Content.QuestComponent.EventQuestComponent QEventQuestComponent;
         public bool cancelable;
 
         // Create event from Quest data
@@ -521,14 +521,14 @@ public class EventManager
             game = Game.Get();
             if (game.quest.qd.components.ContainsKey(name))
             {
-                QEvent = game.quest.qd.components[name] as Assets.Scripts.Content.QuestComponent.Event;
+                QEventQuestComponent = game.quest.qd.components[name] as Assets.Scripts.Content.QuestComponent.EventQuestComponent;
             }
         }
 
         // Get the text to display for the event
         virtual public string GetText()
         {
-            string text = QEvent.text.Translate(true);
+            string text = QEventQuestComponent.text.Translate(true);
 
             // Find and replace {q:element with the name of the
             // element
@@ -627,10 +627,10 @@ public class EventManager
                     return game.quest.heroSelection[component.sectionName][0].heroData.name.Translate();
                 case "Tile":
                     // Replaced with the name of the Tile
-                    return game.cd.tileSides[((Tile)component).tileSideName].name.Translate();
+                    return game.cd.tileSides[((TileQuestComponent)component).tileSideName].name.Translate();
                 case "CustomMonster":
                     // Replaced with the custom nonster name
-                    return ((CustomMonster)component).monsterName.Translate();
+                    return ((CustomMonsterQuestComponent)component).monsterName.Translate();
                 case "Spawn":
                     if (!game.quest.monsterSelect.ContainsKey(component.sectionName))
                     {
@@ -639,7 +639,7 @@ public class EventManager
                     // Replaced with the text shown in the spawn
                     string monsterName = game.quest.monsterSelect[component.sectionName];
                     if (monsterName.StartsWith("Custom")) {
-                        return ((CustomMonster)game.quest.qd.components[monsterName]).monsterName.Translate();
+                        return ((CustomMonsterQuestComponent)game.quest.qd.components[monsterName]).monsterName.Translate();
                     } else {
                         return game.cd.monsters[game.quest.monsterSelect[component.sectionName]].name.Translate();
                     }
@@ -670,9 +670,9 @@ public class EventManager
                 return buttons;
             }
 
-            for (int i = 0; i < QEvent.buttons.Count; i++)
+            for (int i = 0; i < QEventQuestComponent.buttons.Count; i++)
             {
-                buttons.Add(new DialogWindow.EventButton(QEvent.buttons[i], QEvent.buttonColors[i]));
+                buttons.Add(new DialogWindow.EventButton(QEventQuestComponent.buttons[i], QEventQuestComponent.buttonColors[i]));
             }
             return buttons;
         }
@@ -681,9 +681,9 @@ public class EventManager
         public bool ButtonsPresent()
         {
             // If the event can't be canceled it must have buttons
-            if (!QEvent.cancelable) return true;
+            if (!QEventQuestComponent.cancelable) return true;
             // Check if any of the next events are enabled
-            foreach (List<string> l in QEvent.nextEvent)
+            foreach (List<string> l in QEventQuestComponent.nextEvent)
             {
                 foreach (string s in l)
                 {
@@ -718,10 +718,10 @@ public class EventManager
         virtual public bool Disabled()
         {
             if (game.debugTests)
-                ValkyrieDebug.Log("Event test " + QEvent.sectionName + " result is : " + game.quest.vars.Test(QEvent.tests));
+                ValkyrieDebug.Log("Event test " + QEventQuestComponent.sectionName + " result is : " + game.quest.vars.Test(QEventQuestComponent.tests));
 
             // check if condition is valid, and if there is something to do in this event (see #916)
-            return (!game.quest.vars.Test(QEvent.tests));
+            return (!game.quest.vars.Test(QEventQuestComponent.tests));
         }
     }
 
@@ -743,13 +743,13 @@ public class EventManager
     // Monster event extends event for adding monsters
     public class MonsterEvent : Event
     {
-        public Spawn qMonster;
+        public SpawnQuestComponent qMonster;
         public MonsterData cMonster;
 
         public MonsterEvent(string name) : base(name)
         {
             // cast the monster event
-            qMonster = QEvent as Spawn;
+            qMonster = QEventQuestComponent as SpawnQuestComponent;
 
             // monsters are generated on the fly to avoid duplicate for D2E when using random
         }
@@ -764,7 +764,7 @@ public class EventManager
             string t = game.quest.monsterSelect[qMonster.sectionName];
             if (game.quest.qd.components.ContainsKey(t))
             {
-                cMonster = new QuestMonster(game.quest.qd.components[t] as CustomMonster);
+                cMonster = new QuestMonster(game.quest.qd.components[t] as CustomMonsterQuestComponent);
             }
             else
             {
@@ -799,8 +799,8 @@ public class EventManager
         public Peril(string name) : base(name)
         {
             // Event is pulled from content data not Quest data
-            QEvent = game.cd.perils[name] as Assets.Scripts.Content.QuestComponent.Event;
-            cPeril = QEvent as PerilData;
+            QEventQuestComponent = game.cd.perils[name] as Assets.Scripts.Content.QuestComponent.EventQuestComponent;
+            cPeril = QEventQuestComponent as PerilData;
         }
     }
 
@@ -814,12 +814,12 @@ public class EventManager
         r += "queue=";
         foreach (Event e in eventStack.ToArray())
         {
-            r += e.QEvent.sectionName + " ";
+            r += e.QEventQuestComponent.sectionName + " ";
         }
         r += nl;
         if (currentEvent != null)
         {
-            r += "currentevent=" + currentEvent.QEvent.sectionName + nl;
+            r += "currentevent=" + currentEvent.QEventQuestComponent.sectionName + nl;
         }
         if (monsterImage != null)
         {

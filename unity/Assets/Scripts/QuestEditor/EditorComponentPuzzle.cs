@@ -21,7 +21,7 @@ public class EditorComponentPuzzle : EditorComponentEvent
     private readonly StringKey PUZZLE_SELECT_SKILL = new StringKey("val", "PUZZLE_SELECT_SKILL");
     private readonly StringKey SELECT_IMAGE = new StringKey("val", "SELECT_IMAGE");
 
-    Assets.Scripts.Content.QuestComponent.Puzzle PUZZLE_QUEST_COMPONENT_COMPONENT;
+    Assets.Scripts.Content.QuestComponent.PuzzleQuestComponent PUZZLE_QUEST_COMPONENT_QUEST_COMPONENT_COMPONENT;
 
     UIElementEditable levelUIE;
     UIElementEditable altLevelUIE;
@@ -42,8 +42,8 @@ public class EditorComponentPuzzle : EditorComponentEvent
     {
         string example_str = "";
         // build string
-        for (int i=0; i < PUZZLE_QUEST_COMPONENT_COMPONENT.puzzleLevel ; i++) {
-            example_str += ((i%PUZZLE_QUEST_COMPONENT_COMPONENT.puzzleAltLevel)+1).ToString() + " ";
+        for (int i=0; i < PUZZLE_QUEST_COMPONENT_QUEST_COMPONENT_COMPONENT.puzzleLevel ; i++) {
+            example_str += ((i%PUZZLE_QUEST_COMPONENT_QUEST_COMPONENT_COMPONENT.puzzleAltLevel)+1).ToString() + " ";
         }
         example_str = example_str.TrimEnd(); // kill that last space
         // Set the text field and put it in grey color
@@ -53,7 +53,7 @@ public class EditorComponentPuzzle : EditorComponentEvent
     
     override public float AddSubEventComponents(float offset)
     {
-        PUZZLE_QUEST_COMPONENT_COMPONENT = component as Assets.Scripts.Content.QuestComponent.Puzzle;
+        PUZZLE_QUEST_COMPONENT_QUEST_COMPONENT_COMPONENT = component as Assets.Scripts.Content.QuestComponent.PuzzleQuestComponent;
 
         UIElement ui = new UIElement(Game.EDITOR, scrollArea.GetScrollTransform());
         ui.SetLocation(0, offset, 3, 1);
@@ -62,7 +62,7 @@ public class EditorComponentPuzzle : EditorComponentEvent
         // Translate puzzle type trait
         ui = new UIElement(Game.EDITOR, scrollArea.GetScrollTransform());
         ui.SetLocation(5, offset, 8, 1);
-        ui.SetText(new StringKey("val", PUZZLE_QUEST_COMPONENT_COMPONENT.puzzleClass));
+        ui.SetText(new StringKey("val", PUZZLE_QUEST_COMPONENT_QUEST_COMPONENT_COMPONENT.puzzleClass));
         ui.SetButton(delegate { Class(); });
         new UIElementBorder(ui);
         offset += 2;
@@ -73,7 +73,7 @@ public class EditorComponentPuzzle : EditorComponentEvent
 
         ui = new UIElement(Game.EDITOR, scrollArea.GetScrollTransform());
         ui.SetLocation(5, offset, 6, 1);
-        ui.SetText(PUZZLE_QUEST_COMPONENT_COMPONENT.skill);
+        ui.SetText(PUZZLE_QUEST_COMPONENT_QUEST_COMPONENT_COMPONENT.skill);
         ui.SetButton(delegate { Skill(); });
         new UIElementBorder(ui);
         offset += 2;
@@ -84,13 +84,13 @@ public class EditorComponentPuzzle : EditorComponentEvent
 
         levelUIE = new UIElementEditable(Game.EDITOR, scrollArea.GetScrollTransform());
         levelUIE.SetLocation(5, offset, 2, 1);
-        levelUIE.SetText(PUZZLE_QUEST_COMPONENT_COMPONENT.puzzleLevel.ToString());
+        levelUIE.SetText(PUZZLE_QUEST_COMPONENT_QUEST_COMPONENT_COMPONENT.puzzleLevel.ToString());
         levelUIE.SetSingleLine();
         levelUIE.SetButton(delegate { UpdateLevel(); });
         new UIElementBorder(levelUIE);
         offset += 2;
 
-        if (PUZZLE_QUEST_COMPONENT_COMPONENT.puzzleClass.Equals("image") || PUZZLE_QUEST_COMPONENT_COMPONENT.puzzleClass.Equals("code"))
+        if (PUZZLE_QUEST_COMPONENT_QUEST_COMPONENT_COMPONENT.puzzleClass.Equals("image") || PUZZLE_QUEST_COMPONENT_QUEST_COMPONENT_COMPONENT.puzzleClass.Equals("code"))
         {
             ui = new UIElement(Game.EDITOR, scrollArea.GetScrollTransform());
             ui.SetLocation(0, offset, 5, 1);
@@ -98,7 +98,7 @@ public class EditorComponentPuzzle : EditorComponentEvent
 
             altLevelUIE = new UIElementEditable(Game.EDITOR, scrollArea.GetScrollTransform());
             altLevelUIE.SetLocation(5, offset, 2, 1);
-            altLevelUIE.SetText(PUZZLE_QUEST_COMPONENT_COMPONENT.puzzleAltLevel.ToString());
+            altLevelUIE.SetText(PUZZLE_QUEST_COMPONENT_QUEST_COMPONENT_COMPONENT.puzzleAltLevel.ToString());
             altLevelUIE.SetSingleLine();
             altLevelUIE.SetButton(delegate { UpdateAltLevel(); });
             new UIElementBorder(altLevelUIE);
@@ -110,13 +110,13 @@ public class EditorComponentPuzzle : EditorComponentEvent
 
             ui = new UIElement(Game.EDITOR, scrollArea.GetScrollTransform());
             ui.SetLocation(5, offset, 8, 1);
-            ui.SetText(PUZZLE_QUEST_COMPONENT_COMPONENT.imageType);
+            ui.SetText(PUZZLE_QUEST_COMPONENT_QUEST_COMPONENT_COMPONENT.imageType);
             ui.SetButton(delegate { Image(); });
             new UIElementBorder(ui);
             offset += 2;
         }
         
-        if (PUZZLE_QUEST_COMPONENT_COMPONENT.puzzleClass.Equals("code")) 
+        if (PUZZLE_QUEST_COMPONENT_QUEST_COMPONENT_COMPONENT.puzzleClass.Equals("code")) 
         {
             // Initialize the puzzle solution Ui element
             ui = new UIElement(Game.EDITOR, scrollArea.GetScrollTransform());
@@ -126,10 +126,10 @@ public class EditorComponentPuzzle : EditorComponentEvent
             puzzleSolutionUIE = new UIElementEditable(Game.EDITOR, scrollArea.GetScrollTransform());
             puzzleSolutionUIE.SetLocation(5, offset, 8, 1);
             /* If there is no set puzzlesolution give an example with gray letters */
-            if (PUZZLE_QUEST_COMPONENT_COMPONENT.puzzleSolution.Length == 0) {
+            if (PUZZLE_QUEST_COMPONENT_QUEST_COMPONENT_COMPONENT.puzzleSolution.Length == 0) {
                 ProvidePuzzleSolutionExample();
             } else { /* otherwise display the solution  */
-                puzzleSolutionUIE.SetText(PUZZLE_QUEST_COMPONENT_COMPONENT.puzzleSolution);
+                puzzleSolutionUIE.SetText(PUZZLE_QUEST_COMPONENT_QUEST_COMPONENT_COMPONENT.puzzleSolution);
             }
             puzzleSolutionUIE.SetSingleLine();
             puzzleSolutionUIE.SetButton(delegate { UpdatePuzzleSolution(); });
@@ -166,12 +166,12 @@ public class EditorComponentPuzzle : EditorComponentEvent
 
     public void SelectClass(string className)
     {
-        if (!PUZZLE_QUEST_COMPONENT_COMPONENT.puzzleClass.Equals(className))
+        if (!PUZZLE_QUEST_COMPONENT_QUEST_COMPONENT_COMPONENT.puzzleClass.Equals(className))
         {
-            PUZZLE_QUEST_COMPONENT_COMPONENT.imageType = "";
+            PUZZLE_QUEST_COMPONENT_QUEST_COMPONENT_COMPONENT.imageType = "";
         }
         // the selection has the key (ie:{val:PUZZLE_SLIDE_CLASS}) so we can build the StringKey.
-        PUZZLE_QUEST_COMPONENT_COMPONENT.puzzleClass = className;
+        PUZZLE_QUEST_COMPONENT_QUEST_COMPONENT_COMPONENT.puzzleClass = className;
         Update();
     }
 
@@ -194,19 +194,19 @@ public class EditorComponentPuzzle : EditorComponentEvent
 
     public void SelectSkill(string skill)
     {
-        PUZZLE_QUEST_COMPONENT_COMPONENT.skill = skill.Substring(0, skill.IndexOf(" "));
+        PUZZLE_QUEST_COMPONENT_QUEST_COMPONENT_COMPONENT.skill = skill.Substring(0, skill.IndexOf(" "));
         Update();
     }
 
     public void UpdateLevel()
     {
-        int.TryParse(levelUIE.GetText(), out PUZZLE_QUEST_COMPONENT_COMPONENT.puzzleLevel);
+        int.TryParse(levelUIE.GetText(), out PUZZLE_QUEST_COMPONENT_QUEST_COMPONENT_COMPONENT.puzzleLevel);
         Update();
     }
 
     public void UpdateAltLevel()
     {
-        int.TryParse(altLevelUIE.GetText(), out PUZZLE_QUEST_COMPONENT_COMPONENT.puzzleAltLevel);
+        int.TryParse(altLevelUIE.GetText(), out PUZZLE_QUEST_COMPONENT_QUEST_COMPONENT_COMPONENT.puzzleAltLevel);
         Update();
     }
 
@@ -220,7 +220,7 @@ public class EditorComponentPuzzle : EditorComponentEvent
         // Validate puzzle solution and mark it with red if it's not valid
         bool invalid = false;
         // Check the solution's length
-        if (solutionArray.Length != PUZZLE_QUEST_COMPONENT_COMPONENT.puzzleLevel)
+        if (solutionArray.Length != PUZZLE_QUEST_COMPONENT_QUEST_COMPONENT_COMPONENT.puzzleLevel)
         {
             ValkyrieDebug.Log("Puzzle solution must be the same length as puzzleLevel");
             invalid = true;
@@ -235,9 +235,9 @@ public class EditorComponentPuzzle : EditorComponentEvent
                 ValkyrieDebug.Log("Solution needs to be a number (e.g. 1 2 3)");
                 invalid = true;
             }
-            if (j == 0 || j > PUZZLE_QUEST_COMPONENT_COMPONENT.puzzleAltLevel)
+            if (j == 0 || j > PUZZLE_QUEST_COMPONENT_QUEST_COMPONENT_COMPONENT.puzzleAltLevel)
             {
-                ValkyrieDebug.Log("Puzzle solution " + j + " out of AltLevel " + PUZZLE_QUEST_COMPONENT_COMPONENT.puzzleAltLevel + " range.");
+                ValkyrieDebug.Log("Puzzle solution " + j + " out of AltLevel " + PUZZLE_QUEST_COMPONENT_QUEST_COMPONENT_COMPONENT.puzzleAltLevel + " range.");
                 invalid = true;
             }
         }
@@ -246,17 +246,17 @@ public class EditorComponentPuzzle : EditorComponentEvent
         if (invalid)
         {
             puzzleSolutionUIE.SetColor(Color.red);
-            PUZZLE_QUEST_COMPONENT_COMPONENT.puzzleSolution = "";
+            PUZZLE_QUEST_COMPONENT_QUEST_COMPONENT_COMPONENT.puzzleSolution = "";
             return;
         }
 
-        PUZZLE_QUEST_COMPONENT_COMPONENT.puzzleSolution = puzzleSolutionUIE.GetText();
+        PUZZLE_QUEST_COMPONENT_QUEST_COMPONENT_COMPONENT.puzzleSolution = puzzleSolutionUIE.GetText();
         Update();
     }
 
     public void Image()
     {
-        if (PUZZLE_QUEST_COMPONENT_COMPONENT.puzzleClass.Equals("code"))
+        if (PUZZLE_QUEST_COMPONENT_QUEST_COMPONENT_COMPONENT.puzzleClass.Equals("code"))
         {
             UIWindowSelectionList selectType = new UIWindowSelectionList(SelectImage, SELECT_IMAGE.Translate());
             selectType.AddItem("{NUMBERS}", "");
@@ -289,7 +289,7 @@ public class EditorComponentPuzzle : EditorComponentEvent
 
     public void SelectImage(string image)
     {
-        PUZZLE_QUEST_COMPONENT_COMPONENT.imageType = image;
+        PUZZLE_QUEST_COMPONENT_QUEST_COMPONENT_COMPONENT.imageType = image;
         Update();
     }
 }

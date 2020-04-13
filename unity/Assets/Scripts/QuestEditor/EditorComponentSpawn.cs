@@ -23,7 +23,7 @@ public class EditorComponentSpawn : EditorComponentEvent
     private readonly StringKey POOL_TRAITS = new StringKey("val", "POOL_TRAITS");
     
     
-    Spawn SPAWN_QUEST_COMPONENT_COMPONENT;
+    SpawnQuestComponent SPAWN_QUEST_COMPONENT_QUEST_COMPONENT_COMPONENT;
 
     UIElementEditable uniqueTitleUIE;
     UIElementEditablePaneled uniqueTextUIE;
@@ -52,7 +52,7 @@ public class EditorComponentSpawn : EditorComponentEvent
     
     override public float AddSubEventComponents(float offset)
     {
-        SPAWN_QUEST_COMPONENT_COMPONENT = component as Spawn;
+        SPAWN_QUEST_COMPONENT_QUEST_COMPONENT_COMPONENT = component as SpawnQuestComponent;
 
         UIElement ui = null;
 
@@ -62,7 +62,7 @@ public class EditorComponentSpawn : EditorComponentEvent
             ui.SetLocation(0, offset, 6, 1);
             ui.SetText(new StringKey("val", "X_COLON", MONSTER_UNIQUE));
 
-            if (!SPAWN_QUEST_COMPONENT_COMPONENT.unique)
+            if (!SPAWN_QUEST_COMPONENT_QUEST_COMPONENT_COMPONENT.unique)
             {
                 ui = new UIElement(Game.EDITOR, scrollArea.GetScrollTransform());
                 ui.SetLocation(6, offset, 3, 1);
@@ -86,7 +86,7 @@ public class EditorComponentSpawn : EditorComponentEvent
 
                 uniqueTitleUIE = new UIElementEditable(Game.EDITOR, scrollArea.GetScrollTransform());
                 uniqueTitleUIE.SetLocation(5, offset, 14.5f, 1);
-                uniqueTitleUIE.SetText(SPAWN_QUEST_COMPONENT_COMPONENT.uniqueTitle.Translate());
+                uniqueTitleUIE.SetText(SPAWN_QUEST_COMPONENT_QUEST_COMPONENT_COMPONENT.uniqueTitle.Translate());
                 uniqueTitleUIE.SetSingleLine();
                 uniqueTitleUIE.SetButton(delegate { UpdateUniqueTitle(); });
                 new UIElementBorder(uniqueTitleUIE);
@@ -98,7 +98,7 @@ public class EditorComponentSpawn : EditorComponentEvent
 
                 uniqueTextUIE = new UIElementEditablePaneled(Game.EDITOR, scrollArea.GetScrollTransform());
                 uniqueTextUIE.SetLocation(0.5f, offset, 19, 18);
-                uniqueTextUIE.SetText(SPAWN_QUEST_COMPONENT_COMPONENT.uniqueText.Translate());
+                uniqueTextUIE.SetText(SPAWN_QUEST_COMPONENT_QUEST_COMPONENT_COMPONENT.uniqueText.Translate());
                 offset += uniqueTextUIE.HeightToTextPadding(1);
                 uniqueTextUIE.SetButton(delegate { UpdateUniqueText(); });
                 new UIElementBorder(uniqueTextUIE);
@@ -112,7 +112,7 @@ public class EditorComponentSpawn : EditorComponentEvent
 
         healthUIE = new UIElementEditable(Game.EDITOR, scrollArea.GetScrollTransform());
         healthUIE.SetLocation(5, offset, 3, 1);
-        healthUIE.SetText(SPAWN_QUEST_COMPONENT_COMPONENT.uniqueHealthBase.ToString());
+        healthUIE.SetText(SPAWN_QUEST_COMPONENT_QUEST_COMPONENT_COMPONENT.uniqueHealthBase.ToString());
         healthUIE.SetSingleLine();
         healthUIE.SetButton(delegate { UpdateHealth(); });
         new UIElementBorder(healthUIE);
@@ -123,7 +123,7 @@ public class EditorComponentSpawn : EditorComponentEvent
 
         healthHeroUIE = new UIElementEditable(Game.EDITOR, scrollArea.GetScrollTransform());
         healthHeroUIE.SetLocation(15, offset, 3, 1);
-        healthHeroUIE.SetText(SPAWN_QUEST_COMPONENT_COMPONENT.uniqueHealthHero.ToString());
+        healthHeroUIE.SetText(SPAWN_QUEST_COMPONENT_QUEST_COMPONENT_COMPONENT.uniqueHealthHero.ToString());
         healthHeroUIE.SetSingleLine();
         healthHeroUIE.SetButton(delegate { UpdateHealthHero(); });
         new UIElementBorder(healthHeroUIE);
@@ -140,16 +140,16 @@ public class EditorComponentSpawn : EditorComponentEvent
         new UIElementBorder(ui, Color.green);
 
         int i = 0;
-        for (i = 0; i < SPAWN_QUEST_COMPONENT_COMPONENT.mTypes.Length; i++)
+        for (i = 0; i < SPAWN_QUEST_COMPONENT_QUEST_COMPONENT_COMPONENT.mTypes.Length; i++)
         {
             int mSlot = i;
-            string mName = SPAWN_QUEST_COMPONENT_COMPONENT.mTypes[i];
+            string mName = SPAWN_QUEST_COMPONENT_QUEST_COMPONENT_COMPONENT.mTypes[i];
             if (mName.IndexOf("Monster") == 0)
             {
                 mName = mName.Substring("Monster".Length);
             }
 
-            if ((SPAWN_QUEST_COMPONENT_COMPONENT.mTypes.Length > 1) || (SPAWN_QUEST_COMPONENT_COMPONENT.mTraitsRequired.Length > 0) || (SPAWN_QUEST_COMPONENT_COMPONENT.mTraitsPool.Length > 0))
+            if ((SPAWN_QUEST_COMPONENT_QUEST_COMPONENT_COMPONENT.mTypes.Length > 1) || (SPAWN_QUEST_COMPONENT_QUEST_COMPONENT_COMPONENT.mTraitsRequired.Length > 0) || (SPAWN_QUEST_COMPONENT_QUEST_COMPONENT_COMPONENT.mTraitsPool.Length > 0))
             {
                 ui = new UIElement(Game.EDITOR, scrollArea.GetScrollTransform());
                 ui.SetLocation(0.5f, offset, 1, 1);
@@ -159,14 +159,14 @@ public class EditorComponentSpawn : EditorComponentEvent
             }
 
             ui = new UIElement(Game.EDITOR, scrollArea.GetScrollTransform());
-            if (game.quest.qd.components.ContainsKey(SPAWN_QUEST_COMPONENT_COMPONENT.mTypes[i]))
+            if (game.quest.qd.components.ContainsKey(SPAWN_QUEST_COMPONENT_QUEST_COMPONENT_COMPONENT.mTypes[i]))
             {
                 ui.SetLocation(1.5f, offset, 16, 1);
                 UIElement link = new UIElement(Game.EDITOR, scrollArea.GetScrollTransform());
                 link.SetLocation(17.5f, offset, 1, 1);
                 link.SetText("<b>⇨</b>", Color.cyan);
                 link.SetTextAlignment(TextAnchor.LowerCenter);
-                link.SetButton(delegate { QuestEditorData.SelectComponent(SPAWN_QUEST_COMPONENT_COMPONENT.mTypes[mSlot]); });
+                link.SetButton(delegate { QuestEditorData.SelectComponent(SPAWN_QUEST_COMPONENT_QUEST_COMPONENT_COMPONENT.mTypes[mSlot]); });
                 new UIElementBorder(link, Color.cyan);
             }
             else
@@ -196,12 +196,12 @@ public class EditorComponentSpawn : EditorComponentEvent
         ui.SetButton(delegate { MonsterTraitsAdd(); });
         new UIElementBorder(ui, Color.green);
 
-        for (i = 0; i < SPAWN_QUEST_COMPONENT_COMPONENT.mTraitsRequired.Length; i++)
+        for (i = 0; i < SPAWN_QUEST_COMPONENT_QUEST_COMPONENT_COMPONENT.mTraitsRequired.Length; i++)
         {
             int mSlot = i;
-            string mName = SPAWN_QUEST_COMPONENT_COMPONENT.mTraitsRequired[i];
+            string mName = SPAWN_QUEST_COMPONENT_QUEST_COMPONENT_COMPONENT.mTraitsRequired[i];
 
-            if ((SPAWN_QUEST_COMPONENT_COMPONENT.mTypes.Length > 0) || (SPAWN_QUEST_COMPONENT_COMPONENT.mTraitsRequired.Length > 1) || (SPAWN_QUEST_COMPONENT_COMPONENT.mTraitsPool.Length > 0))
+            if ((SPAWN_QUEST_COMPONENT_QUEST_COMPONENT_COMPONENT.mTypes.Length > 0) || (SPAWN_QUEST_COMPONENT_QUEST_COMPONENT_COMPONENT.mTraitsRequired.Length > 1) || (SPAWN_QUEST_COMPONENT_QUEST_COMPONENT_COMPONENT.mTraitsPool.Length > 0))
             {
                 ui = new UIElement(Game.EDITOR, scrollArea.GetScrollTransform());
                 ui.SetLocation(0.5f, offset, 1, 1);
@@ -227,12 +227,12 @@ public class EditorComponentSpawn : EditorComponentEvent
         ui.SetButton(delegate { MonsterTraitsAdd(true); });
         new UIElementBorder(ui, Color.green);
 
-        for (int j = 0; j < SPAWN_QUEST_COMPONENT_COMPONENT.mTraitsPool.Length; j++)
+        for (int j = 0; j < SPAWN_QUEST_COMPONENT_QUEST_COMPONENT_COMPONENT.mTraitsPool.Length; j++)
         {
             int mSlot = j;
-            string mName = SPAWN_QUEST_COMPONENT_COMPONENT.mTraitsPool[j];
+            string mName = SPAWN_QUEST_COMPONENT_QUEST_COMPONENT_COMPONENT.mTraitsPool[j];
 
-            if ((SPAWN_QUEST_COMPONENT_COMPONENT.mTypes.Length > 0) || (SPAWN_QUEST_COMPONENT_COMPONENT.mTraitsRequired.Length > 0) || (SPAWN_QUEST_COMPONENT_COMPONENT.mTraitsPool.Length > 1))
+            if ((SPAWN_QUEST_COMPONENT_QUEST_COMPONENT_COMPONENT.mTypes.Length > 0) || (SPAWN_QUEST_COMPONENT_QUEST_COMPONENT_COMPONENT.mTraitsRequired.Length > 0) || (SPAWN_QUEST_COMPONENT_QUEST_COMPONENT_COMPONENT.mTraitsPool.Length > 1))
             {
                 ui = new UIElement(Game.EDITOR, scrollArea.GetScrollTransform());
                 ui.SetLocation(10.5f, traitOffset, 1, 1);
@@ -274,10 +274,10 @@ public class EditorComponentSpawn : EditorComponentEvent
             ui.SetButton(delegate { MonsterPlaceAdd(h); });
             new UIElementBorder(ui, Color.green);
 
-            for (int i = 0; i < SPAWN_QUEST_COMPONENT_COMPONENT.placement[heroes].Length; i++)
+            for (int i = 0; i < SPAWN_QUEST_COMPONENT_QUEST_COMPONENT_COMPONENT.placement[heroes].Length; i++)
             {
                 int mSlot = i;
-                string place = SPAWN_QUEST_COMPONENT_COMPONENT.placement[heroes][i];
+                string place = SPAWN_QUEST_COMPONENT_QUEST_COMPONENT_COMPONENT.placement[heroes][i];
 
                 ui = new UIElement(Game.EDITOR, scrollArea.GetScrollTransform());
                 ui.SetLocation(0.5f, offset, 1, 1);
@@ -306,35 +306,35 @@ public class EditorComponentSpawn : EditorComponentEvent
 
     override public void PositionTypeCycle()
     {
-        SPAWN_QUEST_COMPONENT_COMPONENT.locationSpecified = !SPAWN_QUEST_COMPONENT_COMPONENT.locationSpecified;
+        SPAWN_QUEST_COMPONENT_QUEST_COMPONENT_COMPONENT.locationSpecified = !SPAWN_QUEST_COMPONENT_QUEST_COMPONENT_COMPONENT.locationSpecified;
         Update();
     }
 
     public void UniqueToggle()
     {
-        SPAWN_QUEST_COMPONENT_COMPONENT.unique = !SPAWN_QUEST_COMPONENT_COMPONENT.unique;
-        if (!SPAWN_QUEST_COMPONENT_COMPONENT.unique)
+        SPAWN_QUEST_COMPONENT_QUEST_COMPONENT_COMPONENT.unique = !SPAWN_QUEST_COMPONENT_QUEST_COMPONENT_COMPONENT.unique;
+        if (!SPAWN_QUEST_COMPONENT_QUEST_COMPONENT_COMPONENT.unique)
         {
-            LocalizationRead.dicts["qst"].Remove(SPAWN_QUEST_COMPONENT_COMPONENT.uniquetitle_key);
-            LocalizationRead.dicts["qst"].Remove(SPAWN_QUEST_COMPONENT_COMPONENT.uniquetext_key);
+            LocalizationRead.dicts["qst"].Remove(SPAWN_QUEST_COMPONENT_QUEST_COMPONENT_COMPONENT.uniquetitle_key);
+            LocalizationRead.dicts["qst"].Remove(SPAWN_QUEST_COMPONENT_QUEST_COMPONENT_COMPONENT.uniquetext_key);
         }
         else
         {
-            LocalizationRead.updateScenarioText(SPAWN_QUEST_COMPONENT_COMPONENT.uniquetitle_key, SPAWN_QUEST_COMPONENT_COMPONENT.sectionName);
-            LocalizationRead.updateScenarioText(SPAWN_QUEST_COMPONENT_COMPONENT.uniquetext_key, "-");
+            LocalizationRead.updateScenarioText(SPAWN_QUEST_COMPONENT_QUEST_COMPONENT_COMPONENT.uniquetitle_key, SPAWN_QUEST_COMPONENT_QUEST_COMPONENT_COMPONENT.sectionName);
+            LocalizationRead.updateScenarioText(SPAWN_QUEST_COMPONENT_QUEST_COMPONENT_COMPONENT.uniquetext_key, "-");
         }
         Update();
     }
 
     public void UpdateHealth()
     {
-        float.TryParse(healthUIE.GetText(), out SPAWN_QUEST_COMPONENT_COMPONENT.uniqueHealthBase);
+        float.TryParse(healthUIE.GetText(), out SPAWN_QUEST_COMPONENT_QUEST_COMPONENT_COMPONENT.uniqueHealthBase);
         Update();
     }
 
     public void UpdateHealthHero()
     {
-        float.TryParse(healthHeroUIE.GetText(), out SPAWN_QUEST_COMPONENT_COMPONENT.uniqueHealthHero);
+        float.TryParse(healthHeroUIE.GetText(), out SPAWN_QUEST_COMPONENT_QUEST_COMPONENT_COMPONENT.uniqueHealthHero);
         Update();
     }
 
@@ -342,7 +342,7 @@ public class EditorComponentSpawn : EditorComponentEvent
     {
         if (!uniqueTitleUIE.Empty() && uniqueTitleUIE.Changed())
         {
-            LocalizationRead.updateScenarioText(SPAWN_QUEST_COMPONENT_COMPONENT.uniquetitle_key, uniqueTitleUIE.GetText());
+            LocalizationRead.updateScenarioText(SPAWN_QUEST_COMPONENT_QUEST_COMPONENT_COMPONENT.uniquetitle_key, uniqueTitleUIE.GetText());
         }
     }
 
@@ -350,7 +350,7 @@ public class EditorComponentSpawn : EditorComponentEvent
     {
         if (!uniqueTextUIE.Empty() && uniqueTextUIE.Changed())
         {
-            LocalizationRead.updateScenarioText(SPAWN_QUEST_COMPONENT_COMPONENT.uniquetext_key, uniqueTextUIE.GetText());
+            LocalizationRead.updateScenarioText(SPAWN_QUEST_COMPONENT_QUEST_COMPONENT_COMPONENT.uniquetext_key, uniqueTextUIE.GetText());
             if (!uniqueTextUIE.HeightAtTextPadding(1))
             {
                 Update();
@@ -369,11 +369,11 @@ public class EditorComponentSpawn : EditorComponentEvent
 
         foreach (KeyValuePair<string, QuestComponent> kv in game.quest.qd.components)
         {
-            if (kv.Value is CustomMonster)
+            if (kv.Value is CustomMonsterQuestComponent)
             {
                 select.AddItem(kv.Value);
             }
-            if (kv.Value is Spawn)
+            if (kv.Value is SpawnQuestComponent)
             {
                 select.AddItem(kv.Value);
             }
@@ -398,11 +398,11 @@ public class EditorComponentSpawn : EditorComponentEvent
 
         foreach (KeyValuePair<string, QuestComponent> kv in game.quest.qd.components)
         {
-            if (kv.Value is CustomMonster)
+            if (kv.Value is CustomMonsterQuestComponent)
             {
                 select.AddItem(kv.Value);
             }
-            if (kv.Value is Spawn)
+            if (kv.Value is SpawnQuestComponent)
             {
                 select.AddItem(kv.Value);
             }
@@ -420,11 +420,11 @@ public class EditorComponentSpawn : EditorComponentEvent
     {
         if (replace)
         {
-            SPAWN_QUEST_COMPONENT_COMPONENT.mTypes[pos] = type.Split(" ".ToCharArray())[0];
+            SPAWN_QUEST_COMPONENT_QUEST_COMPONENT_COMPONENT.mTypes[pos] = type.Split(" ".ToCharArray())[0];
         }
         else
         {
-            string[] newM = new string[SPAWN_QUEST_COMPONENT_COMPONENT.mTypes.Length + 1];
+            string[] newM = new string[SPAWN_QUEST_COMPONENT_QUEST_COMPONENT_COMPONENT.mTypes.Length + 1];
 
             int j = 0;
             for (int i = 0; i < newM.Length; i++)
@@ -435,34 +435,34 @@ public class EditorComponentSpawn : EditorComponentEvent
                 }
                 else
                 {
-                    newM[i] = SPAWN_QUEST_COMPONENT_COMPONENT.mTypes[j];
+                    newM[i] = SPAWN_QUEST_COMPONENT_QUEST_COMPONENT_COMPONENT.mTypes[j];
                     j++;
                 }
             }
-            SPAWN_QUEST_COMPONENT_COMPONENT.mTypes = newM;
+            SPAWN_QUEST_COMPONENT_QUEST_COMPONENT_COMPONENT.mTypes = newM;
         }
         Update();
     }
 
     public void MonsterTypeRemove(int pos)
     {
-        if ((SPAWN_QUEST_COMPONENT_COMPONENT.mTypes.Length == 1) && (SPAWN_QUEST_COMPONENT_COMPONENT.mTraitsRequired.Length == 0) && (SPAWN_QUEST_COMPONENT_COMPONENT.mTraitsPool.Length == 0))
+        if ((SPAWN_QUEST_COMPONENT_QUEST_COMPONENT_COMPONENT.mTypes.Length == 1) && (SPAWN_QUEST_COMPONENT_QUEST_COMPONENT_COMPONENT.mTraitsRequired.Length == 0) && (SPAWN_QUEST_COMPONENT_QUEST_COMPONENT_COMPONENT.mTraitsPool.Length == 0))
         {
             return;
         }
 
-        string[] newM = new string[SPAWN_QUEST_COMPONENT_COMPONENT.mTypes.Length - 1];
+        string[] newM = new string[SPAWN_QUEST_COMPONENT_QUEST_COMPONENT_COMPONENT.mTypes.Length - 1];
 
         int j = 0;
-        for (int i = 0; i < SPAWN_QUEST_COMPONENT_COMPONENT.mTypes.Length; i++)
+        for (int i = 0; i < SPAWN_QUEST_COMPONENT_QUEST_COMPONENT_COMPONENT.mTypes.Length; i++)
         {
             if (i != pos || i != j)
             {
-                newM[j] = SPAWN_QUEST_COMPONENT_COMPONENT.mTypes[i];
+                newM[j] = SPAWN_QUEST_COMPONENT_QUEST_COMPONENT_COMPONENT.mTypes[i];
                 j++;
             }
         }
-        SPAWN_QUEST_COMPONENT_COMPONENT.mTypes = newM;
+        SPAWN_QUEST_COMPONENT_QUEST_COMPONENT_COMPONENT.mTypes = newM;
         Update();
     }
 
@@ -495,11 +495,11 @@ public class EditorComponentSpawn : EditorComponentEvent
     {
         if (pool)
         {
-            SPAWN_QUEST_COMPONENT_COMPONENT.mTraitsPool[pos] = trait;
+            SPAWN_QUEST_COMPONENT_QUEST_COMPONENT_COMPONENT.mTraitsPool[pos] = trait;
         }
         else
         {
-            SPAWN_QUEST_COMPONENT_COMPONENT.mTraitsRequired[pos] = trait;
+            SPAWN_QUEST_COMPONENT_QUEST_COMPONENT_COMPONENT.mTraitsRequired[pos] = trait;
         }
         Update();
     }
@@ -533,68 +533,68 @@ public class EditorComponentSpawn : EditorComponentEvent
     {
         if (pool)
         {
-            string[] newM = new string[SPAWN_QUEST_COMPONENT_COMPONENT.mTraitsPool.Length + 1];
+            string[] newM = new string[SPAWN_QUEST_COMPONENT_QUEST_COMPONENT_COMPONENT.mTraitsPool.Length + 1];
 
             int i;
-            for (i = 0; i < SPAWN_QUEST_COMPONENT_COMPONENT.mTraitsPool.Length; i++)
+            for (i = 0; i < SPAWN_QUEST_COMPONENT_QUEST_COMPONENT_COMPONENT.mTraitsPool.Length; i++)
             {
-                newM[i] = SPAWN_QUEST_COMPONENT_COMPONENT.mTraitsPool[i];
+                newM[i] = SPAWN_QUEST_COMPONENT_QUEST_COMPONENT_COMPONENT.mTraitsPool[i];
             }
 
             newM[i] = trait;
-            SPAWN_QUEST_COMPONENT_COMPONENT.mTraitsPool = newM;
+            SPAWN_QUEST_COMPONENT_QUEST_COMPONENT_COMPONENT.mTraitsPool = newM;
         }
         else
         {
-            string[] newM = new string[SPAWN_QUEST_COMPONENT_COMPONENT.mTraitsRequired.Length + 1];
+            string[] newM = new string[SPAWN_QUEST_COMPONENT_QUEST_COMPONENT_COMPONENT.mTraitsRequired.Length + 1];
 
             int i;
-            for (i = 0; i < SPAWN_QUEST_COMPONENT_COMPONENT.mTraitsRequired.Length; i++)
+            for (i = 0; i < SPAWN_QUEST_COMPONENT_QUEST_COMPONENT_COMPONENT.mTraitsRequired.Length; i++)
             {
-                newM[i] = SPAWN_QUEST_COMPONENT_COMPONENT.mTraitsRequired[i];
+                newM[i] = SPAWN_QUEST_COMPONENT_QUEST_COMPONENT_COMPONENT.mTraitsRequired[i];
             }
 
             newM[i] = trait;
-            SPAWN_QUEST_COMPONENT_COMPONENT.mTraitsRequired = newM;
+            SPAWN_QUEST_COMPONENT_QUEST_COMPONENT_COMPONENT.mTraitsRequired = newM;
         }
         Update();
     }
 
     public void MonsterTraitsRemove(int pos, bool pool = false)
     {
-        if ((SPAWN_QUEST_COMPONENT_COMPONENT.mTypes.Length + SPAWN_QUEST_COMPONENT_COMPONENT.mTraitsPool.Length + SPAWN_QUEST_COMPONENT_COMPONENT.mTraitsRequired.Length) <= 1)
+        if ((SPAWN_QUEST_COMPONENT_QUEST_COMPONENT_COMPONENT.mTypes.Length + SPAWN_QUEST_COMPONENT_QUEST_COMPONENT_COMPONENT.mTraitsPool.Length + SPAWN_QUEST_COMPONENT_QUEST_COMPONENT_COMPONENT.mTraitsRequired.Length) <= 1)
         {
             return;
         }
         if (pool)
         {
-            string[] newM = new string[SPAWN_QUEST_COMPONENT_COMPONENT.mTraitsPool.Length - 1];
+            string[] newM = new string[SPAWN_QUEST_COMPONENT_QUEST_COMPONENT_COMPONENT.mTraitsPool.Length - 1];
 
             int j = 0;
-            for (int i = 0; i < SPAWN_QUEST_COMPONENT_COMPONENT.mTraitsPool.Length; i++)
+            for (int i = 0; i < SPAWN_QUEST_COMPONENT_QUEST_COMPONENT_COMPONENT.mTraitsPool.Length; i++)
             {
                 if (i != pos || i != j)
                 {
-                    newM[j] = SPAWN_QUEST_COMPONENT_COMPONENT.mTraitsPool[i];
+                    newM[j] = SPAWN_QUEST_COMPONENT_QUEST_COMPONENT_COMPONENT.mTraitsPool[i];
                     j++;
                 }
             }
-            SPAWN_QUEST_COMPONENT_COMPONENT.mTraitsPool = newM;
+            SPAWN_QUEST_COMPONENT_QUEST_COMPONENT_COMPONENT.mTraitsPool = newM;
         }
         else
         {
-            string[] newM = new string[SPAWN_QUEST_COMPONENT_COMPONENT.mTraitsRequired.Length - 1];
+            string[] newM = new string[SPAWN_QUEST_COMPONENT_QUEST_COMPONENT_COMPONENT.mTraitsRequired.Length - 1];
 
             int j = 0;
-            for (int i = 0; i < SPAWN_QUEST_COMPONENT_COMPONENT.mTraitsRequired.Length; i++)
+            for (int i = 0; i < SPAWN_QUEST_COMPONENT_QUEST_COMPONENT_COMPONENT.mTraitsRequired.Length; i++)
             {
                 if (i != pos || i != j)
                 {
-                    newM[j] = SPAWN_QUEST_COMPONENT_COMPONENT.mTraitsRequired[i];
+                    newM[j] = SPAWN_QUEST_COMPONENT_QUEST_COMPONENT_COMPONENT.mTraitsRequired[i];
                     j++;
                 }
             }
-            SPAWN_QUEST_COMPONENT_COMPONENT.mTraitsRequired = newM;
+            SPAWN_QUEST_COMPONENT_QUEST_COMPONENT_COMPONENT.mTraitsRequired = newM;
         }
         Update();
     }
@@ -612,7 +612,7 @@ public class EditorComponentSpawn : EditorComponentEvent
 
         foreach (KeyValuePair<string, QuestComponent> kv in game.quest.qd.components)
         {
-            if (kv.Value is MPlace)
+            if (kv.Value is MPlaceQuestComponent)
             {
                 select.AddItem(kv.Value);
             }
@@ -631,43 +631,43 @@ public class EditorComponentSpawn : EditorComponentEvent
             {
                 index++;
             }
-            game.quest.qd.components.Add("MPlace" + index, new MPlace("MPlace" + index));
+            game.quest.qd.components.Add("MPlace" + index, new MPlaceQuestComponent("MPlace" + index));
             name = "MPlace" + index;
         }
 
         if (slot == -1)
         {
-            string[] newM = new string[SPAWN_QUEST_COMPONENT_COMPONENT.placement[heroes].Length + 1];
+            string[] newM = new string[SPAWN_QUEST_COMPONENT_QUEST_COMPONENT_COMPONENT.placement[heroes].Length + 1];
             int i;
-            for (i = 0; i < SPAWN_QUEST_COMPONENT_COMPONENT.placement[heroes].Length; i++)
+            for (i = 0; i < SPAWN_QUEST_COMPONENT_QUEST_COMPONENT_COMPONENT.placement[heroes].Length; i++)
             {
-                newM[i] = SPAWN_QUEST_COMPONENT_COMPONENT.placement[heroes][i];
+                newM[i] = SPAWN_QUEST_COMPONENT_QUEST_COMPONENT_COMPONENT.placement[heroes][i];
             }
 
             newM[i] = name;
-            SPAWN_QUEST_COMPONENT_COMPONENT.placement[heroes] = newM;
+            SPAWN_QUEST_COMPONENT_QUEST_COMPONENT_COMPONENT.placement[heroes] = newM;
         }
         else
         {
-            SPAWN_QUEST_COMPONENT_COMPONENT.placement[heroes][slot] = name;
+            SPAWN_QUEST_COMPONENT_QUEST_COMPONENT_COMPONENT.placement[heroes][slot] = name;
         }
         Update();
     }
 
     public void MonsterPlaceRemove(int heroes, int pos)
     {
-        string[] newM = new string[SPAWN_QUEST_COMPONENT_COMPONENT.placement[heroes].Length - 1];
+        string[] newM = new string[SPAWN_QUEST_COMPONENT_QUEST_COMPONENT_COMPONENT.placement[heroes].Length - 1];
 
         int j = 0;
-        for (int i = 0; i < SPAWN_QUEST_COMPONENT_COMPONENT.placement[heroes].Length; i++)
+        for (int i = 0; i < SPAWN_QUEST_COMPONENT_QUEST_COMPONENT_COMPONENT.placement[heroes].Length; i++)
         {
             if (i != pos || i != j)
             {
-                newM[j] = SPAWN_QUEST_COMPONENT_COMPONENT.placement[heroes][i];
+                newM[j] = SPAWN_QUEST_COMPONENT_QUEST_COMPONENT_COMPONENT.placement[heroes][i];
                 j++;
             }
         }
-        SPAWN_QUEST_COMPONENT_COMPONENT.placement[heroes] = newM;
+        SPAWN_QUEST_COMPONENT_QUEST_COMPONENT_COMPONENT.placement[heroes] = newM;
         Update();
     }
 }

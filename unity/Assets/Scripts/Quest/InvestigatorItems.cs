@@ -27,18 +27,18 @@ public class InvestigatorItems
 
         foreach (KeyValuePair<string, QuestComponent> kv in game.quest.qd.components)
         {
-            QItem item = kv.Value as QItem;
-            if (item != null && item.starting && game.quest.itemSelect.ContainsKey(kv.Key)
-                && item.tests != null && game.quest.vars.Test(item.tests))
+            QItemQuestComponent itemQuestComponent = kv.Value as QItemQuestComponent;
+            if (itemQuestComponent != null && itemQuestComponent.starting && game.quest.itemSelect.ContainsKey(kv.Key)
+                && itemQuestComponent.tests != null && game.quest.vars.Test(itemQuestComponent.tests))
             {
                 game.quest.items.Add(game.quest.itemSelect[kv.Key]);
-                if (item.inspect.Length > 0)
+                if (itemQuestComponent.inspect.Length > 0)
                 {
                     if (game.quest.itemInspect.ContainsKey(game.quest.itemSelect[kv.Key]))
                     {
                         game.quest.itemInspect.Remove(game.quest.itemSelect[kv.Key]);
                     }
-                    game.quest.itemInspect.Add(game.quest.itemSelect[kv.Key], item.inspect);
+                    game.quest.itemInspect.Add(game.quest.itemSelect[kv.Key], itemQuestComponent.inspect);
                 }
             }
         }

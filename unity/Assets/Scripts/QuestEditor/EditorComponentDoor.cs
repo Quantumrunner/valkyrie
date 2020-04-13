@@ -7,7 +7,7 @@ public class EditorComponentDoor : EditorComponentEvent
 {
     private readonly StringKey COLOR = new StringKey("val", "COLOR");
 
-    Door DOOR_QUEST_COMPONENT_COMPONENT;
+    DoorQuestComponent DOOR_QUEST_COMPONENT_QUEST_COMPONENT_COMPONENT;
     // List to select door colour
 
     public EditorComponentDoor(string nameIn) : base(nameIn)
@@ -31,7 +31,7 @@ public class EditorComponentDoor : EditorComponentEvent
 
     override public float AddSubEventComponents(float offset)
     {
-        DOOR_QUEST_COMPONENT_COMPONENT = component as Door;
+        DOOR_QUEST_COMPONENT_QUEST_COMPONENT_COMPONENT = component as DoorQuestComponent;
 
         UIElement ui = new UIElement(Game.EDITOR, scrollArea.GetScrollTransform());
         ui.SetLocation(0, offset, 6, 1);
@@ -39,7 +39,7 @@ public class EditorComponentDoor : EditorComponentEvent
 
         ui = new UIElement(Game.EDITOR, scrollArea.GetScrollTransform());
         ui.SetLocation(6, offset, 3, 1);
-        ui.SetText(DOOR_QUEST_COMPONENT_COMPONENT.rotation.ToString() + "˚");
+        ui.SetText(DOOR_QUEST_COMPONENT_QUEST_COMPONENT_COMPONENT.rotation.ToString() + "˚");
         ui.SetButton(delegate { Rotate(); });
         new UIElementBorder(ui);
         offset += 2;
@@ -51,7 +51,7 @@ public class EditorComponentDoor : EditorComponentEvent
         new UIElementBorder(ui);
         offset += 2;
 
-        game.quest.ChangeAlpha(DOOR_QUEST_COMPONENT_COMPONENT.sectionName, 1f);
+        game.quest.ChangeAlpha(DOOR_QUEST_COMPONENT_QUEST_COMPONENT_COMPONENT.sectionName, 1f);
 
         return offset;
     }
@@ -63,16 +63,16 @@ public class EditorComponentDoor : EditorComponentEvent
 
     public void Rotate()
     {
-        if (DOOR_QUEST_COMPONENT_COMPONENT.rotation == 0)
+        if (DOOR_QUEST_COMPONENT_QUEST_COMPONENT_COMPONENT.rotation == 0)
         {
-            DOOR_QUEST_COMPONENT_COMPONENT.rotation = 90;
+            DOOR_QUEST_COMPONENT_QUEST_COMPONENT_COMPONENT.rotation = 90;
         }
         else
         {
-            DOOR_QUEST_COMPONENT_COMPONENT.rotation = 0;
+            DOOR_QUEST_COMPONENT_QUEST_COMPONENT_COMPONENT.rotation = 0;
         }
-        Game.Get().quest.Remove(DOOR_QUEST_COMPONENT_COMPONENT.sectionName);
-        Game.Get().quest.Add(DOOR_QUEST_COMPONENT_COMPONENT.sectionName);
+        Game.Get().quest.Remove(DOOR_QUEST_COMPONENT_QUEST_COMPONENT_COMPONENT.sectionName);
+        Game.Get().quest.Add(DOOR_QUEST_COMPONENT_QUEST_COMPONENT_COMPONENT.sectionName);
         Update();
     }
 
@@ -95,9 +95,9 @@ public class EditorComponentDoor : EditorComponentEvent
 
     public void SelectColour(string color)
     {
-        DOOR_QUEST_COMPONENT_COMPONENT.colourName = color;
-        Game.Get().quest.Remove(DOOR_QUEST_COMPONENT_COMPONENT.sectionName);
-        Game.Get().quest.Add(DOOR_QUEST_COMPONENT_COMPONENT.sectionName);
+        DOOR_QUEST_COMPONENT_QUEST_COMPONENT_COMPONENT.colourName = color;
+        Game.Get().quest.Remove(DOOR_QUEST_COMPONENT_QUEST_COMPONENT_COMPONENT.sectionName);
+        Game.Get().quest.Add(DOOR_QUEST_COMPONENT_QUEST_COMPONENT_COMPONENT.sectionName);
         Update();
     }
 

@@ -4,7 +4,6 @@ using Assets.Scripts.Content;
 using Assets.Scripts.UI;
 using System.IO;
 using Assets.Scripts.Content.QuestComponent;
-using Event = Assets.Scripts.Content.QuestComponent.Event;
 
 // Super class for all editor selectable components
 // Handles Ui and editing
@@ -448,7 +447,7 @@ public class EditorComponent {
         {
             // Get a rounded location
             component.location = game.cc.GetMouseBoardRounded(game.gameType.SelectionRound());
-            if (component is Tile)
+            if (component is TileQuestComponent)
             {
                 // Tiles have special rounding
                 component.location = game.cc.GetMouseBoardRounded(game.gameType.TileRound());
@@ -629,9 +628,9 @@ public class EditorComponent {
         Game game = Game.Get();
         foreach (KeyValuePair<string, QuestComponent> kv in game.quest.qd.components)
         {
-            if (kv.Value is Event)
+            if (kv.Value is EventQuestComponent)
             {
-                Event e = kv.Value as Event;
+                EventQuestComponent e = kv.Value as EventQuestComponent;
                 foreach (string s in ExtractVarsFromEvent(e))
                 {
                     if (s[0] != '$')
@@ -668,7 +667,7 @@ public class EditorComponent {
         }
     }
 
-    public static HashSet<string> ExtractVarsFromEvent(Event e)
+    public static HashSet<string> ExtractVarsFromEvent(EventQuestComponent e)
     {
         HashSet<string> vars = new HashSet<string>();
         foreach (VarOperation op in e.operations)
