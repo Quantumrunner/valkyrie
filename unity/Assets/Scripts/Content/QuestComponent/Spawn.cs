@@ -2,10 +2,10 @@
 
 namespace Assets.Scripts.Content.QuestComponent
 {
-    // SpawnQuestComponent items are monster group placement events
-    public class SpawnQuestComponent : EventQuestComponent
+    // Spawn items are monster group placement events
+    public class Spawn : Event
     {
-        new public static string type = "SpawnQuestComponent";
+        new public static string type = "Spawn";
         // Array of placements by hero count
         public string[][] placement;
         public bool unique = false;
@@ -22,7 +22,7 @@ namespace Assets.Scripts.Content.QuestComponent
         public StringKey uniqueText { get { return genQuery("uniquetext"); } }
 
         // Create new with name (used by editor)
-        public SpawnQuestComponent(string s) : base(s)
+        public Spawn(string s) : base(s)
         {
             source = "spawns.ini";
             // Location defaults to specified
@@ -48,7 +48,7 @@ namespace Assets.Scripts.Content.QuestComponent
         }
 
         // Create from ini data
-        public SpawnQuestComponent(string name, Dictionary<string, string> data, Game game, string path) : base(name, data, path, Quest.currentFormat)
+        public Spawn(string name, Dictionary<string, string> data, Game game, string path) : base(name, data, path, Quest.currentFormat)
         {
             typeDynamic = type;
             // First try to a list of specific types

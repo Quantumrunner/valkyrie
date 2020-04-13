@@ -3,15 +3,16 @@ using System.Collections.Generic;
 using Assets.Scripts.Content;
 using Assets.Scripts.Content.QuestComponent;
 using Assets.Scripts.UI;
+using Event = Assets.Scripts.Content.QuestComponent.Event;
 
 public class EditorComponentItem : EditorComponent
 {
-    QItemQuestComponent ITEM_QUEST_COMPONENT_COMPONENT;
+    QItem ITEM_QUEST_COMPONENT_COMPONENT;
 
     public EditorComponentItem(string nameIn) : base()
     {
         Game game = Game.Get();
-        ITEM_QUEST_COMPONENT_COMPONENT = game.quest.qd.components[nameIn] as QItemQuestComponent;
+        ITEM_QUEST_COMPONENT_COMPONENT = game.quest.qd.components[nameIn] as QItem;
         component = ITEM_QUEST_COMPONENT_COMPONENT;
         name = component.sectionName;
         Update();
@@ -20,7 +21,7 @@ public class EditorComponentItem : EditorComponent
     override protected void RefreshReference()
     {
         base.RefreshReference();
-        ITEM_QUEST_COMPONENT_COMPONENT = component as QItemQuestComponent;
+        ITEM_QUEST_COMPONENT_COMPONENT = component as QItem;
     }
 
     override public float AddSubComponents(float offset)
@@ -213,7 +214,7 @@ public class EditorComponentItem : EditorComponent
         HashSet<string> usedItems = new HashSet<string>();
         foreach (KeyValuePair<string, QuestComponent> kv in game.quest.qd.components)
         {
-            QItemQuestComponent i = kv.Value as QItemQuestComponent;
+            QItem i = kv.Value as QItem;
             if (i != null)
             {
                 select.AddItem(i.sectionName, traits);
@@ -370,11 +371,11 @@ public class EditorComponentItem : EditorComponent
         UIWindowSelectionListTraits select = new UIWindowSelectionListTraits(SelectInspectEvent, new StringKey("val", "SELECT", CommonStringKeys.SELECT_ITEM));
 
         select.AddItem("{NONE}", "");
-        select.AddNewComponentItem("EventQuestComponent");
+        select.AddNewComponentItem("Event");
 
         foreach (KeyValuePair<string, QuestComponent> kv in game.quest.qd.components)
         {
-            if(kv.Value.typeDynamic.Equals("EventQuestComponent"))
+            if(kv.Value.typeDynamic.Equals("Event"))
             {
                 select.AddItem(kv.Value);
             }
@@ -385,15 +386,15 @@ public class EditorComponentItem : EditorComponent
     public void SelectInspectEvent(string eventName)
     {
         string toAdd = eventName;
-        if (eventName.Equals("{NEW:EventQuestComponent}"))
+        if (eventName.Equals("{NEW:Event}"))
         {
             int i = 0;
-            while (game.quest.qd.components.ContainsKey("EventQuestComponent" + i))
+            while (game.quest.qd.components.ContainsKey("Event" + i))
             {
                 i++;
             }
-            toAdd = "EventQuestComponent" + i;
-            Game.Get().quest.qd.components.Add(toAdd, new EventQuestComponent(toAdd));
+            toAdd = "Event" + i;
+            Game.Get().quest.qd.components.Add(toAdd, new Event(toAdd));
         }
 
         ITEM_QUEST_COMPONENT_COMPONENT.inspect = toAdd;

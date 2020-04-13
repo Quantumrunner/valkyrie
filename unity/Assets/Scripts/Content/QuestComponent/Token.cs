@@ -2,15 +2,15 @@
 
 namespace Assets.Scripts.Content.QuestComponent
 {
-    // Tokens are events that are tied to a tokenQuestComponent placed on the board
-    public class TokenQuestComponent : EventQuestComponent
+    // Tokens are events that are tied to a token placed on the board
+    public class Token : Event
     {
-        new public static string type = "TokenQuestComponent";
+        new public static string type = "Token";
         public int rotation = 0;
         public string tokenName;
 
         // Create new with name (used by editor)
-        public TokenQuestComponent(string s) : base(s)
+        public Token(string s) : base(s)
         {
             source = "tokens.ini";
             locationSpecified = true;
@@ -20,7 +20,7 @@ namespace Assets.Scripts.Content.QuestComponent
         }
 
         // Create from ini data
-        public TokenQuestComponent(string name, Dictionary<string, string> data, Game game, string path) : base(name, data, path, Quest.currentFormat)
+        public Token(string name, Dictionary<string, string> data, Game game, string path) : base(name, data, path, Quest.currentFormat)
         {
             locationSpecified = true;
             typeDynamic = type;

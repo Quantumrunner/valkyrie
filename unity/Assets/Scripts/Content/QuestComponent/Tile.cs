@@ -4,15 +4,15 @@ using ValkyrieTools;
 
 namespace Assets.Scripts.Content.QuestComponent
 {
-    // Class for TileQuestComponent components (use TileSide content data)
-    public class TileQuestComponent : QuestComponent
+    // Class for Tile components (use TileSide content data)
+    public class Tile : QuestComponent
     {
-        new public static string type = "TileQuestComponent";
+        new public static string type = "Tile";
         public int rotation = 0;
         public string tileSideName;
 
         // Create new with name (used by editor)
-        public TileQuestComponent(string s) : base(s)
+        public Tile(string s) : base(s)
         {
             locationSpecified = true;
             typeDynamic = type;
@@ -25,8 +25,8 @@ namespace Assets.Scripts.Content.QuestComponent
             }
         }
 
-        // Create tileQuestComponent from ini data
-        public TileQuestComponent(string name, Dictionary<string, string> data, string path) : base(name, data, path)
+        // Create tile from ini data
+        public Tile(string name, Dictionary<string, string> data, string path) : base(name, data, path)
         {
             // Tiles must have a location
             locationSpecified = true;

@@ -10,10 +10,10 @@ public class HorrorCheck {
         Game game = Game.Get();
 
         QuestMonster qm = m.monsterData as QuestMonster;
-        if (qm != null && game.quest.qd.components.ContainsKey(qm.CMonsterQuestComponent.horrorEvent))
+        if (qm != null && game.quest.qd.components.ContainsKey(qm.CMonster.horrorEvent))
         {
             game.quest.eManager.monsterImage = m;
-            game.quest.eManager.QueueEvent(qm.CMonsterQuestComponent.horrorEvent);
+            game.quest.eManager.QueueEvent(qm.CMonster.horrorEvent);
         }
         else
         {

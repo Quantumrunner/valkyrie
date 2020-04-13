@@ -8,14 +8,14 @@ using UnityEngine;
 public class QuestMonster : MonsterData
 {
     public bool useMonsterTypeActivations = false;
-    public CustomMonsterQuestComponent CMonsterQuestComponent;
+    public CustomMonster CMonster;
     public string derivedType = "";
 
     // Construct with Quest data
-    public QuestMonster(CustomMonsterQuestComponent qm) : base()
+    public QuestMonster(CustomMonster qm) : base()
     {
         Game game = Game.Get();
-        CMonsterQuestComponent = qm;
+        CMonster = qm;
 
         // Get base derived monster type
         MonsterData baseObject = null;
@@ -118,12 +118,12 @@ public class QuestMonster : MonsterData
 
     override public StringKey GetRandomAttack(string type)
     {
-        if (!CMonsterQuestComponent.investigatorAttacks.ContainsKey(type))
+        if (!CMonster.investigatorAttacks.ContainsKey(type))
         {
             return base.GetRandomAttack(type);
         }
 
-        List<StringKey> attackOptions = CMonsterQuestComponent.investigatorAttacks[type];
+        List<StringKey> attackOptions = CMonster.investigatorAttacks[type];
         return attackOptions[Random.Range(0, attackOptions.Count)];
     }
 }
@@ -131,7 +131,7 @@ public class QuestMonster : MonsterData
 // Class for Quest defined activations
 public class QuestActivation : ActivationData
 {
-    public QuestActivation(ActivationQuestComponent qa) : base()
+    public QuestActivation(Activation qa) : base()
     {
         // Read data from activation
         ability = qa.ability;

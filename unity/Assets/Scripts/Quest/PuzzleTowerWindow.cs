@@ -7,7 +7,7 @@ using Assets.Scripts.Content.QuestComponent;
 public class PuzzleTowerWindow : IUpdateListener
 {
     public EventManager.Event eventData;
-    PuzzleQuestComponent QUEST_PUZZLE_QUEST_COMPONENT;
+    Assets.Scripts.Content.QuestComponent.Puzzle QUEST_PUZZLE_QUEST_COMPONENT;
     public PuzzleTower puzzle;
     public int lastMoves = 0;
     protected bool windowClosed = false;
@@ -22,7 +22,7 @@ public class PuzzleTowerWindow : IUpdateListener
         Game game = Game.Get();
 
         game.AddUpdateListener(this as IUpdateListener);
-        QUEST_PUZZLE_QUEST_COMPONENT = e.QEventQuestComponent as PuzzleQuestComponent;
+        QUEST_PUZZLE_QUEST_COMPONENT = e.QEvent as Assets.Scripts.Content.QuestComponent.Puzzle;
 
         if (game.quest.puzzle.ContainsKey(QUEST_PUZZLE_QUEST_COMPONENT.sectionName))
         {

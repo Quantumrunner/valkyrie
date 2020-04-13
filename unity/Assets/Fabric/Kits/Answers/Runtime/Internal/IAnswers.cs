@@ -3,7 +3,7 @@ namespace Fabric.Answers.Internal
     using System.Collections.Generic;
 	
 	/// <summary>
-	/// An interface defining a shared Answers EventQuestComponent's API which must be fulfilled. 
+	/// An interface defining a shared Answers Event's API which must be fulfilled. 
 	/// This interface is implemented by both <code>AnswersAndroidImplementation</code> and <code>AnswersAppleImplementation</code>
 	/// to properly bridge their respective native SDK's from C#.
 	/// </summary>

@@ -212,7 +212,7 @@ public class PuzzleTower : Puzzle
     /// </summary>
     /// <param name="fromTower">Tower to move block from</param>
     /// <param name="toTower">Tower to move block to</param>
-    /// <param name="p">PuzzleQuestComponent state to use</param>
+    /// <param name="p">Puzzle state to use</param>
     /// <returns>If the move is legal</returns>
     public bool MoveOK(int fromTower, int toTower, List<List<int>> p)
     {
@@ -232,7 +232,7 @@ public class PuzzleTower : Puzzle
     /// Check if a reverse puzzle move is legal
     /// </summary>
     /// <param name="fromTower">Tower to move block from</param>
-    /// <param name="p">PuzzleQuestComponent state to use</param>
+    /// <param name="p">Puzzle state to use</param>
     /// <returns>If the move is legal</returns>
     public bool ReverseMoveOK(int fromTower, List<List<int>> p)
     {
@@ -261,7 +261,7 @@ public class PuzzleTower : Puzzle
     /// </summary>
     /// <param name="fromTower">Tower to move block from</param>
     /// <param name="toTower">Tower to move block to</param>
-    /// <param name="p">PuzzleQuestComponent state to use</param>
+    /// <param name="p">Puzzle state to use</param>
     public void Move(int fromTower, int toTower, List<List<int>> p)
     {
         if (!MoveOK(fromTower, toTower, p)) return;

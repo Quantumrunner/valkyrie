@@ -11,7 +11,7 @@ public class PuzzleCodeWindow
     private readonly StringKey ICON_INVESTIGATION_RESULT = new StringKey("val", "ICON_INVESTIGATION_RESULT");
 
     public EventManager.Event eventData;
-    PuzzleQuestComponent QUEST_PUZZLE_QUEST_COMPONENT;
+    Assets.Scripts.Content.QuestComponent.Puzzle QUEST_PUZZLE_QUEST_COMPONENT;
     public PuzzleCode puzzle;
     public List<int> guess;
     public int previousMoves = 0;
@@ -24,7 +24,7 @@ public class PuzzleCodeWindow
         Game game = Game.Get();
 
         guess = new List<int>();
-        QUEST_PUZZLE_QUEST_COMPONENT = e.QEventQuestComponent as PuzzleQuestComponent;
+        QUEST_PUZZLE_QUEST_COMPONENT = e.QEvent as Assets.Scripts.Content.QuestComponent.Puzzle;
         buttons = GetButtons();
 
         if (game.quest.puzzle.ContainsKey(QUEST_PUZZLE_QUEST_COMPONENT.sectionName))
@@ -49,7 +49,7 @@ public class PuzzleCodeWindow
         ui.SetLocation(UIScaler.GetHCenter(-14f), 0.5f, 28, 22);
         new UIElementBorder(ui);
 
-        // PuzzleQuestComponent goes here
+        // Puzzle goes here
         float hPos = UIScaler.GetHCenter(-13f);
         if (!puzzle.Solved())
         {

@@ -49,7 +49,7 @@
         public static readonly StringKey NEW = new StringKey(VAL, "NEW");
         public static readonly StringKey DOOR = new StringKey(VAL, "DOOR");
         public static readonly StringKey TOKEN = new StringKey(VAL, "TOKEN");
-        public static readonly StringKey UI = new StringKey(VAL, "UiQuestComponent");
+        public static readonly StringKey UI = new StringKey(VAL, "Ui");
         public static readonly StringKey MONSTER = new StringKey(VAL, "MONSTER");
         public static readonly StringKey SPAWN = new StringKey(VAL, "SPAWN");
         public static readonly StringKey MPLACE = new StringKey(VAL, "MPLACE");

@@ -270,38 +270,38 @@ namespace Assets.Scripts.UI.Screens
             }
             // Always disabled
             startColor = Color.gray;
-            uiQuestComponent = new UIElement();
-            uiQuestComponent.SetLocation((UIScaler.GetWidthUnits() - 30) / 2, 21, 30, 3);
-            uiQuestComponent.SetText(IA_NAME, startColor);
-            uiQuestComponent.SetFontSize(UIScaler.GetMediumFont());
-            //uiQuestComponent.SetButton(delegate { IA(); });
-            uiQuestComponent.SetBGColor(new Color(0, 0.03f, 0f));
-            new UIElementBorder(uiQuestComponent, startColor);
+            ui = new UIElement();
+            ui.SetLocation((UIScaler.GetWidthUnits() - 30) / 2, 21, 30, 3);
+            ui.SetText(IA_NAME, startColor);
+            ui.SetFontSize(UIScaler.GetMediumFont());
+            //ui.SetButton(delegate { IA(); });
+            ui.SetBGColor(new Color(0, 0.03f, 0f));
+            new UIElementBorder(ui, startColor);
 
             // Draw IA import button
-            uiQuestComponent = new UIElement();
+            ui = new UIElement();
             if (fcIA.ImportAvailable())
             {
-                uiQuestComponent.SetLocation((UIScaler.GetWidthUnits() - 14) / 2, 24.2f, 14, 2);
+                ui.SetLocation((UIScaler.GetWidthUnits() - 14) / 2, 24.2f, 14, 2);
                 StringKey keyText = fcIA.NeedImport() ? CONTENT_IMPORT : CONTENT_REIMPORT;
-                uiQuestComponent.SetText(keyText);
-                uiQuestComponent.SetFontSize(UIScaler.GetMediumFont());
-                uiQuestComponent.SetButton(delegate { Import("IA"); });
-                uiQuestComponent.SetBGColor(new Color(0, 0.03f, 0f));
-                new UIElementBorder(uiQuestComponent);
+                ui.SetText(keyText);
+                ui.SetFontSize(UIScaler.GetMediumFont());
+                ui.SetButton(delegate { Import("IA"); });
+                ui.SetBGColor(new Color(0, 0.03f, 0f));
+                new UIElementBorder(ui);
             }
             else // Import unavailable
             {
-                uiQuestComponent.SetLocation((UIScaler.GetWidthUnits() - 24) / 2, 24.2f, 24, 1);
+                ui.SetLocation((UIScaler.GetWidthUnits() - 24) / 2, 24.2f, 24, 1);
                 if (Application.platform == RuntimePlatform.Android)
                 {
-                    uiQuestComponent.SetText(IA_APP_NOT_FOUND_ANDROID, Color.red);
+                    ui.SetText(IA_APP_NOT_FOUND_ANDROID, Color.red);
                 }
                 else
                 {
-                    uiQuestComponent.SetText(IA_APP_NOT_FOUND, Color.red);
+                    ui.SetText(IA_APP_NOT_FOUND, Color.red);
                 }
-                new UIElementBorder(uiQuestComponent, Color.red);
+                new UIElementBorder(ui, Color.red);
             }
 #endif
 

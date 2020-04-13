@@ -2,10 +2,10 @@
 
 namespace Assets.Scripts.Content.QuestComponent
 {
-    // PuzzleQuestComponent component
-    public class PuzzleQuestComponent : EventQuestComponent
+    // Puzzle component
+    public class Puzzle : Event
     {
-        new public static string type = "PuzzleQuestComponent";
+        new public static string type = "Puzzle";
         public string puzzleClass = "slide";
         public string skill = "{observation}";
         public int puzzleLevel = 4;
@@ -14,7 +14,7 @@ namespace Assets.Scripts.Content.QuestComponent
         public string imageType = "";
 
         // Create a new puzzle with name (editor)
-        public PuzzleQuestComponent(string s) : base(s)
+        public Puzzle(string s) : base(s)
         {
             source = "puzzles.ini";
             typeDynamic = type;
@@ -26,7 +26,7 @@ namespace Assets.Scripts.Content.QuestComponent
         }
 
         // Construct from ini data
-        public PuzzleQuestComponent(string name, Dictionary<string, string> data, string path) : base(name, data, path, Quest.currentFormat)
+        public Puzzle(string name, Dictionary<string, string> data, string path) : base(name, data, path, Quest.currentFormat)
         {
             typeDynamic = type;
 

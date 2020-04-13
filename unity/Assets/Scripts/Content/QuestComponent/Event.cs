@@ -3,9 +3,9 @@
 namespace Assets.Scripts.Content.QuestComponent
 {
     // Events are used to create dialogs that control the Quest
-    public class EventQuestComponent : QuestComponent
+    public class Event : QuestComponent
     {
-        new public static string type = "EventQuestComponent";
+        new public static string type = "Event";
 
         public bool display = true;
         public List<StringKey> buttons;
@@ -32,7 +32,7 @@ namespace Assets.Scripts.Content.QuestComponent
         virtual public StringKey text { get { return genQuery("text"); } }
 
         // Create a new event with name (editor)
-        public EventQuestComponent(string s) : base(s)
+        public Event(string s) : base(s)
         {
             source = "events.ini";
             display = false;
@@ -50,7 +50,7 @@ namespace Assets.Scripts.Content.QuestComponent
         }
 
         // Create event from ini data
-        public EventQuestComponent(string name, Dictionary<string, string> data, string path, int format) : base(name, data, path, format)
+        public Event(string name, Dictionary<string, string> data, string path, int format) : base(name, data, path, format)
         {
             typeDynamic = type;
 
@@ -227,7 +227,7 @@ namespace Assets.Scripts.Content.QuestComponent
                 }
             }
 
-            // If CustomMonsterQuestComponent renamed update trigger
+            // If CustomMonster renamed update trigger
             if (trigger.IndexOf("Defeated" + oldName) == 0)
             {
                 trigger = "Defeated" + newName;

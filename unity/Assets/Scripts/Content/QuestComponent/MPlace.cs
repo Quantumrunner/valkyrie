@@ -3,14 +3,14 @@
 namespace Assets.Scripts.Content.QuestComponent
 {
     // MPlaces are used to position individual monsters
-    public class MPlaceQuestComponent : QuestComponent
+    public class MPlace : QuestComponent
     {
         public bool master = false;
-        new public static string type = "MPlaceQuestComponent";
+        new public static string type = "MPlace";
         public bool rotate = false;
 
         // Create a new mplace with name (editor)
-        public MPlaceQuestComponent(string s) : base(s)
+        public MPlace(string s) : base(s)
         {
             source = "mplaces.ini";
             locationSpecified = true;
@@ -18,7 +18,7 @@ namespace Assets.Scripts.Content.QuestComponent
         }
 
         // Load mplace from ini data
-        public MPlaceQuestComponent(string name, Dictionary<string, string> data, string path) : base(name, data, path)
+        public MPlace(string name, Dictionary<string, string> data, string path) : base(name, data, path)
         {
             // Must have a location
             locationSpecified = true;

@@ -21,7 +21,7 @@ public class EditorComponentPuzzle : EditorComponentEvent
     private readonly StringKey PUZZLE_SELECT_SKILL = new StringKey("val", "PUZZLE_SELECT_SKILL");
     private readonly StringKey SELECT_IMAGE = new StringKey("val", "SELECT_IMAGE");
 
-    PuzzleQuestComponent PUZZLE_QUEST_COMPONENT_COMPONENT;
+    Assets.Scripts.Content.QuestComponent.Puzzle PUZZLE_QUEST_COMPONENT_COMPONENT;
 
     UIElementEditable levelUIE;
     UIElementEditable altLevelUIE;
@@ -53,7 +53,7 @@ public class EditorComponentPuzzle : EditorComponentEvent
     
     override public float AddSubEventComponents(float offset)
     {
-        PUZZLE_QUEST_COMPONENT_COMPONENT = component as PuzzleQuestComponent;
+        PUZZLE_QUEST_COMPONENT_COMPONENT = component as Assets.Scripts.Content.QuestComponent.Puzzle;
 
         UIElement ui = new UIElement(Game.EDITOR, scrollArea.GetScrollTransform());
         ui.SetLocation(0, offset, 3, 1);
@@ -118,7 +118,7 @@ public class EditorComponentPuzzle : EditorComponentEvent
         
         if (PUZZLE_QUEST_COMPONENT_COMPONENT.puzzleClass.Equals("code")) 
         {
-            // Initialize the puzzle solution UiQuestComponent element
+            // Initialize the puzzle solution Ui element
             ui = new UIElement(Game.EDITOR, scrollArea.GetScrollTransform());
             ui.SetLocation(0, offset, 5, 1);
             ui.SetText(new StringKey("val", "X_COLON", PUZZLE_SOLUTION));
@@ -222,7 +222,7 @@ public class EditorComponentPuzzle : EditorComponentEvent
         // Check the solution's length
         if (solutionArray.Length != PUZZLE_QUEST_COMPONENT_COMPONENT.puzzleLevel)
         {
-            ValkyrieDebug.Log("PuzzleQuestComponent solution must be the same length as puzzleLevel");
+            ValkyrieDebug.Log("Puzzle solution must be the same length as puzzleLevel");
             invalid = true;
         }
 
@@ -237,7 +237,7 @@ public class EditorComponentPuzzle : EditorComponentEvent
             }
             if (j == 0 || j > PUZZLE_QUEST_COMPONENT_COMPONENT.puzzleAltLevel)
             {
-                ValkyrieDebug.Log("PuzzleQuestComponent solution " + j + " out of AltLevel " + PUZZLE_QUEST_COMPONENT_COMPONENT.puzzleAltLevel + " range.");
+                ValkyrieDebug.Log("Puzzle solution " + j + " out of AltLevel " + PUZZLE_QUEST_COMPONENT_COMPONENT.puzzleAltLevel + " range.");
                 invalid = true;
             }
         }

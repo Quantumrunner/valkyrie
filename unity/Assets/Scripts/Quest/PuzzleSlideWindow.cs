@@ -7,7 +7,7 @@ public class PuzzleSlideWindow
 {
 
     public EventManager.Event eventData;
-    PuzzleQuestComponent QUEST_PUZZLE_QUEST_COMPONENT;
+    Assets.Scripts.Content.QuestComponent.Puzzle QUEST_PUZZLE_QUEST_COMPONENT;
     public PuzzleSlide puzzle;
     public int lastMoves = 0;
 
@@ -16,7 +16,7 @@ public class PuzzleSlideWindow
         eventData = e;
         Game game = Game.Get();
 
-        QUEST_PUZZLE_QUEST_COMPONENT = e.QEventQuestComponent as PuzzleQuestComponent;
+        QUEST_PUZZLE_QUEST_COMPONENT = e.QEvent as Assets.Scripts.Content.QuestComponent.Puzzle;
 
         if (game.quest.puzzle.ContainsKey(QUEST_PUZZLE_QUEST_COMPONENT.sectionName))
         {
@@ -38,7 +38,7 @@ public class PuzzleSlideWindow
         ui.SetLocation(UIScaler.GetHCenter(-14f), 0.5f, 28, 22);
         new UIElementBorder(ui);
 
-        // PuzzleQuestComponent goes here
+        // Puzzle goes here
         GameObject background = new GameObject("puzzleContent");
         background.tag = Game.DIALOG;
         RectTransform transBg = background.AddComponent<RectTransform>();

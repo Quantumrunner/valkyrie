@@ -38,7 +38,7 @@ public class Game : MonoBehaviour
     public ContentData cd;
     // Data for the current Quest
     public Quest quest;
-    // Canvas for UiQuestComponent components (fixed on screen)
+    // Canvas for Ui components (fixed on screen)
     public Canvas uICanvas;
     // Canvas for board tiles (tilted, in game space)
     public Canvas boardCanvas;
@@ -50,7 +50,7 @@ public class Game : MonoBehaviour
     public HeroCanvas heroCanvas;
     // Class for management of monster selection panel
     public MonsterCanvas monsterCanvas;
-    // Utility Class for UiQuestComponent scale and position
+    // Utility Class for Ui scale and position
     public UIScaler uiScaler;
     // Class for Morale counter
     public MoraleDisplay moraleDisplay;
@@ -64,11 +64,11 @@ public class Game : MonoBehaviour
     public ConfigFile config;
     // Class for progress of activations, rounds
     public RoundController roundControl;
-    // Class for stage control UiQuestComponent
+    // Class for stage control Ui
     public NextStageButton stageUI;
     // Class log window
     public LogWindow logWindow;
-    // Class for stage control UiQuestComponent
+    // Class for stage control Ui
     public Audio audioControl;
     // Transparecny value for non selected component in the editor
     public float editorTransparency;

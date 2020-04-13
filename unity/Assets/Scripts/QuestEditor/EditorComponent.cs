@@ -4,9 +4,10 @@ using Assets.Scripts.Content;
 using Assets.Scripts.UI;
 using System.IO;
 using Assets.Scripts.Content.QuestComponent;
+using Event = Assets.Scripts.Content.QuestComponent.Event;
 
 // Super class for all editor selectable components
-// Handles UiQuestComponent and editing
+// Handles Ui and editing
 public class EditorComponent {
 
     private readonly StringKey TESTS = new StringKey("val", "TESTS");
@@ -40,10 +41,10 @@ public class EditorComponent {
     // The editor scroll area;
     public UIElementScrollVertical scrollArea;
 
-    //Those descent peril variables are only used for internal use and should not appear in the uiQuestComponent
+    //Those descent peril variables are only used for internal use and should not appear in the ui
     private static readonly List<string> InternalPerilVariables = new List<string> { "$perilMinor11", "$perilm2value", "$perild1value", "$perilDeadly2Count" };
 
-    // Update redraws the selection UiQuestComponent
+    // Update redraws the selection Ui
     virtual public void Update()
     {
         RefreshReference();
@@ -447,7 +448,7 @@ public class EditorComponent {
         {
             // Get a rounded location
             component.location = game.cc.GetMouseBoardRounded(game.gameType.SelectionRound());
-            if (component is TileQuestComponent)
+            if (component is Tile)
             {
                 // Tiles have special rounding
                 component.location = game.cc.GetMouseBoardRounded(game.gameType.TileRound());
@@ -458,7 +459,7 @@ public class EditorComponent {
         // Redraw component
         Game.Get().quest.Remove(component.sectionName);
         Game.Get().quest.Add(component.sectionName);
-        // Update UiQuestComponent
+        // Update Ui
         Update();
     }
 
@@ -628,9 +629,9 @@ public class EditorComponent {
         Game game = Game.Get();
         foreach (KeyValuePair<string, QuestComponent> kv in game.quest.qd.components)
         {
-            if (kv.Value is EventQuestComponent)
+            if (kv.Value is Event)
             {
-                EventQuestComponent e = kv.Value as EventQuestComponent;
+                Event e = kv.Value as Event;
                 foreach (string s in ExtractVarsFromEvent(e))
                 {
                     if (s[0] != '$')
@@ -667,7 +668,7 @@ public class EditorComponent {
         }
     }
 
-    public static HashSet<string> ExtractVarsFromEvent(EventQuestComponent e)
+    public static HashSet<string> ExtractVarsFromEvent(Event e)
     {
         HashSet<string> vars = new HashSet<string>();
         foreach (VarOperation op in e.operations)

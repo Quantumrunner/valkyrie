@@ -112,7 +112,7 @@ public class VarTests
 
     /// <summary> Search for the next valid position for parenthesis or varOperation </summary>
     /// <param name="index">index of current item to move</param>
-    /// <param name="up">direction of requested movement (visually on UiQuestComponent)</param>
+    /// <param name="up">direction of requested movement (visually on Ui)</param>
     /// <returns> index of next position</returns>
     public int FindNextValidPosition(int index, bool up)
     {

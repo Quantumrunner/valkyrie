@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using Assets.Scripts.Content;
 using Assets.Scripts.Content.QuestComponent;
 using Assets.Scripts.UI;
+using Event = Assets.Scripts.Content.QuestComponent.Event;
 
 public class EditorComponentCustomMonster : EditorComponent
 {
@@ -18,7 +19,7 @@ public class EditorComponentCustomMonster : EditorComponent
     private readonly StringKey PLACE_IMG = new StringKey("val", "PLACE_IMG");
     private readonly StringKey IMAGE = new StringKey("val", "IMAGE");
 
-    CustomMonsterQuestComponent MONSTER_QUEST_COMPONENT_COMPONENT;
+    CustomMonster MONSTER_QUEST_COMPONENT_COMPONENT;
 
     UIElementEditable nameUIE;
     UIElementEditablePaneled infoUIE;
@@ -34,7 +35,7 @@ public class EditorComponentCustomMonster : EditorComponent
 
     {
         Game game = Game.Get();
-        MONSTER_QUEST_COMPONENT_COMPONENT = game.quest.qd.components[nameIn] as CustomMonsterQuestComponent;
+        MONSTER_QUEST_COMPONENT_COMPONENT = game.quest.qd.components[nameIn] as CustomMonster;
         component = MONSTER_QUEST_COMPONENT_COMPONENT;
         name = component.sectionName;
         Update();
@@ -43,7 +44,7 @@ public class EditorComponentCustomMonster : EditorComponent
     override protected void RefreshReference()
     {
         base.RefreshReference();
-        MONSTER_QUEST_COMPONENT_COMPONENT = component as CustomMonsterQuestComponent;
+        MONSTER_QUEST_COMPONENT_COMPONENT = component as CustomMonster;
     }
 
     override public float AddSubComponents(float offset)
@@ -406,7 +407,7 @@ public class EditorComponentCustomMonster : EditorComponent
             ui.SetLocation(17.5f, offset, 1, 1);
             ui.SetText("<b>⇨</b>", Color.cyan);
             ui.SetTextAlignment(TextAnchor.LowerCenter);
-            ui.SetButton(delegate { QuestEditorData.SelectComponent("ActivationQuestComponent" + MONSTER_QUEST_COMPONENT_COMPONENT.activations[i]); });
+            ui.SetButton(delegate { QuestEditorData.SelectComponent("Activation" + MONSTER_QUEST_COMPONENT_COMPONENT.activations[i]); });
             new UIElementBorder(ui, Color.cyan);
 
             ui = new UIElement(Game.EDITOR, scrollArea.GetScrollTransform());
@@ -636,10 +637,10 @@ public class EditorComponentCustomMonster : EditorComponent
     {
         UIWindowSelectionListTraits select = new UIWindowSelectionListTraits(delegate(string s) { SelectAddActivation(index, s); }, new StringKey("val", "SELECT", CommonStringKeys.ACTIVATION));
 
-        select.AddNewComponentItem("ActivationQuestComponent");
+        select.AddNewComponentItem("Activation");
         foreach (KeyValuePair<string, QuestComponent> kv in Game.Get().quest.qd.components)
         {
-            if (kv.Value is ActivationQuestComponent)
+            if (kv.Value is Activation)
             {
                 select.AddItem(kv.Value);
             }
@@ -651,19 +652,19 @@ public class EditorComponentCustomMonster : EditorComponent
     {
         int i = 0;
         string toAdd = key;
-        if (key.Equals("{NEW:ActivationQuestComponent}"))
+        if (key.Equals("{NEW:Activation}"))
         {
-            while (game.quest.qd.components.ContainsKey("ActivationQuestComponent" + i))
+            while (game.quest.qd.components.ContainsKey("Activation" + i))
             {
                 i++;
             }
-            toAdd = "ActivationQuestComponent" + i;
-            Game.Get().quest.qd.components.Add(toAdd, new ActivationQuestComponent(toAdd));
+            toAdd = "Activation" + i;
+            Game.Get().quest.qd.components.Add(toAdd, new Activation(toAdd));
         }
 
         if (index != -1)
         {
-            MONSTER_QUEST_COMPONENT_COMPONENT.activations[index] = toAdd.Substring("ActivationQuestComponent".Length);
+            MONSTER_QUEST_COMPONENT_COMPONENT.activations[index] = toAdd.Substring("Activation".Length);
             Update();
             return;
         }
@@ -674,7 +675,7 @@ public class EditorComponentCustomMonster : EditorComponent
             newA[i] = MONSTER_QUEST_COMPONENT_COMPONENT.activations[i];
         }
 
-        newA[i] = toAdd.Substring("ActivationQuestComponent".Length);
+        newA[i] = toAdd.Substring("Activation".Length);
         MONSTER_QUEST_COMPONENT_COMPONENT.activations = newA;
         Update();
     }
@@ -684,10 +685,10 @@ public class EditorComponentCustomMonster : EditorComponent
         UIWindowSelectionListTraits select = new UIWindowSelectionListTraits(SelectSetActivation, new StringKey("val", "SELECT", CommonStringKeys.ACTIVATION));
 
         select.AddItem("{NONE}", "");
-        select.AddNewComponentItem("EventQuestComponent");
+        select.AddNewComponentItem("Event");
         foreach (QuestComponent c in Game.Get().quest.qd.components.Values)
         {
-            if (c.typeDynamic.IndexOf("EventQuestComponent") == 0)
+            if (c.typeDynamic.IndexOf("Event") == 0)
             {
                 select.AddItem(c);
             }
@@ -704,15 +705,15 @@ public class EditorComponentCustomMonster : EditorComponent
         else
         {
             string toAdd = key;
-            if (toAdd.Equals("{NEW:EventQuestComponent}"))
+            if (toAdd.Equals("{NEW:Event}"))
             {
                 int i = 0;
-                while (game.quest.qd.components.ContainsKey("EventQuestComponent" + i))
+                while (game.quest.qd.components.ContainsKey("Event" + i))
                 {
                     i++;
                 }
-                toAdd = "EventQuestComponent" + i;
-                Game.Get().quest.qd.components.Add(toAdd, new EventQuestComponent(toAdd));
+                toAdd = "Event" + i;
+                Game.Get().quest.qd.components.Add(toAdd, new Event(toAdd));
             }
             MONSTER_QUEST_COMPONENT_COMPONENT.activations = new string[1];
             MONSTER_QUEST_COMPONENT_COMPONENT.activations[0] = toAdd;
@@ -1008,10 +1009,10 @@ public class EditorComponentCustomMonster : EditorComponent
         UIWindowSelectionListTraits select = new UIWindowSelectionListTraits(SelectSetEvade, new StringKey("val", "SELECT", new StringKey("val", "EVADE")));
         
         select.AddItem("{NONE}", "");
-        select.AddNewComponentItem("EventQuestComponent");
+        select.AddNewComponentItem("Event");
         foreach (KeyValuePair<string, QuestComponent> kv in Game.Get().quest.qd.components)
         {
-            if (kv.Value.typeDynamic.Equals("EventQuestComponent"))
+            if (kv.Value.typeDynamic.Equals("Event"))
             {
                 select.AddItem(kv.Value);
             }
@@ -1022,15 +1023,15 @@ public class EditorComponentCustomMonster : EditorComponent
     public void SelectSetEvade(string evade)
     {
         string toAdd = evade;
-        if (toAdd.Equals("{NEW:EventQuestComponent}"))
+        if (toAdd.Equals("{NEW:Event}"))
         {
             int i = 0;
-            while (game.quest.qd.components.ContainsKey("EventQuestComponent" + i))
+            while (game.quest.qd.components.ContainsKey("Event" + i))
             {
                 i++;
             }
-            toAdd = "EventQuestComponent" + i;
-            Game.Get().quest.qd.components.Add(toAdd, new EventQuestComponent(toAdd));
+            toAdd = "Event" + i;
+            Game.Get().quest.qd.components.Add(toAdd, new Event(toAdd));
         }
         MONSTER_QUEST_COMPONENT_COMPONENT.evadeEvent = toAdd;
         Update();
@@ -1041,10 +1042,10 @@ public class EditorComponentCustomMonster : EditorComponent
         UIWindowSelectionListTraits select = new UIWindowSelectionListTraits(SelectSetHorror, new StringKey("val", "SELECT", new StringKey("val", "horror")));
 
         select.AddItem("{NONE}", "");
-        select.AddNewComponentItem("EventQuestComponent");
+        select.AddNewComponentItem("Event");
         foreach (KeyValuePair<string, QuestComponent> kv in Game.Get().quest.qd.components)
         {
-            if (kv.Value.typeDynamic.Equals("EventQuestComponent"))
+            if (kv.Value.typeDynamic.Equals("Event"))
             {
                 select.AddItem(kv.Value);
             }
@@ -1055,15 +1056,15 @@ public class EditorComponentCustomMonster : EditorComponent
     public void SelectSetHorror(string horror)
     {
         string toAdd = horror;
-        if (toAdd.Equals("{NEW:EventQuestComponent}"))
+        if (toAdd.Equals("{NEW:Event}"))
         {
             int i = 0;
-            while (game.quest.qd.components.ContainsKey("EventQuestComponent" + i))
+            while (game.quest.qd.components.ContainsKey("Event" + i))
             {
                 i++;
             }
-            toAdd = "EventQuestComponent" + i;
-            Game.Get().quest.qd.components.Add(toAdd, new EventQuestComponent(toAdd));
+            toAdd = "Event" + i;
+            Game.Get().quest.qd.components.Add(toAdd, new Event(toAdd));
         }
         MONSTER_QUEST_COMPONENT_COMPONENT.horrorEvent = toAdd;
         Update();

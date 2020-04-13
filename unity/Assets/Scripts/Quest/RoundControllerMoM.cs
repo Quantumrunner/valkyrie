@@ -65,7 +65,7 @@ public class RoundControllerMoM : RoundController
             if (!game.quest.monsters[i].activated)
             {
                 QuestMonster qm = game.quest.monsters[i].monsterData as QuestMonster;
-                if (qm != null && qm.activations != null && qm.activations.Length == 1 && qm.activations[0].IndexOf("EventQuestComponent") == 0 
+                if (qm != null && qm.activations != null && qm.activations.Length == 1 && qm.activations[0].IndexOf("Event") == 0 
                     && game.quest.eManager.events[qm.activations[0]].Disabled())
                 {
                     // monster cannot be activated, mark as activated
@@ -85,7 +85,7 @@ public class RoundControllerMoM : RoundController
 
             // Find out of this monster is Quest specific
             QuestMonster qm = toActivate.monsterData as QuestMonster;
-            if (qm != null && qm.activations != null && qm.activations.Length == 1 && qm.activations[0].IndexOf("EventQuestComponent") == 0)
+            if (qm != null && qm.activations != null && qm.activations.Length == 1 && qm.activations[0].IndexOf("Event") == 0)
             {
                 toActivate.masterStarted = true;
                 toActivate.activated = true;

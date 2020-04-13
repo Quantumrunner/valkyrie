@@ -2,10 +2,10 @@
 
 namespace Assets.Scripts.Content.QuestComponent
 {
-    // UiQuestComponent is an image/button that is displayed to the user
-    public class UiQuestComponent : EventQuestComponent
+    // Ui is an image/button that is displayed to the user
+    public class Ui : Event
     {
-        new public static string type = "UiQuestComponent";
+        new public static string type = "Ui";
         public string imageName = "";
         public bool verticalUnits = false;
         public int hAlign = 0;
@@ -22,16 +22,16 @@ namespace Assets.Scripts.Content.QuestComponent
         public StringKey uiText { get { return genQuery("uitext"); } }
 
         // Create new with name (used by editor)
-        public UiQuestComponent(string s) : base(s)
+        public Ui(string s) : base(s)
         {
-            source = "uiQuestComponent.ini";
+            source = "ui.ini";
             locationSpecified = true;
             typeDynamic = type;
             cancelable = true;
         }
 
         // Create from ini data
-        public UiQuestComponent(string name, Dictionary<string, string> data, Game game, string path) : base(name, data, path, Quest.currentFormat)
+        public Ui(string name, Dictionary<string, string> data, Game game, string path) : base(name, data, path, Quest.currentFormat)
         {
             locationSpecified = true;
             typeDynamic = type;

@@ -4,12 +4,12 @@ using Assets.Scripts.UI;
 
 public class EditorComponentMPlace : EditorComponent
 {
-    MPlaceQuestComponent M_PLACE_QUEST_COMPONENT_COMPONENT;
+    MPlace M_PLACE_QUEST_COMPONENT_COMPONENT;
 
     public EditorComponentMPlace(string nameIn) : base()
     {
         Game game = Game.Get();
-        M_PLACE_QUEST_COMPONENT_COMPONENT = game.quest.qd.components[nameIn] as MPlaceQuestComponent;
+        M_PLACE_QUEST_COMPONENT_COMPONENT = game.quest.qd.components[nameIn] as MPlace;
         component = M_PLACE_QUEST_COMPONENT_COMPONENT;
         name = component.sectionName;
         Update();
@@ -18,7 +18,7 @@ public class EditorComponentMPlace : EditorComponent
     override protected void RefreshReference()
     {
         base.RefreshReference();
-        M_PLACE_QUEST_COMPONENT_COMPONENT = component as MPlaceQuestComponent;
+        M_PLACE_QUEST_COMPONENT_COMPONENT = component as MPlace;
     }
 
     override public float AddSubComponents(float offset)

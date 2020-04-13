@@ -7,8 +7,8 @@ public class EditorComponentDoor : EditorComponentEvent
 {
     private readonly StringKey COLOR = new StringKey("val", "COLOR");
 
-    DoorQuestComponent DOOR_QUEST_COMPONENT_COMPONENT;
-    // List to select doorQuestComponent colour
+    Door DOOR_QUEST_COMPONENT_COMPONENT;
+    // List to select door colour
 
     public EditorComponentDoor(string nameIn) : base(nameIn)
     {
@@ -31,7 +31,7 @@ public class EditorComponentDoor : EditorComponentEvent
 
     override public float AddSubEventComponents(float offset)
     {
-        DOOR_QUEST_COMPONENT_COMPONENT = component as DoorQuestComponent;
+        DOOR_QUEST_COMPONENT_COMPONENT = component as Door;
 
         UIElement ui = new UIElement(Game.EDITOR, scrollArea.GetScrollTransform());
         ui.SetLocation(0, offset, 6, 1);

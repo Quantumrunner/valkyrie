@@ -251,7 +251,7 @@ public class CameraController : MonoBehaviour {
         }
     }
 
-    // Get mouse position in board space coordinates, rounded for tileQuestComponent location
+    // Get mouse position in board space coordinates, rounded for tile location
     public Vector2 GetMouseTile()
     {
         Vector2 bPos = GetMouseBoardPlane();

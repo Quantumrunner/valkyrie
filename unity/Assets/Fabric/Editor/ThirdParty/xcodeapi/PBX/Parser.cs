@@ -10,7 +10,7 @@ namespace Fabric.Internal.Editor.ThirdParty.xcodeapi.PBX
     // IdentifierAST := <quoted string> \ <string>
     class IdentifierAST : ValueAST
     {
-        public int value = 0; // tokenQuestComponent id
+        public int value = 0; // token id
     }
 
     // TreeAST := '{' KeyValuePairList '}'
@@ -77,7 +77,7 @@ namespace Fabric.Internal.Editor.ThirdParty.xcodeapi.PBX
             return prev;
         }
 
-        // Returns the tokenQuestComponent type of the current tokenQuestComponent
+        // Returns the token type of the current token
         TokenType Tok()
         {
             if (currPos >= tokens.Count)

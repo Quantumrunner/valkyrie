@@ -4,7 +4,7 @@ using Assets.Scripts.Content;
 namespace Assets.Scripts.UI
 {
     /// <summary>
-    /// UIElement is the base class for drawing UiQuestComponent elements.</summary>
+    /// UIElement is the base class for drawing Ui elements.</summary>
     /// <remarks>
     /// UIElements can display solid colors, images and text.  It can also act as a button.</remarks>
     public class UIElement
@@ -28,9 +28,9 @@ namespace Assets.Scripts.UI
         protected UnityEngine.Events.UnityAction<string> buttonCallWithParams;
 
         /// <summary>
-        /// Construct a UiQuestComponent element with options tag name and parent.</summary>
+        /// Construct a Ui element with options tag name and parent.</summary>
         /// <param name="t">Unity tag name for the element, cannot be changed after construction, defaults to "dialog".</param>
-        /// <param name="parent">Parent transform, cannot be changed after construction, defaults to the UiQuestComponent Panel.</param>
+        /// <param name="parent">Parent transform, cannot be changed after construction, defaults to the Ui Panel.</param>
         public UIElement(string t = "", Transform parent = null)
         {
             if (t.Length > 0) tag = t;
@@ -38,7 +38,7 @@ namespace Assets.Scripts.UI
         }
 
         /// <summary>
-        /// Construct a UiQuestComponent element with parent.</summary>
+        /// Construct a Ui element with parent.</summary>
         /// <param name="parent">Parent transform, cannot be changed after construction.</param>
         public UIElement(Transform parent)
         {
@@ -46,7 +46,7 @@ namespace Assets.Scripts.UI
         }
 
         /// <summary>
-        /// Destroy a UiQuestComponent element.</summary>
+        /// Destroy a Ui element.</summary>
         public void Destroy()
         {
             if(bg!=null)
@@ -72,7 +72,7 @@ namespace Assets.Scripts.UI
         }
 
         /// <summary>
-        /// The base RectTransform for the UiQuestComponent element.</summary>
+        /// The base RectTransform for the Ui element.</summary>
         /// <returns>
         /// The background RectTransform.</returns>
         public RectTransform GetRectTransform()
@@ -81,7 +81,7 @@ namespace Assets.Scripts.UI
         }
 
         /// <summary>
-        /// The tag for this UiQuestComponent element.</summary>
+        /// The tag for this Ui element.</summary>
         /// <returns>
         /// The Unity tag as a string.</returns>
         public string GetTag()
@@ -138,7 +138,7 @@ namespace Assets.Scripts.UI
 
 
         /// <summary>
-        /// Set UiQuestComponent location in UIscaler units.</summary>
+        /// Set Ui location in UIscaler units.</summary>
         /// <param name="x">Offset from the left of the screen.</param>
         /// <param name="y">Offset from the top of the screen.</param>
         /// <param name="width">Horizontal size.</param>
@@ -151,7 +151,7 @@ namespace Assets.Scripts.UI
         }
 
         /// <summary>
-        /// Set UiQuestComponent location in pixels.</summary>
+        /// Set Ui location in pixels.</summary>
         /// <param name="x">Offset from the left of the screen.</param>
         /// <param name="y">Offset from the top of the screen.</param>
         /// <param name="width">Horizontal size.</param>

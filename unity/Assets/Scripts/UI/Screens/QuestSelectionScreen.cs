@@ -13,7 +13,7 @@ namespace Assets.Scripts.UI.Screens
         // List of Quest.QuestData to display (either local or remote)
         List<string> questList = null;
 
-        // Persistent UiQuestComponent Element
+        // Persistent Ui Element
         UIElement text_connection_status = null;
         UIElement text_number_of_filtered_scenario = null;
         UIElementScrollVertical scrollArea = null;
@@ -1329,7 +1329,7 @@ namespace Assets.Scripts.UI.Screens
 
         private class ImgAsyncLoader
         {
-            // URL and UiQuestComponent element
+            // URL and Ui element
             private Dictionary<string, UIElement> images_list = null;
             // URL and Texture
             private Dictionary<string, Texture2D> texture_list = null;

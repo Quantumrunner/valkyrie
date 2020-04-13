@@ -3,13 +3,14 @@ using Assets.Scripts.UI;
 using UnityEngine;
 using System.Collections.Generic;
 using Assets.Scripts.Content.QuestComponent;
+using Event = Assets.Scripts.Content.QuestComponent.Event;
 
 
-// Tokens are events that are tied to a tokenQuestComponent placed on the board
+// Tokens are events that are tied to a token placed on the board
 public class ShopInterface : Quest.BoardComponent
 {
     GameObject panel;
-    EventQuestComponent EVENT_QUEST_COMPONENT_DATA;
+    Event EVENT_QUEST_COMPONENT_DATA;
 
     // Construct with Quest info and reference to Game
     public ShopInterface(List<string> items, Game gameObject, string eventName) : base(gameObject)
@@ -27,12 +28,12 @@ public class ShopInterface : Quest.BoardComponent
             }
             game.quest.shops.Add(eventName, contentItems);
         }
-        EVENT_QUEST_COMPONENT_DATA = game.quest.qd.components[eventName] as EventQuestComponent;
+        EVENT_QUEST_COMPONENT_DATA = game.quest.qd.components[eventName] as Event;
 
         Update();
     }
 
-    public override EventQuestComponent GetEvent()
+    public override Event GetEvent()
     {
         return null;
     }

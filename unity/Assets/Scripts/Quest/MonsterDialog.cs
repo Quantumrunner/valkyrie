@@ -93,7 +93,7 @@ public class MonsterDialog
         new InfoDialog(monster);
     }
 
-    // Force ActivationQuestComponent
+    // Force Activation
     public void Activate()
     {
         Game game = Game.Get();

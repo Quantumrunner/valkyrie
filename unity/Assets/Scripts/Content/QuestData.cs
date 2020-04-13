@@ -4,6 +4,7 @@ using System.IO;
 using Assets.Scripts.Content;
 using Assets.Scripts.Content.QuestComponent;
 using ValkyrieTools;
+using Event = Assets.Scripts.Content.QuestComponent.Event;
 
 // Class to manage all static data for the current Quest
 public class QuestData
@@ -161,66 +162,66 @@ public class QuestData
         }
 
         // Check for known types and create
-        if (name.IndexOf(TileQuestComponent.type) == 0)
+        if (name.IndexOf(Tile.type) == 0)
         {
-            TileQuestComponent c = new TileQuestComponent(name, content, source);
+            Tile c = new Tile(name, content, source);
             components.Add(name, c);
         }
-        if (name.IndexOf(DoorQuestComponent.type) == 0)
+        if (name.IndexOf(Door.type) == 0)
         {
-            DoorQuestComponent c = new DoorQuestComponent(name, content, game, source);
+            Door c = new Door(name, content, game, source);
             components.Add(name, c);
         }
-        if (name.IndexOf(TokenQuestComponent.type) == 0)
+        if (name.IndexOf(Token.type) == 0)
         {
-            TokenQuestComponent c = new TokenQuestComponent(name, content, game, source);
+            Token c = new Token(name, content, game, source);
             components.Add(name, c);
         }
-        if (name.IndexOf(UiQuestComponent.type) == 0)
+        if (name.IndexOf(Ui.type) == 0)
         {
-            UiQuestComponent c = new UiQuestComponent(name, content, game, source);
+            Ui c = new Ui(name, content, game, source);
             components.Add(name, c);
         }
-        if (name.IndexOf(EventQuestComponent.type) == 0)
+        if (name.IndexOf(Event.type) == 0)
         {
-            EventQuestComponent c = new EventQuestComponent(name, content, source, Quest.format);
+            Event c = new Event(name, content, source, Quest.format);
             components.Add(name, c);
         }
-        if (name.IndexOf(SpawnQuestComponent.type) == 0)
+        if (name.IndexOf(Spawn.type) == 0)
         {
-            SpawnQuestComponent c = new SpawnQuestComponent(name, content, game, source);
+            Spawn c = new Spawn(name, content, game, source);
             components.Add(name, c);
         }
-        if (name.IndexOf(MPlaceQuestComponent.type) == 0)
+        if (name.IndexOf(MPlace.type) == 0)
         {
-            MPlaceQuestComponent c = new MPlaceQuestComponent(name, content, source);
+            MPlace c = new MPlace(name, content, source);
             components.Add(name, c);
         }
-        if (name.IndexOf(QItemQuestComponent.type) == 0)
+        if (name.IndexOf(QItem.type) == 0)
         {
-            QItemQuestComponent c = new QItemQuestComponent(name, content, source);
+            QItem c = new QItem(name, content, source);
             components.Add(name, c);
         }
         // Depreciated (format 3)
         if (name.IndexOf("StartingItem") == 0)
         {
-            string fixedName = "QItemQuestComponent" + name.Substring("StartingItem".Length);
-            QItemQuestComponent c = new QItemQuestComponent(fixedName, content, source);
+            string fixedName = "QItem" + name.Substring("StartingItem".Length);
+            QItem c = new QItem(fixedName, content, source);
             components.Add(fixedName, c);
         }
-        if (name.IndexOf(PuzzleQuestComponent.type) == 0)
+        if (name.IndexOf(Assets.Scripts.Content.QuestComponent.Puzzle.type) == 0)
         {
-            PuzzleQuestComponent c = new PuzzleQuestComponent(name, content, source);
+            Assets.Scripts.Content.QuestComponent.Puzzle c = new Assets.Scripts.Content.QuestComponent.Puzzle(name, content, source);
             components.Add(name, c);
         }
-        if (name.IndexOf(CustomMonsterQuestComponent.type) == 0)
+        if (name.IndexOf(CustomMonster.type) == 0)
         {
-            CustomMonsterQuestComponent c = new CustomMonsterQuestComponent(name, content, source);
+            CustomMonster c = new CustomMonster(name, content, source);
             components.Add(name, c);
         }
-        if (name.IndexOf(ActivationQuestComponent.type) == 0)
+        if (name.IndexOf(Activation.type) == 0)
         {
-            ActivationQuestComponent c = new ActivationQuestComponent(name, content, source);
+            Activation c = new Activation(name, content, source);
             components.Add(name, c);
         }
         // If not known ignore

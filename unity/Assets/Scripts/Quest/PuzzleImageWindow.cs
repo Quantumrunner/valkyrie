@@ -9,7 +9,7 @@ public class PuzzleImageWindow
 {
 
     public EventManager.Event eventData;
-    PuzzleQuestComponent QUEST_PUZZLE_QUEST_COMPONENT;
+    Assets.Scripts.Content.QuestComponent.Puzzle QUEST_PUZZLE_QUEST_COMPONENT;
     public PuzzleImage puzzle;
     public int previousMoves = 0;
     public Sprite[][] imageSprite;
@@ -21,7 +21,7 @@ public class PuzzleImageWindow
         eventData = e;
         Game game = Game.Get();
 
-        QUEST_PUZZLE_QUEST_COMPONENT = e.QEventQuestComponent as PuzzleQuestComponent;
+        QUEST_PUZZLE_QUEST_COMPONENT = e.QEvent as Assets.Scripts.Content.QuestComponent.Puzzle;
 
         if (game.quest.puzzle.ContainsKey(QUEST_PUZZLE_QUEST_COMPONENT.sectionName))
         {
@@ -74,7 +74,7 @@ public class PuzzleImageWindow
         ui.SetLocation(UIScaler.GetHCenter(-14f), 0.5f, 29f, 22.5f);
         new UIElementBorder(ui);
 
-        // PuzzleQuestComponent goes here
+        // Puzzle goes here
         ui = new UIElement();
         ui.SetLocation(UIScaler.GetHCenter(7.75f), 8, 7f, 2);
         ui.SetText(new StringKey("val","X_COLON",CommonStringKeys.SKILL));

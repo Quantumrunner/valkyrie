@@ -6,7 +6,7 @@ using Assets.Scripts.UI;
 
 public class EditorComponentToken : EditorComponentEvent
 {
-    TokenQuestComponent TOKEN_QUEST_COMPONENT_COMPONENT;
+    Token TOKEN_QUEST_COMPONENT_COMPONENT;
 
     public EditorComponentToken(string nameIn) : base(nameIn)
     {
@@ -23,7 +23,7 @@ public class EditorComponentToken : EditorComponentEvent
     
     override public float AddSubEventComponents(float offset)
     {
-        TOKEN_QUEST_COMPONENT_COMPONENT = component as TokenQuestComponent;
+        TOKEN_QUEST_COMPONENT_COMPONENT = component as Token;
 
         UIElement ui = new UIElement(Game.EDITOR, scrollArea.GetScrollTransform());
         ui.SetLocation(0, offset, 6, 1);

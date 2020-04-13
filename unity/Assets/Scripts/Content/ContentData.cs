@@ -5,6 +5,7 @@ using System.Linq;
 using Assets.Scripts.Content;
 using Assets.Scripts.Content.QuestComponent;
 using ValkyrieTools;
+using Event = Assets.Scripts.Content.QuestComponent.Event;
 
 /// <summary>
 /// This class reads and stores all of the content for a base game and expansions.</summary>
@@ -593,7 +594,7 @@ public class ContentData {
             }
         }
 
-        // Is this a "ActivationQuestComponent" entry?
+        // Is this a "Activation" entry?
         if (name.IndexOf(ActivationData.type) == 0)
         {
             ActivationData d = new ActivationData(name, content, path);
@@ -697,7 +698,7 @@ public class ContentData {
             }
         }
 
-        // Is this a "TokenQuestComponent" entry?
+        // Is this a "Token" entry?
         if (name.IndexOf(TokenData.type) == 0)
         {
             TokenData d = new TokenData(name, content, path);
@@ -706,7 +707,7 @@ public class ContentData {
                 return;
             if (d.image.Equals(""))
             {
-                ValkyrieDebug.Log("TokenQuestComponent " + d.name + "did not have an image. Skipping");
+                ValkyrieDebug.Log("Token " + d.name + "did not have an image. Skipping");
                 return;
             }
             // If we don't already have one then add this
@@ -748,7 +749,7 @@ public class ContentData {
             }
         }
 
-        // Is this a "PuzzleQuestComponent" entry?
+        // Is this a "Puzzle" entry?
         if (name.IndexOf(PuzzleData.type) == 0)
         {
             PuzzleData d = new PuzzleData(name, content, path);
@@ -1093,7 +1094,7 @@ public class ContentData {
 
 }
 
-// Class for tileQuestComponent specific data
+// Class for tile specific data
 public class PackTypeData : GenericData
 {
     public static new string type = "PackType";
@@ -1103,7 +1104,7 @@ public class PackTypeData : GenericData
     }
 }
 
-// Class for tileQuestComponent specific data
+// Class for tile specific data
 public class TileSideData : GenericData
 {
     public float top = 0;
@@ -1115,7 +1116,7 @@ public class TileSideData : GenericData
 
     public TileSideData(string name, Dictionary<string, string> content, string path) : base(name, content, path, type)
     {
-        // Get location of top left square in tileQuestComponent image, default 0
+        // Get location of top left square in tile image, default 0
         if (content.ContainsKey("top"))
         {
             float.TryParse(content["top"], out top);
@@ -1362,7 +1363,7 @@ public class MonsterData : GenericData
     }
 }
 
-// Class for ActivationQuestComponent specific data
+// Class for Activation specific data
 public class ActivationData : GenericData
 {
     public StringKey ability = new StringKey(null,"-", false);
@@ -1414,16 +1415,16 @@ public class ActivationData : GenericData
     }
 }
 
-// Class for TokenQuestComponent data
+// Class for Token data
 public class TokenData : GenericData
 {
     public int x = 0;
     public int y = 0;
     public int height = 0;
     public int width = 0;
-    // 0 means tokenQuestComponent is 1 square big
+    // 0 means token is 1 square big
     public float pxPerSquare = 0;
-    public static new string type = "TokenQuestComponent";
+    public static new string type = "Token";
 
     public TokenData(string name, Dictionary<string, string> content, string path) : base(name, content, path, type)
     {
@@ -1456,7 +1457,7 @@ public class TokenData : GenericData
             int.TryParse(content["y"], out y);
         }
 
-        // These are used to extract part of an image (atlas) for the tokenQuestComponent
+        // These are used to extract part of an image (atlas) for the token
         if (content.ContainsKey("height"))
         {
             int.TryParse(content["height"], out height);
@@ -1564,10 +1565,10 @@ public class HorrorData : GenericData
     }
 }
 
-// Class for PuzzleQuestComponent images
+// Class for Puzzle images
 public class PuzzleData : GenericData
 {
-    public static new string type = "PuzzleQuestComponent";
+    public static new string type = "Puzzle";
 
     public PuzzleData(string name, Dictionary<string, string> content, string path) : base(name, content, path, type)
     {
@@ -1701,7 +1702,7 @@ public class GenericData
 }
 
 // Perils are content data that inherits from QuestData for reasons.
-public class PerilData : EventQuestComponent
+public class PerilData : Event
 {
     new public static string type = "Peril";
     public int priority = 0;

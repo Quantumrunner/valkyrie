@@ -15,7 +15,7 @@ public class EditorComponentActivation : EditorComponent
     private readonly StringKey NO_ATTACK_MESSAGE = new StringKey("val", "NO_ATTACK_MESSAGE");
 
 
-    ActivationQuestComponent ACTIVATION_QUEST_COMPONENT_COMPONENT;
+    Activation ACTIVATION_QUEST_COMPONENT_COMPONENT;
 
     UIElementEditablePaneled abilityUIE;
     UIElementEditable moveButtonUIE;
@@ -26,7 +26,7 @@ public class EditorComponentActivation : EditorComponent
     public EditorComponentActivation(string nameIn) : base()
     {
         Game game = Game.Get();
-        ACTIVATION_QUEST_COMPONENT_COMPONENT = game.quest.qd.components[nameIn] as ActivationQuestComponent;
+        ACTIVATION_QUEST_COMPONENT_COMPONENT = game.quest.qd.components[nameIn] as Activation;
         component = ACTIVATION_QUEST_COMPONENT_COMPONENT;
         name = component.sectionName;
         Update();
@@ -35,7 +35,7 @@ public class EditorComponentActivation : EditorComponent
     override protected void RefreshReference()
     {
         base.RefreshReference();
-        ACTIVATION_QUEST_COMPONENT_COMPONENT = component as ActivationQuestComponent;
+        ACTIVATION_QUEST_COMPONENT_COMPONENT = component as Activation;
     }
 
     override public float AddSubComponents(float offset)

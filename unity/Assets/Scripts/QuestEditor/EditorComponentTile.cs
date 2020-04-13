@@ -6,12 +6,12 @@ using Assets.Scripts.UI;
 
 public class EditorComponentTile : EditorComponent
 {
-    TileQuestComponent TILE_QUEST_COMPONENT_COMPONENT;
+    Tile TILE_QUEST_COMPONENT_COMPONENT;
 
     public EditorComponentTile(string nameIn) : base()
     {
         Game game = Game.Get();
-        TILE_QUEST_COMPONENT_COMPONENT = game.quest.qd.components[nameIn] as TileQuestComponent;
+        TILE_QUEST_COMPONENT_COMPONENT = game.quest.qd.components[nameIn] as Tile;
         component = TILE_QUEST_COMPONENT_COMPONENT;
         name = component.sectionName;
         Update();
@@ -20,7 +20,7 @@ public class EditorComponentTile : EditorComponent
     override protected void RefreshReference()
     {
         base.RefreshReference();
-        TILE_QUEST_COMPONENT_COMPONENT = component as TileQuestComponent;
+        TILE_QUEST_COMPONENT_COMPONENT = component as Tile;
     }
 
     override public float AddSubComponents(float offset)
@@ -87,7 +87,7 @@ public class EditorComponentTile : EditorComponent
         HashSet<string> usedSides = new HashSet<string>();
         foreach (KeyValuePair<string, QuestComponent> kv in game.quest.qd.components)
         {
-            TileQuestComponent t = kv.Value as TileQuestComponent;
+            Tile t = kv.Value as Tile;
             if (t != null)
             {
                 usedSides.Add(t.tileSideName);

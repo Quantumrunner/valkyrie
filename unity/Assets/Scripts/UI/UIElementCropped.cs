@@ -11,9 +11,9 @@ namespace Assets.Scripts.UI
         float height_mask = 0f;
 
         /// <summary>
-        /// Construct a UiQuestComponent element with options tag name and parent.</summary>
+        /// Construct a Ui element with options tag name and parent.</summary>
         /// <param name="t">Unity tag name for the element, cannot be changed after construction, defaults to "dialog".</param>
-        /// <param name="parent">Parent transform, cannot be changed after construction, defaults to the UiQuestComponent Panel.</param>
+        /// <param name="parent">Parent transform, cannot be changed after construction, defaults to the Ui Panel.</param>
         public UIElementCropped(string t = "", Transform parent = null)
         {
             if (t.Length > 0) tag = t;
@@ -21,7 +21,7 @@ namespace Assets.Scripts.UI
         }
 
         /// <summary>
-        /// Construct a UiQuestComponent element with parent.</summary>
+        /// Construct a Ui element with parent.</summary>
         /// <param name="parent">Parent transform, cannot be changed after construction.</param>
         public UIElementCropped(Transform parent) : base(parent)
         {
@@ -43,7 +43,7 @@ namespace Assets.Scripts.UI
         }
 
         /// <summary>
-        /// Set UiQuestComponent location in pixels.</summary>
+        /// Set Ui location in pixels.</summary>
         /// <param name="x">Offset from the left of the screen.</param>
         /// <param name="y">Offset from the top of the screen.</param>
         /// <param name="width">Horizontal size.</param>

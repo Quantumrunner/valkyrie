@@ -23,7 +23,7 @@ public class EditorComponentSpawn : EditorComponentEvent
     private readonly StringKey POOL_TRAITS = new StringKey("val", "POOL_TRAITS");
     
     
-    SpawnQuestComponent SPAWN_QUEST_COMPONENT_COMPONENT;
+    Spawn SPAWN_QUEST_COMPONENT_COMPONENT;
 
     UIElementEditable uniqueTitleUIE;
     UIElementEditablePaneled uniqueTextUIE;
@@ -52,7 +52,7 @@ public class EditorComponentSpawn : EditorComponentEvent
     
     override public float AddSubEventComponents(float offset)
     {
-        SPAWN_QUEST_COMPONENT_COMPONENT = component as SpawnQuestComponent;
+        SPAWN_QUEST_COMPONENT_COMPONENT = component as Spawn;
 
         UIElement ui = null;
 
@@ -369,11 +369,11 @@ public class EditorComponentSpawn : EditorComponentEvent
 
         foreach (KeyValuePair<string, QuestComponent> kv in game.quest.qd.components)
         {
-            if (kv.Value is CustomMonsterQuestComponent)
+            if (kv.Value is CustomMonster)
             {
                 select.AddItem(kv.Value);
             }
-            if (kv.Value is SpawnQuestComponent)
+            if (kv.Value is Spawn)
             {
                 select.AddItem(kv.Value);
             }
@@ -398,11 +398,11 @@ public class EditorComponentSpawn : EditorComponentEvent
 
         foreach (KeyValuePair<string, QuestComponent> kv in game.quest.qd.components)
         {
-            if (kv.Value is CustomMonsterQuestComponent)
+            if (kv.Value is CustomMonster)
             {
                 select.AddItem(kv.Value);
             }
-            if (kv.Value is SpawnQuestComponent)
+            if (kv.Value is Spawn)
             {
                 select.AddItem(kv.Value);
             }
@@ -608,11 +608,11 @@ public class EditorComponentSpawn : EditorComponentEvent
         Game game = Game.Get();
         UIWindowSelectionListTraits select = new UIWindowSelectionListTraits(delegate (string s) { MonsterPlaceAddSelection(heroes, slot, s); }, CommonStringKeys.SELECT_ITEM);
 
-        select.AddNewComponentItem("MPlaceQuestComponent");
+        select.AddNewComponentItem("MPlace");
 
         foreach (KeyValuePair<string, QuestComponent> kv in game.quest.qd.components)
         {
-            if (kv.Value is MPlaceQuestComponent)
+            if (kv.Value is MPlace)
             {
                 select.AddItem(kv.Value);
             }
@@ -622,17 +622,17 @@ public class EditorComponentSpawn : EditorComponentEvent
 
     public void MonsterPlaceAddSelection(int heroes, int slot, string name)
     {
-        if (name.Equals("{NEW:MPlaceQuestComponent}"))
+        if (name.Equals("{NEW:MPlace}"))
         {
             Game game = Game.Get();
             int index = 0;
 
-            while (game.quest.qd.components.ContainsKey("MPlaceQuestComponent" + index))
+            while (game.quest.qd.components.ContainsKey("MPlace" + index))
             {
                 index++;
             }
-            game.quest.qd.components.Add("MPlaceQuestComponent" + index, new MPlaceQuestComponent("MPlaceQuestComponent" + index));
-            name = "MPlaceQuestComponent" + index;
+            game.quest.qd.components.Add("MPlace" + index, new MPlace("MPlace" + index));
+            name = "MPlace" + index;
         }
 
         if (slot == -1)

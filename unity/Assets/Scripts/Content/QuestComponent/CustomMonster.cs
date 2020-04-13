@@ -5,9 +5,9 @@ using System.Text;
 namespace Assets.Scripts.Content.QuestComponent
 {
     // Monster defined in the Quest
-    public class CustomMonsterQuestComponent : Content.QuestComponent.QuestComponent
+    public class CustomMonster : Content.QuestComponent.QuestComponent
     {
-        new public static string type = "CustomMonsterQuestComponent";
+        new public static string type = "CustomMonster";
         // A bast type is used for default values
         public string baseMonster = "";
         public string imagePath = "";
@@ -33,7 +33,7 @@ namespace Assets.Scripts.Content.QuestComponent
         public StringKey info { get { return genQuery("info"); } }
 
         // Create new with name (editor)
-        public CustomMonsterQuestComponent(string s) : base(s)
+        public CustomMonster(string s) : base(s)
         {
             source = "monsters.ini";
             LocalizationRead.updateScenarioText(monstername_key, sectionName);
@@ -44,7 +44,7 @@ namespace Assets.Scripts.Content.QuestComponent
         }
 
         // Create from ini data
-        public CustomMonsterQuestComponent(string iniName, Dictionary<string, string> data, string pathIn) : base(iniName, data, pathIn)
+        public CustomMonster(string iniName, Dictionary<string, string> data, string pathIn) : base(iniName, data, pathIn)
         {
             typeDynamic = type;
             path = Path.GetDirectoryName(pathIn);
@@ -227,11 +227,11 @@ namespace Assets.Scripts.Content.QuestComponent
                 }
                 else
                 {
-                    if (oldName.Equals("ActivationQuestComponent" + activations[i]))
+                    if (oldName.Equals("Activation" + activations[i]))
                     {
-                        if (newName.IndexOf("ActivationQuestComponent") == 0)
+                        if (newName.IndexOf("Activation") == 0)
                         {
-                            activations[i] = newName.Substring("ActivationQuestComponent".Length);
+                            activations[i] = newName.Substring("Activation".Length);
                         }
                         if (newName.Length == 0)
                         {

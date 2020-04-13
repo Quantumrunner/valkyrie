@@ -7,7 +7,7 @@ using Assets.Scripts.UI;
 
 public class EditorComponentUI : EditorComponentEvent
 {
-    UiQuestComponent UI_QUEST_COMPONENT_COMPONENT;
+    Ui UI_QUEST_COMPONENT_COMPONENT;
 
     UIElementEditable locXUIE;
     UIElementEditable locYUIE;
@@ -34,7 +34,7 @@ public class EditorComponentUI : EditorComponentEvent
 
     override public float AddSubEventComponents(float offset)
     {
-        UI_QUEST_COMPONENT_COMPONENT = component as UiQuestComponent;
+        UI_QUEST_COMPONENT_COMPONENT = component as Ui;
 
         UIElement ui = new UIElement(Game.EDITOR, scrollArea.GetScrollTransform());
         ui.SetLocation(0, offset, 4.5f, 1);
@@ -211,11 +211,11 @@ public class EditorComponentUI : EditorComponentEvent
         game.quest.ChangeAlpha(UI_QUEST_COMPONENT_COMPONENT.sectionName, 1f);
 
         // Create a grey zone outside of the 16x9 boundary
-        // Find Quest UiQuestComponent panel
+        // Find Quest Ui panel
         GameObject panel = GameObject.Find("QuestUICanvas");
         if (panel == null)
         {
-            // Create UiQuestComponent Panel
+            // Create Ui Panel
             panel = new GameObject("QuestUICanvas");
             panel.tag = Game.BOARD;
             panel.transform.SetParent(game.uICanvas.transform);

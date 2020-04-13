@@ -19,7 +19,7 @@ public class UIScaler {
     public UIScaler(Canvas c)
     {
         // The canvas is positioned so that 0 is in the centre, so double
-        // The units of the UiQuestComponent canvas are in pixels
+        // The units of the Ui canvas are in pixels
         widthPx = Mathf.RoundToInt(c.transform.position.x * 2);
         heightPx = Mathf.RoundToInt(c.transform.position.y * 2);
     }

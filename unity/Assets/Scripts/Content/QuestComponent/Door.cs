@@ -4,24 +4,24 @@ using UnityEngine;
 namespace Assets.Scripts.Content.QuestComponent
 {
     // Doors are like tokens but placed differently and have different defaults
-    public class DoorQuestComponent : EventQuestComponent
+    public class Door : Event
     {
-        new public static string type = "DoorQuestComponent";
+        new public static string type = "Door";
         public int rotation = 0;
         public GameObject gameObject;
         public string colourName = "white";
 
         // Create new with name (used by editor)
-        public DoorQuestComponent(string s) : base(s)
+        public Door(string s) : base(s)
         {
-            source = "doorQuestComponent.ini";
+            source = "door.ini";
             locationSpecified = true;
             typeDynamic = type;
             cancelable = true;
         }
 
         // Create from ini data
-        public DoorQuestComponent(string name, Dictionary<string, string> data, Game game, string path) : base(name, data, path, Quest.currentFormat)
+        public Door(string name, Dictionary<string, string> data, Game game, string path) : base(name, data, path, Quest.currentFormat)
         {
             locationSpecified = true;
             typeDynamic = type;
