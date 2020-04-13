@@ -22,7 +22,7 @@ public class CameraController : MonoBehaviour {
 
     public bool minLimit = false;
     public bool maxLimit = false;
-    // These are defaults, replaced by the quest
+    // These are defaults, replaced by the Quest
     public int minPanX = -50;
     public int minPanY = -50;
     public int maxPanX = 50;
@@ -251,7 +251,7 @@ public class CameraController : MonoBehaviour {
         }
     }
 
-    // Get mouse position in board space coordinates, rounded for tile location
+    // Get mouse position in board space coordinates, rounded for tileQuestComponent location
     public Vector2 GetMouseTile()
     {
         Vector2 bPos = GetMouseBoardPlane();

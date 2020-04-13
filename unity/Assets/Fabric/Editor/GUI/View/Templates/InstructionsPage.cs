@@ -1,8 +1,7 @@
 ﻿namespace Fabric.Internal.Editor.View.Templates
 {
 	using UnityEngine;
-	using UnityEditor;
-	using System;
+    using System;
 	using System.Collections.Generic;
 	using Fabric.Internal.Editor.View;
 

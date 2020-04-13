@@ -1,10 +1,10 @@
 ﻿using UnityEngine;
-using System.Collections;
 using System.Collections.Generic;
+using Assets.Scripts.Content.QuestComponent;
 using ValkyrieTools;
 
-// Class for managing token and door operation
-// One object is created and attached to the token canvas
+// Class for managing tokenQuestComponent and doorQuestComponent operation
+// One object is created and attached to the tokenQuestComponent canvas
 public class TokenBoard : MonoBehaviour {
 
     public List<TokenControl> tc;
@@ -13,25 +13,25 @@ public class TokenBoard : MonoBehaviour {
         Clear();
     }
 
-    // Used when ending a quest
+    // Used when ending a Quest
     public void Clear()
     {
         tc = new List<TokenControl>();
     }
 
-    // Add a door
+    // Add a doorQuestComponent
     public void Add(Quest.Door d)
     {
         tc.Add(new TokenControl(d));
     }
 
-    // Add a token
+    // Add a tokenQuestComponent
     public void Add(Quest.Token t)
     {
         tc.Add(new TokenControl(t));
     }
 
-    // Add a UI
+    // Add a UiQuestComponent
     public void Add(Quest.UI ui)
     {
         tc.Add(new TokenControl(ui));
@@ -42,7 +42,7 @@ public class TokenBoard : MonoBehaviour {
     {
         Quest.BoardComponent c;
 
-        // Initialise from a door
+        // Initialise from a doorQuestComponent
         public TokenControl(Quest.BoardComponent component)
         {
             // If we are in the editor we don't add the buttons
@@ -59,13 +59,13 @@ public class TokenBoard : MonoBehaviour {
         {
             Game game = Game.Get();
 
-            // If in horror phase ignore token, accept UI element (items)
-            if (c.GetEvent().typeDynamic=="Token"  &&  game.quest.phase != Quest.MoMPhase.investigator) return;
+            // If in horror phase ignore tokenQuestComponent, accept UiQuestComponent element (items)
+            if (c.GetEvent().typeDynamic=="TokenQuestComponent"  &&  game.quest.phase != Quest.MoMPhase.investigator) return;
 
             // If a dialog is open ignore
             if (GameObject.FindGameObjectWithTag(Game.DIALOG) != null)
                 return;
-            // Spawn a window with the door/token info
+            // SpawnQuestComponent a window with the doorQuestComponent/tokenQuestComponent info
             game.quest.eManager.QueueEvent(c.GetEvent().sectionName);
         }
 
@@ -85,7 +85,7 @@ public class TokenBoard : MonoBehaviour {
         if (game.gameType is MoMGameType)
         {
             Texture2D newTex = ContentData.FileToTexture(me.cMonster.image);
-            AddPlacedMonsterImg("", newTex, 1, 1, me.qEvent.location.x, me.qEvent.location.y);
+            AddPlacedMonsterImg("", newTex, 1, 1, me.QEventQuestComponent.location.x, me.QEventQuestComponent.location.y);
         }
         // Check for a placement list at this hero count
         else if (me.qMonster.placement[count].Length == 0)
@@ -93,7 +93,7 @@ public class TokenBoard : MonoBehaviour {
             if (me.cMonster.ContainsTrait("lieutenant"))
             {
                 Texture2D newTex = ContentData.FileToTexture(me.cMonster.image);
-                AddPlacedMonsterImg("", newTex, 1, 1, me.qEvent.location.x, me.qEvent.location.y);
+                AddPlacedMonsterImg("", newTex, 1, 1, me.QEventQuestComponent.location.x, me.QEventQuestComponent.location.y);
             }
             else
             {
@@ -205,7 +205,7 @@ public class TokenBoard : MonoBehaviour {
 
         if (place.Length > 0)
         {
-            QuestData.MPlace mp = game.quest.qd.components[place] as QuestData.MPlace;
+            MPlaceQuestComponent mp = game.quest.qd.components[place] as MPlaceQuestComponent;
             posX = mp.location.x;
             posY = mp.location.y;
             
@@ -244,7 +244,7 @@ public class TokenBoard : MonoBehaviour {
 
 
     // Add a signal to place a monster group
-    public void AddAreaMonster(QuestData.Spawn m)
+    public void AddAreaMonster(SpawnQuestComponent m)
     {
         Game game = Game.Get();
         Sprite tileSprite;
@@ -276,13 +276,13 @@ public class TokenBoard : MonoBehaviour {
     }
 
     // Add highlight for event
-    public void AddHighlight(QuestData.Event e)
+    public void AddHighlight(EventQuestComponent e)
     {
         string item = "";
         int items = 0;
         foreach (string s in e.addComponents)
         {
-            if (s.IndexOf("QItem") == 0)
+            if (s.IndexOf("QItemQuestComponent") == 0)
             {
                 item = s;
                 items++;
@@ -340,7 +340,7 @@ public class TokenBoard : MonoBehaviour {
         // Create the image
         UnityEngine.UI.Image image = gameObject.AddComponent<UnityEngine.UI.Image>();
         tileSprite = Sprite.Create(newTex, new Rect(0, 0, newTex.width, newTex.height), Vector2.zero, 1);
-        // Set door colour
+        // Set doorQuestComponent colour
         image.sprite = tileSprite;
         image.rectTransform.sizeDelta = new Vector2(1f, 1f);
         // Move to square (105 units per square)

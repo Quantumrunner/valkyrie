@@ -125,44 +125,44 @@ public class EditorTools
             using (FileStream stream = File.OpenRead(packageFile))
             {
                 byte[] checksum = SHA256Managed.Create().ComputeHash(stream);
-                game.quest.qd.quest.version = System.BitConverter.ToString(checksum);
+                game.quest.qd.Quest.version = System.BitConverter.ToString(checksum);
             }
 
-            string icon = game.quest.qd.quest.image.Replace('\\', '/');
+            string icon = game.quest.qd.Quest.image.Replace('\\', '/');
             if (icon.Length > 0)
             {
                 string iconName = Path.GetFileName(icon);
                 // Temp hack to get ToString to output local file
-                game.quest.qd.quest.image = iconName;
+                game.quest.qd.Quest.image = iconName;
                 string src = Path.Combine(Path.GetDirectoryName(game.quest.qd.questPath), icon);
                 string dest = Path.Combine(destination, iconName);
                 File.Copy(src, dest);
             }
-            string manifest = game.quest.qd.quest.ToString();
+            string manifest = game.quest.qd.Quest.ToString();
             // Restore icon
-            game.quest.qd.quest.image = icon;
+            game.quest.qd.Quest.image = icon;
 
-            foreach (KeyValuePair<string, string> kv in LocalizationRead.selectDictionary("qst").ExtractAllMatches("quest.name"))
+            foreach (KeyValuePair<string, string> kv in LocalizationRead.selectDictionary("qst").ExtractAllMatches("Quest.name"))
             {
                 manifest += "name." + kv.Key + "=" + kv.Value + System.Environment.NewLine;
             }
 
-            foreach (KeyValuePair<string, string> kv in LocalizationRead.selectDictionary("qst").ExtractAllMatches("quest.synopsys"))
+            foreach (KeyValuePair<string, string> kv in LocalizationRead.selectDictionary("qst").ExtractAllMatches("Quest.synopsys"))
             {
                 manifest += "synopsys." + kv.Key + "=" + kv.Value.Replace("\n", "").Replace("\r", "") + System.Environment.NewLine;
             }
 
-            foreach (KeyValuePair<string, string> kv in LocalizationRead.selectDictionary("qst").ExtractAllMatches("quest.description"))
+            foreach (KeyValuePair<string, string> kv in LocalizationRead.selectDictionary("qst").ExtractAllMatches("Quest.description"))
             {
                 manifest += "description." + kv.Key + "=" + kv.Value.Replace("\n", "\\n").Replace("\r", "") + System.Environment.NewLine;
             }
 
-            foreach (KeyValuePair<string, string> kv in LocalizationRead.selectDictionary("qst").ExtractAllMatches("quest.authors"))
+            foreach (KeyValuePair<string, string> kv in LocalizationRead.selectDictionary("qst").ExtractAllMatches("Quest.authors"))
             {
                 manifest += "authors." + kv.Key + "=" + kv.Value.Replace("\n", "\\n").Replace("\\r", "") + System.Environment.NewLine;
             }
 
-            foreach (KeyValuePair<string, string> kv in LocalizationRead.selectDictionary("qst").ExtractAllMatches("quest.authors_short"))
+            foreach (KeyValuePair<string, string> kv in LocalizationRead.selectDictionary("qst").ExtractAllMatches("Quest.authors_short"))
             {
                 manifest += "authors_short." + kv.Key + "=" + kv.Value.Replace("\n", "").Replace("\r", "") + System.Environment.NewLine;
             }

@@ -4,7 +4,7 @@ using Assets.Scripts.Content;
 using Assets.Scripts.UI.Screens;
 using Assets.Scripts.UI;
 
-// Special class for the Menu button present while in a quest
+// Special class for the Menu button present while in a Quest
 public class ToolsButton
 {
     private StringKey TOOLS = new StringKey("val", "TOOLS");
@@ -58,11 +58,11 @@ public class ToolsButton
         }
 
         game.testMode = true;
-        // Fetch all of the quest data and initialise the quest
-        game.quest = new Quest(new QuestData.Quest(path));
+        // Fetch all of the Quest data and initialise the Quest
+        game.quest = new Quest(new Assets.Scripts.Content.Quest(path));
         game.heroCanvas.SetupUI();
 
-        int heroCount = Random.Range(game.quest.qd.quest.minHero, game.quest.qd.quest.maxHero + 1);
+        int heroCount = Random.Range(game.quest.qd.Quest.minHero, game.quest.qd.Quest.maxHero + 1);
 
         List<HeroData> hOptions = new List<HeroData>(game.cd.heroes.Values);
         for (int i = 0; i < heroCount; i++)
@@ -74,7 +74,7 @@ public class ToolsButton
 
         // Starting morale is number of heros
         game.quest.vars.SetValue("$%morale", heroCount);
-        // Set quest flag based on hero count
+        // Set Quest flag based on hero count
         game.quest.vars.SetValue("#heroes", heroCount);
         game.quest.heroesSelected = true;
 

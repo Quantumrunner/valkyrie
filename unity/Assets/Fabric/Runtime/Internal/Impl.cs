@@ -1,9 +1,8 @@
 ﻿namespace Fabric.Runtime.Internal
 {
 	using global::Fabric.Internal.Runtime;
-	using System.Collections.Generic;
 
-	internal class Impl
+    internal class Impl
 	{
 		protected const string Name = "Fabric";
 

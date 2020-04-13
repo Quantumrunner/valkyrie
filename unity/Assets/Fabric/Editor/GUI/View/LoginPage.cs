@@ -3,8 +3,7 @@
 	using UnityEngine;
 	using UnityEditor;
 	using Fabric.Internal.Editor.Model;
-	using Fabric.Internal.Editor.Controller;
-	using System;
+    using System;
 	
 	internal class LoginPage : Page
 	{

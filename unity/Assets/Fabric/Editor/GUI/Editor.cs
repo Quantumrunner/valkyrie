@@ -2,8 +2,7 @@
 {
 	using UnityEngine;
 	using UnityEditor;
-	using System;
-	using Fabric.Internal.Editor.View;
+    using Fabric.Internal.Editor.View;
 
 	public class Editor : EditorWindow
 	{

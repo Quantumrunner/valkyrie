@@ -5,9 +5,8 @@
 	using System.Collections;
 	using System.IO;
 	using UnityEditor;
-	using UnityEngine;
 
-	// Cleans up the file tree based on the passed in manifest. The manifest contains all
+    // Cleans up the file tree based on the passed in manifest. The manifest contains all
 	// files that should be kept, and all directories that should be ignored when doing
 	// cleanup.
 	//

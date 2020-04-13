@@ -1,18 +1,18 @@
 ﻿using UnityEngine;
-using System.Text;
 using System.Collections.Generic;
 using Assets.Scripts.Content;
+using Assets.Scripts.Content.QuestComponent;
 using Assets.Scripts.UI;
 
 public class EditorComponentTile : EditorComponent
 {
-    QuestData.Tile tileComponent;
+    TileQuestComponent TILE_QUEST_COMPONENT_COMPONENT;
 
     public EditorComponentTile(string nameIn) : base()
     {
         Game game = Game.Get();
-        tileComponent = game.quest.qd.components[nameIn] as QuestData.Tile;
-        component = tileComponent;
+        TILE_QUEST_COMPONENT_COMPONENT = game.quest.qd.components[nameIn] as TileQuestComponent;
+        component = TILE_QUEST_COMPONENT_COMPONENT;
         name = component.sectionName;
         Update();
     }
@@ -20,13 +20,13 @@ public class EditorComponentTile : EditorComponent
     override protected void RefreshReference()
     {
         base.RefreshReference();
-        tileComponent = component as QuestData.Tile;
+        TILE_QUEST_COMPONENT_COMPONENT = component as TileQuestComponent;
     }
 
     override public float AddSubComponents(float offset)
     {
         Game game = Game.Get();
-        CameraController.SetCamera(tileComponent.location);
+        CameraController.SetCamera(TILE_QUEST_COMPONENT_COMPONENT.location);
 
         UIElement ui = new UIElement(Game.EDITOR, scrollArea.GetScrollTransform());
         ui.SetLocation(0, offset, 4.5f, 1);
@@ -34,7 +34,7 @@ public class EditorComponentTile : EditorComponent
 
         ui = new UIElement(Game.EDITOR, scrollArea.GetScrollTransform());
         ui.SetLocation(4.5f, offset, 15, 1);
-        ui.SetText(tileComponent.tileSideName);
+        ui.SetText(TILE_QUEST_COMPONENT_COMPONENT.tileSideName);
         ui.SetButton(delegate { ChangeTileSide(); });
         new UIElementBorder(ui);
         offset += 2;
@@ -62,14 +62,14 @@ public class EditorComponentTile : EditorComponent
 
         ui = new UIElement(Game.EDITOR, scrollArea.GetScrollTransform());
         ui.SetLocation(6, offset, 3, 1);
-        ui.SetText(tileComponent.rotation.ToString());
+        ui.SetText(TILE_QUEST_COMPONENT_COMPONENT.rotation.ToString());
         ui.SetButton(delegate { TileRotate(); });
         new UIElementBorder(ui);
         offset += 2;
 
-        game.tokenBoard.AddHighlight(tileComponent.location, "TileAnchor", Game.EDITOR);
+        game.tokenBoard.AddHighlight(TILE_QUEST_COMPONENT_COMPONENT.location, "TileAnchor", Game.EDITOR);
 
-        game.quest.ChangeAlpha(tileComponent.sectionName, 1f);
+        game.quest.ChangeAlpha(TILE_QUEST_COMPONENT_COMPONENT.sectionName, 1f);
 
         return offset;
     }
@@ -85,9 +85,9 @@ public class EditorComponentTile : EditorComponent
 
         // Work out what sides are used
         HashSet<string> usedSides = new HashSet<string>();
-        foreach (KeyValuePair<string, QuestData.QuestComponent> kv in game.quest.qd.components)
+        foreach (KeyValuePair<string, QuestComponent> kv in game.quest.qd.components)
         {
-            QuestData.Tile t = kv.Value as QuestData.Tile;
+            TileQuestComponent t = kv.Value as TileQuestComponent;
             if (t != null)
             {
                 usedSides.Add(t.tileSideName);
@@ -113,34 +113,34 @@ public class EditorComponentTile : EditorComponent
     public void SelectTileSide(string tile)
     {
         Game game = Game.Get();
-        tileComponent.tileSideName = tile.Split(" ".ToCharArray())[0];
-        game.quest.Remove(tileComponent.sectionName);
-        game.quest.Add(tileComponent.sectionName);
+        TILE_QUEST_COMPONENT_COMPONENT.tileSideName = tile.Split(" ".ToCharArray())[0];
+        game.quest.Remove(TILE_QUEST_COMPONENT_COMPONENT.sectionName);
+        game.quest.Add(TILE_QUEST_COMPONENT_COMPONENT.sectionName);
         Update();
     }
 
     public void TileRotate()
     {
-        if (tileComponent.rotation == 0)
+        if (TILE_QUEST_COMPONENT_COMPONENT.rotation == 0)
         {
-            tileComponent.rotation = 90;
+            TILE_QUEST_COMPONENT_COMPONENT.rotation = 90;
         }
-        else if (tileComponent.rotation > 0 && tileComponent.rotation <= 100)
+        else if (TILE_QUEST_COMPONENT_COMPONENT.rotation > 0 && TILE_QUEST_COMPONENT_COMPONENT.rotation <= 100)
         {
-            tileComponent.rotation = 180;
+            TILE_QUEST_COMPONENT_COMPONENT.rotation = 180;
         }
-        else if (tileComponent.rotation > 100 && tileComponent.rotation <= 190)
+        else if (TILE_QUEST_COMPONENT_COMPONENT.rotation > 100 && TILE_QUEST_COMPONENT_COMPONENT.rotation <= 190)
         {
-            tileComponent.rotation = 270;
+            TILE_QUEST_COMPONENT_COMPONENT.rotation = 270;
         }
         else
         {
-            tileComponent.rotation = 0;
+            TILE_QUEST_COMPONENT_COMPONENT.rotation = 0;
         }
 
         Game game = Game.Get();
-        game.quest.Remove(tileComponent.sectionName);
-        game.quest.Add(tileComponent.sectionName);
+        game.quest.Remove(TILE_QUEST_COMPONENT_COMPONENT.sectionName);
+        game.quest.Add(TILE_QUEST_COMPONENT_COMPONENT.sectionName);
 
         Update();
     }

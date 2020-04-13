@@ -1,12 +1,12 @@
 ﻿using UnityEngine;
-using System.Text;
 using System.Collections.Generic;
 using Assets.Scripts.Content;
+using Assets.Scripts.Content.QuestComponent;
 using Assets.Scripts.UI;
 
 public class EditorComponentToken : EditorComponentEvent
 {
-    QuestData.Token tokenComponent;
+    TokenQuestComponent TOKEN_QUEST_COMPONENT_COMPONENT;
 
     public EditorComponentToken(string nameIn) : base(nameIn)
     {
@@ -23,7 +23,7 @@ public class EditorComponentToken : EditorComponentEvent
     
     override public float AddSubEventComponents(float offset)
     {
-        tokenComponent = component as QuestData.Token;
+        TOKEN_QUEST_COMPONENT_COMPONENT = component as TokenQuestComponent;
 
         UIElement ui = new UIElement(Game.EDITOR, scrollArea.GetScrollTransform());
         ui.SetLocation(0, offset, 6, 1);
@@ -31,7 +31,7 @@ public class EditorComponentToken : EditorComponentEvent
 
         ui = new UIElement(Game.EDITOR, scrollArea.GetScrollTransform());
         ui.SetLocation(6, offset, 3, 1);
-        ui.SetText(tokenComponent.rotation.ToString());
+        ui.SetText(TOKEN_QUEST_COMPONENT_COMPONENT.rotation.ToString());
         ui.SetButton(delegate { Rotate(); });
         new UIElementBorder(ui);
         offset += 2;
@@ -42,12 +42,12 @@ public class EditorComponentToken : EditorComponentEvent
 
         ui = new UIElement(Game.EDITOR, scrollArea.GetScrollTransform());
         ui.SetLocation(4, offset, 12, 1);
-        ui.SetText(tokenComponent.tokenName);
+        ui.SetText(TOKEN_QUEST_COMPONENT_COMPONENT.tokenName);
         ui.SetButton(delegate { Type(); });
         new UIElementBorder(ui);
         offset += 2;
 
-        game.quest.ChangeAlpha(tokenComponent.sectionName, 1f);
+        game.quest.ChangeAlpha(TOKEN_QUEST_COMPONENT_COMPONENT.sectionName, 1f);
 
         return offset;
     }
@@ -64,13 +64,13 @@ public class EditorComponentToken : EditorComponentEvent
 
     public void Rotate()
     {
-        tokenComponent.rotation += 90;
-        if (tokenComponent.rotation > 300)
+        TOKEN_QUEST_COMPONENT_COMPONENT.rotation += 90;
+        if (TOKEN_QUEST_COMPONENT_COMPONENT.rotation > 300)
         {
-            tokenComponent.rotation = 0;
+            TOKEN_QUEST_COMPONENT_COMPONENT.rotation = 0;
         }
-        Game.Get().quest.Remove(tokenComponent.sectionName);
-        Game.Get().quest.Add(tokenComponent.sectionName);
+        Game.Get().quest.Remove(TOKEN_QUEST_COMPONENT_COMPONENT.sectionName);
+        Game.Get().quest.Add(TOKEN_QUEST_COMPONENT_COMPONENT.sectionName);
         Update();
     }
 
@@ -95,9 +95,9 @@ public class EditorComponentToken : EditorComponentEvent
 
     public void SelectType(string token)
     {
-        tokenComponent.tokenName = token.Split(" ".ToCharArray())[0];
-        Game.Get().quest.Remove(tokenComponent.sectionName);
-        Game.Get().quest.Add(tokenComponent.sectionName);
+        TOKEN_QUEST_COMPONENT_COMPONENT.tokenName = token.Split(" ".ToCharArray())[0];
+        Game.Get().quest.Remove(TOKEN_QUEST_COMPONENT_COMPONENT.sectionName);
+        Game.Get().quest.Add(TOKEN_QUEST_COMPONENT_COMPONENT.sectionName);
         Update();
     }
 }

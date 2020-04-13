@@ -1,8 +1,7 @@
 ﻿namespace Fabric.Internal.Editor.Model
 {
 	using UnityEditor;
-	using UnityEngine;
-	using System.Collections.Generic;
+    using System.Collections.Generic;
 	
 	public class App
 	{

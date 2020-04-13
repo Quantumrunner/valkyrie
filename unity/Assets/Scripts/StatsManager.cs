@@ -1,10 +1,7 @@
 using UnityEngine;
-using UnityEngine.Networking;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.IO;
-using Assets.Scripts;
 
 /*
  * Form : https://goo.gl/forms/jrC9oKh8EPMMdO2l2
@@ -116,7 +113,7 @@ public class StatsManager
         Game game = Game.Get();
         Quest quest = game.quest;
 
-        // quest filename is the unique id
+        // Quest filename is the unique id
         gameStats.scenario_name = Path.GetFileName(game.quest.originalPath);
 
         // language is required to see the quality of translations
@@ -184,7 +181,7 @@ public class StatsManager
             gameStats.duration = 0;
         }
 
-        gameStats.quest_name = quest.qd.quest.name.Translate();
+        gameStats.quest_name = quest.qd.Quest.name.Translate();
 
     }
 

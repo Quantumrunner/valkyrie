@@ -1,7 +1,4 @@
-﻿using Assets.Scripts.Content;
-using UnityEngine;
-using FFGAppImport;
-using System.Threading;
+﻿using UnityEngine;
 
 namespace Assets.Scripts.UI.Screens
 {

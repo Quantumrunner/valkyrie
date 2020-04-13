@@ -1,7 +1,4 @@
 using System.Collections.Generic;
-using System.Text.RegularExpressions;
-using System.IO;
-using System.Linq;
 using System;
 
 
@@ -13,7 +10,7 @@ namespace Fabric.Internal.Editor.ThirdParty.xcodeapi.PBX
     // IdentifierAST := <quoted string> \ <string>
     class IdentifierAST : ValueAST
     {
-        public int value = 0; // token id
+        public int value = 0; // tokenQuestComponent id
     }
 
     // TreeAST := '{' KeyValuePairList '}'
@@ -80,7 +77,7 @@ namespace Fabric.Internal.Editor.ThirdParty.xcodeapi.PBX
             return prev;
         }
 
-        // Returns the token type of the current token
+        // Returns the tokenQuestComponent type of the current tokenQuestComponent
         TokenType Tok()
         {
             if (currPos >= tokens.Count)

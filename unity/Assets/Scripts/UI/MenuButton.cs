@@ -1,8 +1,7 @@
 ﻿using Assets.Scripts.Content;
 using Assets.Scripts.UI;
-using UnityEngine;
 
-// Special class for the Menu button present while in a quest
+// Special class for the Menu button present while in a Quest
 public class MenuButton {
 
     private StringKey MENU = new StringKey("val", "MENU");

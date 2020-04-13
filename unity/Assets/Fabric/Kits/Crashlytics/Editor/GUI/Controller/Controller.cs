@@ -1,12 +1,9 @@
 ﻿namespace Fabric.Internal.Crashlytics.Editor.Controller
 {
 	using UnityEngine;
-	using UnityEditor;
-	using System;
-	using System.Collections;
-	using System.Collections.Generic;
-	using System.Timers;
-	using Fabric.Internal.Editor;
+    using System;
+    using System.Collections.Generic;
+    using Fabric.Internal.Editor;
 	using Fabric.Internal.Editor.Controller;
 	using Fabric.Internal.Editor.Detail;
 	using Fabric.Internal.Editor.Model;

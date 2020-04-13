@@ -1,9 +1,8 @@
 ﻿using UnityEngine;
-using System.Collections;
 using Assets.Scripts.Content;
 using Assets.Scripts.UI;
 
-// Special class for the Menu button present while in a quest
+// Special class for the Menu button present while in a Quest
 public class InventoryButton
 {
     private StringKey ITEMS = new StringKey("val", "ITEMS");

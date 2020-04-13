@@ -2,9 +2,8 @@
 {
 	using UnityEngine;
 	using System;
-	using System.Collections;
-	
-	[Serializable]
+
+    [Serializable]
 	public sealed class Organization
 	{
 		[SerializeField]

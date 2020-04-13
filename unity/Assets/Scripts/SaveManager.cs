@@ -2,8 +2,6 @@ using UnityEngine;
 using System.Collections.Generic;
 using System.IO;
 using ValkyrieTools;
-using Assets.Scripts.Content;
-using Assets.Scripts;
 
 // This class provides functions to load and save games.
 class SaveManager
@@ -93,7 +91,7 @@ class SaveManager
             outTex.Apply();
             File.WriteAllBytes(Path.Combine(tempValkyriePath, "image.png"), outTex.EncodeToPNG());
 
-            // Check if we should update the zip file or write a new one with quest content
+            // Check if we should update the zip file or write a new one with Quest content
             // first autosave is a new zip file, following autosave just update the zip
             bool zip_update = false;
             if (num==0 && game.quest.firstAutoSaveDone)
@@ -168,26 +166,26 @@ class SaveManager
                 string savefile_content = File.ReadAllText(Path.Combine(valkyrieLoadPath, "save.ini"));
                 IniData saveData = IniRead.ReadFromString(savefile_content);
 
-                // when loading a quest, path should always be $TMP/load/quest/$subquest/quest.ini
-                // Make sure it is when loading a quest saved for the first time, as in that case it is the original load path
+                // when loading a Quest, path should always be $TMP/load/Quest/$subquest/Quest.ini
+                // Make sure it is when loading a Quest saved for the first time, as in that case it is the original load path
                 string questLoadPath = Path.GetDirectoryName(saveData.Get("Quest", "path"));
                 string questOriginalPath = saveData.Get("Quest", "originalpath");
 
-                // loading a quest saved for the first time
+                // loading a Quest saved for the first time
                 if (questLoadPath.Contains(questOriginalPath))
                 {
                     questLoadPath = questLoadPath.Replace(questOriginalPath, ContentData.ValkyrieLoadQuestPath);
                 }
                 
-                // Check that quest in save is valid
-                QuestData.Quest q = new QuestData.Quest(questLoadPath);
+                // Check that Quest in save is valid
+                Assets.Scripts.Content.Quest q = new Assets.Scripts.Content.Quest(questLoadPath);
                 if (!q.valid)
                 {
-                    ValkyrieDebug.Log("Error: save contains unsupported quest version." + System.Environment.NewLine);
+                    ValkyrieDebug.Log("Error: save contains unsupported Quest version." + System.Environment.NewLine);
                     Destroyer.MainMenu();
                     return;
                 }
-                saveData.data["Quest"]["path"] = Path.Combine(questLoadPath, "quest.ini");
+                saveData.data["Quest"]["path"] = Path.Combine(questLoadPath, "Quest.ini");
 
                 if (VersionManager.VersionNewer(game.version, saveData.Get("Quest", "valkyrie")))
                 {
@@ -306,12 +304,12 @@ class SaveManager
                 string data = File.ReadAllText(Path.Combine(valkyrieLoadPath, "save.ini"));
                 IniData saveData = IniRead.ReadFromString(data);
 
-                // when loading a quest, path should always be $TMP/load/quest/$subquest/quest.ini
-                // Make sure it is when loading a quest saved for the first time, as in that case it is the original load path
+                // when loading a Quest, path should always be $TMP/load/Quest/$subquest/Quest.ini
+                // Make sure it is when loading a Quest saved for the first time, as in that case it is the original load path
                 string questLoadPath = Path.GetDirectoryName(saveData.Get("Quest", "path"));
                 string questOriginalPath = saveData.Get("Quest", "originalpath");
 
-                // loading a quest saved for the first time
+                // loading a Quest saved for the first time
                 if (questLoadPath.Contains(questOriginalPath))
                 {
                     questLoadPath = questLoadPath.Replace(questOriginalPath, ContentData.ValkyrieLoadQuestPath);
@@ -319,10 +317,10 @@ class SaveManager
 
                 // use preload path rather than load
                 questLoadPath = questLoadPath.Replace(ContentData.ValkyrieLoadPath, ContentData.ValkyriePreloadPath);
-                QuestData.Quest q = new QuestData.Quest(questLoadPath);
+                Assets.Scripts.Content.Quest q = new Assets.Scripts.Content.Quest(questLoadPath);
                 if (!q.valid)
                 {
-                    ValkyrieDebug.Log("Warning: Save " + num + " contains unsupported quest version." + System.Environment.NewLine);
+                    ValkyrieDebug.Log("Warning: Save " + num + " contains unsupported Quest version." + System.Environment.NewLine);
                     return;
                 }
 

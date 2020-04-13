@@ -1,16 +1,16 @@
-﻿using UnityEngine;
-using Assets.Scripts.Content;
+﻿using Assets.Scripts.Content;
+using Assets.Scripts.Content.QuestComponent;
 using Assets.Scripts.UI;
 
 public class EditorComponentMPlace : EditorComponent
 {
-    QuestData.MPlace mPlaceComponent;
+    MPlaceQuestComponent M_PLACE_QUEST_COMPONENT_COMPONENT;
 
     public EditorComponentMPlace(string nameIn) : base()
     {
         Game game = Game.Get();
-        mPlaceComponent = game.quest.qd.components[nameIn] as QuestData.MPlace;
-        component = mPlaceComponent;
+        M_PLACE_QUEST_COMPONENT_COMPONENT = game.quest.qd.components[nameIn] as MPlaceQuestComponent;
+        component = M_PLACE_QUEST_COMPONENT_COMPONENT;
         name = component.sectionName;
         Update();
     }
@@ -18,12 +18,12 @@ public class EditorComponentMPlace : EditorComponent
     override protected void RefreshReference()
     {
         base.RefreshReference();
-        mPlaceComponent = component as QuestData.MPlace;
+        M_PLACE_QUEST_COMPONENT_COMPONENT = component as MPlaceQuestComponent;
     }
 
     override public float AddSubComponents(float offset)
     {
-        CameraController.SetCamera(mPlaceComponent.location);
+        CameraController.SetCamera(M_PLACE_QUEST_COMPONENT_COMPONENT.location);
         Game game = Game.Get();
 
         UIElement ui = new UIElement(Game.EDITOR, scrollArea.GetScrollTransform());
@@ -42,7 +42,7 @@ public class EditorComponentMPlace : EditorComponent
         ui.SetText(new StringKey("val", "X_COLON", new StringKey("val", "ROTATION")));
 
         StringKey rotateKey = new StringKey("val","RIGHT");
-        if (mPlaceComponent.rotate)
+        if (M_PLACE_QUEST_COMPONENT_COMPONENT.rotate)
         {
             rotateKey = new StringKey("val", "DOWN");
         }
@@ -55,7 +55,7 @@ public class EditorComponentMPlace : EditorComponent
         offset += 2;
 
         StringKey mast = new StringKey("val","MONSTER_MINION");
-        if (mPlaceComponent.master)
+        if (M_PLACE_QUEST_COMPONENT_COMPONENT.master)
         {
             mast = new StringKey("val","MONSTER_MASTER");
         }
@@ -66,20 +66,20 @@ public class EditorComponentMPlace : EditorComponent
         new UIElementBorder(ui);
         offset += 2;
 
-        game.tokenBoard.AddHighlight(mPlaceComponent.location, "MonsterLoc", Game.EDITOR);
+        game.tokenBoard.AddHighlight(M_PLACE_QUEST_COMPONENT_COMPONENT.location, "MonsterLoc", Game.EDITOR);
 
         return offset;
     }
 
     public void Rotate()
     {
-        mPlaceComponent.rotate = !mPlaceComponent.rotate;
+        M_PLACE_QUEST_COMPONENT_COMPONENT.rotate = !M_PLACE_QUEST_COMPONENT_COMPONENT.rotate;
         Update();
     }
 
     public void MasterToggle()
     {
-        mPlaceComponent.master = !mPlaceComponent.master;
+        M_PLACE_QUEST_COMPONENT_COMPONENT.master = !M_PLACE_QUEST_COMPONENT_COMPONENT.master;
         Update();
     }
 }

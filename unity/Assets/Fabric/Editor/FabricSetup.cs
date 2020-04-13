@@ -6,8 +6,7 @@ namespace Fabric.Internal.Editor
 	using System.IO;
 	using UnityEngine;
 	using System.Xml;
-	using Fabric.Internal.Editor.Model;
-	using System.Collections.Generic;
+    using System.Collections.Generic;
 
 	public class FabricSetup
 	{

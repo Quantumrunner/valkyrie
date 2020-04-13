@@ -67,7 +67,7 @@ namespace Fabric.Internal.Editor.Model
 		}
 		#endregion
 
-		#region OAuth Token
+		#region OAuth TokenQuestComponent
 		[SerializeField]
 		private string rawToken;
 

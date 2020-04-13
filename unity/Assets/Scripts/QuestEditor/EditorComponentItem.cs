@@ -1,18 +1,18 @@
 ﻿using UnityEngine;
-using System.Text;
 using System.Collections.Generic;
 using Assets.Scripts.Content;
+using Assets.Scripts.Content.QuestComponent;
 using Assets.Scripts.UI;
 
 public class EditorComponentItem : EditorComponent
 {
-    QuestData.QItem itemComponent;
+    QItemQuestComponent ITEM_QUEST_COMPONENT_COMPONENT;
 
     public EditorComponentItem(string nameIn) : base()
     {
         Game game = Game.Get();
-        itemComponent = game.quest.qd.components[nameIn] as QuestData.QItem;
-        component = itemComponent;
+        ITEM_QUEST_COMPONENT_COMPONENT = game.quest.qd.components[nameIn] as QItemQuestComponent;
+        component = ITEM_QUEST_COMPONENT_COMPONENT;
         name = component.sectionName;
         Update();
     }
@@ -20,7 +20,7 @@ public class EditorComponentItem : EditorComponent
     override protected void RefreshReference()
     {
         base.RefreshReference();
-        itemComponent = component as QuestData.QItem;
+        ITEM_QUEST_COMPONENT_COMPONENT = component as QItemQuestComponent;
     }
 
     override public float AddSubComponents(float offset)
@@ -36,7 +36,7 @@ public class EditorComponentItem : EditorComponent
 
             ui = new UIElement(Game.EDITOR, scrollArea.GetScrollTransform());
             ui.SetLocation(8, offset, 4, 1);
-            ui.SetText(itemComponent.starting.ToString());
+            ui.SetText(ITEM_QUEST_COMPONENT_COMPONENT.starting.ToString());
             ui.SetButton(delegate { ToggleStarting(); });
             new UIElementBorder(ui);
             offset += 2;
@@ -52,20 +52,20 @@ public class EditorComponentItem : EditorComponent
         ui.SetButton(delegate { AddItem(); });
         new UIElementBorder(ui, Color.green);
 
-        for (int i = 0; i < itemComponent.itemName.Length; i++)
+        for (int i = 0; i < ITEM_QUEST_COMPONENT_COMPONENT.itemName.Length; i++)
         {
             int tmp = i;
             ui = new UIElement(Game.EDITOR, scrollArea.GetScrollTransform());
-            ui.SetText(itemComponent.itemName[i]);
+            ui.SetText(ITEM_QUEST_COMPONENT_COMPONENT.itemName[i]);
             ui.SetButton(delegate { SetItem(tmp); });
-            if (game.quest.qd.components.ContainsKey(itemComponent.itemName[tmp]))
+            if (game.quest.qd.components.ContainsKey(ITEM_QUEST_COMPONENT_COMPONENT.itemName[tmp]))
             {
                 ui.SetLocation(0.5f, offset, 17, 1);
                 UIElement link = new UIElement(Game.EDITOR, scrollArea.GetScrollTransform());
                 link.SetLocation(17.5f, offset, 1, 1);
                 link.SetText("<b>⇨</b>", Color.cyan);
                 link.SetTextAlignment(TextAnchor.LowerCenter);
-                link.SetButton(delegate { QuestEditorData.SelectComponent(itemComponent.itemName[tmp]); });
+                link.SetButton(delegate { QuestEditorData.SelectComponent(ITEM_QUEST_COMPONENT_COMPONENT.itemName[tmp]); });
                 new UIElementBorder(link, Color.cyan);
             }
             else
@@ -74,7 +74,7 @@ public class EditorComponentItem : EditorComponent
             }
             new UIElementBorder(ui);
 
-            if (itemComponent.traits.Length > 0 || itemComponent.itemName.Length > 1 || itemComponent.traitpool.Length > 0)
+            if (ITEM_QUEST_COMPONENT_COMPONENT.traits.Length > 0 || ITEM_QUEST_COMPONENT_COMPONENT.itemName.Length > 1 || ITEM_QUEST_COMPONENT_COMPONENT.traitpool.Length > 0)
             {
                 ui = new UIElement(Game.EDITOR, scrollArea.GetScrollTransform());
                 ui.SetLocation(18.5f, offset, 1, 1);
@@ -100,14 +100,14 @@ public class EditorComponentItem : EditorComponent
         float traitOffset = offset;
         offset++;
 
-        for (int i = 0; i < itemComponent.traits.Length; i++)
+        for (int i = 0; i < ITEM_QUEST_COMPONENT_COMPONENT.traits.Length; i++)
         {
             int tmp = i;
             ui = new UIElement(Game.EDITOR, scrollArea.GetScrollTransform());
             ui.SetLocation(0, offset, 9, 1);
-            ui.SetText(new StringKey("val", itemComponent.traits[i]));
+            ui.SetText(new StringKey("val", ITEM_QUEST_COMPONENT_COMPONENT.traits[i]));
 
-            if (itemComponent.traits.Length > 1 || itemComponent.itemName.Length > 0 || itemComponent.traitpool.Length > 0)
+            if (ITEM_QUEST_COMPONENT_COMPONENT.traits.Length > 1 || ITEM_QUEST_COMPONENT_COMPONENT.itemName.Length > 0 || ITEM_QUEST_COMPONENT_COMPONENT.traitpool.Length > 0)
             {
                 ui = new UIElement(Game.EDITOR, scrollArea.GetScrollTransform());
                 ui.SetLocation(9, offset, 1, 1);
@@ -128,14 +128,14 @@ public class EditorComponentItem : EditorComponent
         ui.SetButton(delegate { AddTrait(true); });
         new UIElementBorder(ui, Color.green);
 
-        for (int i = 0; i < itemComponent.traitpool.Length; i++)
+        for (int i = 0; i < ITEM_QUEST_COMPONENT_COMPONENT.traitpool.Length; i++)
         {
             int tmp = i;
             ui = new UIElement(Game.EDITOR, scrollArea.GetScrollTransform());
             ui.SetLocation(10, traitOffset, 8.5f, 1);
-            ui.SetText(new StringKey("val", itemComponent.traitpool[i]));
+            ui.SetText(new StringKey("val", ITEM_QUEST_COMPONENT_COMPONENT.traitpool[i]));
 
-            if (itemComponent.traitpool.Length > 1 || itemComponent.itemName.Length > 0 || itemComponent.traits.Length > 0)
+            if (ITEM_QUEST_COMPONENT_COMPONENT.traitpool.Length > 1 || ITEM_QUEST_COMPONENT_COMPONENT.itemName.Length > 0 || ITEM_QUEST_COMPONENT_COMPONENT.traits.Length > 0)
             {
                 ui = new UIElement(Game.EDITOR, scrollArea.GetScrollTransform());
                 ui.SetLocation(18.5f, traitOffset, 1, 1);
@@ -150,10 +150,10 @@ public class EditorComponentItem : EditorComponent
 
         offset = AddInspect(offset);
 
-        if (itemComponent.starting)
+        if (ITEM_QUEST_COMPONENT_COMPONENT.starting)
         {
-            if(itemComponent.tests==null)
-                itemComponent.tests = new VarTests();
+            if(ITEM_QUEST_COMPONENT_COMPONENT.tests==null)
+                ITEM_QUEST_COMPONENT_COMPONENT.tests = new VarTests();
 
             offset = AddEventVarConditionComponents(offset);
         }
@@ -171,17 +171,17 @@ public class EditorComponentItem : EditorComponent
 
         ui = new UIElement(Game.EDITOR, scrollArea.GetScrollTransform());
         ui.SetLocation(5, offset, 13.5f, 1);
-        ui.SetText(itemComponent.inspect);
+        ui.SetText(ITEM_QUEST_COMPONENT_COMPONENT.inspect);
         ui.SetButton(delegate { PickInpsect(); });
         new UIElementBorder(ui);
 
-        if (itemComponent.inspect.Length > 0)
+        if (ITEM_QUEST_COMPONENT_COMPONENT.inspect.Length > 0)
         {
             ui = new UIElement(Game.EDITOR, scrollArea.GetScrollTransform());
             ui.SetLocation(18.5f, offset, 1, 1);
             ui.SetText("<b>⇨</b>", Color.cyan);
             ui.SetTextAlignment(TextAnchor.LowerCenter);
-            ui.SetButton(delegate { QuestEditorData.SelectComponent(itemComponent.inspect); });
+            ui.SetButton(delegate { QuestEditorData.SelectComponent(ITEM_QUEST_COMPONENT_COMPONENT.inspect); });
             new UIElementBorder(ui, Color.cyan);
         }
         return offset + 2;
@@ -189,7 +189,7 @@ public class EditorComponentItem : EditorComponent
 
     public void ToggleStarting()
     {
-        itemComponent.starting = !itemComponent.starting;
+        ITEM_QUEST_COMPONENT_COMPONENT.starting = !ITEM_QUEST_COMPONENT_COMPONENT.starting;
         Update();
     }
 
@@ -211,9 +211,9 @@ public class EditorComponentItem : EditorComponent
         traits.Add(CommonStringKeys.SOURCE.Translate(), new string[] { "Quest" });
 
         HashSet<string> usedItems = new HashSet<string>();
-        foreach (KeyValuePair<string, QuestData.QuestComponent> kv in game.quest.qd.components)
+        foreach (KeyValuePair<string, QuestComponent> kv in game.quest.qd.components)
         {
-            QuestData.QItem i = kv.Value as QuestData.QItem;
+            QItemQuestComponent i = kv.Value as QItemQuestComponent;
             if (i != null)
             {
                 select.AddItem(i.sectionName, traits);
@@ -243,35 +243,35 @@ public class EditorComponentItem : EditorComponent
     {
         if (pos == -1)
         {
-            string[] newArray = new string[itemComponent.itemName.Length + 1];
+            string[] newArray = new string[ITEM_QUEST_COMPONENT_COMPONENT.itemName.Length + 1];
 
-            for (int i = 0; i < itemComponent.itemName.Length; i++)
+            for (int i = 0; i < ITEM_QUEST_COMPONENT_COMPONENT.itemName.Length; i++)
             {
-                newArray[i] = itemComponent.itemName[i];
+                newArray[i] = ITEM_QUEST_COMPONENT_COMPONENT.itemName[i];
             }
-            newArray[itemComponent.itemName.Length] = item;
-            itemComponent.itemName = newArray;
+            newArray[ITEM_QUEST_COMPONENT_COMPONENT.itemName.Length] = item;
+            ITEM_QUEST_COMPONENT_COMPONENT.itemName = newArray;
         }
         else
         {
-            itemComponent.itemName[pos] = item;
+            ITEM_QUEST_COMPONENT_COMPONENT.itemName[pos] = item;
         }
         Update();
     }
 
     public void RemoveItem(int index)
     {
-        string[] newArray = new string[itemComponent.itemName.Length - 1];
+        string[] newArray = new string[ITEM_QUEST_COMPONENT_COMPONENT.itemName.Length - 1];
 
         int j = 0;
-        for (int i = 0; i < itemComponent.itemName.Length; i++)
+        for (int i = 0; i < ITEM_QUEST_COMPONENT_COMPONENT.itemName.Length; i++)
         {
             if (i != index)
             {
-                newArray[j++] = itemComponent.itemName[i];
+                newArray[j++] = ITEM_QUEST_COMPONENT_COMPONENT.itemName[i];
             }
         }
-        itemComponent.itemName = newArray;
+        ITEM_QUEST_COMPONENT_COMPONENT.itemName = newArray;
         Update();
     }
 
@@ -304,58 +304,58 @@ public class EditorComponentItem : EditorComponent
     {
         if (pool)
         {
-            string[] newArray = new string[itemComponent.traitpool.Length + 1];
+            string[] newArray = new string[ITEM_QUEST_COMPONENT_COMPONENT.traitpool.Length + 1];
 
-            for (int i = 0; i < itemComponent.traitpool.Length; i++)
+            for (int i = 0; i < ITEM_QUEST_COMPONENT_COMPONENT.traitpool.Length; i++)
             {
-                newArray[i] = itemComponent.traitpool[i];
+                newArray[i] = ITEM_QUEST_COMPONENT_COMPONENT.traitpool[i];
             }
-            newArray[itemComponent.traitpool.Length] = trait;
-            itemComponent.traitpool = newArray;
+            newArray[ITEM_QUEST_COMPONENT_COMPONENT.traitpool.Length] = trait;
+            ITEM_QUEST_COMPONENT_COMPONENT.traitpool = newArray;
         }
         else
         {
-            string[] newArray = new string[itemComponent.traits.Length + 1];
+            string[] newArray = new string[ITEM_QUEST_COMPONENT_COMPONENT.traits.Length + 1];
 
-            for (int i = 0; i < itemComponent.traits.Length; i++)
+            for (int i = 0; i < ITEM_QUEST_COMPONENT_COMPONENT.traits.Length; i++)
             {
-                newArray[i] = itemComponent.traits[i];
+                newArray[i] = ITEM_QUEST_COMPONENT_COMPONENT.traits[i];
             }
-            newArray[itemComponent.traits.Length] = trait;
-            itemComponent.traits = newArray;
+            newArray[ITEM_QUEST_COMPONENT_COMPONENT.traits.Length] = trait;
+            ITEM_QUEST_COMPONENT_COMPONENT.traits = newArray;
         }
         Update();
     }
 
     public void RemoveTrait(int index)
     {
-        string[] newArray = new string[itemComponent.traits.Length - 1];
+        string[] newArray = new string[ITEM_QUEST_COMPONENT_COMPONENT.traits.Length - 1];
 
         int j = 0;
-        for (int i = 0; i < itemComponent.traits.Length; i++)
+        for (int i = 0; i < ITEM_QUEST_COMPONENT_COMPONENT.traits.Length; i++)
         {
             if (i != index)
             {
-                newArray[j++] = itemComponent.traits[i];
+                newArray[j++] = ITEM_QUEST_COMPONENT_COMPONENT.traits[i];
             }
         }
-        itemComponent.traits = newArray;
+        ITEM_QUEST_COMPONENT_COMPONENT.traits = newArray;
         Update();
     }
 
     public void RemoveTraitPool(int index)
     {
-        string[] newArray = new string[itemComponent.traitpool.Length - 1];
+        string[] newArray = new string[ITEM_QUEST_COMPONENT_COMPONENT.traitpool.Length - 1];
 
         int j = 0;
-        for (int i = 0; i < itemComponent.traitpool.Length; i++)
+        for (int i = 0; i < ITEM_QUEST_COMPONENT_COMPONENT.traitpool.Length; i++)
         {
             if (i != index)
             {
-                newArray[j++] = itemComponent.traitpool[i];
+                newArray[j++] = ITEM_QUEST_COMPONENT_COMPONENT.traitpool[i];
             }
         }
-        itemComponent.traitpool = newArray;
+        ITEM_QUEST_COMPONENT_COMPONENT.traitpool = newArray;
         Update();
     }
 
@@ -370,11 +370,11 @@ public class EditorComponentItem : EditorComponent
         UIWindowSelectionListTraits select = new UIWindowSelectionListTraits(SelectInspectEvent, new StringKey("val", "SELECT", CommonStringKeys.SELECT_ITEM));
 
         select.AddItem("{NONE}", "");
-        select.AddNewComponentItem("Event");
+        select.AddNewComponentItem("EventQuestComponent");
 
-        foreach (KeyValuePair<string, QuestData.QuestComponent> kv in game.quest.qd.components)
+        foreach (KeyValuePair<string, QuestComponent> kv in game.quest.qd.components)
         {
-            if(kv.Value.typeDynamic.Equals("Event"))
+            if(kv.Value.typeDynamic.Equals("EventQuestComponent"))
             {
                 select.AddItem(kv.Value);
             }
@@ -385,18 +385,18 @@ public class EditorComponentItem : EditorComponent
     public void SelectInspectEvent(string eventName)
     {
         string toAdd = eventName;
-        if (eventName.Equals("{NEW:Event}"))
+        if (eventName.Equals("{NEW:EventQuestComponent}"))
         {
             int i = 0;
-            while (game.quest.qd.components.ContainsKey("Event" + i))
+            while (game.quest.qd.components.ContainsKey("EventQuestComponent" + i))
             {
                 i++;
             }
-            toAdd = "Event" + i;
-            Game.Get().quest.qd.components.Add(toAdd, new QuestData.Event(toAdd));
+            toAdd = "EventQuestComponent" + i;
+            Game.Get().quest.qd.components.Add(toAdd, new EventQuestComponent(toAdd));
         }
 
-        itemComponent.inspect = toAdd;
+        ITEM_QUEST_COMPONENT_COMPONENT.inspect = toAdd;
         Update();
     }
 }

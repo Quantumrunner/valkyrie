@@ -1,13 +1,10 @@
 ﻿namespace Fabric.Internal.Editor.View
 {
 	using UnityEngine;
-	using UnityEditor;
-	using System.Collections.Generic;
-	using System.Collections;
-	using System;
-	using Fabric.Internal.Editor.Controller;
-	
-	internal class ValidationPage : Page
+    using System.Collections.Generic;
+    using System;
+
+    internal class ValidationPage : Page
 	{
 		private static readonly Texture2D Rocket = Images.Loader.Load ("image.rocket.png");
 		private KeyValuePair<string, Action> finishButton;

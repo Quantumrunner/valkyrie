@@ -1,13 +1,9 @@
 ﻿namespace Fabric.Internal.Editor.Update
 {
-	using UnityEngine;
-	using System;
-	using System.Collections.Generic;
-	using System.Net;
-	using System.Threading;
+    using System;
+    using System.Threading;
 	using Dependency;
-	using Fabric.Internal.Editor.Model;
-	using KitsList = System.Collections.Generic.List<Dependency.DependencyGraphObject.DependenciesObject.KitsObject>;
+    using KitsList = System.Collections.Generic.List<Dependency.DependencyGraphObject.DependenciesObject.KitsObject>;
 
 	internal class PeriodicUpdateChecker
 	{

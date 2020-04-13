@@ -21,17 +21,17 @@ public class ZipManager : MonoBehaviour
         {
             if (!local_update)
             {
-                // New savefile with quest
+                // New savefile with Quest
                 ZipFile zip = new ZipFile();
                 zip.AddFile(Path.Combine(local_tempPath, "save.ini"), "");
                 zip.AddFile(Path.Combine(local_tempPath, "image.png"), "");
-                zip.AddDirectory(local_quest_path, "quest");
+                zip.AddDirectory(local_quest_path, "Quest");
                 zip.Save(local_archive_path);
                 zip.Dispose();
             }
             else
             {
-                // Update savefile without quest
+                // Update savefile without Quest
                 ZipFile zip = ZipFile.Read(local_archive_path);
                 zip.UpdateFile(Path.Combine(local_tempPath, "save.ini") , "");
                 zip.UpdateFile(Path.Combine(local_tempPath, "image.png") , "");
@@ -106,12 +106,12 @@ public class ZipManager : MonoBehaviour
 
             if (mode == Extract_mode.ZIPMANAGER_EXTRACT_INI_TXT || mode == Extract_mode.ZIPMANAGER_EXTRACT_INI_TXT_PIC)
             {
-                zip.ExtractSelectedEntries("name = quest.ini", null, target_path, ExtractExistingFileAction.OverwriteSilently);
+                zip.ExtractSelectedEntries("name = Quest.ini", null, target_path, ExtractExistingFileAction.OverwriteSilently);
                 zip.ExtractSelectedEntries("name = Localization.*.txt", null, target_path, ExtractExistingFileAction.OverwriteSilently);
 
                 if(mode == Extract_mode.ZIPMANAGER_EXTRACT_INI_TXT_PIC)
                 {
-                    Dictionary<string, string> iniData = IniRead.ReadFromIni(target_path + "/quest.ini", "Quest");
+                    Dictionary<string, string> iniData = IniRead.ReadFromIni(target_path + "/Quest.ini", "Quest");
                     if (iniData.ContainsKey("image"))
                         zip.ExtractSelectedEntries("name = '" + iniData["image"] +"'", null, target_path, ExtractExistingFileAction.OverwriteSilently);
                 }
@@ -123,7 +123,7 @@ public class ZipManager : MonoBehaviour
                 zip.ExtractSelectedEntries("name = image.png", null, target_path, ExtractExistingFileAction.OverwriteSilently);
 
                 // search in subfolder (* before filename is required for Android)
-                zip.ExtractSelectedEntries("name = *quest.ini", null, target_path, ExtractExistingFileAction.OverwriteSilently);
+                zip.ExtractSelectedEntries("name = *Quest.ini", null, target_path, ExtractExistingFileAction.OverwriteSilently);
                 zip.ExtractSelectedEntries("name = *Localization.*.txt", null, target_path, ExtractExistingFileAction.OverwriteSilently);
             }
 

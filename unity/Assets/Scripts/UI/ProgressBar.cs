@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using System.Collections;
 
 // This class is used to make a sprite change size over time
 // It can be attached to a unity gameobject

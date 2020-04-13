@@ -1,20 +1,21 @@
 ﻿using Assets.Scripts.Content;
 using System.Collections.Generic;
 using System.IO;
+using Assets.Scripts.Content.QuestComponent;
 using UnityEngine;
 
-// A monster quest class that is defined by the quest
+// A monster Quest class that is defined by the Quest
 public class QuestMonster : MonsterData
 {
     public bool useMonsterTypeActivations = false;
-    public QuestData.CustomMonster cMonster;
+    public CustomMonsterQuestComponent CMonsterQuestComponent;
     public string derivedType = "";
 
-    // Construct with quest data
-    public QuestMonster(QuestData.CustomMonster qm) : base()
+    // Construct with Quest data
+    public QuestMonster(CustomMonsterQuestComponent qm) : base()
     {
         Game game = Game.Get();
-        cMonster = qm;
+        CMonsterQuestComponent = qm;
 
         // Get base derived monster type
         MonsterData baseObject = null;
@@ -43,14 +44,14 @@ public class QuestMonster : MonsterData
         sectionName = qm.sectionName;
         priority = 0;
 
-        // Read traits from quest data or base type
+        // Read traits from Quest data or base type
         traits = qm.traits;
         if (traits.Length == 0 && baseObject != null)
         {
             traits = baseObject.traits;
         }
 
-        // Read info from quest data or base type
+        // Read info from Quest data or base type
         info = new StringKey(null, EventManager.OutputSymbolReplace(qm.info.Translate()), false);
         if (!qm.info.KeyExists() && baseObject != null)
         {
@@ -70,7 +71,7 @@ public class QuestMonster : MonsterData
             image = Path.GetDirectoryName(game.quest.qd.questPath) + Path.DirectorySeparatorChar + image;
         }
 
-        // Read placement image from quest data or base type
+        // Read placement image from Quest data or base type
         imagePlace = qm.GetImagePlacePath();
         if (imagePlace.Length == 0)
         {
@@ -88,7 +89,7 @@ public class QuestMonster : MonsterData
             imagePlace = Path.GetDirectoryName(game.quest.qd.questPath) + Path.DirectorySeparatorChar + imagePlace;
         }
 
-        // Read activations  from quest data or base type
+        // Read activations  from Quest data or base type
         activations = qm.activations;
         if (activations.Length == 0 && baseObject != null)
         {
@@ -117,20 +118,20 @@ public class QuestMonster : MonsterData
 
     override public StringKey GetRandomAttack(string type)
     {
-        if (!cMonster.investigatorAttacks.ContainsKey(type))
+        if (!CMonsterQuestComponent.investigatorAttacks.ContainsKey(type))
         {
             return base.GetRandomAttack(type);
         }
 
-        List<StringKey> attackOptions = cMonster.investigatorAttacks[type];
+        List<StringKey> attackOptions = CMonsterQuestComponent.investigatorAttacks[type];
         return attackOptions[Random.Range(0, attackOptions.Count)];
     }
 }
 
-// Class for quest defined activations
+// Class for Quest defined activations
 public class QuestActivation : ActivationData
 {
-    public QuestActivation(QuestData.Activation qa) : base()
+    public QuestActivation(ActivationQuestComponent qa) : base()
     {
         // Read data from activation
         ability = qa.ability;

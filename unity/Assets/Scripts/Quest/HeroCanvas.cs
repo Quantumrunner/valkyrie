@@ -1,7 +1,5 @@
 ﻿using UnityEngine;
-using System.Collections;
 using System.Collections.Generic;
-using Assets.Scripts.Content;
 using Assets.Scripts.UI.Screens;
 
 // This class is for drawing hero images on the screen
@@ -15,7 +13,7 @@ public class HeroCanvas : MonoBehaviour {
     public static float offsetStart = 3.75f;
     public HeroSelection heroSelection;
 
-    // Called when a quest is started, draws to screen
+    // Called when a Quest is started, draws to screen
     public void SetupUI() {
         icons = new Dictionary<int, UnityEngine.UI.Image>();
         icon_frames = new Dictionary<int, UnityEngine.UI.Image>();
@@ -25,7 +23,7 @@ public class HeroCanvas : MonoBehaviour {
             AddHero(h, game);
     }
 
-    // Called when existing quest, cleans up
+    // Called when existing Quest, cleans up
     public void Clean()
     {
         icons = null;
@@ -240,7 +238,7 @@ public class HeroCanvas : MonoBehaviour {
         if (GameObject.FindGameObjectWithTag(Game.DIALOG) != null)
         {
             // Check if we are in a hero selection dialog
-            if (game.quest.eManager.currentEvent != null && game.quest.eManager.currentEvent.qEvent.maxHeroes != 0)
+            if (game.quest.eManager.currentEvent != null && game.quest.eManager.currentEvent.QEventQuestComponent.maxHeroes != 0)
             {
                 // Invert hero selection
                 target.selected = !target.selected;
@@ -283,7 +281,7 @@ public class HeroCanvas : MonoBehaviour {
         }
 
         // Check for validity
-        if (heroCount < game.quest.qd.quest.minHero) return;
+        if (heroCount < game.quest.qd.Quest.minHero) return;
 
         foreach (GameObject go in GameObject.FindGameObjectsWithTag(Game.HEROSELECT))
             Object.Destroy(go);
@@ -302,7 +300,7 @@ public class HeroCanvas : MonoBehaviour {
             }
         }
 
-        // Set quest flag based on hero count
+        // Set Quest flag based on hero count
         game.quest.vars.SetValue("#heroes", heroCount);
 
         game.quest.heroesSelected = true;

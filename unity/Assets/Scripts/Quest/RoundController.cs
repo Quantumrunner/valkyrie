@@ -1,8 +1,8 @@
 ﻿using UnityEngine;
-using System.Collections;
 using System.Collections.Generic;
 using ValkyrieTools;
 using Assets.Scripts.Content;
+using Assets.Scripts.Content.QuestComponent;
 
 // This class controls the progression of activations and events
 public class RoundController {
@@ -130,7 +130,7 @@ public class RoundController {
         bool customActivations = false;
         MonsterData md = m.monsterData;
 
-        // Find out of this monster is quest specific
+        // Find out of this monster is Quest specific
         QuestMonster qm = md as QuestMonster;
         if (qm != null)
         {
@@ -139,11 +139,11 @@ public class RoundController {
             {
                 md = game.cd.monsters[qm.derivedType];
             }
-            // Determine if the monster has quest specific activations
+            // Determine if the monster has Quest specific activations
             customActivations = !qm.useMonsterTypeActivations;
         }
 
-        // A monster with quest specific activations
+        // A monster with Quest specific activations
         if (customActivations)
         {
             if (!qm.useMonsterTypeActivations)
@@ -152,12 +152,12 @@ public class RoundController {
                 // Get all custom activations
                 foreach (string s in qm.activations)
                 {
-                    // Find the activation in quest data
-                    if (game.quest.qd.components.ContainsKey("Activation" + s)
-                        && game.quest.vars.Test((game.quest.qd.components["Activation" + s] as QuestData.Activation).tests)
+                    // Find the activation in Quest data
+                    if (game.quest.qd.components.ContainsKey("ActivationQuestComponent" + s)
+                        && game.quest.vars.Test((game.quest.qd.components["ActivationQuestComponent" + s] as ActivationQuestComponent).tests)
                        )
                     {
-                        adList.Add(new QuestActivation(game.quest.qd.components["Activation" + s] as QuestData.Activation));
+                        adList.Add(new QuestActivation(game.quest.qd.components["ActivationQuestComponent" + s] as ActivationQuestComponent));
                     }
                     // Otherwise look for the activation in content data
                     else if (game.cd.activations.ContainsKey("MonsterActivation" + s))

@@ -1,9 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
-using System.Text.RegularExpressions;
-using System.IO;
-using System.Linq;
 
 namespace Fabric.Internal.Editor.ThirdParty.xcodeapi.PBX
 {    

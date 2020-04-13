@@ -3,12 +3,8 @@
 	using UnityEngine;
 	using UnityEditor;
 	using UnityEditor.Callbacks;
-	using System.Collections;
-	using System.Collections.Generic;
-	using System.Net;
-	using System.Text;
-	using System.IO;
-	using System;
+    using System.Collections.Generic;
+    using System;
 	using Fabric.Internal.Editor.Model;
 
 	public class FabricBuildEventAndroid : MonoBehaviour

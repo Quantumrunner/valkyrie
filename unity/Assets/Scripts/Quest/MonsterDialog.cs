@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using System.Collections;
 using Assets.Scripts.Content;
 using Assets.Scripts.UI;
 
@@ -94,7 +93,7 @@ public class MonsterDialog
         new InfoDialog(monster);
     }
 
-    // Force Activation
+    // Force ActivationQuestComponent
     public void Activate()
     {
         Game game = Game.Get();

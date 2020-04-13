@@ -1,7 +1,6 @@
 ﻿namespace Fabric.Internal.Editor.Detail
 {
-	using UnityEngine;
-	using UnityEditor;
+    using UnityEditor;
 	using System.Collections;
 	
 	// Allows using corotines in the context of the editor window.

@@ -1,16 +1,11 @@
 ﻿namespace Fabric.Internal.Editor.Update
 {
-	using UnityEngine;
-	using UnityEditor;
-	using Fabric.Internal.Editor.Model;
-	using Fabric.Internal.Editor;
+    using UnityEditor;
+    using Fabric.Internal.Editor;
 	using System;
 	using System.IO;
-	using System.Collections;
-	using System.Collections.Generic;
-	using System.Net;
 
-	[InitializeOnLoad]
+    [InitializeOnLoad]
 	public static class PeriodicPinger
 	{
 		private const int interval = 1000 * 60 * 30;  // 30 minutes

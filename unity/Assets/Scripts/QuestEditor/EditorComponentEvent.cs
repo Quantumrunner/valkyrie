@@ -2,6 +2,7 @@
 using System.IO;
 using System.Collections.Generic;
 using Assets.Scripts.Content;
+using Assets.Scripts.Content.QuestComponent;
 using Assets.Scripts.UI;
 
 public class EditorComponentEvent : EditorComponent
@@ -29,7 +30,7 @@ public class EditorComponentEvent : EditorComponent
     private readonly StringKey BUTTONS = new StringKey("val","BUTTONS");
     private readonly StringKey BUTTON = new StringKey("val", "BUTTON");
     
-    QuestData.Event eventComponent;
+    EventQuestComponent EVENT_QUEST_COMPONENT_COMPONENT;
 
     UIElementEditablePaneled eventTextUIE;
     UIElementEditable quotaUIE;
@@ -38,8 +39,8 @@ public class EditorComponentEvent : EditorComponent
     public EditorComponentEvent(string nameIn) : base()
     {
         Game game = Game.Get();
-        eventComponent = game.quest.qd.components[nameIn] as QuestData.Event;
-        component = eventComponent;
+        EVENT_QUEST_COMPONENT_COMPONENT = game.quest.qd.components[nameIn] as EventQuestComponent;
+        component = EVENT_QUEST_COMPONENT_COMPONENT;
         name = component.sectionName;
         Update();
     }
@@ -47,7 +48,7 @@ public class EditorComponentEvent : EditorComponent
     override protected void RefreshReference()
     {
         base.RefreshReference();
-        eventComponent = component as QuestData.Event;
+        EVENT_QUEST_COMPONENT_COMPONENT = component as EventQuestComponent;
     }
 
     override public float AddSubComponents(float offset)
@@ -66,7 +67,7 @@ public class EditorComponentEvent : EditorComponent
 
         ui = new UIElement(Game.EDITOR, scrollArea.GetScrollTransform());
         ui.SetLocation(4, offset++, 10, 1);
-        ui.SetText(eventComponent.audio);
+        ui.SetText(EVENT_QUEST_COMPONENT_COMPONENT.audio);
         ui.SetButton(delegate { SetAudio(); });
         new UIElementBorder(ui);
 
@@ -81,7 +82,7 @@ public class EditorComponentEvent : EditorComponent
         new UIElementBorder(ui, Color.green);
 
         int index;
-        for (index = 0; index < eventComponent.music.Count; index++)
+        for (index = 0; index < EVENT_QUEST_COMPONENT_COMPONENT.music.Count; index++)
         {
             int i = index;
             ui = new UIElement(Game.EDITOR, scrollArea.GetScrollTransform());
@@ -92,7 +93,7 @@ public class EditorComponentEvent : EditorComponent
 
             ui = new UIElement(Game.EDITOR, scrollArea.GetScrollTransform());
             ui.SetLocation(1.5f, offset, 10, 1);
-            ui.SetText(eventComponent.music[index]);
+            ui.SetText(EVENT_QUEST_COMPONENT_COMPONENT.music[index]);
             new UIElementBorder(ui);
 
             ui = new UIElement(Game.EDITOR, scrollArea.GetScrollTransform());
@@ -118,21 +119,21 @@ public class EditorComponentEvent : EditorComponent
         ui.SetButton(delegate { AddVisibility(true); });
         new UIElementBorder(ui, Color.green);
 
-        for (index = 0; index < eventComponent.addComponents.Length; index++)
+        for (index = 0; index < EVENT_QUEST_COMPONENT_COMPONENT.addComponents.Length; index++)
         {
             int i = index;
 
             ui = new UIElement(Game.EDITOR, scrollArea.GetScrollTransform());
-            ui.SetText(eventComponent.addComponents[index]);
+            ui.SetText(EVENT_QUEST_COMPONENT_COMPONENT.addComponents[index]);
             ui.SetButton(delegate { AddVisibility(true, i); });
-            if (game.quest.qd.components.ContainsKey(eventComponent.addComponents[i]))
+            if (game.quest.qd.components.ContainsKey(EVENT_QUEST_COMPONENT_COMPONENT.addComponents[i]))
             {
                 ui.SetLocation(0.5f, offset, 17, 1);
                 UIElement link = new UIElement(Game.EDITOR, scrollArea.GetScrollTransform());
                 link.SetLocation(17.5f, offset, 1, 1);
                 link.SetText("<b>⇨</b>", Color.cyan);
                 link.SetTextAlignment(TextAnchor.LowerCenter);
-                link.SetButton(delegate { QuestEditorData.SelectComponent(eventComponent.addComponents[i]); });
+                link.SetButton(delegate { QuestEditorData.SelectComponent(EVENT_QUEST_COMPONENT_COMPONENT.addComponents[i]); });
                 new UIElementBorder(link, Color.cyan);
             }
             else
@@ -159,20 +160,20 @@ public class EditorComponentEvent : EditorComponent
         ui.SetButton(delegate { AddVisibility(false); });
         new UIElementBorder(ui, Color.green);
 
-        for (index = 0; index < eventComponent.removeComponents.Length; index++)
+        for (index = 0; index < EVENT_QUEST_COMPONENT_COMPONENT.removeComponents.Length; index++)
         {
             int i = index;
             ui = new UIElement(Game.EDITOR, scrollArea.GetScrollTransform());
-            ui.SetText(eventComponent.removeComponents[index]);
+            ui.SetText(EVENT_QUEST_COMPONENT_COMPONENT.removeComponents[index]);
             ui.SetButton(delegate { AddVisibility(false, i); });
-            if (game.quest.qd.components.ContainsKey(eventComponent.removeComponents[i]))
+            if (game.quest.qd.components.ContainsKey(EVENT_QUEST_COMPONENT_COMPONENT.removeComponents[i]))
             {
                 ui.SetLocation(0.5f, offset, 17, 1);
                 UIElement link = new UIElement(Game.EDITOR, scrollArea.GetScrollTransform());
                 link.SetLocation(17.5f, offset, 1, 1);
                 link.SetText("<b>⇨</b>", Color.cyan);
                 link.SetTextAlignment(TextAnchor.LowerCenter);
-                link.SetButton(delegate { QuestEditorData.SelectComponent(eventComponent.removeComponents[i]); });
+                link.SetButton(delegate { QuestEditorData.SelectComponent(EVENT_QUEST_COMPONENT_COMPONENT.removeComponents[i]); });
                 new UIElementBorder(link, Color.cyan);
             }
             else
@@ -228,19 +229,19 @@ public class EditorComponentEvent : EditorComponent
         ui.SetLocation(14, offset, 4, 1);
         ui.SetButton(delegate { PositionTypeCycle(); });
         new UIElementBorder(ui);
-        if (eventComponent.minCam)
+        if (EVENT_QUEST_COMPONENT_COMPONENT.minCam)
         {
             ui.SetText(MIN_CAM);
         }
-        else if (eventComponent.maxCam)
+        else if (EVENT_QUEST_COMPONENT_COMPONENT.maxCam)
         {
             ui.SetText(MAX_CAM);
         }
-        else if (!eventComponent.locationSpecified)
+        else if (!EVENT_QUEST_COMPONENT_COMPONENT.locationSpecified)
         {
             ui.SetText(UNUSED);
         }
-        else if (eventComponent.highlight)
+        else if (EVENT_QUEST_COMPONENT_COMPONENT.highlight)
         {
             ui.SetText(HIGHLIGHT);
         }
@@ -263,7 +264,7 @@ public class EditorComponentEvent : EditorComponent
 
         eventTextUIE = new UIElementEditablePaneled(Game.EDITOR, scrollArea.GetScrollTransform());
         eventTextUIE.SetLocation(0.5f, offset, 19, 18);
-        eventTextUIE.SetText(eventComponent.text.Translate(true));
+        eventTextUIE.SetText(EVENT_QUEST_COMPONENT_COMPONENT.text.Translate(true));
         offset += eventTextUIE.HeightToTextPadding(1);
         eventTextUIE.SetButton(delegate { UpdateText(); });
         new UIElementBorder(eventTextUIE);
@@ -278,7 +279,7 @@ public class EditorComponentEvent : EditorComponent
 
         ui = new UIElement(Game.EDITOR, scrollArea.GetScrollTransform());
         ui.SetLocation(4, offset, 10, 1);
-        ui.SetText(eventComponent.trigger);
+        ui.SetText(EVENT_QUEST_COMPONENT_COMPONENT.trigger);
         ui.SetButton(delegate { SetTrigger(); });
         new UIElementBorder(ui);
         return offset + 2;
@@ -292,17 +293,17 @@ public class EditorComponentEvent : EditorComponent
 
         ui = new UIElement(Game.EDITOR, scrollArea.GetScrollTransform());
         ui.SetLocation(6, offset, 12.5f, 1);
-        ui.SetText(eventComponent.heroListName);
+        ui.SetText(EVENT_QUEST_COMPONENT_COMPONENT.heroListName);
         ui.SetButton(delegate { SetHighlight(); });
         new UIElementBorder(ui);
 
-        if (game.quest.qd.components.ContainsKey(eventComponent.heroListName))
+        if (game.quest.qd.components.ContainsKey(EVENT_QUEST_COMPONENT_COMPONENT.heroListName))
         {
             ui = new UIElement(Game.EDITOR, scrollArea.GetScrollTransform());
             ui.SetLocation(18.5f, offset, 1, 1);
             ui.SetText("<b>⇨</b>", Color.cyan);
             ui.SetTextAlignment(TextAnchor.LowerCenter);
-            ui.SetButton(delegate { QuestEditorData.SelectComponent(eventComponent.heroListName); });
+            ui.SetButton(delegate { QuestEditorData.SelectComponent(EVENT_QUEST_COMPONENT_COMPONENT.heroListName); });
             new UIElementBorder(ui, Color.cyan);
         }
         offset++;
@@ -313,7 +314,7 @@ public class EditorComponentEvent : EditorComponent
 
         ui = new UIElement(Game.EDITOR, scrollArea.GetScrollTransform());
         ui.SetLocation(9, offset, 2, 1);
-        ui.SetText(eventComponent.minHeroes.ToString());
+        ui.SetText(EVENT_QUEST_COMPONENT_COMPONENT.minHeroes.ToString());
         ui.SetButton(delegate { SetHeroCount(false); });
         new UIElementBorder(ui);
 
@@ -323,7 +324,7 @@ public class EditorComponentEvent : EditorComponent
 
         ui = new UIElement(Game.EDITOR, scrollArea.GetScrollTransform());
         ui.SetLocation(14, offset, 2, 1);
-        ui.SetText(eventComponent.maxHeroes.ToString());
+        ui.SetText(EVENT_QUEST_COMPONENT_COMPONENT.maxHeroes.ToString());
         ui.SetButton(delegate { SetHeroCount(true); });
         new UIElementBorder(ui);
         return offset + 2;
@@ -335,7 +336,7 @@ public class EditorComponentEvent : EditorComponent
         ui.SetLocation(0, offset, 4, 1);
         ui.SetText(new StringKey("val", "X_COLON", QUOTA));
 
-        if (eventComponent.quotaVar.Length == 0)
+        if (EVENT_QUEST_COMPONENT_COMPONENT.quotaVar.Length == 0)
         {
             ui = new UIElement(Game.EDITOR, scrollArea.GetScrollTransform());
             ui.SetLocation(4, offset, 5, 1);
@@ -346,7 +347,7 @@ public class EditorComponentEvent : EditorComponent
             // Quota dont need translation
             quotaUIE = new UIElementEditable(Game.EDITOR, scrollArea.GetScrollTransform());
             quotaUIE.SetLocation(9, offset, 2, 1);
-            quotaUIE.SetText(eventComponent.quota.ToString());
+            quotaUIE.SetText(EVENT_QUEST_COMPONENT_COMPONENT.quota.ToString());
             quotaUIE.SetButton(delegate { SetQuota(); });
             quotaUIE.SetSingleLine();
             new UIElementBorder(quotaUIE);
@@ -361,7 +362,7 @@ public class EditorComponentEvent : EditorComponent
 
             ui = new UIElement(Game.EDITOR, scrollArea.GetScrollTransform());
             ui.SetLocation(9, offset, 9, 1);
-            ui.SetText(eventComponent.quotaVar);
+            ui.SetText(EVENT_QUEST_COMPONENT_COMPONENT.quotaVar);
             ui.SetButton(delegate { SetQuotaVar(); });
             new UIElementBorder(ui);
         }
@@ -372,7 +373,7 @@ public class EditorComponentEvent : EditorComponent
         ui.SetText(new StringKey("val", "X_COLON", new StringKey("val", "NEXT_EVENTS")));
 
         string randomButton = "Ordered";
-        if (eventComponent.randomEvents) randomButton = "Random";
+        if (EVENT_QUEST_COMPONENT_COMPONENT.randomEvents) randomButton = "Random";
         ui = new UIElement(Game.EDITOR, scrollArea.GetScrollTransform());
         ui.SetLocation(8, offset, 4, 1);
         ui.SetText(new StringKey("val", randomButton));
@@ -394,13 +395,13 @@ public class EditorComponentEvent : EditorComponent
         int index = 0;
         float lastButtonOffset = 0;
         buttonUIE = new List<UIElementEditable>();
-        foreach (List<string> l in eventComponent.nextEvent)
+        foreach (List<string> l in EVENT_QUEST_COMPONENT_COMPONENT.nextEvent)
         {
             lastButtonOffset = offset;
             int buttonTmp = button++;
 
-            StringKey buttonLabel = eventComponent.buttons[buttonTmp - 1];
-            string colorRGB = ColorUtil.FromName(eventComponent.buttonColors[buttonTmp - 1]);
+            StringKey buttonLabel = EVENT_QUEST_COMPONENT_COMPONENT.buttons[buttonTmp - 1];
+            string colorRGB = ColorUtil.FromName(EVENT_QUEST_COMPONENT_COMPONENT.buttonColors[buttonTmp - 1]);
             Color32 c = Color.white;
             c.r = (byte)System.Convert.ToByte(colorRGB.Substring(1, 2), 16);
             c.g = (byte)System.Convert.ToByte(colorRGB.Substring(3, 2), 16);
@@ -482,49 +483,49 @@ public class EditorComponentEvent : EditorComponent
 
     virtual public void Highlight()
     {
-        if (eventComponent.locationSpecified || eventComponent.maxCam || eventComponent.minCam)
+        if (EVENT_QUEST_COMPONENT_COMPONENT.locationSpecified || EVENT_QUEST_COMPONENT_COMPONENT.maxCam || EVENT_QUEST_COMPONENT_COMPONENT.minCam)
         {
-            CameraController.SetCamera(eventComponent.location);
-            game.tokenBoard.AddHighlight(eventComponent.location, "EventLoc", Game.EDITOR);
+            CameraController.SetCamera(EVENT_QUEST_COMPONENT_COMPONENT.location);
+            game.tokenBoard.AddHighlight(EVENT_QUEST_COMPONENT_COMPONENT.location, "EventLoc", Game.EDITOR);
         }
     }
 
     virtual public void PositionTypeCycle()
     {
-        if (eventComponent.minCam)
+        if (EVENT_QUEST_COMPONENT_COMPONENT.minCam)
         {
-            eventComponent.locationSpecified = false;
-            eventComponent.highlight = false;
-            eventComponent.maxCam = true;
-            eventComponent.minCam = false;
+            EVENT_QUEST_COMPONENT_COMPONENT.locationSpecified = false;
+            EVENT_QUEST_COMPONENT_COMPONENT.highlight = false;
+            EVENT_QUEST_COMPONENT_COMPONENT.maxCam = true;
+            EVENT_QUEST_COMPONENT_COMPONENT.minCam = false;
         }
-        else if (eventComponent.maxCam)
+        else if (EVENT_QUEST_COMPONENT_COMPONENT.maxCam)
         {
-            eventComponent.locationSpecified = false;
-            eventComponent.highlight = false;
-            eventComponent.maxCam = false;
-            eventComponent.minCam = false;
+            EVENT_QUEST_COMPONENT_COMPONENT.locationSpecified = false;
+            EVENT_QUEST_COMPONENT_COMPONENT.highlight = false;
+            EVENT_QUEST_COMPONENT_COMPONENT.maxCam = false;
+            EVENT_QUEST_COMPONENT_COMPONENT.minCam = false;
         }
-        else if (eventComponent.highlight)
+        else if (EVENT_QUEST_COMPONENT_COMPONENT.highlight)
         {
-            eventComponent.locationSpecified = false;
-            eventComponent.highlight = false;
-            eventComponent.maxCam = false;
-            eventComponent.minCam = true;
+            EVENT_QUEST_COMPONENT_COMPONENT.locationSpecified = false;
+            EVENT_QUEST_COMPONENT_COMPONENT.highlight = false;
+            EVENT_QUEST_COMPONENT_COMPONENT.maxCam = false;
+            EVENT_QUEST_COMPONENT_COMPONENT.minCam = true;
         }
-        else if (eventComponent.locationSpecified)
+        else if (EVENT_QUEST_COMPONENT_COMPONENT.locationSpecified)
         {
-            eventComponent.locationSpecified = true;
-            eventComponent.highlight = true;
-            eventComponent.maxCam = false;
-            eventComponent.minCam = false;
+            EVENT_QUEST_COMPONENT_COMPONENT.locationSpecified = true;
+            EVENT_QUEST_COMPONENT_COMPONENT.highlight = true;
+            EVENT_QUEST_COMPONENT_COMPONENT.maxCam = false;
+            EVENT_QUEST_COMPONENT_COMPONENT.minCam = false;
         }
         else
         {
-            eventComponent.locationSpecified = true;
-            eventComponent.highlight = false;
-            eventComponent.maxCam = false;
-            eventComponent.minCam = false;
+            EVENT_QUEST_COMPONENT_COMPONENT.locationSpecified = true;
+            EVENT_QUEST_COMPONENT_COMPONENT.highlight = false;
+            EVENT_QUEST_COMPONENT_COMPONENT.maxCam = false;
+            EVENT_QUEST_COMPONENT_COMPONENT.minCam = false;
         }
         Update();
     }
@@ -535,23 +536,23 @@ public class EditorComponentEvent : EditorComponent
         {
             if (eventTextUIE.Empty())
             {
-                LocalizationRead.dicts["qst"].Remove(eventComponent.text_key);
-                eventComponent.display = false;
+                LocalizationRead.dicts["qst"].Remove(EVENT_QUEST_COMPONENT_COMPONENT.text_key);
+                EVENT_QUEST_COMPONENT_COMPONENT.display = false;
             }
             else
             {
-                LocalizationRead.updateScenarioText(eventComponent.text_key, eventTextUIE.GetText());
-                if (eventComponent.buttons.Count == 0)
+                LocalizationRead.updateScenarioText(EVENT_QUEST_COMPONENT_COMPONENT.text_key, eventTextUIE.GetText());
+                if (EVENT_QUEST_COMPONENT_COMPONENT.buttons.Count == 0)
                 {
-                    eventComponent.buttons.Add(eventComponent.genQuery("button1"));
-                    eventComponent.nextEvent.Add(new List<string>());
-                    eventComponent.buttonColors.Add("white");
-                    LocalizationRead.updateScenarioText(eventComponent.genKey("button1"),
+                    EVENT_QUEST_COMPONENT_COMPONENT.buttons.Add(EVENT_QUEST_COMPONENT_COMPONENT.genQuery("button1"));
+                    EVENT_QUEST_COMPONENT_COMPONENT.nextEvent.Add(new List<string>());
+                    EVENT_QUEST_COMPONENT_COMPONENT.buttonColors.Add("white");
+                    LocalizationRead.updateScenarioText(EVENT_QUEST_COMPONENT_COMPONENT.genKey("button1"),
                         CONTINUE.Translate());
                 }
-                if (!eventComponent.display)
+                if (!EVENT_QUEST_COMPONENT_COMPONENT.display)
                 {
-                    eventComponent.display = true;
+                    EVENT_QUEST_COMPONENT_COMPONENT.display = true;
                     Update();
                     return;
                 }
@@ -581,9 +582,9 @@ public class EditorComponentEvent : EditorComponent
         bool startPresent = false;
         bool noMorale = false;
         bool eliminated = false;
-        foreach (KeyValuePair<string, QuestData.QuestComponent> kv in game.quest.qd.components)
+        foreach (KeyValuePair<string, QuestComponent> kv in game.quest.qd.components)
         {
-            QuestData.Event e = kv.Value as QuestData.Event;
+            EventQuestComponent e = kv.Value as EventQuestComponent;
             if (e != null)
             {
                 if (e.trigger.Equals("EventStart"))
@@ -659,11 +660,11 @@ public class EditorComponentEvent : EditorComponent
         }
 
         HashSet<string> vars = new HashSet<string>();
-        foreach (KeyValuePair<string, QuestData.QuestComponent> kv in game.quest.qd.components)
+        foreach (KeyValuePair<string, QuestComponent> kv in game.quest.qd.components)
         {
-            if (kv.Value is QuestData.Event)
+            if (kv.Value is EventQuestComponent)
             {
-                QuestData.Event e = kv.Value as QuestData.Event;
+                EventQuestComponent e = kv.Value as EventQuestComponent;
                 foreach (string s in ExtractVarsFromEvent(e))
                 {
                     if (s[0] == '@')
@@ -676,9 +677,9 @@ public class EditorComponentEvent : EditorComponent
 
         traits = new Dictionary<string, IEnumerable<string>>();
         traits.Add(CommonStringKeys.TYPE.Translate(), new string[] { CommonStringKeys.CUSTOMMONSTER.Translate() });
-        foreach (KeyValuePair<string, QuestData.QuestComponent> kv in game.quest.qd.components)
+        foreach (KeyValuePair<string, QuestComponent> kv in game.quest.qd.components)
         {
-            if (kv.Value is QuestData.CustomMonster)
+            if (kv.Value is CustomMonsterQuestComponent)
             {
                 select.AddItem("Defeated" + kv.Key, traits);
                 //Add defeated unique triggers only for descent because Unique Monster do not exist in MoM
@@ -692,9 +693,9 @@ public class EditorComponentEvent : EditorComponent
         traits = new Dictionary<string, IEnumerable<string>>();
         traits.Add(CommonStringKeys.TYPE.Translate(), new string[] { CommonStringKeys.SPAWN.Translate() });
 
-        foreach (KeyValuePair<string, QuestData.QuestComponent> kv in game.quest.qd.components)
+        foreach (KeyValuePair<string, QuestComponent> kv in game.quest.qd.components)
         {
-            if (kv.Value is QuestData.Spawn)
+            if (kv.Value is SpawnQuestComponent)
             {
                 select.AddItem("Defeated" + kv.Key, traits);
                 //Add defeated unique triggers only for descent because Unique Monster do not exist in MoM
@@ -719,7 +720,7 @@ public class EditorComponentEvent : EditorComponent
 
     public void SelectEventTrigger(string trigger)
     {
-        eventComponent.trigger = trigger;
+        EVENT_QUEST_COMPONENT_COMPONENT.trigger = trigger;
         Update();
     }
 
@@ -760,14 +761,14 @@ public class EditorComponentEvent : EditorComponent
     public void SelectEventAudio(string audio)
     {
         Game game = Game.Get();
-        eventComponent.audio = audio;
-        if (game.cd.audio.ContainsKey(eventComponent.audio))
+        EVENT_QUEST_COMPONENT_COMPONENT.audio = audio;
+        if (game.cd.audio.ContainsKey(EVENT_QUEST_COMPONENT_COMPONENT.audio))
         {
-            game.audioControl.Play(game.cd.audio[eventComponent.audio].file);
+            game.audioControl.Play(game.cd.audio[EVENT_QUEST_COMPONENT_COMPONENT.audio].file);
         }
         else
         {
-            string path = Path.GetDirectoryName(Game.Get().quest.qd.questPath) + Path.DirectorySeparatorChar + eventComponent.audio;
+            string path = Path.GetDirectoryName(Game.Get().quest.qd.questPath) + Path.DirectorySeparatorChar + EVENT_QUEST_COMPONENT_COMPONENT.audio;
             game.audioControl.Play(path);
         }
         Update();
@@ -809,13 +810,13 @@ public class EditorComponentEvent : EditorComponent
 
     public void SelectMusic(int index, string music)
     {
-        eventComponent.music.Insert(index, music);
+        EVENT_QUEST_COMPONENT_COMPONENT.music.Insert(index, music);
         Update();
     }
 
     public void RemoveMusic(int index)
     {
-        eventComponent.music.RemoveAt(index);
+        EVENT_QUEST_COMPONENT_COMPONENT.music.RemoveAt(index);
         Update();
     }
 
@@ -833,9 +834,9 @@ public class EditorComponentEvent : EditorComponent
 
         select.AddItem("{NONE}", "");
 
-        foreach (KeyValuePair<string, QuestData.QuestComponent> kv in game.quest.qd.components)
+        foreach (KeyValuePair<string, QuestComponent> kv in game.quest.qd.components)
         {
-            if (kv.Value is QuestData.Event)
+            if (kv.Value is EventQuestComponent)
             {
                 select.AddItem(kv.Value);
             }
@@ -845,7 +846,7 @@ public class EditorComponentEvent : EditorComponent
 
     public void SelectEventHighlight(string eventName)
     {
-        eventComponent.heroListName = eventName;
+        EVENT_QUEST_COMPONENT_COMPONENT.heroListName = eventName;
         Update();
     }
 
@@ -869,11 +870,11 @@ public class EditorComponentEvent : EditorComponent
     {
         if (max)
         {
-            int.TryParse(number, out eventComponent.maxHeroes);
+            int.TryParse(number, out EVENT_QUEST_COMPONENT_COMPONENT.maxHeroes);
         }
         else
         {
-            int.TryParse(number, out eventComponent.minHeroes);
+            int.TryParse(number, out EVENT_QUEST_COMPONENT_COMPONENT.minHeroes);
         }
         Update();
     }
@@ -897,24 +898,24 @@ public class EditorComponentEvent : EditorComponent
 
         if (game.gameType is D2EGameType || game.gameType is IAGameType)
         {
-            select.AddNewComponentItem("Door");
+            select.AddNewComponentItem("DoorQuestComponent");
         }
-        select.AddNewComponentItem("Tile");
-        select.AddNewComponentItem("Token");
-        select.AddNewComponentItem("UI");
-        select.AddNewComponentItem("QItem");
+        select.AddNewComponentItem("TileQuestComponent");
+        select.AddNewComponentItem("TokenQuestComponent");
+        select.AddNewComponentItem("UiQuestComponent");
+        select.AddNewComponentItem("QItemQuestComponent");
 
-        foreach (KeyValuePair<string, QuestData.QuestComponent> kv in game.quest.qd.components)
+        foreach (KeyValuePair<string, QuestComponent> kv in game.quest.qd.components)
         {
-            if (kv.Value is QuestData.Door || kv.Value is QuestData.Tile || kv.Value is QuestData.Token || kv.Value is QuestData.UI)
+            if (kv.Value is DoorQuestComponent || kv.Value is TileQuestComponent || kv.Value is TokenQuestComponent || kv.Value is UiQuestComponent)
             {
                 select.AddItem(kv.Value);
             }
-            if (kv.Value is QuestData.Spawn)
+            if (kv.Value is SpawnQuestComponent)
             {
                 select.AddItem(kv.Value);
             }
-            if (kv.Value is QuestData.QItem)
+            if (kv.Value is QItemQuestComponent)
             {
                 select.AddItem(kv.Value);
             }
@@ -926,87 +927,87 @@ public class EditorComponentEvent : EditorComponent
     {
         string target = component;
         int i;
-        if (component.Equals("{NEW:Door}"))
+        if (component.Equals("{NEW:DoorQuestComponent}"))
         {
             i = 0;
-            while (game.quest.qd.components.ContainsKey("Door" + i))
+            while (game.quest.qd.components.ContainsKey("DoorQuestComponent" + i))
             {
                 i++;
             }
-            target = "Door" + i;
-            QuestData.Door door = new QuestData.Door(target);
-            Game.Get().quest.qd.components.Add(target, door);
+            target = "DoorQuestComponent" + i;
+            DoorQuestComponent doorQuestComponent = new DoorQuestComponent(target);
+            Game.Get().quest.qd.components.Add(target, doorQuestComponent);
 
             CameraController cc = GameObject.FindObjectOfType<CameraController>();
-            door.location.x = game.gameType.TileRound() * Mathf.Round(cc.gameObject.transform.position.x / game.gameType.TileRound());
-            door.location.y = game.gameType.TileRound() * Mathf.Round(cc.gameObject.transform.position.y / game.gameType.TileRound());
+            doorQuestComponent.location.x = game.gameType.TileRound() * Mathf.Round(cc.gameObject.transform.position.x / game.gameType.TileRound());
+            doorQuestComponent.location.y = game.gameType.TileRound() * Mathf.Round(cc.gameObject.transform.position.y / game.gameType.TileRound());
 
             game.quest.Add(target);
         }
-        if (component.Equals("{NEW:Tile}"))
+        if (component.Equals("{NEW:TileQuestComponent}"))
         {
             i = 0;
-            while (game.quest.qd.components.ContainsKey("Tile" + i))
+            while (game.quest.qd.components.ContainsKey("TileQuestComponent" + i))
             {
                 i++;
             }
-            target = "Tile" + i;
-            QuestData.Tile tile = new QuestData.Tile(target);
-            Game.Get().quest.qd.components.Add(target, tile);
+            target = "TileQuestComponent" + i;
+            TileQuestComponent tileQuestComponent = new TileQuestComponent(target);
+            Game.Get().quest.qd.components.Add(target, tileQuestComponent);
 
             CameraController cc = GameObject.FindObjectOfType<CameraController>();
-            tile.location.x = game.gameType.TileRound() * Mathf.Round(cc.gameObject.transform.position.x / game.gameType.TileRound());
-            tile.location.y = game.gameType.TileRound() * Mathf.Round(cc.gameObject.transform.position.y / game.gameType.TileRound());
+            tileQuestComponent.location.x = game.gameType.TileRound() * Mathf.Round(cc.gameObject.transform.position.x / game.gameType.TileRound());
+            tileQuestComponent.location.y = game.gameType.TileRound() * Mathf.Round(cc.gameObject.transform.position.y / game.gameType.TileRound());
 
             game.quest.Add(target);
         }
-        if (component.Equals("{NEW:Token}"))
+        if (component.Equals("{NEW:TokenQuestComponent}"))
         {
             i = 0;
-            while (game.quest.qd.components.ContainsKey("Token" + i))
+            while (game.quest.qd.components.ContainsKey("TokenQuestComponent" + i))
             {
                 i++;
             }
-            target = "Token" + i;
-            QuestData.Token token = new QuestData.Token(target);
-            Game.Get().quest.qd.components.Add(target, token);
+            target = "TokenQuestComponent" + i;
+            TokenQuestComponent tokenQuestComponent = new TokenQuestComponent(target);
+            Game.Get().quest.qd.components.Add(target, tokenQuestComponent);
 
             CameraController cc = GameObject.FindObjectOfType<CameraController>();
-            token.location.x = game.gameType.TileRound() * Mathf.Round(cc.gameObject.transform.position.x / game.gameType.TileRound());
-            token.location.y = game.gameType.TileRound() * Mathf.Round(cc.gameObject.transform.position.y / game.gameType.TileRound());
+            tokenQuestComponent.location.x = game.gameType.TileRound() * Mathf.Round(cc.gameObject.transform.position.x / game.gameType.TileRound());
+            tokenQuestComponent.location.y = game.gameType.TileRound() * Mathf.Round(cc.gameObject.transform.position.y / game.gameType.TileRound());
 
             game.quest.Add(target);
         }
-        if (component.Equals("{NEW:UI}"))
+        if (component.Equals("{NEW:UiQuestComponent}"))
         {
             i = 0;
-            while (game.quest.qd.components.ContainsKey("UI" + i))
+            while (game.quest.qd.components.ContainsKey("UiQuestComponent" + i))
             {
                 i++;
             }
-            target = "UI" + i;
-            Game.Get().quest.qd.components.Add(target, new QuestData.UI(target));
+            target = "UiQuestComponent" + i;
+            Game.Get().quest.qd.components.Add(target, new UiQuestComponent(target));
         }
-        if (component.Equals("{NEW:QItem}"))
+        if (component.Equals("{NEW:QItemQuestComponent}"))
         {
             i = 0;
-            while (game.quest.qd.components.ContainsKey("QItem" + i))
+            while (game.quest.qd.components.ContainsKey("QItemQuestComponent" + i))
             {
                 i++;
             }
-            target = "QItem" + i;
-            Game.Get().quest.qd.components.Add(target, new QuestData.QItem(target));
+            target = "QItemQuestComponent" + i;
+            Game.Get().quest.qd.components.Add(target, new QItemQuestComponent(target));
         }
 
         if (index != -1)
         {
             if (add)
             {
-                eventComponent.addComponents[index] = target;
+                EVENT_QUEST_COMPONENT_COMPONENT.addComponents[index] = target;
             }
             else
             {
-                eventComponent.removeComponents[index] = target;
+                EVENT_QUEST_COMPONENT_COMPONENT.removeComponents[index] = target;
             }
             Update();
             return;
@@ -1015,11 +1016,11 @@ public class EditorComponentEvent : EditorComponent
 
         if(add)
         {
-            oldC = eventComponent.addComponents;
+            oldC = EVENT_QUEST_COMPONENT_COMPONENT.addComponents;
         }
         else
         {
-            oldC = eventComponent.removeComponents;
+            oldC = EVENT_QUEST_COMPONENT_COMPONENT.removeComponents;
         }
         string[] newC = new string[oldC.Length + 1];
         for (i = 0; i < oldC.Length; i++)
@@ -1031,11 +1032,11 @@ public class EditorComponentEvent : EditorComponent
 
         if (add)
         {
-            eventComponent.addComponents = newC;
+            EVENT_QUEST_COMPONENT_COMPONENT.addComponents = newC;
         }
         else
         {
-            eventComponent.removeComponents = newC;
+            EVENT_QUEST_COMPONENT_COMPONENT.removeComponents = newC;
         }
         Update();
     }
@@ -1046,11 +1047,11 @@ public class EditorComponentEvent : EditorComponent
 
         if (add)
         {
-            oldC = eventComponent.addComponents;
+            oldC = EVENT_QUEST_COMPONENT_COMPONENT.addComponents;
         }
         else
         {
-            oldC = eventComponent.removeComponents;
+            oldC = EVENT_QUEST_COMPONENT_COMPONENT.removeComponents;
         }
 
         string[] newC = new string[oldC.Length - 1];
@@ -1066,30 +1067,30 @@ public class EditorComponentEvent : EditorComponent
 
         if (add)
         {
-            eventComponent.addComponents = newC;
+            EVENT_QUEST_COMPONENT_COMPONENT.addComponents = newC;
         }
         else
         {
-            eventComponent.removeComponents = newC;
+            EVENT_QUEST_COMPONENT_COMPONENT.removeComponents = newC;
         }
         Update();
     }
 
     public void ToggleRandom()
     {
-        eventComponent.randomEvents = !eventComponent.randomEvents;
+        EVENT_QUEST_COMPONENT_COMPONENT.randomEvents = !EVENT_QUEST_COMPONENT_COMPONENT.randomEvents;
         Update();
     }
 
     public void SetQuota()
     {
-        int.TryParse(quotaUIE.GetText(), out eventComponent.quota);
+        int.TryParse(quotaUIE.GetText(), out EVENT_QUEST_COMPONENT_COMPONENT.quota);
         Update();
     }
 
     public void SetQuotaInt()
     {
-        eventComponent.quotaVar = "";
+        EVENT_QUEST_COMPONENT_COMPONENT.quotaVar = "";
         Update();
     }
 
@@ -1120,8 +1121,8 @@ public class EditorComponentEvent : EditorComponent
         }
         else
         {
-            eventComponent.quotaVar = var;
-            eventComponent.quota = 0;
+            EVENT_QUEST_COMPONENT_COMPONENT.quotaVar = var;
+            EVENT_QUEST_COMPONENT_COMPONENT.quota = 0;
             Update();
         }
     }
@@ -1143,29 +1144,29 @@ public class EditorComponentEvent : EditorComponent
             {
                 var = "var" + var;
             }
-            eventComponent.quotaVar = var;
-            eventComponent.quota = 0;
+            EVENT_QUEST_COMPONENT_COMPONENT.quotaVar = var;
+            EVENT_QUEST_COMPONENT_COMPONENT.quota = 0;
         }
         Update();
     }
 
     public void AddButton()
     {
-        int count = eventComponent.nextEvent.Count + 1;
-        eventComponent.nextEvent.Add(new List<string>());
-        eventComponent.buttons.Add(eventComponent.genQuery("button" + count));
-        eventComponent.buttonColors.Add("white");
-        LocalizationRead.updateScenarioText(eventComponent.genKey("button" + count), BUTTON.Translate() + count);
+        int count = EVENT_QUEST_COMPONENT_COMPONENT.nextEvent.Count + 1;
+        EVENT_QUEST_COMPONENT_COMPONENT.nextEvent.Add(new List<string>());
+        EVENT_QUEST_COMPONENT_COMPONENT.buttons.Add(EVENT_QUEST_COMPONENT_COMPONENT.genQuery("button" + count));
+        EVENT_QUEST_COMPONENT_COMPONENT.buttonColors.Add("white");
+        LocalizationRead.updateScenarioText(EVENT_QUEST_COMPONENT_COMPONENT.genKey("button" + count), BUTTON.Translate() + count);
         Update();
     }
 
     public void RemoveButton()
     {
-        int count = eventComponent.nextEvent.Count;
-        eventComponent.nextEvent.RemoveAt(count - 1);
-        eventComponent.buttons.RemoveAt(count - 1);
-        eventComponent.buttonColors.RemoveAt(count - 1);
-        LocalizationRead.dicts["qst"].Remove(eventComponent.genKey("button" + count));
+        int count = EVENT_QUEST_COMPONENT_COMPONENT.nextEvent.Count;
+        EVENT_QUEST_COMPONENT_COMPONENT.nextEvent.RemoveAt(count - 1);
+        EVENT_QUEST_COMPONENT_COMPONENT.buttons.RemoveAt(count - 1);
+        EVENT_QUEST_COMPONENT_COMPONENT.buttonColors.RemoveAt(count - 1);
+        LocalizationRead.dicts["qst"].Remove(EVENT_QUEST_COMPONENT_COMPONENT.genKey("button" + count));
         Update();
     }
 
@@ -1188,7 +1189,7 @@ public class EditorComponentEvent : EditorComponent
 
     public void SelectButtonColour(int number, string color)
     {
-        eventComponent.buttonColors[number - 1] = color;
+        EVENT_QUEST_COMPONENT_COMPONENT.buttonColors[number - 1] = color;
         Update();
     }
 
@@ -1196,7 +1197,7 @@ public class EditorComponentEvent : EditorComponent
     {
         if (!buttonUIE[number - 1].Empty() && buttonUIE[number - 1].Changed())
         {
-            LocalizationRead.updateScenarioText(eventComponent.genKey("button" + number), buttonUIE[number - 1].GetText());
+            LocalizationRead.updateScenarioText(EVENT_QUEST_COMPONENT_COMPONENT.genKey("button" + number), buttonUIE[number - 1].GetText());
         }
     }
 
@@ -1215,16 +1216,16 @@ public class EditorComponentEvent : EditorComponent
 
         UIWindowSelectionListTraits select = new UIWindowSelectionListTraits(delegate(string s) { SelectAddEvent(index, button, replace, s); }, new StringKey("val", "SELECT", CommonStringKeys.EVENT));
 
-        select.AddNewComponentItem("Event");
-        select.AddNewComponentItem("Spawn");
+        select.AddNewComponentItem("EventQuestComponent");
+        select.AddNewComponentItem("SpawnQuestComponent");
         if (game.gameType is MoMGameType)
         {
-            select.AddNewComponentItem("Puzzle");
+            select.AddNewComponentItem("PuzzleQuestComponent");
         }
 
-        foreach (KeyValuePair<string, QuestData.QuestComponent> kv in game.quest.qd.components)
+        foreach (KeyValuePair<string, QuestComponent> kv in game.quest.qd.components)
         {
-            if (kv.Value is QuestData.Event)
+            if (kv.Value is EventQuestComponent)
             {
                 select.AddItem(kv.Value);
             }
@@ -1237,53 +1238,53 @@ public class EditorComponentEvent : EditorComponent
     {
         string toAdd = eventName;
         Game game = Game.Get();
-        if (eventName.Equals("{NEW:Event}"))
+        if (eventName.Equals("{NEW:EventQuestComponent}"))
         {
             int i = 0;
-            while (game.quest.qd.components.ContainsKey("Event" + i))
+            while (game.quest.qd.components.ContainsKey("EventQuestComponent" + i))
             {
                 i++;
             }
-            toAdd = "Event" + i;
-            Game.Get().quest.qd.components.Add(toAdd, new QuestData.Event(toAdd));
+            toAdd = "EventQuestComponent" + i;
+            Game.Get().quest.qd.components.Add(toAdd, new EventQuestComponent(toAdd));
         }
 
-        if (eventName.Equals("{NEW:Spawn}"))
+        if (eventName.Equals("{NEW:SpawnQuestComponent}"))
         {
             int i = 0;
-            while (game.quest.qd.components.ContainsKey("Spawn" + i))
+            while (game.quest.qd.components.ContainsKey("SpawnQuestComponent" + i))
             {
                 i++;
             }
-            toAdd = "Spawn" + i;
-            Game.Get().quest.qd.components.Add(toAdd, new QuestData.Spawn(toAdd));
+            toAdd = "SpawnQuestComponent" + i;
+            Game.Get().quest.qd.components.Add(toAdd, new SpawnQuestComponent(toAdd));
         }
 
-        if (eventName.Equals("{NEW:Puzzle}"))
+        if (eventName.Equals("{NEW:PuzzleQuestComponent}"))
         {
             int i = 0;
-            while (game.quest.qd.components.ContainsKey("Puzzle" + i))
+            while (game.quest.qd.components.ContainsKey("PuzzleQuestComponent" + i))
             {
                 i++;
             }
-            toAdd = "Puzzle" + i;
-            Game.Get().quest.qd.components.Add(toAdd, new QuestData.Puzzle(toAdd));
+            toAdd = "PuzzleQuestComponent" + i;
+            Game.Get().quest.qd.components.Add(toAdd, new PuzzleQuestComponent(toAdd));
         }
 
         if (replace)
         {
-            eventComponent.nextEvent[button - 1][index] = toAdd;
+            EVENT_QUEST_COMPONENT_COMPONENT.nextEvent[button - 1][index] = toAdd;
         }
         else
         {
-            eventComponent.nextEvent[button - 1].Insert(index, toAdd);
+            EVENT_QUEST_COMPONENT_COMPONENT.nextEvent[button - 1].Insert(index, toAdd);
         }
         Update();
     }
 
     public void RemoveEvent(int index, int button)
     {
-        eventComponent.nextEvent[button - 1].RemoveAt(index);
+        EVENT_QUEST_COMPONENT_COMPONENT.nextEvent[button - 1].RemoveAt(index);
         Update();
     }
 

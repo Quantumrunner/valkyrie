@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using System.Text;
-using System.Text.RegularExpressions;
 using System.IO;
 using System;
 using Fabric.Internal.Editor.ThirdParty.xcodeapi.PBX;

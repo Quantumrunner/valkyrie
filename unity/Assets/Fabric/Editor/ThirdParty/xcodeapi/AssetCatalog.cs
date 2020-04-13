@@ -568,7 +568,7 @@ namespace Fabric.Internal.Editor.ThirdParty.xcodeapi
             switch (mode)
             {
                 case ImageResizing.ResizeMode.Stretch: return "stretch";
-                case ImageResizing.ResizeMode.Tile: return "tile";
+                case ImageResizing.ResizeMode.Tile: return "tileQuestComponent";
             }
             return "";
         }

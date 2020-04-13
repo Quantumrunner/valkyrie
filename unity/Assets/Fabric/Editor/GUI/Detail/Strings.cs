@@ -1,9 +1,6 @@
 ﻿namespace Fabric.Internal.Editor.Detail
 {
-	using UnityEngine;
-	using System.Collections;
-	
-	public class Strings
+    public class Strings
 	{
 		public static string Unwrap(string text, char starting, char ending)
 		{

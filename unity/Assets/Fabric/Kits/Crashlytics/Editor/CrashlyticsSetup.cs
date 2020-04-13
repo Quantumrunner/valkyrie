@@ -1,10 +1,6 @@
 namespace Fabric.Internal.Crashlytics.Editor
 {
-	using UnityEditor;
-	using System.IO;
-	using UnityEngine;
-	using System.Xml;
-	using Fabric.Internal.Editor;
+    using Fabric.Internal.Editor;
 	using Fabric.Internal.Editor.Model;
 	
 	public class CrashlyticsSetup : FabricSetup

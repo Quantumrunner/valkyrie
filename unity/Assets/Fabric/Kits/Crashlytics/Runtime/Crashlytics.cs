@@ -1,8 +1,6 @@
 ﻿namespace Fabric.Crashlytics
 {
-	using UnityEngine;
-	using Fabric.Internal.Runtime;
-	using System.Diagnostics;
+    using System.Diagnostics;
 
 	public class Crashlytics
 	{

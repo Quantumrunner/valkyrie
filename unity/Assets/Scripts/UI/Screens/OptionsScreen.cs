@@ -39,7 +39,7 @@ namespace Assets.Scripts.UI.Screens
         }
 
         /// <summary>
-        /// Method to create UI elements in the screen
+        /// Method to create UiQuestComponent elements in the screen
         /// </summary>
         /// <param name="game">current game</param>
         private void CreateElements()
@@ -233,7 +233,7 @@ namespace Assets.Scripts.UI.Screens
 
 
         /// <summary>
-        /// Method to create language UI elements in the screen
+        /// Method to create language UiQuestComponent elements in the screen
         /// </summary>
         /// <param name="game">current game</param>
         private void CreateLanguageElements()
@@ -342,7 +342,7 @@ namespace Assets.Scripts.UI.Screens
         /// <param name="langName"></param>
         private void SelectLang(string lang)
         {
-            // Set newn lang in UI...
+            // Set newn lang in UiQuestComponent...
             string newLang = lang;
 
             // ... and in configuration

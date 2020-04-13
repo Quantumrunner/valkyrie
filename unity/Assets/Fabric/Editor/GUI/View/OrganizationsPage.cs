@@ -1,11 +1,8 @@
 ﻿namespace Fabric.Internal.Editor.View
 {
 	using UnityEngine;
-	using UnityEditor;
-	using System.Collections;
-	using System.Collections.Generic;
-	using System.Net;
-	using Fabric.Internal.Editor.Model;
+    using System.Collections.Generic;
+    using Fabric.Internal.Editor.Model;
 	using System;
 	
 	internal class OrganizationsPage : Page

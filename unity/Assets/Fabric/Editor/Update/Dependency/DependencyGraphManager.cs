@@ -1,14 +1,11 @@
 ﻿namespace Fabric.Internal.Editor.Update.Dependency
 {
 	using System.IO;
-	using System;
-	using UnityEngine;
-	using System.Collections.Generic;
+    using System.Collections.Generic;
 	using KitsList = System.Collections.Generic.List<DependencyGraphObject.DependenciesObject.KitsObject>;
 	using KitsObject = DependencyGraphObject.DependenciesObject.KitsObject;
 	using TransitiveDependenciesObject = DependencyGraphObject.DependenciesObject.TransitiveDependenciesObject;
-	using IncompatibilityObject = DependencyGraphObject.DependenciesObject.IncompatibilityObject;
-	using VersionedDependency = DependencyGraphResolver.VersionedDependency;
+    using VersionedDependency = DependencyGraphResolver.VersionedDependency;
 
 	internal class DependencyGraphManager
 	{

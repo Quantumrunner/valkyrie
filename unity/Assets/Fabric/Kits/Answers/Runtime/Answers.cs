@@ -1,9 +1,7 @@
 ﻿namespace Fabric.Answers
 {
 	using UnityEngine;
-	using System;
-	using System.Collections;
-	using System.Collections.Generic;
+    using System.Collections.Generic;
 	using Fabric.Answers.Internal;
 
 	public class Answers : MonoBehaviour
@@ -76,7 +74,7 @@
 		}
 
 		/// <summary>
-		/// Log an Invite Event to track how users are inviting other users into
+		/// Log an Invite EventQuestComponent to track how users are inviting other users into
 		/// your application.
 		///
 		/// <param name="inviteMethod">The method of invitation, e.g. GameCenter, Twitter, email.</param>
@@ -91,7 +89,7 @@
 		}
 
 		/// <summary>
-		/// Log a Level Start Event to track where users are in your game.
+		/// Log a Level Start EventQuestComponent to track where users are in your game.
 		///
 		/// <param name="level">The level name.</param>
 		/// <param name="customAttributes">A dictionary of custom attributes to associate with this level start event.</param>
@@ -229,7 +227,7 @@
 		}
 
 		/// <summary>
-		/// Log a Custom Event to see user actions that are uniquely important for your app in real-time, to see how often
+		/// Log a Custom EventQuestComponent to see user actions that are uniquely important for your app in real-time, to see how often
 		/// they're performing these actions with breakdowns by different categories you add. Use a human-readable name for
 		/// the name of the event, since this is how the event will appear in Answers.
 		///

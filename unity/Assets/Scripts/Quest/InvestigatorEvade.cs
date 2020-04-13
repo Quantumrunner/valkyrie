@@ -1,5 +1,4 @@
 using UnityEngine;
-using System.Collections;
 using System.Collections.Generic;
 using Assets.Scripts.Content;
 using Assets.Scripts.UI;
@@ -15,10 +14,10 @@ public class InvestigatorEvade {
         Game game = Game.Get();
 
         QuestMonster qm = m.monsterData as QuestMonster;
-        if (qm != null && game.quest.qd.components.ContainsKey(qm.cMonster.evadeEvent))
+        if (qm != null && game.quest.qd.components.ContainsKey(qm.CMonsterQuestComponent.evadeEvent))
         {
             game.quest.eManager.monsterImage = m;
-            game.quest.eManager.QueueEvent(qm.cMonster.evadeEvent);
+            game.quest.eManager.QueueEvent(qm.CMonsterQuestComponent.evadeEvent);
         }
         else
         {

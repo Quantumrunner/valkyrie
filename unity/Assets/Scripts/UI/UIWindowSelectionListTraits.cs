@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using Assets.Scripts.Content;
 using System.Collections.Generic;
+using Assets.Scripts.Content.QuestComponent;
 
 namespace Assets.Scripts.UI
 {
@@ -344,7 +345,7 @@ namespace Assets.Scripts.UI
             AddItem(new SelectionItemTraits(display, key, traits), color);
         }
 
-        public void AddItem(QuestData.QuestComponent qc)
+        public void AddItem(QuestComponent qc)
         {
             Dictionary<string, IEnumerable<string>> traits = new Dictionary<string, IEnumerable<string>>();
 
@@ -470,7 +471,7 @@ namespace Assets.Scripts.UI
             {
                 bool packRequired = false;
                 if (anyPack.Equals("") || anyPack.Equals("base")) packRequired = true;
-                foreach (string s in Game.Get().quest.qd.quest.packs)
+                foreach (string s in Game.Get().quest.qd.Quest.packs)
                 {
                     if (packRequired) break;
                     if (anyPack.Equals(s))

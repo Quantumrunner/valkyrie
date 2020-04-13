@@ -1,5 +1,4 @@
 using UnityEngine;
-using System.Collections;
 using System.Collections.Generic;
 using Assets.Scripts.Content;
 using Assets.Scripts.UI;
@@ -11,10 +10,10 @@ public class HorrorCheck {
         Game game = Game.Get();
 
         QuestMonster qm = m.monsterData as QuestMonster;
-        if (qm != null && game.quest.qd.components.ContainsKey(qm.cMonster.horrorEvent))
+        if (qm != null && game.quest.qd.components.ContainsKey(qm.CMonsterQuestComponent.horrorEvent))
         {
             game.quest.eManager.monsterImage = m;
-            game.quest.eManager.QueueEvent(qm.cMonster.horrorEvent);
+            game.quest.eManager.QueueEvent(qm.CMonsterQuestComponent.horrorEvent);
         }
         else
         {

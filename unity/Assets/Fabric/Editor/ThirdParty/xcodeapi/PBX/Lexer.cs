@@ -1,7 +1,4 @@
 using System.Collections.Generic;
-using System.Text.RegularExpressions;
-using System.IO;
-using System.Linq;
 using System;
 
 
@@ -28,10 +25,10 @@ namespace Fabric.Internal.Editor.ThirdParty.xcodeapi.PBX
     {
         public TokenType type;
         
-        // the line of the input stream the token starts in (0-based)
+        // the line of the input stream the tokenQuestComponent starts in (0-based)
         public int line;
         
-        // start and past-the-end positions of the token in the input stream
+        // start and past-the-end positions of the tokenQuestComponent in the input stream
         public int begin, end;
     }
     
@@ -82,7 +79,7 @@ namespace Fabric.Internal.Editor.ThirdParty.xcodeapi.PBX
                 line++;
         }
         
-        // tokens list is modified in the case when we add BrokenLine token and need to remove already
+        // tokens list is modified in the case when we add BrokenLine tokenQuestComponent and need to remove already
         // added tokens for the current line
         void ScanOne(Token tok)
         {

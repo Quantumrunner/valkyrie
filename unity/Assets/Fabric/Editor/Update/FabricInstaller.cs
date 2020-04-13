@@ -2,11 +2,8 @@
 {
 	using UnityEngine;
 	using UnityEditor;
-	using System.Collections;
-	using System.Collections.Generic;
-	using System.Security.Cryptography;
-	using System.Security.Cryptography.X509Certificates;
-	using System.IO;
+    using System.Security.Cryptography;
+    using System.IO;
 	using System;
 
 	internal class FabricInstaller

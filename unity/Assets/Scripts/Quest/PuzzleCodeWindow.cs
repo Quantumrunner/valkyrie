@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 using Assets.Scripts.Content;
+using Assets.Scripts.Content.QuestComponent;
 using Assets.Scripts.UI;
 
 public class PuzzleCodeWindow
@@ -10,7 +11,7 @@ public class PuzzleCodeWindow
     private readonly StringKey ICON_INVESTIGATION_RESULT = new StringKey("val", "ICON_INVESTIGATION_RESULT");
 
     public EventManager.Event eventData;
-    QuestData.Puzzle questPuzzle;
+    PuzzleQuestComponent QUEST_PUZZLE_QUEST_COMPONENT;
     public PuzzleCode puzzle;
     public List<int> guess;
     public int previousMoves = 0;
@@ -23,19 +24,19 @@ public class PuzzleCodeWindow
         Game game = Game.Get();
 
         guess = new List<int>();
-        questPuzzle = e.qEvent as QuestData.Puzzle;
+        QUEST_PUZZLE_QUEST_COMPONENT = e.QEventQuestComponent as PuzzleQuestComponent;
         buttons = GetButtons();
 
-        if (game.quest.puzzle.ContainsKey(questPuzzle.sectionName))
+        if (game.quest.puzzle.ContainsKey(QUEST_PUZZLE_QUEST_COMPONENT.sectionName))
         {
             // This puzzle was played before. Load up the previous moves.
-            puzzle = game.quest.puzzle[questPuzzle.sectionName] as PuzzleCode;
+            puzzle = game.quest.puzzle[QUEST_PUZZLE_QUEST_COMPONENT.sectionName] as PuzzleCode;
             previousMoves = puzzle.guess.Count;
         }
         else
         {
             // Initialize a new puzzle
-            puzzle = new PuzzleCode(questPuzzle.puzzleLevel, questPuzzle.puzzleAltLevel, questPuzzle.puzzleSolution);
+            puzzle = new PuzzleCode(QUEST_PUZZLE_QUEST_COMPONENT.puzzleLevel, QUEST_PUZZLE_QUEST_COMPONENT.puzzleAltLevel, QUEST_PUZZLE_QUEST_COMPONENT.puzzleSolution);
         }
 
         CreateWindow();
@@ -48,11 +49,11 @@ public class PuzzleCodeWindow
         ui.SetLocation(UIScaler.GetHCenter(-14f), 0.5f, 28, 22);
         new UIElementBorder(ui);
 
-        // Puzzle goes here
+        // PuzzleQuestComponent goes here
         float hPos = UIScaler.GetHCenter(-13f);
         if (!puzzle.Solved())
         {
-            for (int i = 1; i <= questPuzzle.puzzleAltLevel; i++)
+            for (int i = 1; i <= QUEST_PUZZLE_QUEST_COMPONENT.puzzleAltLevel; i++)
             {
                 int tmp = i;
                 ui = new UIElement();
@@ -65,7 +66,7 @@ public class PuzzleCodeWindow
                 hPos += 2.5f;
             }
             hPos = UIScaler.GetHCenter(-13f);
-            for (int i = 1; i <= questPuzzle.puzzleLevel; i++)
+            for (int i = 1; i <= QUEST_PUZZLE_QUEST_COMPONENT.puzzleLevel; i++)
             {
                 if (guess.Count >= i)
                 {
@@ -102,7 +103,7 @@ public class PuzzleCodeWindow
 
         ui = new UIElement();
         ui.SetLocation(UIScaler.GetHCenter(8), 4, 3, 2);
-        ui.SetText(EventManager.OutputSymbolReplace(questPuzzle.skill));
+        ui.SetText(EventManager.OutputSymbolReplace(QUEST_PUZZLE_QUEST_COMPONENT.skill));
         ui.SetFontSize(UIScaler.GetMediumFont());
         new UIElementBorder(ui);
 
@@ -208,7 +209,7 @@ public class PuzzleCodeWindow
 
     public void GuessAdd(int symbolType)
     {
-        if (guess.Count >= questPuzzle.puzzleLevel)
+        if (guess.Count >= QUEST_PUZZLE_QUEST_COMPONENT.puzzleLevel)
         {
             return;
         }
@@ -234,9 +235,9 @@ public class PuzzleCodeWindow
     public List<ButtonInfo> GetButtons()
     {
         List<ButtonInfo> buttons = new List<ButtonInfo>();
-        for (int i = 0; i <= questPuzzle.puzzleAltLevel; i++)
+        for (int i = 0; i <= QUEST_PUZZLE_QUEST_COMPONENT.puzzleAltLevel; i++)
         {
-            if (questPuzzle.imageType.Equals("symbol"))
+            if (QUEST_PUZZLE_QUEST_COMPONENT.imageType.Equals("symbol"))
             {
                 Texture2D dupeTex = Resources.Load("sprites/monster_duplicate_" + i) as Texture2D;
                 if (dupeTex != null)
@@ -248,7 +249,7 @@ public class PuzzleCodeWindow
                     buttons.Add(new ButtonInfo(new StringKey(null, i.ToString(), false)));
                 }
             }
-            else if (questPuzzle.imageType.Equals("element"))
+            else if (QUEST_PUZZLE_QUEST_COMPONENT.imageType.Equals("element"))
             {
                 Texture2D dupeTex = Resources.Load("sprites/element" + i) as Texture2D;
                 if (dupeTex != null)
@@ -285,7 +286,7 @@ public class PuzzleCodeWindow
 
     public void Guess()
     {
-        if (guess.Count < questPuzzle.puzzleLevel)
+        if (guess.Count < QUEST_PUZZLE_QUEST_COMPONENT.puzzleLevel)
         {
             return;
         }
@@ -298,11 +299,11 @@ public class PuzzleCodeWindow
     {
         Destroyer.Dialog();
         Game game = Game.Get();
-        if (game.quest.puzzle.ContainsKey(questPuzzle.sectionName))
+        if (game.quest.puzzle.ContainsKey(QUEST_PUZZLE_QUEST_COMPONENT.sectionName))
         {
-            game.quest.puzzle.Remove(questPuzzle.sectionName);
+            game.quest.puzzle.Remove(QUEST_PUZZLE_QUEST_COMPONENT.sectionName);
         }
-        game.quest.puzzle.Add(questPuzzle.sectionName, puzzle);
+        game.quest.puzzle.Add(QUEST_PUZZLE_QUEST_COMPONENT.sectionName, puzzle);
 
         game.quest.eManager.currentEvent = null;
         game.quest.eManager.currentEvent = null;
@@ -313,9 +314,9 @@ public class PuzzleCodeWindow
     {
         Destroyer.Dialog();
         Game game = Game.Get();
-        if (game.quest.puzzle.ContainsKey(questPuzzle.sectionName))
+        if (game.quest.puzzle.ContainsKey(QUEST_PUZZLE_QUEST_COMPONENT.sectionName))
         {
-            game.quest.puzzle.Remove(questPuzzle.sectionName);
+            game.quest.puzzle.Remove(QUEST_PUZZLE_QUEST_COMPONENT.sectionName);
         }
 
         game.quest.eManager.EndEvent();

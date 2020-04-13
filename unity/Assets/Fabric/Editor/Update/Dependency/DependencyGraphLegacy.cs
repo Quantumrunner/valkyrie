@@ -1,7 +1,6 @@
 ﻿namespace Fabric.Internal.Editor.Update.Dependency
 {
-	using UnityEngine;
-	using System.Collections.Generic;
+    using System.Collections.Generic;
 
 	internal static class DependencyGraphLegacy
 	{

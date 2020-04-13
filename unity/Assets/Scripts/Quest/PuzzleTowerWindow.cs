@@ -2,11 +2,12 @@
 using Assets.Scripts.Content;
 using Assets.Scripts.UI;
 using System.Collections.Generic;
+using Assets.Scripts.Content.QuestComponent;
 
 public class PuzzleTowerWindow : IUpdateListener
 {
     public EventManager.Event eventData;
-    QuestData.Puzzle questPuzzle;
+    PuzzleQuestComponent QUEST_PUZZLE_QUEST_COMPONENT;
     public PuzzleTower puzzle;
     public int lastMoves = 0;
     protected bool windowClosed = false;
@@ -21,16 +22,16 @@ public class PuzzleTowerWindow : IUpdateListener
         Game game = Game.Get();
 
         game.AddUpdateListener(this as IUpdateListener);
-        questPuzzle = e.qEvent as QuestData.Puzzle;
+        QUEST_PUZZLE_QUEST_COMPONENT = e.QEventQuestComponent as PuzzleQuestComponent;
 
-        if (game.quest.puzzle.ContainsKey(questPuzzle.sectionName))
+        if (game.quest.puzzle.ContainsKey(QUEST_PUZZLE_QUEST_COMPONENT.sectionName))
         {
-            puzzle = game.quest.puzzle[questPuzzle.sectionName] as PuzzleTower;
+            puzzle = game.quest.puzzle[QUEST_PUZZLE_QUEST_COMPONENT.sectionName] as PuzzleTower;
             lastMoves = puzzle.moves;
         }
         else
         {
-            puzzle = new PuzzleTower(questPuzzle.puzzleLevel);
+            puzzle = new PuzzleTower(QUEST_PUZZLE_QUEST_COMPONENT.puzzleLevel);
         }
 
         puzzleDisplay = puzzle.CopyState(puzzle.puzzle);
@@ -72,7 +73,7 @@ public class PuzzleTowerWindow : IUpdateListener
 
         ui = new UIElement();
         ui.SetLocation(UIScaler.GetHCenter(2), 18, 3, 2);
-        ui.SetText(EventManager.OutputSymbolReplace(questPuzzle.skill));
+        ui.SetText(EventManager.OutputSymbolReplace(QUEST_PUZZLE_QUEST_COMPONENT.skill));
         ui.SetFontSize(UIScaler.GetMediumFont());
         new UIElementBorder(ui);
 
@@ -133,11 +134,11 @@ public class PuzzleTowerWindow : IUpdateListener
     {
         Destroyer.Dialog();
         Game game = Game.Get();
-        if (game.quest.puzzle.ContainsKey(questPuzzle.sectionName))
+        if (game.quest.puzzle.ContainsKey(QUEST_PUZZLE_QUEST_COMPONENT.sectionName))
         {
-            game.quest.puzzle.Remove(questPuzzle.sectionName);
+            game.quest.puzzle.Remove(QUEST_PUZZLE_QUEST_COMPONENT.sectionName);
         }
-        game.quest.puzzle.Add(questPuzzle.sectionName, puzzle);
+        game.quest.puzzle.Add(QUEST_PUZZLE_QUEST_COMPONENT.sectionName, puzzle);
 
         game.quest.eManager.currentEvent = null;
         game.quest.eManager.currentEvent = null;
@@ -150,9 +151,9 @@ public class PuzzleTowerWindow : IUpdateListener
     {
         Destroyer.Dialog();
         Game game = Game.Get();
-        if (game.quest.puzzle.ContainsKey(questPuzzle.sectionName))
+        if (game.quest.puzzle.ContainsKey(QUEST_PUZZLE_QUEST_COMPONENT.sectionName))
         {
-            game.quest.puzzle.Remove(questPuzzle.sectionName);
+            game.quest.puzzle.Remove(QUEST_PUZZLE_QUEST_COMPONENT.sectionName);
         }
         windowClosed = true;
         game.quest.eManager.EndEvent();

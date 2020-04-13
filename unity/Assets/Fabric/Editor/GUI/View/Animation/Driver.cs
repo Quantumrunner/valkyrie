@@ -1,9 +1,7 @@
 ﻿namespace Fabric.Internal.Editor.View.Animation
 {
-	using UnityEngine;
-	using UnityEditor;
-	using System.Collections;
-	using System;
+    using UnityEditor;
+    using System;
 	
 	public class Driver
 	{

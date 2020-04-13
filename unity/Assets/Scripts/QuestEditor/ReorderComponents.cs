@@ -1,7 +1,7 @@
 using UnityEngine;
 using Assets.Scripts.Content;
-using System.IO;
 using System.Collections.Generic;
+using Assets.Scripts.Content.QuestComponent;
 using Assets.Scripts.UI;
 
 public class ReorderComponents
@@ -14,7 +14,7 @@ public class ReorderComponents
         Game game = Game.Get();
 
         HashSet<string> sources = new HashSet<string>();
-        foreach (QuestData.QuestComponent c in game.quest.qd.components.Values)
+        foreach (QuestComponent c in game.quest.qd.components.Values)
         {
             if (!(c is PerilData)) sources.Add(c.source);
         }
@@ -57,7 +57,7 @@ public class ReorderComponents
         float offset = 0;
         names = new List<UIElement>();
         int index = 0;
-        foreach (QuestData.QuestComponent c in game.quest.qd.components.Values)
+        foreach (QuestComponent c in game.quest.qd.components.Values)
         {
             if (!c.source.Equals(source)) continue;
 
@@ -101,7 +101,7 @@ public class ReorderComponents
     public void Update()
     {
         int i = 0;
-        foreach (QuestData.QuestComponent c in Game.Get().quest.qd.components.Values)
+        foreach (QuestComponent c in Game.Get().quest.qd.components.Values)
         {
             if (c.source.Equals(source))
             {
@@ -114,9 +114,9 @@ public class ReorderComponents
     {
         string name = names[index].GetText();
         Game game = Game.Get();
-        Dictionary<string, QuestData.QuestComponent> preDict = new Dictionary<string, QuestData.QuestComponent>();
-        List<QuestData.QuestComponent> postList = new List<QuestData.QuestComponent>();
-        foreach (QuestData.QuestComponent c in game.quest.qd.components.Values)
+        Dictionary<string, QuestComponent> preDict = new Dictionary<string, QuestComponent>();
+        List<QuestComponent> postList = new List<QuestComponent>();
+        foreach (QuestComponent c in game.quest.qd.components.Values)
         {
             if (c.sectionName.Equals(name))
             {
@@ -126,17 +126,17 @@ public class ReorderComponents
             {
                 if (c.source.Equals(game.quest.qd.components[name].source))
                 {
-                    foreach (QuestData.QuestComponent post in postList)
+                    foreach (QuestComponent post in postList)
                     {
                         preDict.Add(post.sectionName, post);
                     }
-                    postList = new List<QuestData.QuestComponent>();
+                    postList = new List<QuestComponent>();
                 }
                 postList.Add(c);
             }
         }
 
-        foreach (QuestData.QuestComponent post in postList)
+        foreach (QuestComponent post in postList)
         {
             preDict.Add(post.sectionName, post);
         }

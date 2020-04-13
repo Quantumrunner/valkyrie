@@ -2,7 +2,7 @@
 using Assets.Scripts.Content;
 using Assets.Scripts.UI;
 
-// Editable text box for use in quest editor
+// Editable text box for use in Quest editor
 public class QuestEditorTextEdit {
 
     public string value = "";

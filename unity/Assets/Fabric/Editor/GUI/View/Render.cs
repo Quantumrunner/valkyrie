@@ -1,13 +1,8 @@
 ﻿namespace Fabric.Internal.Editor.View
 {
 	using UnityEngine;
-	using UnityEditor;
-	using System.Collections;
-	using System.Collections.Generic;
-	using System;
-	using Fabric.Internal.Editor.Model;
-	
-	public class Render
+
+    public class Render
 	{
 		#region Constants
 		public static readonly uint InitialWindowHeight = 534;

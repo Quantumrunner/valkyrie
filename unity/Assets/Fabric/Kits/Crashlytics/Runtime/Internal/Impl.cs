@@ -7,8 +7,7 @@ namespace Fabric.Crashlytics.Internal
 	using System;
 	using Fabric.Internal.Runtime;
 	using System.Diagnostics;
-	using System.Collections;
-	using System.Collections.Generic;
+    using System.Collections.Generic;
 	using System.Text.RegularExpressions;
 
 	internal class Impl

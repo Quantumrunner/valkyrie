@@ -45,7 +45,7 @@ public class ActivateDialog {
             offset += 4.5f;
         }
 
-        // Activation box  header
+        // ActivationQuestComponent box  header
         ui = new UIElement(Game.ACTIVATION);
         ui.SetLocation(15, offset, UIScaler.GetWidthUnits() - 30, 2);
         if (singleStep)
@@ -66,7 +66,7 @@ public class ActivateDialog {
         ui.SetFontSize(UIScaler.GetMediumFont());
         offset += 2;
 
-        // Activation box
+        // ActivationQuestComponent box
         string activationText = "";
         if (master)
         {

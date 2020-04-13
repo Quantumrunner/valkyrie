@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using System.Collections;
 using Assets.Scripts.Content;
 using Assets.Scripts.UI;
 
@@ -25,7 +24,7 @@ public class NextStageButton
         if (Game.Get().quest.questHasEnded)
             return;
 
-        // First tile has not been displayed, button bar is not required yet
+        // First tileQuestComponent has not been displayed, button bar is not required yet
         if (!Game.Get().quest.firstTileDisplayed) 
             return;
 

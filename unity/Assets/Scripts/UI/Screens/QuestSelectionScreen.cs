@@ -7,13 +7,13 @@ using ValkyrieTools;
 
 namespace Assets.Scripts.UI.Screens
 {
-    // Class for quest selection window
+    // Class for Quest selection window
     public class QuestSelectionScreen: MonoBehaviour
     {
         // List of Quest.QuestData to display (either local or remote)
         List<string> questList = null;
 
-        // Persistent UI Element
+        // Persistent UiQuestComponent Element
         UIElement text_connection_status = null;
         UIElement text_number_of_filtered_scenario = null;
         UIElementScrollVertical scrollArea = null;
@@ -295,7 +295,7 @@ namespace Assets.Scripts.UI.Screens
             filter_missing_expansions_text.SetFontSize(UIScaler.GetMediumFont());
             filter_missing_expansions_text.SetButton(delegate { SetFilterMissingExpansions(); });
 
-            // OK button closes popup and refresh quest list
+            // OK button closes popup and refresh Quest list
             ui = new UIElement(filtersPopup.GetTransform());
             ui.SetLocation(18, 20, 6, 2);
             ui.SetText(CommonStringKeys.OK);
@@ -497,7 +497,7 @@ namespace Assets.Scripts.UI.Screens
 
             DrawSortOrderButtons();
 
-            // OK button closes popup and refresh quest list
+            // OK button closes popup and refresh Quest list
             ui = new UIElement(sortOptionsPopup.GetTransform());
             ui.SetLocation(18, 21, 6, 2);
             ui.SetText(CommonStringKeys.OK);
@@ -778,15 +778,15 @@ namespace Assets.Scripts.UI.Screens
 
             scrollArea = null;
 
-            // quest images
+            // Quest images
             images_list.Clear();
 
             if (co_display != null)
                 StopCoroutine(co_display);
         }
 
-        // check if the quest proposes at least one selected language
-        public bool HasSelectedLanguage(QuestData.Quest q)
+        // check if the Quest proposes at least one selected language
+        public bool HasSelectedLanguage(Content.Quest q)
         {
             foreach (KeyValuePair<string, bool> lang in langs_selected)
             {
@@ -855,7 +855,7 @@ namespace Assets.Scripts.UI.Screens
             last_author = "";
             last_update_info = null;
 
-            // wait for the quest list to be downloaded
+            // wait for the Quest list to be downloaded
             while(game.questsList.quest_list_mode==QuestsManager.QuestListMode.DOWNLOADING)
             {
                 yield return null;
@@ -867,13 +867,13 @@ namespace Assets.Scripts.UI.Screens
                 game.questsList.LoadAllLocalQuests();
             }
 
-            // get quest list dependant on mode (online/offline)
+            // get Quest list dependant on mode (online/offline)
             GetQuestList();
 
             // Loop through all available quests
             foreach (string key in questList)
             {
-                QuestData.Quest q = game.questsList.GetQuestData(key);
+                Content.Quest q = game.questsList.GetQuestData(key);
                 UIElement frame = null;
                 is_expansion_missing = false;
 
@@ -891,7 +891,7 @@ namespace Assets.Scripts.UI.Screens
                     continue;
                 }
 
-                // Statistics data preparation for this quest
+                // Statistics data preparation for this Quest
                 string filename = key.ToLower() + ".valkyrie";
                 bool has_stats = (game.stats != null && game.stats.scenarios_stats != null && game.stats.scenarios_stats.ContainsKey(filename));
                 int stats_play_count = 0;
@@ -912,7 +912,7 @@ namespace Assets.Scripts.UI.Screens
                 string synopsys_translation = "";
                 if (game.questsList.quest_list_mode == QuestsManager.QuestListMode.ONLINE)
                 {
-                    // quest name is local language, or default language
+                    // Quest name is local language, or default language
                     if (q.languages_name != null &&
                         !q.languages_name.TryGetValue(game.currentLang, out name_translation))
                     {
@@ -1291,12 +1291,12 @@ namespace Assets.Scripts.UI.Screens
             Destroyer.MainMenu();
         }
 
-        // Select a quest
+        // Select a Quest
         public void Selection(string key)
         {
-            ValkyrieDebug.Log("INFO: Select quest "+ key);
+            ValkyrieDebug.Log("INFO: Select Quest "+ key);
 
-            QuestData.Quest q = game.questsList.GetQuestData(key);
+            Content.Quest q = game.questsList.GetQuestData(key);
 
             Destroyer.Dialog();
             CleanQuestList();
@@ -1304,24 +1304,24 @@ namespace Assets.Scripts.UI.Screens
             if (game.questsList.quest_list_mode != QuestsManager.QuestListMode.ONLINE)
             {
                 // Play
-                ValkyrieDebug.Log("INFO: ... and launch offline quest");
+                ValkyrieDebug.Log("INFO: ... and launch offline Quest");
                 new QuestDetailsScreen(q);
             }
             else if (q.downloaded && !q.update_available)
             {
                 // Play
-                ValkyrieDebug.Log("INFO: ... and launch online quest");
+                ValkyrieDebug.Log("INFO: ... and launch online Quest");
                 new QuestDetailsScreen(QuestLoader.GetSingleQuest(key));
             }
             else
             {
                 // Download / Update
-                ValkyrieDebug.Log("INFO: ... and download quest");
+                ValkyrieDebug.Log("INFO: ... and download Quest");
                 GameObject download = new GameObject("downloadPage");
                 download.tag = Game.QUESTUI;
                 QuestDownload qd = download.AddComponent<QuestDownload>();
                 qd.Download(key);
-                // We need to refresh local quest list after download
+                // We need to refresh local Quest list after download
                 game.questsList.UnloadLocalQuests();
             }
         }
@@ -1329,7 +1329,7 @@ namespace Assets.Scripts.UI.Screens
 
         private class ImgAsyncLoader
         {
-            // URL and UI element
+            // URL and UiQuestComponent element
             private Dictionary<string, UIElement> images_list = null;
             // URL and Texture
             private Dictionary<string, Texture2D> texture_list = null;
@@ -1370,7 +1370,7 @@ namespace Assets.Scripts.UI.Screens
             }
 
             /// <summary>
-            /// Parse the downloaded remote manifest and start download of individual quest files
+            /// Parse the downloaded remote manifest and start download of individual Quest files
             /// </summary>
             public void ImageDownloaded_callback(Texture2D texture, bool error, System.Uri uri)
             {

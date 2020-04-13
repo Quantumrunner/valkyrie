@@ -1,5 +1,4 @@
 using UnityEngine;
-using System.Collections;
 using System.Collections.Generic;
 using ValkyrieTools;
 
@@ -94,7 +93,7 @@ public class PuzzleSlide : Puzzle
     override public string ToString(string id)
     {
         string nl = System.Environment.NewLine;
-        // General quest state block
+        // General Quest state block
         string r = "[PuzzleSlide" + id + "]" + nl;
         r += "moves=" + moves + nl;
         for (int i = 0; i < puzzle.Count; i++)

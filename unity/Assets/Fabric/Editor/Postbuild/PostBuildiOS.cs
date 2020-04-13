@@ -1,8 +1,6 @@
 ﻿namespace Fabric.Internal.Editor.Postbuild
 {
-	using UnityEngine;
-	using System.Collections;
-	using System.Collections.Generic;
+    using System.Collections.Generic;
 	using System.IO;
 	using Fabric.Internal.Editor.Model;
 	using Fabric.Internal.Editor.ThirdParty.xcodeapi;

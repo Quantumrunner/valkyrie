@@ -1,19 +1,16 @@
 ﻿namespace Fabric.Internal.Editor.Net.OAuth
 {
-	using UnityEngine;
-	using System.Collections;
-	using System.Collections.Generic;
+    using System.Collections.Generic;
 	using System.Net;
-	using System.Web;
-	using System.IO;
+    using System.IO;
 	using System.Text;
 	using Fabric.Internal.Editor.Detail;
 	
 	public sealed class Client
 	{
 		#region Constants
-		private static readonly string TokenEndpoint = "/oauth/token?grant_type=password";
-		private static readonly string RefreshTokenEndpoint = "/oauth/token?grant_type=refresh_token";
+		private static readonly string TokenEndpoint = "/oauth/tokenQuestComponent?grant_type=password";
+		private static readonly string RefreshTokenEndpoint = "/oauth/tokenQuestComponent?grant_type=refresh_token";
 		private static readonly string RefreshTokenQuery = "&refresh_token=";
 
 		private static readonly string[] DefaultScopes = {
@@ -31,7 +28,7 @@
 		private static readonly string ExpiresInKey = "expires_in";
 		#endregion
 
-		#region Token
+		#region TokenQuestComponent
 		public sealed class Token
 		{
 			public readonly string AccessToken;
@@ -95,7 +92,7 @@
 				URI + RefreshTokenEndpoint + RefreshTokenQuery + expired.RefreshToken
 			);
 
-			Fabric.Internal.Editor.Utils.Log ("Refreshing token via " + request.RequestUri.AbsoluteUri.ToString ());
+			Fabric.Internal.Editor.Utils.Log ("Refreshing tokenQuestComponent via " + request.RequestUri.AbsoluteUri.ToString ());
 			
 			using (Stream stream = request.GetResponse ().GetResponseStream ()) {
 				return fromStream (stream);

@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using System.Collections;
 
 // I couldn't work out unity scaling so I wrote my own.
 // The screen is alway 30 'units' high.  At 4:3 it is 40 across, at 16:9 it is 53.33.
@@ -20,7 +19,7 @@ public class UIScaler {
     public UIScaler(Canvas c)
     {
         // The canvas is positioned so that 0 is in the centre, so double
-        // The units of the UI canvas are in pixels
+        // The units of the UiQuestComponent canvas are in pixels
         widthPx = Mathf.RoundToInt(c.transform.position.x * 2);
         heightPx = Mathf.RoundToInt(c.transform.position.y * 2);
     }

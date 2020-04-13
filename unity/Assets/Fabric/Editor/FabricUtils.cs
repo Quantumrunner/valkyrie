@@ -1,8 +1,7 @@
 ﻿namespace Fabric.Internal.Editor
 {
 	using UnityEngine;
-	using System;
-	using System.IO;
+    using System.IO;
 
 	public static class Utils
 	{	

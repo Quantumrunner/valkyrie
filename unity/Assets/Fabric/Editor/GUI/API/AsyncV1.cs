@@ -3,9 +3,8 @@
 	using Fabric.Internal.Editor.Net.OAuth;
 	using Fabric.Internal.Editor.Model;
 	using System;
-	using System.Collections.Generic;
 
-	internal class AsyncV1
+    internal class AsyncV1
 	{
 		private static Client client = new Client (Net.Constants.URI);
 

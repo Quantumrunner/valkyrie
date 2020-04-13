@@ -3,13 +3,10 @@
 	using UnityEngine;
 	using UnityEditor;
 	using System;
-	using System.Collections;
-	using System.Collections.Generic;
-	using System.IO;
-	using System.Globalization;
+    using System.Collections.Generic;
+    using System.Globalization;
 	using System.Net;
-	using System.Timers;
-	using Fabric.Internal.Editor.Model;
+    using Fabric.Internal.Editor.Model;
 	using Fabric.Internal.Editor.View;
 	using Fabric.Internal.Editor.Net.OAuth;
 	using Fabric.Internal.Editor.Update;

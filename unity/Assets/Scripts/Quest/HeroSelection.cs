@@ -1,7 +1,5 @@
 ﻿using UnityEngine;
-using System.Collections;
 using System.Collections.Generic;
-using Assets.Scripts.Content;
 using Assets.Scripts.UI;
 
 // Hero selection options

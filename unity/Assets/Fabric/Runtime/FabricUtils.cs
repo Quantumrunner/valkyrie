@@ -1,9 +1,8 @@
 ﻿namespace Fabric.Internal.Runtime
 {
 	using UnityEngine;
-	using System.Collections;
-	
-	public static class Utils {
+
+    public static class Utils {
 
 		public static void Log (string kit, string message)
 		{

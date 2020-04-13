@@ -1,7 +1,5 @@
 ﻿using Assets.Scripts.Content;
-using Assets.Scripts.UI.Screens;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -11,14 +9,14 @@ using ValkyrieTools;
 public class QuestsManager
 {
     // Ini content for all remote quests
-    //   key : quest name
+    //   key : Quest name
     //   value : Quest object
-    public Dictionary<string, QuestData.Quest> remote_quests_data = null;
+    public Dictionary<string, Assets.Scripts.Content.Quest> remote_quests_data = null;
 
     // Ini content for all local quests (only required when offline)
-    //   key : quest name
+    //   key : Quest name
     //   value : Quest object
-    public Dictionary<string, QuestData.Quest> local_quests_data = null;
+    public Dictionary<string, Assets.Scripts.Content.Quest> local_quests_data = null;
 
     // List of all quests sorted from small to high (should be displayed the other way)
     //   key : sort value 
@@ -33,14 +31,14 @@ public class QuestsManager
     SortedList<float, string> quests_sorted_by_win_ratio = null;
     SortedList<float, string> quests_sorted_by_avg_duration = null;
 
-    // status of download of quest list
+    // status of download of Quest list
     public bool error_download = false;
     public string error_download_description = "";
 
     // Callback when download is done
     Action<bool> cb_download = null;
 
-    // Current mode to get quest list
+    // Current mode to get Quest list
     // Default is local, it changes when file has been downloaded
     // It can also be set by user
     public enum QuestListMode { ONLINE, LOCAL, DOWNLOADING, ERROR_DOWNLOAD };
@@ -49,7 +47,7 @@ public class QuestsManager
 
     public QuestsManager()
 	{
-        remote_quests_data = new Dictionary<string, QuestData.Quest>();
+        remote_quests_data = new Dictionary<string, Assets.Scripts.Content.Quest>();
 
         Game game = Game.Get();
 
@@ -113,7 +111,7 @@ public class QuestsManager
         IniData remoteManifest = IniRead.ReadFromString(data);
         foreach (KeyValuePair<string, Dictionary<string, string>> quest_kv in remoteManifest.data)
         {
-            remote_quests_data.Add(quest_kv.Key, new QuestData.Quest(quest_kv.Value));
+            remote_quests_data.Add(quest_kv.Key, new Assets.Scripts.Content.Quest(quest_kv.Value));
         }
 
         if (remote_quests_data.Count == 0)
@@ -141,7 +139,7 @@ public class QuestsManager
             return;
 
         // Update download status for each questData and check if update is available
-        foreach (KeyValuePair<string, QuestData.Quest> quest_data in remote_quests_data)
+        foreach (KeyValuePair<string, Assets.Scripts.Content.Quest> quest_data in remote_quests_data)
         {
             if(localManifest.data.ContainsKey(quest_data.Key))
             {
@@ -153,7 +151,7 @@ public class QuestsManager
     
     public void SetQuestAvailability(string key, bool isAvailable)
     {
-        // update list of local quest
+        // update list of local Quest
         IniData localManifest = IniRead.ReadFromString("");
         string saveLocation = ContentData.DownloadPath();
 
@@ -182,7 +180,7 @@ public class QuestsManager
         }
         File.WriteAllText(saveLocation + "/manifest.ini", localManifest.ToString());
 
-        // update status quest
+        // update status Quest
         remote_quests_data[key].downloaded = isAvailable;
         remote_quests_data[key].update_available = false;
     }
@@ -228,7 +226,7 @@ public class QuestsManager
 
         if (quest_list_mode != QuestListMode.ONLINE || force_local_quest)
         {
-            foreach (KeyValuePair<string, QuestData.Quest> quest_data in local_quests_data)
+            foreach (KeyValuePair<string, Assets.Scripts.Content.Quest> quest_data in local_quests_data)
             {
                 LocalizationRead.AddDictionary("qst", quest_data.Value.localizationDict);
                 quests_sorted_by_author.Add(quest_data.Value.GetShortAuthor(), quest_data.Key);
@@ -241,7 +239,7 @@ public class QuestsManager
         {
             if (game.stats != null && game.stats.scenarios_stats != null) // we should wait for stats to be available
             {
-                foreach (KeyValuePair<string, QuestData.Quest> quest_data in remote_quests_data)
+                foreach (KeyValuePair<string, Assets.Scripts.Content.Quest> quest_data in remote_quests_data)
                 {
                     string pkg_name = quest_data.Key.ToLower() + ".valkyrie";
                     if (game.stats.scenarios_stats.ContainsKey(pkg_name))
@@ -318,7 +316,7 @@ public class QuestsManager
         return ret;
     }
 
-    public QuestData.Quest GetQuestData(string key)
+    public Assets.Scripts.Content.Quest GetQuestData(string key)
     {
         if (quest_list_mode == QuestListMode.ONLINE && !force_local_quest)
             return remote_quests_data[key];
@@ -333,7 +331,7 @@ public class QuestsManager
         {
             // Clean up temporary files
             UnloadLocalQuests();
-            // extract and load local quest
+            // extract and load local Quest
             local_quests_data = QuestLoader.GetQuests();
         }
     }

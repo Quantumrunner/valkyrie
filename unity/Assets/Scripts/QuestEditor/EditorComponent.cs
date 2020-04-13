@@ -3,9 +3,10 @@ using System.Collections.Generic;
 using Assets.Scripts.Content;
 using Assets.Scripts.UI;
 using System.IO;
+using Assets.Scripts.Content.QuestComponent;
 
 // Super class for all editor selectable components
-// Handles UI and editing
+// Handles UiQuestComponent and editing
 public class EditorComponent {
 
     private readonly StringKey TESTS = new StringKey("val", "TESTS");
@@ -19,7 +20,7 @@ public class EditorComponent {
     private readonly StringKey OR = new StringKey("val", "OR");
 
     // Reference to the selected component
-    public QuestData.QuestComponent component;
+    public QuestComponent component;
     // These are used to latch if a position button has been pressed
     public bool gettingPosition = false;
     public bool gettingPositionSnap = false;
@@ -39,10 +40,10 @@ public class EditorComponent {
     // The editor scroll area;
     public UIElementScrollVertical scrollArea;
 
-    //Those descent peril variables are only used for internal use and should not appear in the ui
+    //Those descent peril variables are only used for internal use and should not appear in the uiQuestComponent
     private static readonly List<string> InternalPerilVariables = new List<string> { "$perilMinor11", "$perilm2value", "$perild1value", "$perilDeadly2Count" };
 
-    // Update redraws the selection UI
+    // Update redraws the selection UiQuestComponent
     virtual public void Update()
     {
         RefreshReference();
@@ -446,7 +447,7 @@ public class EditorComponent {
         {
             // Get a rounded location
             component.location = game.cc.GetMouseBoardRounded(game.gameType.SelectionRound());
-            if (component is QuestData.Tile)
+            if (component is TileQuestComponent)
             {
                 // Tiles have special rounding
                 component.location = game.cc.GetMouseBoardRounded(game.gameType.TileRound());
@@ -457,7 +458,7 @@ public class EditorComponent {
         // Redraw component
         Game.Get().quest.Remove(component.sectionName);
         Game.Get().quest.Add(component.sectionName);
-        // Update UI
+        // Update UiQuestComponent
         Update();
     }
 
@@ -498,7 +499,7 @@ public class EditorComponent {
         }
 
         // Update all references to this component
-        foreach (KeyValuePair<string, QuestData.QuestComponent> kv in game.quest.qd.components)
+        foreach (KeyValuePair<string, QuestComponent> kv in game.quest.qd.components)
         {
             kv.Value.ChangeReference(component.sectionName, name);
         }
@@ -625,11 +626,11 @@ public class EditorComponent {
         HashSet<string> dollarVars = new HashSet<string>();
 
         Game game = Game.Get();
-        foreach (KeyValuePair<string, QuestData.QuestComponent> kv in game.quest.qd.components)
+        foreach (KeyValuePair<string, QuestComponent> kv in game.quest.qd.components)
         {
-            if (kv.Value is QuestData.Event)
+            if (kv.Value is EventQuestComponent)
             {
-                QuestData.Event e = kv.Value as QuestData.Event;
+                EventQuestComponent e = kv.Value as EventQuestComponent;
                 foreach (string s in ExtractVarsFromEvent(e))
                 {
                     if (s[0] != '$')
@@ -666,7 +667,7 @@ public class EditorComponent {
         }
     }
 
-    public static HashSet<string> ExtractVarsFromEvent(QuestData.Event e)
+    public static HashSet<string> ExtractVarsFromEvent(EventQuestComponent e)
     {
         HashSet<string> vars = new HashSet<string>();
         foreach (VarOperation op in e.operations)

@@ -1,8 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 using Assets.Scripts.Content;
-using Assets.Scripts.UI;
-using ValkyrieTools;
 
 namespace Assets.Scripts.UI.Screens
 {

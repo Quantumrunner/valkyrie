@@ -3,8 +3,7 @@
 	using System.Collections.Generic;
 	using System;
 	using KitsList = System.Collections.Generic.List<DependencyGraphObject.DependenciesObject.KitsObject>;
-	using KitsObject = DependencyGraphObject.DependenciesObject.KitsObject;
-	using IncompatibilityObject = DependencyGraphObject.DependenciesObject.IncompatibilityObject;
+    using IncompatibilityObject = DependencyGraphObject.DependenciesObject.IncompatibilityObject;
 	using UnityEngine;
 
 	internal class DependencyGraphResolver

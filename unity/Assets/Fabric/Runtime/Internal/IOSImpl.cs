@@ -1,9 +1,6 @@
 ﻿namespace Fabric.Runtime.Internal
 {
-	using System.Runtime.InteropServices;
-	using System.Collections.Generic;
-
-	#if UNITY_IOS && !UNITY_EDITOR
+#if UNITY_IOS && !UNITY_EDITOR
 	internal class IOSImpl : Impl
 	{
 		#region DLL Imports

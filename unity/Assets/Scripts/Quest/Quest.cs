@@ -5,8 +5,9 @@ using Assets.Scripts.UI;
 using ValkyrieTools;
 using System.IO;
 using System.Linq;
+using Assets.Scripts.Content.QuestComponent;
 
-// Class to manage all data for the current quest
+// Class to manage all data for the current Quest
 public class Quest
 {
     /// <summary>
@@ -20,7 +21,7 @@ public class Quest
     public string questPath = "";
 
     /// <summary>
-    /// Original Quest Path (required for quest within a quest)
+    /// Original Quest Path (required for Quest within a Quest)
     /// </summary>
     public string originalPath = "";
 
@@ -31,12 +32,12 @@ public class Quest
 
     /// <summary>
     /// list of components on the board (tiles, tokens, doors) in the right order for savegames
-    ///  we need to use an ordered list of board item, to preserve items stacking order, Dictionary do not preserve order
+    ///  we need to use an ordered list of board itemQuestComponent, to preserve items stacking order, Dictionary do not preserve order
     /// </summary>
     public List<string> ordered_boardItems;
 
     /// <summary>
-    /// vars for the quest 
+    /// vars for the Quest 
     /// </summary>
     public VarManager vars;
 
@@ -52,7 +53,7 @@ public class Quest
     // Dictionary of picked items
     public Dictionary<string, string> itemSelect;
 
-    // Dictionary item inspect events
+    // Dictionary itemQuestComponent inspect events
     public Dictionary<string, string> itemInspect;
 
     // A dictionary of heros that have been selected in events
@@ -64,7 +65,7 @@ public class Quest
     // A count of successes from events
     public Dictionary<string, int> eventQuota;
 
-    // Event manager handles the events
+    // EventQuestComponent manager handles the events
     public EventManager eManager;
 
     /// <summary>
@@ -80,10 +81,10 @@ public class Quest
     // Stack of saved game state for undo
     public Stack<string> undo;
 
-    // Event Log
+    // EventQuestComponent Log
     public List<LogEntry> log;
 
-    // Event list
+    // EventQuestComponent list
     public List<string> eventList;
 
     // Dictionary of picked monster types
@@ -92,13 +93,13 @@ public class Quest
     // game state variables
     public MoMPhase phase = MoMPhase.investigator;
 
-    // This is true when the quest is finished
+    // This is true when the Quest is finished
     public bool questHasEnded = false;
 
-    // This is true once heros are selected and the quest is started
+    // This is true once heros are selected and the Quest is started
     public bool heroesSelected = false;
 
-    // This is true once the first tile has been displayed
+    // This is true once the first tileQuestComponent has been displayed
     public bool firstTileDisplayed = false;
 
     // This is true once the first autoSave has been done
@@ -113,7 +114,7 @@ public class Quest
     // Quest gameplay duration
     public int duration;
 
-    // Default music will be played when you start the quest
+    // Default music will be played when you start the Quest
     public bool defaultMusicOn;
 
     // A list of music if custom music has been selected - used for save games
@@ -141,15 +142,15 @@ public class Quest
         return Path.Combine(source, name);
     }
 
-    // Construct a new quest from quest data
-    public Quest(QuestData.Quest q)
+    // Construct a new Quest from Quest data
+    public Quest(Assets.Scripts.Content.Quest q)
     {
         game = Game.Get();
 
         // This happens anyway but we need it to be here before the following code is executed
         game.quest = this;
 
-        // Static data from the quest file
+        // Static data from the Quest file
         qd = new QuestData(q);
         questPath = Path.GetDirectoryName(qd.questPath);
         originalPath = Path.GetDirectoryName(qd.questPath);
@@ -180,12 +181,12 @@ public class Quest
 
         // Populate null hero list, these can then be selected as hero types
         heroes = new List<Hero>();
-        for (int i = 1; i <= qd.quest.maxHero; i++)
+        for (int i = 1; i <= qd.Quest.maxHero; i++)
         {
             heroes.Add(new Hero(null, i));
         }
 
-        // Set quest vars for selected expansions
+        // Set Quest vars for selected expansions
         foreach (string s in game.cd.GetLoadedPackIDs())
         {
             if (s.Length > 0)
@@ -193,7 +194,7 @@ public class Quest
                 vars.SetValue("#" + s, 1);
             }
         }
-        // Depreciated support for quest formats < 6
+        // Depreciated support for Quest formats < 6
         if (game.cd.GetLoadedPackIDs().Contains("MoM1ET") && game.cd.GetLoadedPackIDs().Contains("MoM1EI") && game.cd.GetLoadedPackIDs().Contains("MoM1EM"))
         {
             vars.SetValue("#MoM1E", 1);
@@ -215,7 +216,7 @@ public class Quest
         // Clear shops
         shops = new Dictionary<string, List<string>>();
 
-        // Clear item matches
+        // Clear itemQuestComponent matches
         itemSelect = new Dictionary<string, string>();
 
         // Determine fame level
@@ -233,12 +234,12 @@ public class Quest
         while (!done)
         {
             progress = false;
-            foreach (KeyValuePair<string, QuestData.QuestComponent> kv in qd.components)
+            foreach (KeyValuePair<string, QuestComponent> kv in qd.components)
             {
-                QuestData.QItem qItem = kv.Value as QuestData.QItem;
-                if (qItem != null)
+                QItemQuestComponent qItemQuestComponent = kv.Value as QItemQuestComponent;
+                if (qItemQuestComponent != null)
                 {
-                    progress |= AttemptItemMatch(qItem, fame, force);
+                    progress |= AttemptItemMatch(qItemQuestComponent, fame, force);
                     if (progress && force) force = false;
                 }
             }
@@ -255,29 +256,29 @@ public class Quest
     }
 
 
-    public bool AttemptItemMatch(QuestData.QItem qItem, int fame, bool force = true)
+    public bool AttemptItemMatch(QItemQuestComponent qItemQuestComponent, int fame, bool force = true)
     {
-        if (itemSelect.ContainsKey(qItem.sectionName))
+        if (itemSelect.ContainsKey(qItemQuestComponent.sectionName))
         {
             return false;
         }
-        if ((qItem.traitpool.Length + qItem.traits.Length) == 0)
+        if ((qItemQuestComponent.traitpool.Length + qItemQuestComponent.traits.Length) == 0)
         {
-            foreach (string t in qItem.itemName)
+            foreach (string t in qItemQuestComponent.itemName)
             {
                 if (itemSelect.ContainsKey(t))
                 {
-                    itemSelect.Add(qItem.sectionName, itemSelect[t]);
+                    itemSelect.Add(qItemQuestComponent.sectionName, itemSelect[t]);
                     return true;
                 }
-                if (t.IndexOf("QItem") == 0)
+                if (t.IndexOf("QItemQuestComponent") == 0)
                 {
                     return false;
                 }
                 // Item type might exist in content packs
                 else if (game.cd.items.ContainsKey(t))
                 {
-                    itemSelect.Add(qItem.sectionName, t);
+                    itemSelect.Add(qItemQuestComponent.sectionName, t);
                     return true;
                 }
             }
@@ -286,13 +287,13 @@ public class Quest
         {
             // List of exclusions
             List<string> exclude = new List<string>();
-            foreach (string t in qItem.itemName)
+            foreach (string t in qItemQuestComponent.itemName)
             {
                 if (itemSelect.ContainsKey(t))
                 {
                     exclude.Add(itemSelect[t]);
                 }
-                else if (t.IndexOf("QItem") == 0 && !force)
+                else if (t.IndexOf("QItemQuestComponent") == 0 && !force)
                 {
                     return false;
                 }
@@ -314,9 +315,9 @@ public class Quest
             {
                 bool next = false;
 
-                foreach (string t in qItem.traits)
+                foreach (string t in qItemQuestComponent.traits)
                 {
-                    // Does the item have this trait?
+                    // Does the itemQuestComponent have this trait?
                     if (!kv.Value.ContainsTrait(t))
                     {
                         // Trait missing, exclude monster
@@ -340,17 +341,17 @@ public class Quest
                 }
 
                 // Must have one of these traits
-                bool oneFound = (qItem.traitpool.Length == 0);
-                foreach (string t in qItem.traitpool)
+                bool oneFound = (qItemQuestComponent.traitpool.Length == 0);
+                foreach (string t in qItemQuestComponent.traitpool)
                 {
-                    // Does the item have this trait?
+                    // Does the itemQuestComponent have this trait?
                     if (kv.Value.ContainsTrait(t))
                     {
                         oneFound = true;
                     }
                 }
 
-                // item has all traits
+                // itemQuestComponent has all traits
                 if (oneFound)
                 {
                     list.Add(kv.Key);
@@ -359,12 +360,12 @@ public class Quest
 
             if (list.Count == 0)
             {
-                game.quest.log.Add(new Quest.LogEntry("Warning: Unable to find an item for QItem: " + qItem.sectionName, true));
+                game.quest.log.Add(new Quest.LogEntry("Warning: Unable to find an itemQuestComponent for QItemQuestComponent: " + qItemQuestComponent.sectionName, true));
                 return false;
             }
 
-            // Pick item at random from candidates
-            itemSelect.Add(qItem.sectionName, list[Random.Range(0, list.Count)]);
+            // Pick itemQuestComponent at random from candidates
+            itemSelect.Add(qItemQuestComponent.sectionName, list[Random.Range(0, list.Count)]);
             return true;
         }
         return false;
@@ -375,7 +376,7 @@ public class Quest
         // Determine monster types
         if(qd.components.ContainsKey(spawn_name))
         { 
-            QuestData.Spawn qs = qd.components[spawn_name] as QuestData.Spawn;
+            SpawnQuestComponent qs = qd.components[spawn_name] as SpawnQuestComponent;
             return AttemptMonsterMatch(qs);
         }
         else
@@ -384,40 +385,40 @@ public class Quest
         }
     }
 
-    public bool AttemptMonsterMatch(QuestData.Spawn spawn, bool force = true)
+    public bool AttemptMonsterMatch(SpawnQuestComponent spawnQuestComponent, bool force = true)
     {
-        if (monsterSelect.ContainsKey(spawn.sectionName))
+        if (monsterSelect.ContainsKey(spawnQuestComponent.sectionName))
         {
             return true;
         }
-        if ((spawn.mTraitsPool.Length + spawn.mTraitsRequired.Length) == 0)
+        if ((spawnQuestComponent.mTraitsPool.Length + spawnQuestComponent.mTraitsRequired.Length) == 0)
         {
-            foreach (string t in spawn.mTypes)
+            foreach (string t in spawnQuestComponent.mTypes)
             {
                 if (monsterSelect.ContainsKey(t))
                 {
-                    monsterSelect.Add(spawn.sectionName, monsterSelect[t]);
+                    monsterSelect.Add(spawnQuestComponent.sectionName, monsterSelect[t]);
                     return true;
                 }
-                if (t.IndexOf("Spawn") == 0)
+                if (t.IndexOf("SpawnQuestComponent") == 0)
                 {
                     return false;
                 }
                 string monster = t;
-                if (monster.IndexOf("Monster") != 0 && monster.IndexOf("CustomMonster") != 0)
+                if (monster.IndexOf("Monster") != 0 && monster.IndexOf("CustomMonsterQuestComponent") != 0)
                 {
                     monster = "Monster" + monster;
                 }
-                // Monster type might be a unique for this quest
+                // Monster type might be a unique for this Quest
                 if (game.quest.qd.components.ContainsKey(monster))
                 {
-                    monsterSelect.Add(spawn.sectionName, monster);
+                    monsterSelect.Add(spawnQuestComponent.sectionName, monster);
                     return true;
                 }
                 // Monster type might exist in content packs, 'Monster' is optional
                 else if (game.cd.monsters.ContainsKey(monster))
                 {
-                    monsterSelect.Add(spawn.sectionName, monster);
+                    monsterSelect.Add(spawnQuestComponent.sectionName, monster);
                     return true;
                 }
             }
@@ -426,13 +427,13 @@ public class Quest
         {
             // List of exclusions
             List<string> exclude = new List<string>();
-            foreach (string t in spawn.mTypes)
+            foreach (string t in spawnQuestComponent.mTypes)
             {
                 if (monsterSelect.ContainsKey(t))
                 {
                     exclude.Add(monsterSelect[t]);
                 }
-                else if (t.IndexOf("Spawn") == 0 && !force)
+                else if (t.IndexOf("SpawnQuestComponent") == 0 && !force)
                 {
                     return false;
                 }
@@ -467,7 +468,7 @@ public class Quest
             foreach (KeyValuePair<string, MonsterData> kv in game.cd.monsters)
             {
                 bool allFound = true;
-                foreach (string t in spawn.mTraitsRequired)
+                foreach (string t in spawnQuestComponent.mTraitsRequired)
                 {
                     // Does the monster have this trait?
                     if (!kv.Value.ContainsTrait(t))
@@ -478,8 +479,8 @@ public class Quest
                 }
 
                 // Must have one of these traits
-                bool oneFound = (spawn.mTraitsPool.Length == 0);
-                foreach (string t in spawn.mTraitsPool)
+                bool oneFound = (spawnQuestComponent.mTraitsPool.Length == 0);
+                foreach (string t in spawnQuestComponent.mTraitsPool)
                 {
                     // Does the monster have this trait?
                     if (kv.Value.ContainsTrait(t))
@@ -501,9 +502,9 @@ public class Quest
                 }
             }
 
-            foreach (KeyValuePair<string, QuestData.QuestComponent> kv in game.quest.qd.components)
+            foreach (KeyValuePair<string, QuestComponent> kv in game.quest.qd.components)
             {
-                QuestData.CustomMonster cm = kv.Value as QuestData.CustomMonster;
+                CustomMonsterQuestComponent cm = kv.Value as CustomMonsterQuestComponent;
                 if (cm == null) continue;
 
                 MonsterData baseMonster = null;
@@ -519,7 +520,7 @@ public class Quest
                 }
 
                 bool allFound = true;
-                foreach (string t in spawn.mTraitsRequired)
+                foreach (string t in spawnQuestComponent.mTraitsRequired)
                 {
                     // Does the monster have this trait?
                     if (!InArray(traits, t))
@@ -530,8 +531,8 @@ public class Quest
                 }
 
                 // Must have one of these traits
-                bool oneFound = (spawn.mTraitsPool.Length == 0);
-                foreach (string t in spawn.mTraitsPool)
+                bool oneFound = (spawnQuestComponent.mTraitsPool.Length == 0);
+                foreach (string t in spawnQuestComponent.mTraitsPool)
                 {
                     // Does the monster have this trait?
                     if (InArray(traits, t))
@@ -555,13 +556,13 @@ public class Quest
 
             if (list.Count == 0)
             {
-                ValkyrieDebug.Log("Error: Unable to find monster of traits specified in event: " + spawn.sectionName);
-                game.quest.log.Add(new Quest.LogEntry("Error: Unable to find monster of traits specified in spawn event: " + spawn.sectionName, true));
+                ValkyrieDebug.Log("Error: Unable to find monster of traits specified in event: " + spawnQuestComponent.sectionName);
+                game.quest.log.Add(new Quest.LogEntry("Error: Unable to find monster of traits specified in spawnQuestComponent event: " + spawnQuestComponent.sectionName, true));
                 return false;
             }
 
             // Pick monster at random from candidates
-            monsterSelect.Add(spawn.sectionName, list[Random.Range(0, list.Count)]);
+            monsterSelect.Add(spawnQuestComponent.sectionName, list[Random.Range(0, list.Count)]);
             return true;
         }
         return false;
@@ -576,14 +577,14 @@ public class Quest
         return false;
     }
 
-    // Construct a quest from save data string
+    // Construct a Quest from save data string
     // Used for undo
     public Quest(string save)
     {
         LoadQuest(IniRead.ReadFromString(save));
     }
 
-    // Construct a quest from save iniData
+    // Construct a Quest from save iniData
     public Quest(IniData saveData)
     {
         LoadQuest(saveData);
@@ -596,7 +597,7 @@ public class Quest
         // Clean up everything marked as 'board'
         foreach (GameObject go in GameObject.FindGameObjectsWithTag(Game.BOARD))
         {
-            // do not destroy Quest UI panel in case we are using it again :
+            // do not destroy Quest UiQuestComponent panel in case we are using it again :
             // findGameObject would find it as "Actual object destruction is always delayed until after the current Update loop" (see issue #820)
             if (go.name != "QuestUICanvas")
                 Object.Destroy(go);
@@ -609,7 +610,7 @@ public class Quest
         game.cc.minLimit = false;
         game.cc.maxLimit = false;
 
-        // Set static quest data
+        // Set static Quest data
         if (path.StartsWith("\\") || path.StartsWith("/"))
         {
             path = path.Substring(1, path.Length - 1);
@@ -622,7 +623,7 @@ public class Quest
         }
 
         qd = new QuestData(questToTransition);
-        // set questPath but do not set original path, as we are loading from within a quest here.
+        // set questPath but do not set original path, as we are loading from within a Quest here.
         questPath = Path.GetDirectoryName(qd.questPath);
 
         vars.TrimQuest();
@@ -646,7 +647,7 @@ public class Quest
         GenerateItemSelection();
         eManager = new EventManager();
 
-        // Set quest vars for selected expansions
+        // Set Quest vars for selected expansions
         foreach (string s in game.cd.GetLoadedPackIDs())
         {
             if (s.Length > 0)
@@ -656,7 +657,7 @@ public class Quest
         }
         vars.SetValue("#round", 1);
 
-        // Set quest flag based on hero count
+        // Set Quest flag based on hero count
         int heroCount = 0;
         foreach (Quest.Hero h in heroes)
         {
@@ -675,7 +676,7 @@ public class Quest
         List<string> music = new List<string>();
         foreach (AudioData ad in game.cd.audio.Values)
         {
-            if (ad.ContainsTrait("quest")) music.Add(ad.file);
+            if (ad.ContainsTrait("Quest")) music.Add(ad.file);
         }
         game.audioControl.PlayDefaultQuestMusic(music);
 
@@ -683,12 +684,12 @@ public class Quest
         game.monsterCanvas.UpdateList();
         game.heroCanvas.UpdateStatus();
 
-        // when starting a new quest, reset round countroller
+        // when starting a new Quest, reset round countroller
         game.roundControl.Reset();
 
         // Start round events
         eManager.EventTriggerType("StartRound", false);
-        // Start the quest (top of stack)
+        // Start the Quest (top of stack)
         eManager.EventTriggerType("EventStart", false);
         eManager.TriggerEvent();
         SaveManager.Save(0);
@@ -704,10 +705,10 @@ public class Quest
 
         fromSavegame = true;
 
-        // Set static quest data
+        // Set static Quest data
         qd = new QuestData(saveData.Get("Quest", "path"));
 
-        // Start quest music
+        // Start Quest music
         List<string> music = new List<string>();
         if (saveData.Get("Music") != null)
         {
@@ -730,7 +731,7 @@ public class Quest
         {
             foreach (AudioData ad in game.cd.audio.Values)
             {
-                if (ad.ContainsTrait("quest")) music.Add(ad.file);
+                if (ad.ContainsTrait("Quest")) music.Add(ad.file);
             }
             game.audioControl.PlayDefaultQuestMusic(music);
         }
@@ -864,24 +865,24 @@ public class Quest
             {
                 boardItem = boardItem.Substring(1);
             }
-            if (boardItem.IndexOf("Door") == 0)
+            if (boardItem.IndexOf("DoorQuestComponent") == 0)
             {
-                boardItems.Add(boardItem, new Door(qd.components[boardItem] as QuestData.Door, game));
+                boardItems.Add(boardItem, new Door(qd.components[boardItem] as DoorQuestComponent, game));
                 ordered_boardItems.Add(boardItem);
             }
-            if (boardItem.IndexOf("Token") == 0)
+            if (boardItem.IndexOf("TokenQuestComponent") == 0)
             {
-                boardItems.Add(boardItem, new Token(qd.components[boardItem] as QuestData.Token, game));
+                boardItems.Add(boardItem, new Token(qd.components[boardItem] as TokenQuestComponent, game));
                 ordered_boardItems.Add(boardItem);
             }
-            if (boardItem.IndexOf("Tile") == 0)
+            if (boardItem.IndexOf("TileQuestComponent") == 0)
             {
-                boardItems.Add(boardItem, new Tile(qd.components[boardItem] as QuestData.Tile, game));
+                boardItems.Add(boardItem, new Tile(qd.components[boardItem] as TileQuestComponent, game));
                 ordered_boardItems.Add(boardItem);
             }
-            if (boardItem.IndexOf("UI") == 0)
+            if (boardItem.IndexOf("UiQuestComponent") == 0)
             {
-                boardItems.Add(boardItem, new UI(qd.components[boardItem] as QuestData.UI, game));
+                boardItems.Add(boardItem, new UI(qd.components[boardItem] as UiQuestComponent, game));
                 ordered_boardItems.Add(boardItem);
             }
             if (boardItem.IndexOf("#shop") == 0)
@@ -993,7 +994,7 @@ public class Quest
     {
         // Nothing to undo
         if (undo.Count == 0) return;
-        // Load the old state.  This will also set game.quest
+        // Load the old state.  This will also set game.Quest
         Quest oldQuest = new Quest(undo.Pop());
         // Transfer the undo stack to the loaded state
         oldQuest.undo = undo;
@@ -1052,7 +1053,7 @@ public class Quest
         return count;
     }
 
-    // Add a list of components (token, tile, etc)
+    // Add a list of components (tokenQuestComponent, tileQuestComponent, etc)
     public void Add(string[] names, bool shop = false)
     {
         foreach (string s in names)
@@ -1067,47 +1068,47 @@ public class Quest
         // Check that the component is valid
         if (!game.quest.qd.components.ContainsKey(name))
         {
-            ValkyrieDebug.Log("Error: Unable to create missing quest component: " + name);
+            ValkyrieDebug.Log("Error: Unable to create missing Quest component: " + name);
             Application.Quit();
         }
         // Add to active list
-        QuestData.QuestComponent qc = game.quest.qd.components[name];
+        QuestComponent qc = game.quest.qd.components[name];
 
         if (boardItems.ContainsKey(name)) return;
 
         // Add to board
-        if (qc is QuestData.Tile)
+        if (qc is TileQuestComponent)
         {
-            boardItems.Add(name, new Tile((QuestData.Tile)qc, game));
+            boardItems.Add(name, new Tile((TileQuestComponent)qc, game));
             ordered_boardItems.Add(name);
         }
-        if (qc is QuestData.Door)
+        if (qc is DoorQuestComponent)
         {
-            boardItems.Add(name, new Door((QuestData.Door)qc, game));
+            boardItems.Add(name, new Door((DoorQuestComponent)qc, game));
             ordered_boardItems.Add(name);
         }
-        if (qc is QuestData.Token)
+        if (qc is TokenQuestComponent)
         {
-            boardItems.Add(name, new Token((QuestData.Token)qc, game));
+            boardItems.Add(name, new Token((TokenQuestComponent)qc, game));
             ordered_boardItems.Add(name);
         }
-        if (qc is QuestData.UI)
+        if (qc is UiQuestComponent)
         {
-            boardItems.Add(name, new UI((QuestData.UI)qc, game));
+            boardItems.Add(name, new UI((UiQuestComponent)qc, game));
             ordered_boardItems.Add(name);
         }
-        if (qc is QuestData.QItem && !shop)
+        if (qc is QItemQuestComponent && !shop)
         {
             if (itemSelect.ContainsKey(name))
             {
                 items.Add(itemSelect[name]);
-                if (((QuestData.QItem)qc).inspect.Length > 0)
+                if (((QItemQuestComponent)qc).inspect.Length > 0)
                 {
                     if (game.quest.itemInspect.ContainsKey(itemSelect[name]))
                     {
                         game.quest.itemInspect.Remove(itemSelect[name]);
                     }
-                    game.quest.itemInspect.Add(itemSelect[name], ((QuestData.QItem)qc).inspect);
+                    game.quest.itemInspect.Add(itemSelect[name], ((QItemQuestComponent)qc).inspect);
                 }
             }
         }
@@ -1221,12 +1222,12 @@ public class Quest
         }
     }
 
-    // Save the quest state to a string for save games and undo
+    // Save the Quest state to a string for save games and undo
     override public string ToString()
     {
         //Game game = Game.Get();
         string nl = System.Environment.NewLine;
-        // General quest state block
+        // General Quest state block
         string r = "[Quest]" + nl;
 
         r += "time=" + System.DateTime.Now.ToString() + nl;
@@ -1248,7 +1249,7 @@ public class Quest
 
         r += "path=" + qd.questPath + nl;
         r += "originalpath=" + originalPath + nl;
-        r += "questname=" + qd.quest.name.Translate() + nl;
+        r += "questname=" + qd.Quest.name.Translate() + nl;
 
         if (phase == MoMPhase.horror)
         {
@@ -1280,7 +1281,7 @@ public class Quest
         }
 
         r += "[Board]" + nl;
-        // we need to use an ordered list of board item, to preserve items stacking order, Dictionary do not preserve order
+        // we need to use an ordered list of board itemQuestComponent, to preserve items stacking order, Dictionary do not preserve order
         // foreach (KeyValuePair<string, BoardComponent> kv in boardItems)
         foreach (string item in ordered_boardItems)
         {
@@ -1343,7 +1344,7 @@ public class Quest
         i = 0;
         foreach (string eventName in eventList)
         {
-            r += "Event" + i + "=" + eventName + nl;
+            r += "EventQuestComponent" + i + "=" + eventName + nl;
             i++;
         }
 
@@ -1397,49 +1398,49 @@ public class Quest
         return r;
     }
 
-    // Class for Tile components (use TileSide content data)
+    // Class for TileQuestComponent components (use TileSide content data)
     public class Tile : BoardComponent
     {
-        // This is the quest information
-        public QuestData.Tile qTile;
+        // This is the Quest information
+        public TileQuestComponent QTileQuestComponent;
         // This is the component information
         public TileSideData cTile;
 
-        // Construct with data from the quest, pass Game for speed
-        public Tile(QuestData.Tile questTile, Game gameObject) : base(gameObject)
+        // Construct with data from the Quest, pass Game for speed
+        public Tile(TileQuestComponent questTileQuestComponent, Game gameObject) : base(gameObject)
         {
-            qTile = questTile;
+            QTileQuestComponent = questTileQuestComponent;
 
-            // Search for tile in content
-            if (game.cd.tileSides.ContainsKey(qTile.tileSideName))
+            // Search for tileQuestComponent in content
+            if (game.cd.tileSides.ContainsKey(QTileQuestComponent.tileSideName))
             {
-                cTile = game.cd.tileSides[qTile.tileSideName];
+                cTile = game.cd.tileSides[QTileQuestComponent.tileSideName];
             }
-            else if (game.cd.tileSides.ContainsKey("TileSide" + qTile.tileSideName))
+            else if (game.cd.tileSides.ContainsKey("TileSide" + QTileQuestComponent.tileSideName))
             {
-                cTile = game.cd.tileSides["TileSide" + qTile.tileSideName];
+                cTile = game.cd.tileSides["TileSide" + QTileQuestComponent.tileSideName];
             }
             else
             {
                 // Fatal if not found
-                ValkyrieDebug.Log("Error: Failed to located TileSide: '" + qTile.tileSideName + "' in quest component: '" + qTile.sectionName + "'");
+                ValkyrieDebug.Log("Error: Failed to located TileSide: '" + QTileQuestComponent.tileSideName + "' in Quest component: '" + QTileQuestComponent.sectionName + "'");
                 Application.Quit();
                 return;
             }
 
             // Attempt to load image
-            var mTile = game.cd.tileSides[qTile.tileSideName];
+            var mTile = game.cd.tileSides[QTileQuestComponent.tileSideName];
             Texture2D newTex = ContentData.FileToTexture(mTile.image);
             if (newTex == null)
             {
                 // Fatal if missing
-                ValkyrieDebug.Log("Error: cannot open image file for TileSide: '" + mTile.image + "' named: '" + qTile.tileSideName + "'");
+                ValkyrieDebug.Log("Error: cannot open image file for TileSide: '" + mTile.image + "' named: '" + QTileQuestComponent.tileSideName + "'");
                 Application.Quit();
                 return;
             }
 
-            // Create a unity object for the tile
-            unityObject = new GameObject("Object" + qTile.sectionName);
+            // Create a unity object for the tileQuestComponent
+            unityObject = new GameObject("Object" + QTileQuestComponent.sectionName);
             unityObject.tag = Game.BOARD;
             unityObject.transform.SetParent(game.boardCanvas.transform);
 
@@ -1481,17 +1482,17 @@ public class Quest
             image.rectTransform.sizeDelta = new Vector2((float)newTex.width / hPPS, (float)newTex.height / vPPS);
 
             // Rotate around 0,0 rotation amount
-            unityObject.transform.RotateAround(Vector3.zero, Vector3.forward, qTile.rotation);
-            // Move tile into target location (Space.World is needed because tile has been rotated)
-            unityObject.transform.Translate(new Vector3(qTile.location.x, qTile.location.y, 0), Space.World);
+            unityObject.transform.RotateAround(Vector3.zero, Vector3.forward, QTileQuestComponent.rotation);
+            // Move tileQuestComponent into target location (Space.World is needed because tileQuestComponent has been rotated)
+            unityObject.transform.Translate(new Vector3(QTileQuestComponent.location.x, QTileQuestComponent.location.y, 0), Space.World);
             image.color = new Color(1, 1, 1, 0);
 
             if (!Game.Get().quest.firstTileDisplayed)
             {
                 Game.Get().quest.firstTileDisplayed = true;
 
-                // We wait for the first tile displayed on MoM to display the 'NextStage' button bar
-                // Don't do anything if quest is being loaded and stageUI does not exist yet
+                // We wait for the first tileQuestComponent displayed on MoM to display the 'NextStage' button bar
+                // Don't do anything if Quest is being loaded and stageUI does not exist yet
                 if (game.gameType.TypeName() == "MoM" && game.stageUI != null)
                 {
                     game.stageUI.Update();
@@ -1499,35 +1500,35 @@ public class Quest
             }
         }
 
-        // Remove this tile
+        // Remove this tileQuestComponent
         public override void Remove()
         {
             Object.Destroy(unityObject);
         }
 
         // Tiles are not interactive, no event
-        public override QuestData.Event GetEvent()
+        public override EventQuestComponent GetEvent()
         {
             return null;
         }
     }
 
-    // Tokens are events that are tied to a token placed on the board
+    // Tokens are events that are tied to a tokenQuestComponent placed on the board
     public class Token : BoardComponent
     {
-        // Quest info on the token
-        public QuestData.Token qToken;
+        // Quest info on the tokenQuestComponent
+        public TokenQuestComponent QTokenQuestComponent;
 
-        // Construct with quest info and reference to Game
-        public Token(QuestData.Token questToken, Game gameObject) : base(gameObject)
+        // Construct with Quest info and reference to Game
+        public Token(TokenQuestComponent questTokenQuestComponent, Game gameObject) : base(gameObject)
         {
-            qToken = questToken;
+            QTokenQuestComponent = questTokenQuestComponent;
 
-            string tokenName = qToken.tokenName;
-            // Check that token exists
+            string tokenName = QTokenQuestComponent.tokenName;
+            // Check that tokenQuestComponent exists
             if (!game.cd.tokens.ContainsKey(tokenName))
             {
-                game.quest.log.Add(new Quest.LogEntry("Warning: Quest component " + qToken.sectionName + " is using missing token type: " + tokenName, true));
+                game.quest.log.Add(new Quest.LogEntry("Warning: Quest component " + QTokenQuestComponent.sectionName + " is using missing tokenQuestComponent type: " + tokenName, true));
                 // Catch for older quests with different types (0.4.0 or older)
                 if (game.cd.tokens.ContainsKey("TokenSearch"))
                 {
@@ -1535,18 +1536,18 @@ public class Quest
                 }
             }
 
-            // Get texture for token
+            // Get texture for tokenQuestComponent
             Vector2 texPos = new Vector2(game.cd.tokens[tokenName].x, game.cd.tokens[tokenName].y);
             Vector2 texSize = new Vector2(game.cd.tokens[tokenName].width, game.cd.tokens[tokenName].height);
             Texture2D newTex = ContentData.FileToTexture(game.cd.tokens[tokenName].image, texPos, texSize);
             if(newTex==null)
             {
-                ValkyrieDebug.Log("Error: Token " + tokenName + " does not have a valid picture");
+                ValkyrieDebug.Log("Error: TokenQuestComponent " + tokenName + " does not have a valid picture");
                 return;
             }
 
             // Create object
-            unityObject = new GameObject("Object" + qToken.sectionName);
+            unityObject = new GameObject("Object" + QTokenQuestComponent.sectionName);
             unityObject.tag = Game.BOARD;
 
             unityObject.transform.SetParent(game.tokenCanvas.transform);
@@ -1566,17 +1567,17 @@ public class Quest
             // Set the size to the image size
             image.rectTransform.sizeDelta = new Vector2((float)newTex.width / PPS, (float)newTex.height / PPS);
             // Rotate around 0,0 rotation amount
-            unityObject.transform.RotateAround(Vector3.zero, Vector3.forward, qToken.rotation);
+            unityObject.transform.RotateAround(Vector3.zero, Vector3.forward, QTokenQuestComponent.rotation);
             // Move to square
-            unityObject.transform.Translate(new Vector3(qToken.location.x, qToken.location.y, 0), Space.World);
+            unityObject.transform.Translate(new Vector3(QTokenQuestComponent.location.x, QTokenQuestComponent.location.y, 0), Space.World);
 
             game.tokenBoard.Add(this);
         }
 
         // Tokens have an associated event to start on press
-        public override QuestData.Event GetEvent()
+        public override EventQuestComponent GetEvent()
         {
-            return qToken;
+            return QTokenQuestComponent;
         }
 
         // Clean up
@@ -1586,27 +1587,27 @@ public class Quest
         }
     }
 
-    // Tokens are events that are tied to a token placed on the board
+    // Tokens are events that are tied to a tokenQuestComponent placed on the board
     public class UI : BoardComponent
     {
-        // Quest info on the token
-        public QuestData.UI qUI;
+        // Quest info on the tokenQuestComponent
+        public UiQuestComponent QUiQuestComponent;
         public UIElementBorder border;
 
         GameObject unityObject_text = null;
         UnityEngine.UI.Text uiText;
         UnityEngine.UI.Image uiTextBG;
 
-        // Construct with quest info and reference to Game
-        public UI(QuestData.UI questUI, Game gameObject) : base(gameObject)
+        // Construct with Quest info and reference to Game
+        public UI(UiQuestComponent questUiQuestComponent, Game gameObject) : base(gameObject)
         {
-            qUI = questUI;
+            QUiQuestComponent = questUiQuestComponent;
 
-            // Find quest UI panel
+            // Find Quest UiQuestComponent panel
             GameObject panel = GameObject.Find("QuestUICanvas");
             if (panel == null)
             {
-                // Create UI Panel
+                // Create UiQuestComponent Panel
                 panel = new GameObject("QuestUICanvas");
                 panel.tag = Game.BOARD;
                 panel.transform.SetParent(game.uICanvas.transform);
@@ -1617,19 +1618,19 @@ public class Quest
             }
 
             Texture2D newTex = null;
-            if (game.cd.images.ContainsKey(qUI.imageName))
+            if (game.cd.images.ContainsKey(QUiQuestComponent.imageName))
             {
-                Vector2 texPos = new Vector2(game.cd.images[qUI.imageName].x, game.cd.images[qUI.imageName].y);
-                Vector2 texSize = new Vector2(game.cd.images[qUI.imageName].width, game.cd.images[qUI.imageName].height);
-                newTex = ContentData.FileToTexture(game.cd.images[qUI.imageName].image, texPos, texSize);
+                Vector2 texPos = new Vector2(game.cd.images[QUiQuestComponent.imageName].x, game.cd.images[QUiQuestComponent.imageName].y);
+                Vector2 texSize = new Vector2(game.cd.images[QUiQuestComponent.imageName].width, game.cd.images[QUiQuestComponent.imageName].height);
+                newTex = ContentData.FileToTexture(game.cd.images[QUiQuestComponent.imageName].image, texPos, texSize);
             }
-            else if (qUI.imageName.Length > 0)
+            else if (QUiQuestComponent.imageName.Length > 0)
             {
-                newTex = ContentData.FileToTexture(FindLocalisedMultimediaFile(qUI.imageName, Path.GetDirectoryName(game.quest.qd.questPath)));
+                newTex = ContentData.FileToTexture(FindLocalisedMultimediaFile(QUiQuestComponent.imageName, Path.GetDirectoryName(game.quest.qd.questPath)));
             }
 
             // Create object
-            unityObject = new GameObject("Object" + qUI.sectionName);
+            unityObject = new GameObject("Object" + QUiQuestComponent.sectionName);
             unityObject.tag = Game.BOARD;
 
             unityObject.transform.SetParent(panel.transform);
@@ -1638,12 +1639,12 @@ public class Quest
             RectTransform rectTransform = unityObject.AddComponent<RectTransform>();
             RectTransform rectTransform_text = null;
 
-            if (qUI.imageName.Length == 0)
+            if (QUiQuestComponent.imageName.Length == 0)
             {
                 uiTextBG = unityObject.AddComponent<UnityEngine.UI.Image>();
-                uiTextBG.color = ColorUtil.ColorFromName(qUI.textBackgroundColor);
+                uiTextBG.color = ColorUtil.ColorFromName(QUiQuestComponent.textBackgroundColor);
 
-                unityObject_text = new GameObject("Object" + qUI.sectionName + "text");
+                unityObject_text = new GameObject("Object" + QUiQuestComponent.sectionName + "text");
                 unityObject_text.tag = Game.BOARD;
                 unityObject_text.transform.SetParent(unityObject.transform);
                 rectTransform_text = unityObject_text.AddComponent<RectTransform>();
@@ -1653,9 +1654,9 @@ public class Quest
                 uiText.alignment = TextAnchor.MiddleCenter;
                 uiText.font = game.gameType.GetFont();
                 uiText.material = uiText.font.material;
-                uiText.fontSize = Mathf.RoundToInt(UIScaler.GetPixelsPerUnit() * qUI.textSize);
-                SetColor(qUI.textColor);
-                aspect = qUI.aspect;
+                uiText.fontSize = Mathf.RoundToInt(UIScaler.GetPixelsPerUnit() * QUiQuestComponent.textSize);
+                SetColor(QUiQuestComponent.textColor);
+                aspect = QUiQuestComponent.aspect;
             }
             else
             {
@@ -1668,26 +1669,26 @@ public class Quest
             }
 
             float unitScale = Screen.width;
-            float hSize = qUI.size * unitScale;
+            float hSize = QUiQuestComponent.size * unitScale;
             float vSize = hSize / aspect;
-            if (qUI.verticalUnits)
+            if (QUiQuestComponent.verticalUnits)
             {
                 unitScale = Screen.height;
-                vSize = qUI.size * unitScale;
+                vSize = QUiQuestComponent.size * unitScale;
                 hSize = vSize * aspect;
             }
 
-            float hOffset = qUI.location.x * unitScale;
-            float vOffset = qUI.location.y * unitScale;
+            float hOffset = QUiQuestComponent.location.x * unitScale;
+            float vOffset = QUiQuestComponent.location.y * unitScale;
 
-            if (qUI.hAlign < 0)
+            if (QUiQuestComponent.hAlign < 0)
             {
                 rectTransform.SetInsetAndSizeFromParentEdge(RectTransform.Edge.Left, hOffset, hSize);
                 rectTransform.ForceUpdateRectTransforms();
                 if (rectTransform_text != null)
                     rectTransform_text.SetInsetAndSizeFromParentEdge(RectTransform.Edge.Left, 0, hSize);
             }
-            else if (qUI.hAlign > 0)
+            else if (QUiQuestComponent.hAlign > 0)
             {
                 rectTransform.SetInsetAndSizeFromParentEdge(RectTransform.Edge.Right, hOffset, hSize);
                 rectTransform.ForceUpdateRectTransforms();
@@ -1702,14 +1703,14 @@ public class Quest
                     rectTransform_text.SetInsetAndSizeFromParentEdge(RectTransform.Edge.Left, 0, hSize);
             }
 
-            if (qUI.vAlign < 0)
+            if (QUiQuestComponent.vAlign < 0)
             {
                 rectTransform.SetInsetAndSizeFromParentEdge(RectTransform.Edge.Top, vOffset, vSize);
                 rectTransform.ForceUpdateRectTransforms();
                 if (rectTransform_text != null)
                     rectTransform_text.SetInsetAndSizeFromParentEdge(RectTransform.Edge.Top, 0, vSize);
             }
-            else if (qUI.vAlign > 0)
+            else if (QUiQuestComponent.vAlign > 0)
             {
                 rectTransform.SetInsetAndSizeFromParentEdge(RectTransform.Edge.Bottom, vOffset, vSize);
                 rectTransform.ForceUpdateRectTransforms();
@@ -1724,7 +1725,7 @@ public class Quest
                     rectTransform_text.SetInsetAndSizeFromParentEdge(RectTransform.Edge.Top, 0, vSize);
             }
 
-            if (qUI.border)
+            if (QUiQuestComponent.border)
             {
                 border = new UIElementBorder(unityObject.transform, rectTransform, Game.BOARD, uiText.color);
             }
@@ -1733,9 +1734,9 @@ public class Quest
         }
 
         // Tokens have an associated event to start on press
-        public override QuestData.Event GetEvent()
+        public override EventQuestComponent GetEvent()
         {
-            return qUI;
+            return QUiQuestComponent;
         }
 
         override public void SetColor(Color c)
@@ -1744,7 +1745,7 @@ public class Quest
             if (uiText != null && uiText.gameObject != null) uiText.color = c;
             if (border != null) border.SetColor(c);
             // Text BG has its own color, only alpha is changing
-            if (uiTextBG != null && uiTextBG.gameObject != null && qUI.textBackgroundColor != "transparent")
+            if (uiTextBG != null && uiTextBG.gameObject != null && QUiQuestComponent.textBackgroundColor != "transparent")
             {
                 Color tmp = uiTextBG.color;
                 tmp.a = c.a;
@@ -1770,10 +1771,10 @@ public class Quest
             }
         }
 
-        // Get the text to display on the UI
+        // Get the text to display on the UiQuestComponent
         virtual public string GetText()
         {
-            string text = qUI.uiText.Translate(true);
+            string text = QUiQuestComponent.uiText.Translate(true);
 
             // Find and replace {q:element with the name of the
             // element
@@ -1796,24 +1797,24 @@ public class Quest
     // Note that MoM Explore tokens are tokens and do not use this
     public class Door : BoardComponent
     {
-        public QuestData.Door qDoor;
+        public DoorQuestComponent QDoorQuestComponent;
 
-        // Constuct with quest data and reference to Game
-        public Door(QuestData.Door questDoor, Game gameObject) : base(gameObject)
+        // Constuct with Quest data and reference to Game
+        public Door(DoorQuestComponent questDoorQuestComponent, Game gameObject) : base(gameObject)
         {
-            qDoor = questDoor;
+            QDoorQuestComponent = questDoorQuestComponent;
 
-            // Load door texture, should be game specific
-            Texture2D newTex = Resources.Load("sprites/door") as Texture2D;
+            // Load doorQuestComponent texture, should be game specific
+            Texture2D newTex = Resources.Load("sprites/doorQuestComponent") as Texture2D;
             // Check load worked
             if (newTex == null)
             {
-                ValkyrieDebug.Log("Error: Cannot load door image");
+                ValkyrieDebug.Log("Error: Cannot load doorQuestComponent image");
                 Application.Quit();
             }
 
             // Create object
-            unityObject = new GameObject("Object" + qDoor.sectionName);
+            unityObject = new GameObject("Object" + QDoorQuestComponent.sectionName);
             unityObject.tag = Game.BOARD;
 
             unityObject.transform.SetParent(game.tokenCanvas.transform);
@@ -1821,17 +1822,17 @@ public class Quest
             // Create the image
             image = unityObject.AddComponent<UnityEngine.UI.Image>();
             Sprite tileSprite = Sprite.Create(newTex, new Rect(0, 0, newTex.width, newTex.height), Vector2.zero, 1, 0, SpriteMeshType.FullRect);
-            // Set door colour
+            // Set doorQuestComponent colour
             image.sprite = tileSprite;
             image.rectTransform.sizeDelta = new Vector2(0.4f, 1.6f);
             // Rotate as required
-            unityObject.transform.RotateAround(Vector3.zero, Vector3.forward, qDoor.rotation);
+            unityObject.transform.RotateAround(Vector3.zero, Vector3.forward, QDoorQuestComponent.rotation);
             // Move to square
             unityObject.transform.Translate(new Vector3(-(float)0.5, (float)0.5, 0), Space.World);
-            unityObject.transform.Translate(new Vector3(qDoor.location.x, qDoor.location.y, 0), Space.World);
+            unityObject.transform.Translate(new Vector3(QDoorQuestComponent.location.x, QDoorQuestComponent.location.y, 0), Space.World);
 
-            // Set the texture colour from quest data
-            SetColor(qDoor.colourName);
+            // Set the texture colour from Quest data
+            SetColor(QDoorQuestComponent.colourName);
 
             image.color = new Color(image.color.r, image.color.g, image.color.b, 0);
 
@@ -1845,14 +1846,14 @@ public class Quest
         }
 
         // Doors have events that start when pressed
-        public override QuestData.Event GetEvent()
+        public override EventQuestComponent GetEvent()
         {
-            return qDoor;
+            return QDoorQuestComponent;
         }
     }
 
 
-    // Super class for all quest components
+    // Super class for all Quest components
     abstract public class BoardComponent
     {
         // image for display
@@ -1873,7 +1874,7 @@ public class Quest
 
         abstract public void Remove();
 
-        abstract public QuestData.Event GetEvent();
+        abstract public EventQuestComponent GetEvent();
 
         // Set visible can control the transparency level of the component
         virtual public void SetVisible(float alpha)
@@ -2054,7 +2055,7 @@ public class Quest
         // Content Data
         public MonsterData monsterData;
 
-        // Spawn event name used later for defeated triggers
+        // SpawnQuestComponent event name used later for defeated triggers
         public string spawnEventName;
 
         // What dulpicate number is the monster?
@@ -2074,7 +2075,7 @@ public class Quest
 
         public int healthMod = 0;
 
-        // Activation is reset each round so that master/minion use the same data and forcing doesn't re roll
+        // ActivationQuestComponent is reset each round so that master/minion use the same data and forcing doesn't re roll
         // Note that in RtL forcing activation WILL reroll the selected activation
         public ActivationInstance currentActivation;
 
@@ -2097,12 +2098,12 @@ public class Quest
                 string new_monster = "";
 
                 // also check for custom monster base type
-                if (m.monsterData.sectionName.IndexOf("CustomMonster") == 0)
+                if (m.monsterData.sectionName.IndexOf("CustomMonsterQuestComponent") == 0)
                     active_monster = ((m.monsterData) as QuestMonster).derivedType;
                 else
                     active_monster = m.monsterData.sectionName;
 
-                if (monsterData.sectionName.IndexOf("CustomMonster") == 0)
+                if (monsterData.sectionName.IndexOf("CustomMonsterQuestComponent") == 0)
                     new_monster = ((monsterData) as QuestMonster).derivedType;
                 else
                     new_monster = monsterData.sectionName;
@@ -2146,7 +2147,7 @@ public class Quest
             // Support old saves (deprectiated)
             if (data["type"].IndexOf("UniqueMonster") == 0)
             {
-                data["type"] = "CustomMonster" + data["type"].Substring("UniqueMonster".Length);
+                data["type"] = "CustomMonsterQuestComponent" + data["type"].Substring("UniqueMonster".Length);
             }
 
             // Find base type
@@ -2155,10 +2156,10 @@ public class Quest
             {
                 monsterData = game.cd.monsters[data["type"]];
             }
-            // Check if type is a special quest specific type
-            if (game.quest.qd.components.ContainsKey(data["type"]) && game.quest.qd.components[data["type"]] is QuestData.CustomMonster)
+            // Check if type is a special Quest specific type
+            if (game.quest.qd.components.ContainsKey(data["type"]) && game.quest.qd.components[data["type"]] is CustomMonsterQuestComponent)
             {
-                monsterData = new QuestMonster(game.quest.qd.components[data["type"]] as QuestData.CustomMonster);
+                monsterData = new QuestMonster(game.quest.qd.components[data["type"]] as CustomMonsterQuestComponent);
             }
 
             // If we have already selected an activation find it
@@ -2169,10 +2170,10 @@ public class Quest
                 {
                     saveActivation = game.cd.activations[data["activation"]];
                 }
-                // Activations can be specific to the quest
+                // Activations can be specific to the Quest
                 if (game.quest.qd.components.ContainsKey(data["activation"]))
                 {
-                    saveActivation = new QuestActivation(game.quest.qd.components[data["activation"]] as QuestData.Activation);
+                    saveActivation = new QuestActivation(game.quest.qd.components[data["activation"]] as ActivationQuestComponent);
                 }
                 currentActivation = new ActivationInstance(saveActivation, monsterData.name.Translate());
             }
@@ -2205,7 +2206,7 @@ public class Quest
             return Mathf.RoundToInt(monsterData.healthBase + (Game.Get().quest.GetHeroCount() * monsterData.healthPerHero)) + healthMod;
         }
 
-        // Activation instance is requresd to track variables in the activation
+        // ActivationQuestComponent instance is requresd to track variables in the activation
         public class ActivationInstance
         {
             public ActivationData ad;
@@ -2313,7 +2314,7 @@ public class Quest
             }
             else
             {
-                r += "quest" + id + "=";
+                r += "Quest" + id + "=";
             }
             r += entry.Replace("\n", "\\n") + System.Environment.NewLine;
             return r;

@@ -12,7 +12,7 @@ public class Destroyer {
         new MainMenuScreen();
     }
 
-    // This takes us to the quest select screen
+    // This takes us to the Quest select screen
     public static void QuestSelect()
     {
         // Destroy everything

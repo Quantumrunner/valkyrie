@@ -2,13 +2,10 @@
 {
 	using UnityEditor;
 	using System;
-	using System.Collections;
-	using System.Collections.Generic;
-	using System.Threading;
-	using Fabric.Internal.Editor.Model;
-	using Fabric.Internal.Editor.Detail;
+    using System.Collections.Generic;
+    using Fabric.Internal.Editor.Model;
 
-	internal class KitInstallationChecker
+    internal class KitInstallationChecker
 	{
 		public void CheckInstalledKits(string organization, string bundleId, BuildTarget buildTarget, Action<App> onSuccess, Action<Exception> onFailure, Action<Exception> onNoNetwork)
 		{

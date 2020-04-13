@@ -4,11 +4,12 @@ using System.Collections.Generic;
 using ValkyrieTools;
 using System.IO;
 using System.Text;
+using Assets.Scripts.Content.QuestComponent;
 
 // Quest editor static helper class
 public class QuestEditor {
 
-    // start editing a quest
+    // start editing a Quest
     public static void Begin(string path)
     {
         Game game = Game.Get();
@@ -17,11 +18,11 @@ public class QuestEditor {
         new MenuButton();
         new ToolsButton();
 
-        // re-read quest data
+        // re-read Quest data
         Reload(path);
     }
 
-    // Reload a quest from file
+    // Reload a Quest from file
     public static void Reload(string path)
     {
         Destroyer.Dialog();
@@ -36,13 +37,13 @@ public class QuestEditor {
             Object.Destroy(go);
 
         // Read from file
-        game.quest = new Quest(new QuestData.Quest(path));
+        game.quest = new Quest(new Assets.Scripts.Content.Quest(path));
 
         // Is this needed?
         game.quest.RemoveAll();
 
-        // Add all components to the quest
-        foreach (KeyValuePair<string, QuestData.QuestComponent> kv in game.quest.qd.components)
+        // Add all components to the Quest
+        foreach (KeyValuePair<string, QuestComponent> kv in game.quest.qd.components)
         {
             game.quest.Add(kv.Key);
         }
@@ -53,18 +54,18 @@ public class QuestEditor {
         game.qed = new QuestEditorData(game.qed);
     }
 
-    // Save the quest
+    // Save the Quest
     public static void Save()
     {
         Game game = Game.Get();
-        // Add a comment at the start of the quest with the editor version
+        // Add a comment at the start of the Quest with the editor version
 
         StringBuilder questData = new StringBuilder()
             .Append("; Saved by version: ")
             .AppendLine(game.version);
 
-        // Save quest meta content to a string
-        questData.AppendLine(game.quest.qd.quest.ToString());
+        // Save Quest meta content to a string
+        questData.AppendLine(game.quest.qd.Quest.ToString());
 
         // Write to disk
         try
@@ -91,7 +92,7 @@ public class QuestEditor {
         }
         catch (System.Exception)
         {
-            ValkyrieDebug.Log("Error: Failed to save quest in editor.");
+            ValkyrieDebug.Log("Error: Failed to save Quest in editor.");
             Application.Quit();
         }
 
@@ -99,18 +100,18 @@ public class QuestEditor {
 
         Dictionary<string, StringBuilder> fileData = new Dictionary<string, StringBuilder>();
 
-        foreach (QuestData.QuestComponent qc in game.quest.qd.components.Values)
+        foreach (QuestComponent qc in game.quest.qd.components.Values)
         {
             string source = qc.source;
             if (source.Length == 0)
             {
-                source = "quest.ini";
+                source = "Quest.ini";
             }
 
             if (!fileData.ContainsKey(source))
             {
                 StringBuilder thisFile = new StringBuilder();
-                if (!source.Equals("quest.ini"))
+                if (!source.Equals("Quest.ini"))
                 {
                     thisFile.Append("; Saved by version: ").AppendLine(game.version);
                     questData.AppendLine(source);
@@ -123,13 +124,13 @@ public class QuestEditor {
             }
         }
 
-        if (fileData.ContainsKey("quest.ini"))
+        if (fileData.ContainsKey("Quest.ini"))
         {
-            fileData["quest.ini"] = questData.Append(fileData["quest.ini"]);
+            fileData["Quest.ini"] = questData.Append(fileData["Quest.ini"]);
         }
         else
         {
-            fileData.Add("quest.ini", questData);
+            fileData.Add("Quest.ini", questData);
         }
 
         foreach (KeyValuePair<string, StringBuilder> kv in fileData)

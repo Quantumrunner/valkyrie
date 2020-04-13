@@ -141,7 +141,7 @@ public class Audio : MonoBehaviour
         if (music.Count == 0)
             return;
 
-        // if previous music has ended, play or restart default quest music
+        // if previous music has ended, play or restart default Quest music
         if (musicIndex >= music.Count)
         {
             music = defaultQuestMusic;

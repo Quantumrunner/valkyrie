@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using Assets.Scripts.Content;
 using Assets.Scripts.UI.Screens;
 using Assets.Scripts.UI;
-using Assets.Scripts;
 using ValkyrieTools;
 using Ionic.Zip;
 using System.IO;
@@ -37,9 +36,9 @@ public class Game : MonoBehaviour
     // These components are referenced here for easy of use
     // Data included in content packs
     public ContentData cd;
-    // Data for the current quest
+    // Data for the current Quest
     public Quest quest;
-    // Canvas for UI components (fixed on screen)
+    // Canvas for UiQuestComponent components (fixed on screen)
     public Canvas uICanvas;
     // Canvas for board tiles (tilted, in game space)
     public Canvas boardCanvas;
@@ -51,11 +50,11 @@ public class Game : MonoBehaviour
     public HeroCanvas heroCanvas;
     // Class for management of monster selection panel
     public MonsterCanvas monsterCanvas;
-    // Utility Class for UI scale and position
+    // Utility Class for UiQuestComponent scale and position
     public UIScaler uiScaler;
     // Class for Morale counter
     public MoraleDisplay moraleDisplay;
-    // Class for quest editor management
+    // Class for Quest editor management
     public QuestEditorData qed;
     // Class for gameType information (controls specific to a game type)
     public GameType gameType;
@@ -65,17 +64,17 @@ public class Game : MonoBehaviour
     public ConfigFile config;
     // Class for progress of activations, rounds
     public RoundController roundControl;
-    // Class for stage control UI
+    // Class for stage control UiQuestComponent
     public NextStageButton stageUI;
     // Class log window
     public LogWindow logWindow;
-    // Class for stage control UI
+    // Class for stage control UiQuestComponent
     public Audio audioControl;
     // Transparecny value for non selected component in the editor
     public float editorTransparency;
     // Quest started as test from editor
     public bool testMode = false;
-    // Stats manager for quest rating
+    // Stats manager for Quest rating
     public StatsManager stats;
     // Quests manager
     public QuestsManager questsList;
@@ -93,7 +92,7 @@ public class Game : MonoBehaviour
     // Current language
     public string currentLang;
 
-    // Set when in quest editor
+    // Set when in Quest editor
     public bool editMode = false;
 
     // Debug option
@@ -207,7 +206,7 @@ public class Game : MonoBehaviour
         gameSelect = new GameSelectionScreen();
     }
 
-    // This is called by 'start quest' on the main menu
+    // This is called by 'start Quest' on the main menu
     public void SelectQuest()
     {
         Dictionary<string, string> packs = config.data.Get(gameType.TypeName() + "Packs");
@@ -219,7 +218,7 @@ public class Game : MonoBehaviour
             }
         }
 
-        // Pull up the quest selection page
+        // Pull up the Quest selection page
         if (questSelectionScreen == null)
         {
             go_questSelectionScreen = new GameObject("QuestSelectionScreen");
@@ -240,12 +239,12 @@ public class Game : MonoBehaviour
             cd.LoadContent(pack);
         }
 
-        // Pull up the quest selection page
+        // Pull up the Quest selection page
         new QuestEditSelection();
     }
 
-    // This is called when a quest is selected
-    public void StartQuest(QuestData.Quest q)
+    // This is called when a Quest is selected
+    public void StartQuest(Assets.Scripts.Content.Quest q)
     {
         if (Path.GetExtension(Path.GetFileName(q.path)) == ".valkyrie")
         {
@@ -253,13 +252,13 @@ public class Game : MonoBehaviour
             QuestLoader.ExtractSinglePackageFull(ContentData.DownloadPath() + Path.DirectorySeparatorChar + Path.GetFileName(q.path));
         }
 
-        // Fetch all of the quest data and initialise the quest
+        // Fetch all of the Quest data and initialise the Quest
         quest = new Quest(q);
 
         // Draw the hero icons, which are buttons for selection
         heroCanvas.SetupUI();
 
-        // Add a finished button to start the quest
+        // Add a finished button to start the Quest
         UIElement ui = new UIElement(Game.HEROSELECT);
         ui.SetLocation(UIScaler.GetRight(-8.5f), UIScaler.GetBottom(-2.5f), 8, 2);
         ui.SetText(CommonStringKeys.FINISHED, Color.green);
@@ -286,7 +285,7 @@ public class Game : MonoBehaviour
         new UIElementBorder(ui, Color.red);
     }
 
-    // HeroCanvas validates selection and starts quest if everything is good
+    // HeroCanvas validates selection and starts Quest if everything is good
     public void EndSelection()
     {
         // Count up how many heros have been selected
@@ -297,7 +296,7 @@ public class Game : MonoBehaviour
         }
         // Starting morale is number of heros
         quest.vars.SetValue("$%morale", count);
-        // This validates the selection then if OK starts first quest event
+        // This validates the selection then if OK starts first Quest event
         heroCanvas.EndSection();
     }
 
@@ -317,7 +316,7 @@ public class Game : MonoBehaviour
 
         // Start round events
         quest.eManager.EventTriggerType("StartRound", false);
-        // Start the quest (top of stack)
+        // Start the Quest (top of stack)
         quest.eManager.EventTriggerType("EventStart", false);
         quest.eManager.TriggerEvent();
     }
@@ -325,13 +324,13 @@ public class Game : MonoBehaviour
     private List<string> GetDefaultQuestMusic()
     {
         List<string> music = new List<string>();
-        //If default quest music  has been turned off do not add any audio files to the list
+        //If default Quest music  has been turned off do not add any audio files to the list
         if (quest.defaultMusicOn)
         {
-            // Start quest music
+            // Start Quest music
             foreach (AudioData ad in cd.audio.Values)
             {
-                if (ad.ContainsTrait("quest")) music.Add(ad.file);
+                if (ad.ContainsTrait("Quest")) music.Add(ad.file);
             }
         }
 

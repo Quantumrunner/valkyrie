@@ -1,10 +1,8 @@
 namespace Fabric.Internal.Editor.Postbuild
 {
-	using UnityEngine;
-	using UnityEditor;
+    using UnityEditor;
 	using UnityEditor.Callbacks;
-	using System.Collections;
-	using System.Collections.Generic;
+    using System.Collections.Generic;
 	using System.IO;
 	using System.Text;
 	using Fabric.Internal.Editor.Model;

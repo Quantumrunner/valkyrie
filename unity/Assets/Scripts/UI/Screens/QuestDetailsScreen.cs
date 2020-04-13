@@ -1,5 +1,4 @@
 using UnityEngine;
-using System.Collections.Generic;
 using Assets.Scripts.Content;
 using System.IO;
 using ValkyrieTools;
@@ -8,7 +7,7 @@ namespace Assets.Scripts.UI.Screens
 {
     public class QuestDetailsScreen
     {
-        public QuestDetailsScreen(QuestData.Quest q)
+        public QuestDetailsScreen(Content.Quest q)
         {
             Game game = Game.Get();
             LocalizationRead.AddDictionary("qst", q.localizationDict);
@@ -126,9 +125,9 @@ namespace Assets.Scripts.UI.Screens
         /// Select to delete
         /// </summary>
         /// <param file="file">File name to delete</param>
-        public void Delete(QuestData.Quest q)
+        public void Delete(Content.Quest q)
         {
-            ValkyrieDebug.Log("INFO: Delete quest");
+            ValkyrieDebug.Log("INFO: Delete Quest");
 
             string toDelete = "";
 
@@ -137,12 +136,12 @@ namespace Assets.Scripts.UI.Screens
                 toDelete = ContentData.DownloadPath() + Path.DirectorySeparatorChar + Path.GetFileName(q.path);
                 File.Delete(toDelete);
 
-                // update quest status : downloaded/updated
+                // update Quest status : downloaded/updated
                 Game.Get().questsList.SetQuestAvailability(Path.GetFileNameWithoutExtension(q.path), false);
             }
             else
             {
-                // this is not an archive, it is a local quest within a directory
+                // this is not an archive, it is a local Quest within a directory
                 Directory.Delete(q.path, true);
 
                 Game.Get().questsList.UnloadLocalQuests();
@@ -150,25 +149,25 @@ namespace Assets.Scripts.UI.Screens
 
             Destroyer.Dialog();
 
-            // Pull up the quest selection page
+            // Pull up the Quest selection page
             Game.Get().questSelectionScreen.Show();
         }
 
-        // Return to quest selection
+        // Return to Quest selection
         public void Cancel()
         {
-            ValkyrieDebug.Log("INFO: Return to quest list from details screen");
+            ValkyrieDebug.Log("INFO: Return to Quest list from details screen");
 
             Destroyer.Dialog();
 
-            // Pull up the quest selection page
+            // Pull up the Quest selection page
             Game.Get().questSelectionScreen.Show();
         }
 
-        // Select a quest
-        public void Start(QuestData.Quest q)
+        // Select a Quest
+        public void Start(Content.Quest q)
         {
-            ValkyrieDebug.Log("INFO: Start quest from details screen");
+            ValkyrieDebug.Log("INFO: Start Quest from details screen");
 
             Destroyer.Dialog();
             Game.Get().StartQuest(q);

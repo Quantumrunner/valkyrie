@@ -1,5 +1,4 @@
 ﻿using Assets.Scripts.Content;
-using System;
 using UnityEngine;
 
 // GameType manages setting that are specific to the game type
@@ -261,7 +260,7 @@ class MoMGameType : GameType
 
     public override float TilePixelPerSquare()
     {
-        // the base side of the tile is 1024 pixels, we are having 3.5 'squares' (3.5 inches) in this
+        // the base side of the tileQuestComponent is 1024 pixels, we are having 3.5 'squares' (3.5 inches) in this
         // These squares are the same size as D2E squares
         if (Application.platform == RuntimePlatform.Android)
             return 512f / 3.5f;

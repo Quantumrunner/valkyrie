@@ -1,7 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 using Assets.Scripts.Content;
-using Assets.Scripts.UI;
 
 namespace Assets.Scripts.UI.Screens
 {
@@ -49,7 +48,7 @@ namespace Assets.Scripts.UI.Screens
                 xOffset += 9f;
             }
 
-            // Add a finished button to start the quest
+            // Add a finished button to start the Quest
             ui = new UIElement(Game.HEROSELECT);
             ui.SetLocation(UIScaler.GetRight(-8.5f), UIScaler.GetBottom(-2.5f), 8, 2);
             ui.SetText(CommonStringKeys.FINISHED, Color.green);

@@ -1,8 +1,7 @@
 ﻿namespace Fabric.Internal.Editor.CommonBuild
 {
 	using Fabric.Internal.Editor.Model;
-	using UnityEditor;
-	using UnityEngine;
+    using UnityEngine;
 	using UnityEditor.Callbacks;
 	using System;
 

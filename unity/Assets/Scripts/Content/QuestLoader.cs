@@ -3,13 +3,13 @@ using System.Collections.Generic;
 using System.IO;
 using ValkyrieTools;
 
-// Class for getting lists of quest with details
+// Class for getting lists of Quest with details
 public class QuestLoader {
 
     // Return a dictionary of all available quests
-    public static Dictionary<string, QuestData.Quest> GetQuests(bool getHidden = false)
+    public static Dictionary<string, Assets.Scripts.Content.Quest> GetQuests(bool getHidden = false)
     {
-        Dictionary<string, QuestData.Quest> quests = new Dictionary<string, QuestData.Quest>();
+        Dictionary<string, Assets.Scripts.Content.Quest> quests = new Dictionary<string, Assets.Scripts.Content.Quest>();
 
         Game game = Game.Get();
         // Look in the user application data directory
@@ -17,7 +17,7 @@ public class QuestLoader {
         mkDir(dataLocation);
         mkDir(ContentData.DownloadPath());
 
-        // Get a list of downloaded quest not packed
+        // Get a list of downloaded Quest not packed
         List<string> questDirectories = GetUnpackedQuests(ContentData.DownloadPath());
 
         // Extract only required files from downloaded packages 
@@ -26,7 +26,7 @@ public class QuestLoader {
         // Get the list of extracted packages
         questDirectories.AddRange(GetUnpackedQuests(ContentData.TempValyriePath));
 
-        // Add the list of editor quest
+        // Add the list of editor Quest
         if (game.gameType is MoMGameType)
         {
             dataLocation += "/MoM/Editor";
@@ -44,15 +44,15 @@ public class QuestLoader {
         // Go through all directories
         foreach (string p in questDirectories)
         {
-            // load quest
-            QuestData.Quest q = new QuestData.Quest(p);
-            // Check quest is valid and of the right type
+            // load Quest
+            Assets.Scripts.Content.Quest q = new Assets.Scripts.Content.Quest(p);
+            // Check Quest is valid and of the right type
             if (q.valid && q.type.Equals(game.gameType.TypeName()))
             {
-                // Is the quest hidden?
+                // Is the Quest hidden?
                 if (!q.hidden || getHidden)
                 {
-                    // Add quest to quest list
+                    // Add Quest to Quest list
                     quests.Add(p, q);
                 }
             }
@@ -62,10 +62,10 @@ public class QuestLoader {
         return quests;
     }
 
-    // Return a single quest, quest name is without file extension
-    public static QuestData.Quest GetSingleQuest(string questName, bool getHidden = false)
+    // Return a single Quest, Quest name is without file extension
+    public static Assets.Scripts.Content.Quest GetSingleQuest(string questName, bool getHidden = false)
     {
-        QuestData.Quest quest = null;
+        Assets.Scripts.Content.Quest quest = null;
 
         Game game = Game.Get();
         // Look in the user application data directory
@@ -76,15 +76,15 @@ public class QuestLoader {
         string path = ContentData.DownloadPath() + Path.DirectorySeparatorChar + questName + ".valkyrie";
         QuestLoader.ExtractSinglePackagePartial(path);
 
-        // load quest
-        QuestData.Quest q = new QuestData.Quest(Path.Combine(ContentData.TempValyriePath, Path.GetFileName(path)));
-        // Check quest is valid and of the right type
+        // load Quest
+        Assets.Scripts.Content.Quest q = new Assets.Scripts.Content.Quest(Path.Combine(ContentData.TempValyriePath, Path.GetFileName(path)));
+        // Check Quest is valid and of the right type
         if (q.valid && q.type.Equals(game.gameType.TypeName()))
         {
-            // Is the quest hidden?
+            // Is the Quest hidden?
             if (!q.hidden || getHidden)
             {
-                // Add quest to quest list
+                // Add Quest to Quest list
                 quest = q;
             }
         }
@@ -94,9 +94,9 @@ public class QuestLoader {
     }
 
     // Return list of quests available in the user path (includes packages)
-    public static Dictionary<string, QuestData.Quest> GetUserQuests()
+    public static Dictionary<string, Assets.Scripts.Content.Quest> GetUserQuests()
     {
-        Dictionary<string, QuestData.Quest> quests = new Dictionary<string, QuestData.Quest>();
+        Dictionary<string, Assets.Scripts.Content.Quest> quests = new Dictionary<string, Assets.Scripts.Content.Quest>();
 
         // Read user application data for quests
         string dataLocation = Game.AppData();
@@ -109,8 +109,8 @@ public class QuestLoader {
         // go through all found quests
         foreach (string p in questDirectories)
         {
-            // read quest
-            QuestData.Quest q = new QuestData.Quest(p);
+            // read Quest
+            Assets.Scripts.Content.Quest q = new Assets.Scripts.Content.Quest(p);
             // Check if valid and correct type
             if (q.valid && q.type.Equals(Game.Get().gameType.TypeName()))
             {
@@ -122,9 +122,9 @@ public class QuestLoader {
     }
 
     // Return list of quests available in the user path unpackaged (editable)
-    public static Dictionary<string, QuestData.Quest> GetUserUnpackedQuests()
+    public static Dictionary<string, Assets.Scripts.Content.Quest> GetUserUnpackedQuests()
     {
-        var quests = new Dictionary<string, QuestData.Quest>();
+        var quests = new Dictionary<string, Assets.Scripts.Content.Quest>();
 
         // Read user application data for quests
         string dataLocation = Game.AppData();
@@ -141,8 +141,8 @@ public class QuestLoader {
             {
                 continue;
             }
-            // read quest
-            var q = new QuestData.Quest(p);
+            // read Quest
+            var q = new Assets.Scripts.Content.Quest(p);
             // Check if valid and correct type
             if (q.valid && q.type.Equals(gameType))
             {
@@ -167,8 +167,8 @@ public class QuestLoader {
         List<string> questDirectories = DirList(path);
         foreach (string p in questDirectories)
         {
-            // All packs must have a quest.ini, otherwise ignore
-            if (File.Exists(p + "/quest.ini"))
+            // All packs must have a Quest.ini, otherwise ignore
+            if (File.Exists(p + "/Quest.ini"))
             {
                     quests.Add(p);
             }
@@ -178,7 +178,7 @@ public class QuestLoader {
     }
 
     /// <summary>
-    /// Fully extract one single package, before starting a quest, and save package filename
+    /// Fully extract one single package, before starting a Quest, and save package filename
     /// </summary>
     /// <param name="path">path of the file to extract</param>
     public static void ExtractSinglePackageFull(string path)
@@ -193,7 +193,7 @@ public class QuestLoader {
 
     /// <summary>
     /// Partial extract of a single package, before listing the savegames
-    /// Only the quest.ini and translations needs to be extracted to validate quest and get its name
+    /// Only the Quest.ini and translations needs to be extracted to validate Quest and get its name
     /// </summary>
     /// <param name="path">path of the file to extract</param>
     public static void ExtractSinglePackagePartial(string path)

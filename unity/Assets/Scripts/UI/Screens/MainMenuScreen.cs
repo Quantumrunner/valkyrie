@@ -1,5 +1,4 @@
 ﻿using Assets.Scripts.Content;
-﻿using Assets.Scripts.UI.Screens;
 using System.Collections.Generic;
 using UnityEngine;
 using ValkyrieTools;
@@ -61,7 +60,7 @@ namespace Assets.Scripts.UI.Screens
                 ui.SetButton(delegate { TestCrash(); });
             }
 
-            // Button for start quest/scenario
+            // Button for start Quest/scenario
             ui = new UIElement();
             ui.SetLocation((UIScaler.GetWidthUnits() - ButtonWidth) / 2, 5, ButtonWidth, 2);
             ui.SetText(START_QUEST);
@@ -139,7 +138,7 @@ namespace Assets.Scripts.UI.Screens
             new UIElementBorder(ui);
         }
 
-        // Start quest
+        // Start Quest
         public void Start()
         {
             ValkyrieDebug.Log("INFO: Accessing quests");

@@ -5,7 +5,7 @@ using Assets.Scripts.UI.Screens;
 using Assets.Scripts.Content;
 using ValkyrieTools;
 
-// Class for quest selection window
+// Class for Quest selection window
 public class QuestDownload : MonoBehaviour
 {
     public WWW download;
@@ -22,7 +22,7 @@ public class QuestDownload : MonoBehaviour
             return;
         }
 
-        QuestData.Quest q = game.questsList.GetQuestData(key);
+        Assets.Scripts.Content.Quest q = game.questsList.GetQuestData(key);
 
         string package = q.package_url + key + ".valkyrie";
         StartCoroutine(Download(package, delegate { Save(key); }));
@@ -54,7 +54,7 @@ public class QuestDownload : MonoBehaviour
             writer.Close();
         }
 
-        // update local list of quest and current status 
+        // update local list of Quest and current status 
         game.questsList.SetQuestAvailability(key, true);
 
         // cleanup screen and go back to list of quests

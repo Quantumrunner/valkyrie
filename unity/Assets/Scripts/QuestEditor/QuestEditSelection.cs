@@ -7,7 +7,7 @@ using ValkyrieTools;
 
 public class QuestEditSelection
 {
-    public Dictionary<string, QuestData.Quest> questList;
+    public Dictionary<string, Assets.Scripts.Content.Quest> questList;
 
     // Create a pack with list of quests to edit
     public QuestEditSelection()
@@ -17,7 +17,7 @@ public class QuestEditSelection
         // clear list of local quests to make sure we take the latest changes
         game.questsList.UnloadLocalQuests();
 
-        // Get list of unpacked quest in user location (editable)
+        // Get list of unpacked Quest in user location (editable)
         // TODO: open/save in packages
         questList = QuestLoader.GetUserUnpackedQuests();
 
@@ -38,7 +38,7 @@ public class QuestEditSelection
 
         // List of quests
         int offset = 0;
-        foreach (KeyValuePair<string, QuestData.Quest> q in questList)
+        foreach (KeyValuePair<string, Assets.Scripts.Content.Quest> q in questList)
         {
             string key = q.Key;
             LocalizationRead.AddDictionary("qst", q.Value.localizationDict);
@@ -61,7 +61,7 @@ public class QuestEditSelection
         ui.SetFontSize(UIScaler.GetMediumFont());
         ui.SetButton(Cancel);
         new UIElementBorder(ui, Color.red);
-        // Delete a user quest
+        // Delete a user Quest
         ui = new UIElement();
         ui.SetLocation((UIScaler.GetRight() * 3 / 8) - 4, UIScaler.GetBottom(-3), 8, 2);
         ui.SetText(CommonStringKeys.DELETE, Color.red);
@@ -69,7 +69,7 @@ public class QuestEditSelection
         ui.SetFontSize(UIScaler.GetMediumFont());
         ui.SetButton(Delete);
         new UIElementBorder(ui, Color.red);
-        // Copy a quest
+        // Copy a Quest
         ui = new UIElement();
         ui.SetLocation((UIScaler.GetRight() * 5 / 8) - 4, UIScaler.GetBottom(-3), 8, 2);
         ui.SetText(CommonStringKeys.COPY);
@@ -77,7 +77,7 @@ public class QuestEditSelection
         ui.SetFontSize(UIScaler.GetMediumFont());
         ui.SetButton(Copy);
         new UIElementBorder(ui);
-        // Create a new quest
+        // Create a new Quest
         ui = new UIElement();
         ui.SetLocation(UIScaler.GetRight(-9), UIScaler.GetBottom(-3), 8, 2);
         ui.SetText(CommonStringKeys.NEW);
@@ -120,7 +120,7 @@ public class QuestEditSelection
 
         // List of quests
         int offset = 0;
-        foreach (KeyValuePair<string, QuestData.Quest> q in questList)
+        foreach (KeyValuePair<string, Assets.Scripts.Content.Quest> q in questList)
         {
             string key = q.Key;
             LocalizationRead.AddDictionary("qst", q.Value.localizationDict);
@@ -146,7 +146,7 @@ public class QuestEditSelection
         new UIElementBorder(ui, Color.red);
     }
 
-    // Delete quest
+    // Delete Quest
     public void Delete(string key)
     {
         try
@@ -155,7 +155,7 @@ public class QuestEditSelection
         }
         catch (System.Exception)
         {
-            ValkyrieDebug.Log("Failed to delete quest: " + key);
+            ValkyrieDebug.Log("Failed to delete Quest: " + key);
         }
         new QuestEditSelection();
     }
@@ -193,7 +193,7 @@ public class QuestEditSelection
 
         // List of quests
         int offset = 0;
-        foreach (KeyValuePair<string, QuestData.Quest> q in questList)
+        foreach (KeyValuePair<string, Assets.Scripts.Content.Quest> q in questList)
         {
             string key = q.Key;
             LocalizationRead.AddDictionary("qst", q.Value.localizationDict);
@@ -218,7 +218,7 @@ public class QuestEditSelection
         new UIElementBorder(ui, Color.red);
     }
 
-    // Copy a quest
+    // Copy a Quest
     public void Copy(string key)
     {
         Game game = Game.Get();
@@ -247,16 +247,16 @@ public class QuestEditSelection
         try
         {
             DirectoryCopy(key, targetLocation, true);
-            // read new quest file
-            string[] questData = File.ReadAllLines(targetLocation + "/quest.ini");
+            // read new Quest file
+            string[] questData = File.ReadAllLines(targetLocation + "/Quest.ini");
 
-            // Search for quest section
+            // Search for Quest section
             bool questFound = false;
             for (i = 0; i < questData.Length; i++)
             {
                 if (questData[i].Equals("[Quest]"))
                 {
-                    // Inside quest section
+                    // Inside Quest section
                     questFound = true;
                 }
                 if (questFound && questData[i].IndexOf("name=") == 0)
@@ -267,11 +267,11 @@ public class QuestEditSelection
                 }
             }
             // Write back to ini file
-            File.WriteAllLines(targetLocation + "/quest.ini", questData);
+            File.WriteAllLines(targetLocation + "/Quest.ini", questData);
         }
         catch (System.Exception)
         {
-            ValkyrieDebug.Log("Error: Failed to copy quest.");
+            ValkyrieDebug.Log("Error: Failed to copy Quest.");
             Application.Quit();
         }
         // Back to selection
@@ -317,7 +317,7 @@ public class QuestEditSelection
         }
     }
 
-    // Create a new quest
+    // Create a new Quest
     public void NewQuest()
     {
         Game game = Game.Get();
@@ -341,25 +341,25 @@ public class QuestEditSelection
 
             List<string> questData = new List<string>();
 
-            // Create basic quest info
+            // Create basic Quest info
             questData.Add("[Quest]");
             questData.Add("type=" + game.gameType.TypeName());
-            questData.Add("format=" + QuestData.Quest.currentFormat);
+            questData.Add("format=" + Assets.Scripts.Content.Quest.currentFormat);
             questData.Add("defaultlanguage=" + game.currentLang); 
             questData.Add("");
             questData.Add("[QuestText]");
             questData.Add("Localization."+ game.currentLang +".txt");
 
-            // Write quest file
-            File.WriteAllLines(targetLocation + "/quest.ini", questData.ToArray());
+            // Write Quest file
+            File.WriteAllLines(targetLocation + "/Quest.ini", questData.ToArray());
 
             // Create new dictionary
             DictionaryI18n newScenarioDict = new DictionaryI18n(new string[1] { ".," + game.currentLang }, game.currentLang);
 
-            // Add quest name to dictionary
-            newScenarioDict.AddEntry("quest.name", game.gameType.QuestName().Translate() + " " + i);
-            // Add quest description to dictionary
-            newScenarioDict.AddEntry("quest.description", game.gameType.QuestName().Translate() + " " + i + "...");
+            // Add Quest name to dictionary
+            newScenarioDict.AddEntry("Quest.name", game.gameType.QuestName().Translate() + " " + i);
+            // Add Quest description to dictionary
+            newScenarioDict.AddEntry("Quest.description", game.gameType.QuestName().Translate() + " " + i + "...");
 
             // Generate localization file
             Dictionary<string,List<string>> localization_files = newScenarioDict.SerializeMultiple();
@@ -374,17 +374,17 @@ public class QuestEditSelection
         }
         catch (System.Exception e)
         {
-            ValkyrieDebug.Log("Error: Failed to create new quest: " + e.Message);
+            ValkyrieDebug.Log("Error: Failed to create new Quest: " + e.Message);
             Application.Quit();
         }
         // Back to edit selection
         new QuestEditSelection();
     }
 
-    // Select a quest for editing
+    // Select a Quest for editing
     public void Selection(string key)
     {
-        ValkyrieDebug.Log("INFO: Select quest " + key + " for editing");
+        ValkyrieDebug.Log("INFO: Select Quest " + key + " for editing");
 
         Game game = Game.Get();
 
@@ -396,7 +396,7 @@ public class QuestEditSelection
 
         game.audioControl.StopMusic();
 
-        // Fetch all of the quest data
+        // Fetch all of the Quest data
         ValkyrieDebug.Log("Selecting Quest: " + key + System.Environment.NewLine);
         ValkyrieDebug.Log("Starting Editor" + System.Environment.NewLine);
         QuestEditor.Begin(questList[key].path);

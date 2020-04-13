@@ -1,11 +1,10 @@
 ﻿using UnityEngine;
-using System.Collections.Generic;
 using Assets.Scripts.Content;
 using Assets.Scripts.UI.Screens;
 using Assets.Scripts.UI;
 using ValkyrieTools;
 
-// In quest game menu
+// In Quest game menu
 public class GameMenu {
     private static readonly StringKey SAVE = new StringKey("val","SAVE");
     private static readonly StringKey MAIN_MENU = new StringKey("val", "MAIN_MENU");

@@ -1,7 +1,6 @@
 ﻿namespace Fabric.Internal.Editor.Detail
 {
-	using UnityEngine;
-	using UnityEditor;
+    using UnityEditor;
 	using System.Collections;
 	using System.Threading;
 

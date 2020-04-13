@@ -1,17 +1,15 @@
 ﻿using UnityEngine;
-using System.Collections;
 using System.Collections.Generic;
-using UnityEngine.EventSystems;
-using UnityEngine.Events;
 using Assets.Scripts.Content;
 using Assets.Scripts.UI;
 using System.IO;
+using Assets.Scripts.Content.QuestComponent;
 
 public class PuzzleImageWindow
 {
 
     public EventManager.Event eventData;
-    QuestData.Puzzle questPuzzle;
+    PuzzleQuestComponent QUEST_PUZZLE_QUEST_COMPONENT;
     public PuzzleImage puzzle;
     public int previousMoves = 0;
     public Sprite[][] imageSprite;
@@ -23,29 +21,29 @@ public class PuzzleImageWindow
         eventData = e;
         Game game = Game.Get();
 
-        questPuzzle = e.qEvent as QuestData.Puzzle;
+        QUEST_PUZZLE_QUEST_COMPONENT = e.QEventQuestComponent as PuzzleQuestComponent;
 
-        if (game.quest.puzzle.ContainsKey(questPuzzle.sectionName))
+        if (game.quest.puzzle.ContainsKey(QUEST_PUZZLE_QUEST_COMPONENT.sectionName))
         {
-            puzzle = game.quest.puzzle[questPuzzle.sectionName] as PuzzleImage;
+            puzzle = game.quest.puzzle[QUEST_PUZZLE_QUEST_COMPONENT.sectionName] as PuzzleImage;
             previousMoves = puzzle.moves;
         }
         else
         {
-            puzzle = new PuzzleImage(questPuzzle.puzzleLevel, questPuzzle.puzzleAltLevel);
+            puzzle = new PuzzleImage(QUEST_PUZZLE_QUEST_COMPONENT.puzzleLevel, QUEST_PUZZLE_QUEST_COMPONENT.puzzleAltLevel);
         }
 
-        height = 19f / questPuzzle.puzzleAltLevel;
-        width = 19f / questPuzzle.puzzleLevel;
+        height = 19f / QUEST_PUZZLE_QUEST_COMPONENT.puzzleAltLevel;
+        width = 19f / QUEST_PUZZLE_QUEST_COMPONENT.puzzleLevel;
 
         Texture2D newTex = null;
-        if (game.cd.puzzles.ContainsKey(questPuzzle.imageType))
+        if (game.cd.puzzles.ContainsKey(QUEST_PUZZLE_QUEST_COMPONENT.imageType))
         {
-            newTex = ContentData.FileToTexture(game.cd.puzzles[questPuzzle.imageType].image);
+            newTex = ContentData.FileToTexture(game.cd.puzzles[QUEST_PUZZLE_QUEST_COMPONENT.imageType].image);
         }
         else
         {
-            newTex = ContentData.FileToTexture(System.IO.Path.GetDirectoryName(game.quest.qd.questPath) + Path.DirectorySeparatorChar + questPuzzle.imageType);
+            newTex = ContentData.FileToTexture(System.IO.Path.GetDirectoryName(game.quest.qd.questPath) + Path.DirectorySeparatorChar + QUEST_PUZZLE_QUEST_COMPONENT.imageType);
         }
         if (newTex.width > newTex.height)
         {
@@ -56,13 +54,13 @@ public class PuzzleImageWindow
             width = width * newTex.width / newTex.height;
         }
 
-        imageSprite = new Sprite[questPuzzle.puzzleLevel][];
-        for (int i = 0; i < questPuzzle.puzzleLevel; i++)
+        imageSprite = new Sprite[QUEST_PUZZLE_QUEST_COMPONENT.puzzleLevel][];
+        for (int i = 0; i < QUEST_PUZZLE_QUEST_COMPONENT.puzzleLevel; i++)
         {
-            imageSprite[i] = new Sprite[questPuzzle.puzzleAltLevel];
-            for (int j = 0; j < questPuzzle.puzzleAltLevel; j++)
+            imageSprite[i] = new Sprite[QUEST_PUZZLE_QUEST_COMPONENT.puzzleAltLevel];
+            for (int j = 0; j < QUEST_PUZZLE_QUEST_COMPONENT.puzzleAltLevel; j++)
             {
-                imageSprite[i][j] = Sprite.Create(newTex, new Rect(i * newTex.width / questPuzzle.puzzleLevel, (questPuzzle.puzzleAltLevel - (j + 1)) * newTex.height / questPuzzle.puzzleAltLevel, newTex.width / questPuzzle.puzzleLevel, newTex.height / questPuzzle.puzzleAltLevel), Vector2.zero, 1, 0, SpriteMeshType.FullRect);
+                imageSprite[i][j] = Sprite.Create(newTex, new Rect(i * newTex.width / QUEST_PUZZLE_QUEST_COMPONENT.puzzleLevel, (QUEST_PUZZLE_QUEST_COMPONENT.puzzleAltLevel - (j + 1)) * newTex.height / QUEST_PUZZLE_QUEST_COMPONENT.puzzleAltLevel, newTex.width / QUEST_PUZZLE_QUEST_COMPONENT.puzzleLevel, newTex.height / QUEST_PUZZLE_QUEST_COMPONENT.puzzleAltLevel), Vector2.zero, 1, 0, SpriteMeshType.FullRect);
             }
         }
 
@@ -76,7 +74,7 @@ public class PuzzleImageWindow
         ui.SetLocation(UIScaler.GetHCenter(-14f), 0.5f, 29f, 22.5f);
         new UIElementBorder(ui);
 
-        // Puzzle goes here
+        // PuzzleQuestComponent goes here
         ui = new UIElement();
         ui.SetLocation(UIScaler.GetHCenter(7.75f), 8, 7f, 2);
         ui.SetText(new StringKey("val","X_COLON",CommonStringKeys.SKILL));
@@ -84,7 +82,7 @@ public class PuzzleImageWindow
 
         ui = new UIElement();
         ui.SetLocation(UIScaler.GetHCenter(9.75f), 10, 3, 2);
-        ui.SetText(EventManager.OutputSymbolReplace(questPuzzle.skill));
+        ui.SetText(EventManager.OutputSymbolReplace(QUEST_PUZZLE_QUEST_COMPONENT.skill));
         ui.SetFontSize(UIScaler.GetMediumFont());
         new UIElementBorder(ui);
 
@@ -179,11 +177,11 @@ public class PuzzleImageWindow
     {
         Destroyer.Dialog();
         Game game = Game.Get();
-        if (game.quest.puzzle.ContainsKey(questPuzzle.sectionName))
+        if (game.quest.puzzle.ContainsKey(QUEST_PUZZLE_QUEST_COMPONENT.sectionName))
         {
-            game.quest.puzzle.Remove(questPuzzle.sectionName);
+            game.quest.puzzle.Remove(QUEST_PUZZLE_QUEST_COMPONENT.sectionName);
         }
-        game.quest.puzzle.Add(questPuzzle.sectionName, puzzle);
+        game.quest.puzzle.Add(QUEST_PUZZLE_QUEST_COMPONENT.sectionName, puzzle);
 
         game.quest.eManager.currentEvent = null;
         game.quest.eManager.currentEvent = null;
@@ -194,9 +192,9 @@ public class PuzzleImageWindow
     {
         Destroyer.Dialog();
         Game game = Game.Get();
-        if (game.quest.puzzle.ContainsKey(questPuzzle.sectionName))
+        if (game.quest.puzzle.ContainsKey(QUEST_PUZZLE_QUEST_COMPONENT.sectionName))
         {
-            game.quest.puzzle.Remove(questPuzzle.sectionName);
+            game.quest.puzzle.Remove(QUEST_PUZZLE_QUEST_COMPONENT.sectionName);
         }
 
         game.quest.eManager.EndEvent();
@@ -255,12 +253,12 @@ public class PuzzleImageWindow
                 yDiff = 0;
             }
 
-            if (screenPos.x == (win.questPuzzle.puzzleLevel - 1) && xDiff > 0)
+            if (screenPos.x == (win.QUEST_PUZZLE_QUEST_COMPONENT.puzzleLevel - 1) && xDiff > 0)
             {
                 xDiff = 0;
             }
 
-            if (screenPos.y == (win.questPuzzle.puzzleAltLevel - 1) && yDiff < 0)
+            if (screenPos.y == (win.QUEST_PUZZLE_QUEST_COMPONENT.puzzleAltLevel - 1) && yDiff < 0)
             {
                 yDiff = 0;
             }

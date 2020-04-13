@@ -1,9 +1,8 @@
 ﻿using UnityEngine;
 using System.IO;
-using System.Text;
-using System.Collections;
 using System.Collections.Generic;
 using Assets.Scripts.Content;
+using Assets.Scripts.Content.QuestComponent;
 using Assets.Scripts.UI;
 
 public class EditorComponentCustomMonster : EditorComponent
@@ -19,7 +18,7 @@ public class EditorComponentCustomMonster : EditorComponent
     private readonly StringKey PLACE_IMG = new StringKey("val", "PLACE_IMG");
     private readonly StringKey IMAGE = new StringKey("val", "IMAGE");
 
-    QuestData.CustomMonster monsterComponent;
+    CustomMonsterQuestComponent MONSTER_QUEST_COMPONENT_COMPONENT;
 
     UIElementEditable nameUIE;
     UIElementEditablePaneled infoUIE;
@@ -35,8 +34,8 @@ public class EditorComponentCustomMonster : EditorComponent
 
     {
         Game game = Game.Get();
-        monsterComponent = game.quest.qd.components[nameIn] as QuestData.CustomMonster;
-        component = monsterComponent;
+        MONSTER_QUEST_COMPONENT_COMPONENT = game.quest.qd.components[nameIn] as CustomMonsterQuestComponent;
+        component = MONSTER_QUEST_COMPONENT_COMPONENT;
         name = component.sectionName;
         Update();
     }
@@ -44,7 +43,7 @@ public class EditorComponentCustomMonster : EditorComponent
     override protected void RefreshReference()
     {
         base.RefreshReference();
-        monsterComponent = component as QuestData.CustomMonster;
+        MONSTER_QUEST_COMPONENT_COMPONENT = component as CustomMonsterQuestComponent;
     }
 
     override public float AddSubComponents(float offset)
@@ -57,7 +56,7 @@ public class EditorComponentCustomMonster : EditorComponent
 
         ui = new UIElement(Game.EDITOR, scrollArea.GetScrollTransform());
         ui.SetLocation(3, offset, 16.5f, 1);
-        ui.SetText(monsterComponent.baseMonster);
+        ui.SetText(MONSTER_QUEST_COMPONENT_COMPONENT.baseMonster);
         ui.SetButton(delegate { SetBase(); });
         new UIElementBorder(ui);
         offset += 2;
@@ -66,15 +65,15 @@ public class EditorComponentCustomMonster : EditorComponent
         ui.SetLocation(0, offset, 3, 1);
         ui.SetText(new StringKey("val", "X_COLON", NAME));
 
-        if (monsterComponent.baseMonster.Length == 0 || monsterComponent.monsterName.KeyExists())
+        if (MONSTER_QUEST_COMPONENT_COMPONENT.baseMonster.Length == 0 || MONSTER_QUEST_COMPONENT_COMPONENT.monsterName.KeyExists())
         {
             nameUIE = new UIElementEditable(Game.EDITOR, scrollArea.GetScrollTransform());
             nameUIE.SetLocation(3, offset, 13.5f, 1);
-            nameUIE.SetText(monsterComponent.monsterName.Translate());
+            nameUIE.SetText(MONSTER_QUEST_COMPONENT_COMPONENT.monsterName.Translate());
             nameUIE.SetSingleLine();
             nameUIE.SetButton(delegate { UpdateName(); });
             new UIElementBorder(nameUIE);
-            if (monsterComponent.baseMonster.Length > 0)
+            if (MONSTER_QUEST_COMPONENT_COMPONENT.baseMonster.Length > 0)
             {
                 ui = new UIElement(Game.EDITOR, scrollArea.GetScrollTransform());
                 ui.SetLocation(16.5f, offset, 3, 1);
@@ -99,9 +98,9 @@ public class EditorComponentCustomMonster : EditorComponent
             ui.SetLocation(0.5f, offset, 16, 1);
             ui.SetText(new StringKey("val", "X_COLON", INFO));
 
-            if (monsterComponent.baseMonster.Length == 0 || monsterComponent.info.KeyExists())
+            if (MONSTER_QUEST_COMPONENT_COMPONENT.baseMonster.Length == 0 || MONSTER_QUEST_COMPONENT_COMPONENT.info.KeyExists())
             {
-                if (monsterComponent.baseMonster.Length > 0)
+                if (MONSTER_QUEST_COMPONENT_COMPONENT.baseMonster.Length > 0)
                 {
                     ui = new UIElement(Game.EDITOR, scrollArea.GetScrollTransform());
                     ui.SetLocation(16.5f, offset++, 3, 1);
@@ -112,7 +111,7 @@ public class EditorComponentCustomMonster : EditorComponent
 
                 infoUIE = new UIElementEditablePaneled(Game.EDITOR, scrollArea.GetScrollTransform());
                 infoUIE.SetLocation(0.5f, offset, 19, 18);
-                infoUIE.SetText(monsterComponent.info.Translate());
+                infoUIE.SetText(MONSTER_QUEST_COMPONENT_COMPONENT.info.Translate());
                 offset += infoUIE.HeightToTextPadding(1);
                 infoUIE.SetButton(delegate { UpdateInfo(); });
                 new UIElementBorder(infoUIE);
@@ -144,12 +143,12 @@ public class EditorComponentCustomMonster : EditorComponent
         ui.SetButton(delegate { AddTrait(); });
         new UIElementBorder(ui, Color.green);
 
-        for (int index = 0; index < monsterComponent.traits.Length; index++)
+        for (int index = 0; index < MONSTER_QUEST_COMPONENT_COMPONENT.traits.Length; index++)
         {
             int i = index;
             ui = new UIElement(Game.EDITOR, scrollArea.GetScrollTransform());
             ui.SetLocation(12.5f, offset, 6, 1);
-            ui.SetText(new StringKey("val", monsterComponent.traits[index]));
+            ui.SetText(new StringKey("val", MONSTER_QUEST_COMPONENT_COMPONENT.traits[index]));
             new UIElementBorder(ui);
 
             ui = new UIElement(Game.EDITOR, scrollArea.GetScrollTransform());
@@ -164,11 +163,11 @@ public class EditorComponentCustomMonster : EditorComponent
         ui.SetLocation(0, offset, 5, 1);
         ui.SetText(new StringKey("val", "X_COLON", HEALTH));
 
-        if (monsterComponent.baseMonster.Length == 0 || monsterComponent.healthDefined)
+        if (MONSTER_QUEST_COMPONENT_COMPONENT.baseMonster.Length == 0 || MONSTER_QUEST_COMPONENT_COMPONENT.healthDefined)
         {
             healthUIE = new UIElementEditable(Game.EDITOR, scrollArea.GetScrollTransform());
             healthUIE.SetLocation(5, offset, 3, 1);
-            healthUIE.SetText(monsterComponent.healthBase.ToString());
+            healthUIE.SetText(MONSTER_QUEST_COMPONENT_COMPONENT.healthBase.ToString());
             healthUIE.SetSingleLine();
             healthUIE.SetButton(delegate { UpdateHealth(); });
             new UIElementBorder(healthUIE);
@@ -179,11 +178,11 @@ public class EditorComponentCustomMonster : EditorComponent
 
             healthHeroUIE = new UIElementEditable(Game.EDITOR, scrollArea.GetScrollTransform());
             healthHeroUIE.SetLocation(14, offset, 2.5f, 1);
-            healthHeroUIE.SetText(monsterComponent.healthPerHero.ToString());
+            healthHeroUIE.SetText(MONSTER_QUEST_COMPONENT_COMPONENT.healthPerHero.ToString());
             healthHeroUIE.SetSingleLine();
             healthHeroUIE.SetButton(delegate { UpdateHealthHero(); });
             new UIElementBorder(healthHeroUIE);
-            if (monsterComponent.baseMonster.Length > 0)
+            if (MONSTER_QUEST_COMPONENT_COMPONENT.baseMonster.Length > 0)
             {
                 ui = new UIElement(Game.EDITOR, scrollArea.GetScrollTransform());
                 ui.SetLocation(16.5f, offset, 3, 1);
@@ -208,16 +207,16 @@ public class EditorComponentCustomMonster : EditorComponent
             ui.SetLocation(0, offset, 7, 1);
             ui.SetText(new StringKey("val", "X_COLON", new StringKey("val", "horror")));
 
-            if (monsterComponent.baseMonster.Length == 0 || monsterComponent.horrorDefined)
+            if (MONSTER_QUEST_COMPONENT_COMPONENT.baseMonster.Length == 0 || MONSTER_QUEST_COMPONENT_COMPONENT.horrorDefined)
             {
                 horrorUIE = new UIElementEditable(Game.EDITOR, scrollArea.GetScrollTransform());
                 horrorUIE.SetLocation(7, offset, 3, 1);
-                horrorUIE.SetText(monsterComponent.horror.ToString());
+                horrorUIE.SetText(MONSTER_QUEST_COMPONENT_COMPONENT.horror.ToString());
                 horrorUIE.SetSingleLine();
                 horrorUIE.SetButton(delegate { UpdateHorror(); });
                 new UIElementBorder(horrorUIE);
 
-                if (monsterComponent.baseMonster.Length > 0)
+                if (MONSTER_QUEST_COMPONENT_COMPONENT.baseMonster.Length > 0)
                 {
                     ui = new UIElement(Game.EDITOR, scrollArea.GetScrollTransform());
                     ui.SetLocation(10, offset, 3, 1);
@@ -240,16 +239,16 @@ public class EditorComponentCustomMonster : EditorComponent
             ui.SetLocation(0, offset, 7, 1);
             ui.SetText(new StringKey("val", "X_COLON", new StringKey("val", "AWARENESS")));
 
-            if (monsterComponent.baseMonster.Length == 0 || monsterComponent.awarenessDefined)
+            if (MONSTER_QUEST_COMPONENT_COMPONENT.baseMonster.Length == 0 || MONSTER_QUEST_COMPONENT_COMPONENT.awarenessDefined)
             {
                 awarenessUIE = new UIElementEditable(Game.EDITOR, scrollArea.GetScrollTransform());
                 awarenessUIE.SetLocation(7, offset, 3, 1);
-                awarenessUIE.SetText(monsterComponent.awareness.ToString());
+                awarenessUIE.SetText(MONSTER_QUEST_COMPONENT_COMPONENT.awareness.ToString());
                 awarenessUIE.SetSingleLine();
                 awarenessUIE.SetButton(delegate { UpdateAwareness(); });
                 new UIElementBorder(awarenessUIE);
 
-                if (monsterComponent.baseMonster.Length > 0)
+                if (MONSTER_QUEST_COMPONENT_COMPONENT.baseMonster.Length > 0)
                 {
                     ui = new UIElement(Game.EDITOR, scrollArea.GetScrollTransform());
                     ui.SetLocation(10, offset, 3, 1);
@@ -274,14 +273,14 @@ public class EditorComponentCustomMonster : EditorComponent
         ui = new UIElement(Game.EDITOR, scrollArea.GetScrollTransform());
         ui.SetLocation(0, offset, 3, 1);
         ui.SetText(new StringKey("val", "X_COLON", IMAGE));
-        if (monsterComponent.baseMonster.Length == 0 || monsterComponent.imagePath.Length > 0)
+        if (MONSTER_QUEST_COMPONENT_COMPONENT.baseMonster.Length == 0 || MONSTER_QUEST_COMPONENT_COMPONENT.imagePath.Length > 0)
         {
             ui = new UIElement(Game.EDITOR, scrollArea.GetScrollTransform());
             ui.SetLocation(3, offset, 13.5f, 1);
-            ui.SetText(monsterComponent.imagePath);
+            ui.SetText(MONSTER_QUEST_COMPONENT_COMPONENT.imagePath);
             ui.SetButton(delegate { SetImage(); });
             new UIElementBorder(ui);
-            if (monsterComponent.baseMonster.Length > 0)
+            if (MONSTER_QUEST_COMPONENT_COMPONENT.baseMonster.Length > 0)
             {
                 ui = new UIElement(Game.EDITOR, scrollArea.GetScrollTransform());
                 ui.SetLocation(16.5f, offset, 3, 1);
@@ -305,14 +304,14 @@ public class EditorComponentCustomMonster : EditorComponent
             ui = new UIElement(Game.EDITOR, scrollArea.GetScrollTransform());
             ui.SetLocation(0, offset, 4, 1);
             ui.SetText(new StringKey("val", "X_COLON", PLACE_IMG));
-            if (monsterComponent.baseMonster.Length == 0 || monsterComponent.imagePlace.Length > 0)
+            if (MONSTER_QUEST_COMPONENT_COMPONENT.baseMonster.Length == 0 || MONSTER_QUEST_COMPONENT_COMPONENT.imagePlace.Length > 0)
             {
                 ui = new UIElement(Game.EDITOR, scrollArea.GetScrollTransform());
                 ui.SetLocation(4, offset, 12.5f, 1);
-                ui.SetText(monsterComponent.imagePlace);
+                ui.SetText(MONSTER_QUEST_COMPONENT_COMPONENT.imagePlace);
                 ui.SetButton(delegate { SetImagePlace(); });
                 new UIElementBorder(ui);
-                if (monsterComponent.baseMonster.Length > 0)
+                if (MONSTER_QUEST_COMPONENT_COMPONENT.baseMonster.Length > 0)
                 {
                     ui = new UIElement(Game.EDITOR, scrollArea.GetScrollTransform());
                     ui.SetLocation(16.5f, offset, 3, 1);
@@ -340,17 +339,17 @@ public class EditorComponentCustomMonster : EditorComponent
 
             ui = new UIElement(Game.EDITOR, scrollArea.GetScrollTransform());
             ui.SetLocation(5, offset, 13.5f, 1);
-            ui.SetText(monsterComponent.evadeEvent);
+            ui.SetText(MONSTER_QUEST_COMPONENT_COMPONENT.evadeEvent);
             ui.SetButton(delegate { SetEvade(); });
             new UIElementBorder(ui);
 
-            if (monsterComponent.evadeEvent.Length > 0)
+            if (MONSTER_QUEST_COMPONENT_COMPONENT.evadeEvent.Length > 0)
             {
                 ui = new UIElement(Game.EDITOR, scrollArea.GetScrollTransform());
                 ui.SetLocation(18.5f, offset, 1, 1);
                 ui.SetText("<b>⇨</b>", Color.cyan);
                 ui.SetTextAlignment(TextAnchor.LowerCenter);
-                ui.SetButton(delegate { QuestEditorData.SelectComponent(monsterComponent.evadeEvent); });
+                ui.SetButton(delegate { QuestEditorData.SelectComponent(MONSTER_QUEST_COMPONENT_COMPONENT.evadeEvent); });
                 new UIElementBorder(ui, Color.cyan);
             }
             offset += 2;
@@ -361,17 +360,17 @@ public class EditorComponentCustomMonster : EditorComponent
 
             ui = new UIElement(Game.EDITOR, scrollArea.GetScrollTransform());
             ui.SetLocation(5, offset, 13.5f, 1);
-            ui.SetText(monsterComponent.horrorEvent);
+            ui.SetText(MONSTER_QUEST_COMPONENT_COMPONENT.horrorEvent);
             ui.SetButton(delegate { SetHorrorEvent(); });
             new UIElementBorder(ui);
 
-            if (monsterComponent.horrorEvent.Length > 0)
+            if (MONSTER_QUEST_COMPONENT_COMPONENT.horrorEvent.Length > 0)
             {
                 ui = new UIElement(Game.EDITOR, scrollArea.GetScrollTransform());
                 ui.SetLocation(18.5f, offset, 1, 1);
                 ui.SetTextAlignment(TextAnchor.LowerCenter);
                 ui.SetText("<b>⇨</b>", Color.cyan);
-                ui.SetButton(delegate { QuestEditorData.SelectComponent(monsterComponent.horrorEvent); });
+                ui.SetButton(delegate { QuestEditorData.SelectComponent(MONSTER_QUEST_COMPONENT_COMPONENT.horrorEvent); });
                 new UIElementBorder(ui, Color.cyan);
             }
             offset += 2;
@@ -393,13 +392,13 @@ public class EditorComponentCustomMonster : EditorComponent
         new UIElementBorder(ui, Color.green);
 
         int index;
-        for (index = 0; index < monsterComponent.activations.Length; index++)
+        for (index = 0; index < MONSTER_QUEST_COMPONENT_COMPONENT.activations.Length; index++)
         {
             int i = index;
 
             ui = new UIElement(Game.EDITOR, scrollArea.GetScrollTransform());
             ui.SetLocation(0.5f, offset, 17, 1);
-            ui.SetText(monsterComponent.activations[index]);
+            ui.SetText(MONSTER_QUEST_COMPONENT_COMPONENT.activations[index]);
             ui.SetButton(delegate { AddActivation(i); });
             new UIElementBorder(ui);
 
@@ -407,7 +406,7 @@ public class EditorComponentCustomMonster : EditorComponent
             ui.SetLocation(17.5f, offset, 1, 1);
             ui.SetText("<b>⇨</b>", Color.cyan);
             ui.SetTextAlignment(TextAnchor.LowerCenter);
-            ui.SetButton(delegate { QuestEditorData.SelectComponent("Activation" + monsterComponent.activations[i]); });
+            ui.SetButton(delegate { QuestEditorData.SelectComponent("ActivationQuestComponent" + MONSTER_QUEST_COMPONENT_COMPONENT.activations[i]); });
             new UIElementBorder(ui, Color.cyan);
 
             ui = new UIElement(Game.EDITOR, scrollArea.GetScrollTransform());
@@ -422,11 +421,11 @@ public class EditorComponentCustomMonster : EditorComponent
 
     public float DrawMoMActivations(float offset)
     {
-        if (monsterComponent.activations.Length > 1)
+        if (MONSTER_QUEST_COMPONENT_COMPONENT.activations.Length > 1)
         {
             return DepreciatedMoMActivations(offset);
         }
-        if (monsterComponent.activations.Length == 1 && !game.quest.qd.components.ContainsKey(monsterComponent.activations[0]))
+        if (MONSTER_QUEST_COMPONENT_COMPONENT.activations.Length == 1 && !game.quest.qd.components.ContainsKey(MONSTER_QUEST_COMPONENT_COMPONENT.activations[0]))
         {
             return DepreciatedMoMActivations(offset);
         }
@@ -439,14 +438,14 @@ public class EditorComponentCustomMonster : EditorComponent
         ui.SetLocation(5, offset, 13.5f, 1);
         ui.SetButton(delegate { SetActivation(); });
         new UIElementBorder(ui);
-        if (monsterComponent.activations.Length > 0)
+        if (MONSTER_QUEST_COMPONENT_COMPONENT.activations.Length > 0)
         {
-            ui.SetText(monsterComponent.activations[0]);
+            ui.SetText(MONSTER_QUEST_COMPONENT_COMPONENT.activations[0]);
             ui = new UIElement(Game.EDITOR, scrollArea.GetScrollTransform());
             ui.SetLocation(18.5f, offset, 1, 1);
             ui.SetText("<b>⇨</b>", Color.cyan);
             ui.SetTextAlignment(TextAnchor.LowerCenter);
-            ui.SetButton(delegate { QuestEditorData.SelectComponent(monsterComponent.activations[0]); });
+            ui.SetButton(delegate { QuestEditorData.SelectComponent(MONSTER_QUEST_COMPONENT_COMPONENT.activations[0]); });
             new UIElementBorder(ui, Color.cyan);
         }
 
@@ -461,14 +460,14 @@ public class EditorComponentCustomMonster : EditorComponent
 
         offset += 1;
         int index;
-        for (index = 0; index < monsterComponent.activations.Length; index++)
+        for (index = 0; index < MONSTER_QUEST_COMPONENT_COMPONENT.activations.Length; index++)
         {
             int i = index;
 
             ui = new UIElement(Game.EDITOR, scrollArea.GetScrollTransform());
             ui.SetLocation(0, offset, 11.5f, 1);
-            ui.SetText(monsterComponent.activations[index]);
-            ui.SetButton(delegate { QuestEditorData.SelectComponent(monsterComponent.activations[i]); });
+            ui.SetText(MONSTER_QUEST_COMPONENT_COMPONENT.activations[index]);
+            ui.SetButton(delegate { QuestEditorData.SelectComponent(MONSTER_QUEST_COMPONENT_COMPONENT.activations[i]); });
             new UIElementBorder(ui);
 
             ui = new UIElement(Game.EDITOR, scrollArea.GetScrollTransform());
@@ -495,7 +494,7 @@ public class EditorComponentCustomMonster : EditorComponent
         offset += 1;
 
         attacksUIE = new Dictionary<string, List<UIElementEditablePaneled>>();
-        foreach (string attackType in monsterComponent.investigatorAttacks.Keys)
+        foreach (string attackType in MONSTER_QUEST_COMPONENT_COMPONENT.investigatorAttacks.Keys)
         {
             string aType = attackType;
             attacksUIE.Add(attackType, new List<UIElementEditablePaneled>());
@@ -516,7 +515,7 @@ public class EditorComponentCustomMonster : EditorComponent
             new UIElementBorder(ui, Color.red);
             offset += 1;
 
-            foreach (StringKey attack in monsterComponent.investigatorAttacks[attackType])
+            foreach (StringKey attack in MONSTER_QUEST_COMPONENT_COMPONENT.investigatorAttacks[attackType])
             {
                 ui = new UIElement(Game.EDITOR, scrollArea.GetScrollTransform());
                 ui.SetLocation(18.5f, offset, 1, 1);
@@ -560,31 +559,31 @@ public class EditorComponentCustomMonster : EditorComponent
     {
         if (type.Equals("{NONE}"))
         {
-            monsterComponent.baseMonster = "";
-            if (!monsterComponent.monsterName.KeyExists())
+            MONSTER_QUEST_COMPONENT_COMPONENT.baseMonster = "";
+            if (!MONSTER_QUEST_COMPONENT_COMPONENT.monsterName.KeyExists())
             {
                 SetName();
             }
-            if (!monsterComponent.info.KeyExists())
+            if (!MONSTER_QUEST_COMPONENT_COMPONENT.info.KeyExists())
             {
                 SetInfo();
             }
-            if (!monsterComponent.healthDefined)
+            if (!MONSTER_QUEST_COMPONENT_COMPONENT.healthDefined)
             {
                 SetHealth();
             }
-            if (!monsterComponent.horrorDefined)
+            if (!MONSTER_QUEST_COMPONENT_COMPONENT.horrorDefined)
             {
                 SetHorror();
             }
-            if (!monsterComponent.awarenessDefined)
+            if (!MONSTER_QUEST_COMPONENT_COMPONENT.awarenessDefined)
             {
                 SetAwareness();
             }
         }
         else
         {
-            monsterComponent.baseMonster = type.Split(" ".ToCharArray())[0];
+            MONSTER_QUEST_COMPONENT_COMPONENT.baseMonster = type.Split(" ".ToCharArray())[0];
         }
         Update();
     }
@@ -593,19 +592,19 @@ public class EditorComponentCustomMonster : EditorComponent
     {
         if (!nameUIE.Empty() && nameUIE.Changed())
         {
-            LocalizationRead.updateScenarioText(monsterComponent.monstername_key, nameUIE.GetText());
+            LocalizationRead.updateScenarioText(MONSTER_QUEST_COMPONENT_COMPONENT.monstername_key, nameUIE.GetText());
         }
     }
 
     public void ClearName()
     {
-        LocalizationRead.dicts["qst"].Remove(monsterComponent.monstername_key);
+        LocalizationRead.dicts["qst"].Remove(MONSTER_QUEST_COMPONENT_COMPONENT.monstername_key);
         Update();
     }
 
     public void SetName()
     {
-        LocalizationRead.updateScenarioText(monsterComponent.monstername_key, NAME.Translate());
+        LocalizationRead.updateScenarioText(MONSTER_QUEST_COMPONENT_COMPONENT.monstername_key, NAME.Translate());
         Update();
     }
 
@@ -613,7 +612,7 @@ public class EditorComponentCustomMonster : EditorComponent
     {
         if (!infoUIE.Empty() && infoUIE.Changed())
         {
-            LocalizationRead.updateScenarioText(monsterComponent.info_key, infoUIE.GetText());
+            LocalizationRead.updateScenarioText(MONSTER_QUEST_COMPONENT_COMPONENT.info_key, infoUIE.GetText());
             if (!infoUIE.HeightAtTextPadding(1))
             {
                 Update();
@@ -623,13 +622,13 @@ public class EditorComponentCustomMonster : EditorComponent
 
     public void ClearInfo()
     {
-        LocalizationRead.dicts["qst"].Remove(monsterComponent.info_key);
+        LocalizationRead.dicts["qst"].Remove(MONSTER_QUEST_COMPONENT_COMPONENT.info_key);
         Update();
     }
 
     public void SetInfo()
     {
-        LocalizationRead.updateScenarioText(monsterComponent.info_key, INFO.Translate());
+        LocalizationRead.updateScenarioText(MONSTER_QUEST_COMPONENT_COMPONENT.info_key, INFO.Translate());
         Update();
     }
 
@@ -637,10 +636,10 @@ public class EditorComponentCustomMonster : EditorComponent
     {
         UIWindowSelectionListTraits select = new UIWindowSelectionListTraits(delegate(string s) { SelectAddActivation(index, s); }, new StringKey("val", "SELECT", CommonStringKeys.ACTIVATION));
 
-        select.AddNewComponentItem("Activation");
-        foreach (KeyValuePair<string, QuestData.QuestComponent> kv in Game.Get().quest.qd.components)
+        select.AddNewComponentItem("ActivationQuestComponent");
+        foreach (KeyValuePair<string, QuestComponent> kv in Game.Get().quest.qd.components)
         {
-            if (kv.Value is QuestData.Activation)
+            if (kv.Value is ActivationQuestComponent)
             {
                 select.AddItem(kv.Value);
             }
@@ -652,31 +651,31 @@ public class EditorComponentCustomMonster : EditorComponent
     {
         int i = 0;
         string toAdd = key;
-        if (key.Equals("{NEW:Activation}"))
+        if (key.Equals("{NEW:ActivationQuestComponent}"))
         {
-            while (game.quest.qd.components.ContainsKey("Activation" + i))
+            while (game.quest.qd.components.ContainsKey("ActivationQuestComponent" + i))
             {
                 i++;
             }
-            toAdd = "Activation" + i;
-            Game.Get().quest.qd.components.Add(toAdd, new QuestData.Activation(toAdd));
+            toAdd = "ActivationQuestComponent" + i;
+            Game.Get().quest.qd.components.Add(toAdd, new ActivationQuestComponent(toAdd));
         }
 
         if (index != -1)
         {
-            monsterComponent.activations[index] = toAdd.Substring("Activation".Length);
+            MONSTER_QUEST_COMPONENT_COMPONENT.activations[index] = toAdd.Substring("ActivationQuestComponent".Length);
             Update();
             return;
         }
 
-        string[] newA = new string[monsterComponent.activations.Length + 1];
-        for (i = 0; i < monsterComponent.activations.Length; i++)
+        string[] newA = new string[MONSTER_QUEST_COMPONENT_COMPONENT.activations.Length + 1];
+        for (i = 0; i < MONSTER_QUEST_COMPONENT_COMPONENT.activations.Length; i++)
         {
-            newA[i] = monsterComponent.activations[i];
+            newA[i] = MONSTER_QUEST_COMPONENT_COMPONENT.activations[i];
         }
 
-        newA[i] = toAdd.Substring("Activation".Length);
-        monsterComponent.activations = newA;
+        newA[i] = toAdd.Substring("ActivationQuestComponent".Length);
+        MONSTER_QUEST_COMPONENT_COMPONENT.activations = newA;
         Update();
     }
 
@@ -685,10 +684,10 @@ public class EditorComponentCustomMonster : EditorComponent
         UIWindowSelectionListTraits select = new UIWindowSelectionListTraits(SelectSetActivation, new StringKey("val", "SELECT", CommonStringKeys.ACTIVATION));
 
         select.AddItem("{NONE}", "");
-        select.AddNewComponentItem("Event");
-        foreach (QuestData.QuestComponent c in Game.Get().quest.qd.components.Values)
+        select.AddNewComponentItem("EventQuestComponent");
+        foreach (QuestComponent c in Game.Get().quest.qd.components.Values)
         {
-            if (c.typeDynamic.IndexOf("Event") == 0)
+            if (c.typeDynamic.IndexOf("EventQuestComponent") == 0)
             {
                 select.AddItem(c);
             }
@@ -700,41 +699,41 @@ public class EditorComponentCustomMonster : EditorComponent
     {
         if (key.Length == 0)
         {
-            monsterComponent.activations = new string[0];
+            MONSTER_QUEST_COMPONENT_COMPONENT.activations = new string[0];
         }
         else
         {
             string toAdd = key;
-            if (toAdd.Equals("{NEW:Event}"))
+            if (toAdd.Equals("{NEW:EventQuestComponent}"))
             {
                 int i = 0;
-                while (game.quest.qd.components.ContainsKey("Event" + i))
+                while (game.quest.qd.components.ContainsKey("EventQuestComponent" + i))
                 {
                     i++;
                 }
-                toAdd = "Event" + i;
-                Game.Get().quest.qd.components.Add(toAdd, new QuestData.Event(toAdd));
+                toAdd = "EventQuestComponent" + i;
+                Game.Get().quest.qd.components.Add(toAdd, new EventQuestComponent(toAdd));
             }
-            monsterComponent.activations = new string[1];
-            monsterComponent.activations[0] = toAdd;
+            MONSTER_QUEST_COMPONENT_COMPONENT.activations = new string[1];
+            MONSTER_QUEST_COMPONENT_COMPONENT.activations[0] = toAdd;
         }
         Update();
     }
 
     public void RemoveActivation(int index)
     {
-        string[] newA = new string[monsterComponent.activations.Length - 1];
+        string[] newA = new string[MONSTER_QUEST_COMPONENT_COMPONENT.activations.Length - 1];
 
         int j = 0;
-        for (int i = 0; i < monsterComponent.activations.Length; i++)
+        for (int i = 0; i < MONSTER_QUEST_COMPONENT_COMPONENT.activations.Length; i++)
         {
             if (i != index)
             {
-                newA[j++] = monsterComponent.activations[i];
+                newA[j++] = MONSTER_QUEST_COMPONENT_COMPONENT.activations[i];
             }
         }
 
-        monsterComponent.activations = newA;
+        MONSTER_QUEST_COMPONENT_COMPONENT.activations = newA;
         Update();
     }
 
@@ -768,77 +767,77 @@ public class EditorComponentCustomMonster : EditorComponent
 
     public void SelectAddTraits(string trait)
     {
-        string[] newT = new string[monsterComponent.traits.Length + 1];
+        string[] newT = new string[MONSTER_QUEST_COMPONENT_COMPONENT.traits.Length + 1];
         int i;
-        for (i = 0; i < monsterComponent.traits.Length; i++)
+        for (i = 0; i < MONSTER_QUEST_COMPONENT_COMPONENT.traits.Length; i++)
         {
-            newT[i] = monsterComponent.traits[i];
+            newT[i] = MONSTER_QUEST_COMPONENT_COMPONENT.traits[i];
         }
 
         newT[i] = trait;
-        monsterComponent.traits = newT;
+        MONSTER_QUEST_COMPONENT_COMPONENT.traits = newT;
         Update();
     }
 
     public void RemoveTrait(int index)
     {
-        string[] newT = new string[monsterComponent.traits.Length - 1];
+        string[] newT = new string[MONSTER_QUEST_COMPONENT_COMPONENT.traits.Length - 1];
 
         int j = 0;
-        for (int i = 0; i < monsterComponent.traits.Length; i++)
+        for (int i = 0; i < MONSTER_QUEST_COMPONENT_COMPONENT.traits.Length; i++)
         {
             if (i != index)
             {
-                newT[j++] = monsterComponent.traits[i];
+                newT[j++] = MONSTER_QUEST_COMPONENT_COMPONENT.traits[i];
             }
         }
 
-        monsterComponent.traits = newT;
+        MONSTER_QUEST_COMPONENT_COMPONENT.traits = newT;
         Update();
     }
 
     public void UpdateHealth()
     {
-        float.TryParse(healthUIE.GetText(), out monsterComponent.healthBase);
+        float.TryParse(healthUIE.GetText(), out MONSTER_QUEST_COMPONENT_COMPONENT.healthBase);
     }
 
     public void UpdateHealthHero()
     {
-        float.TryParse(healthHeroUIE.GetText(), out monsterComponent.healthPerHero);
+        float.TryParse(healthHeroUIE.GetText(), out MONSTER_QUEST_COMPONENT_COMPONENT.healthPerHero);
     }
 
     public void ClearHealth()
     {
-        monsterComponent.healthBase = 0;
-        monsterComponent.healthPerHero = 0;
-        monsterComponent.healthDefined = false;
+        MONSTER_QUEST_COMPONENT_COMPONENT.healthBase = 0;
+        MONSTER_QUEST_COMPONENT_COMPONENT.healthPerHero = 0;
+        MONSTER_QUEST_COMPONENT_COMPONENT.healthDefined = false;
         Update();
     }
 
     public void SetHealth()
     {
-        monsterComponent.healthBase = 0;
-        monsterComponent.healthPerHero = 0;
-        monsterComponent.healthDefined = true;
+        MONSTER_QUEST_COMPONENT_COMPONENT.healthBase = 0;
+        MONSTER_QUEST_COMPONENT_COMPONENT.healthPerHero = 0;
+        MONSTER_QUEST_COMPONENT_COMPONENT.healthDefined = true;
         Update();
     }
 
     public void UpdateHorror()
     {
-        int.TryParse(horrorUIE.GetText(), out monsterComponent.horror);
+        int.TryParse(horrorUIE.GetText(), out MONSTER_QUEST_COMPONENT_COMPONENT.horror);
     }
 
     public void ClearHorror()
     {
-        monsterComponent.horror = 0;
-        monsterComponent.horrorDefined = false;
+        MONSTER_QUEST_COMPONENT_COMPONENT.horror = 0;
+        MONSTER_QUEST_COMPONENT_COMPONENT.horrorDefined = false;
         Update();
     }
 
     public void SetHorror()
     {
-        monsterComponent.horror = 0;
-        monsterComponent.horrorDefined = true;
+        MONSTER_QUEST_COMPONENT_COMPONENT.horror = 0;
+        MONSTER_QUEST_COMPONENT_COMPONENT.horrorDefined = true;
         Update();
     }
 
@@ -861,46 +860,46 @@ public class EditorComponentCustomMonster : EditorComponent
 
     public void NewInvestigatorAttack(string type)
     {
-        if (!monsterComponent.investigatorAttacks.ContainsKey(type))
+        if (!MONSTER_QUEST_COMPONENT_COMPONENT.investigatorAttacks.ContainsKey(type))
         {
-            monsterComponent.investigatorAttacks.Add(type, new List<StringKey>());
+            MONSTER_QUEST_COMPONENT_COMPONENT.investigatorAttacks.Add(type, new List<StringKey>());
         }
-        int position = monsterComponent.investigatorAttacks[type].Count + 1;
-        StringKey newAttack = new StringKey("qst", monsterComponent.sectionName + ".Attack_" + type + "_" + position);
-        monsterComponent.investigatorAttacks[type].Add(newAttack);
+        int position = MONSTER_QUEST_COMPONENT_COMPONENT.investigatorAttacks[type].Count + 1;
+        StringKey newAttack = new StringKey("qst", MONSTER_QUEST_COMPONENT_COMPONENT.sectionName + ".Attack_" + type + "_" + position);
+        MONSTER_QUEST_COMPONENT_COMPONENT.investigatorAttacks[type].Add(newAttack);
         LocalizationRead.updateScenarioText(newAttack.key, "-");
         Update();
     }
 
     public void RemoveInvestigatorAttack(string type, StringKey attack)
     {
-        monsterComponent.investigatorAttacks[type].Remove(attack);
+        MONSTER_QUEST_COMPONENT_COMPONENT.investigatorAttacks[type].Remove(attack);
         Update();
     }
 
     public void RemoveInvestigatorAttackType(string type)
     {
-        monsterComponent.investigatorAttacks.Remove(type);
+        MONSTER_QUEST_COMPONENT_COMPONENT.investigatorAttacks.Remove(type);
         Update();
     }
 
     public void UpdateAttacks()
     {
-        foreach (string type in monsterComponent.investigatorAttacks.Keys)
+        foreach (string type in MONSTER_QUEST_COMPONENT_COMPONENT.investigatorAttacks.Keys)
         {
             int index = 0;
-            foreach (StringKey entry in monsterComponent.investigatorAttacks[type])
+            foreach (StringKey entry in MONSTER_QUEST_COMPONENT_COMPONENT.investigatorAttacks[type])
             {
                 if (attacksUIE[type][index].Empty())
                 {
                     LocalizationRead.dicts["qst"].Remove(entry.key);
-                    if (monsterComponent.investigatorAttacks[type].Count == 1)
+                    if (MONSTER_QUEST_COMPONENT_COMPONENT.investigatorAttacks[type].Count == 1)
                     {
-                        monsterComponent.investigatorAttacks.Remove(type);
+                        MONSTER_QUEST_COMPONENT_COMPONENT.investigatorAttacks.Remove(type);
                     }
                     else
                     {
-                        monsterComponent.investigatorAttacks[type].RemoveAt(index);
+                        MONSTER_QUEST_COMPONENT_COMPONENT.investigatorAttacks[type].RemoveAt(index);
                     }
                     Update();
                     return;
@@ -921,20 +920,20 @@ public class EditorComponentCustomMonster : EditorComponent
 
     public void UpdateAwareness()
     {
-        int.TryParse(awarenessUIE.GetText(), out monsterComponent.awareness);
+        int.TryParse(awarenessUIE.GetText(), out MONSTER_QUEST_COMPONENT_COMPONENT.awareness);
     }
 
     public void ClearAwareness()
     {
-        monsterComponent.awareness = 0;
-        monsterComponent.awarenessDefined = false;
+        MONSTER_QUEST_COMPONENT_COMPONENT.awareness = 0;
+        MONSTER_QUEST_COMPONENT_COMPONENT.awarenessDefined = false;
         Update();
     }
 
     public void SetAwareness()
     {
-        monsterComponent.awareness = 0;
-        monsterComponent.awarenessDefined = true;
+        MONSTER_QUEST_COMPONENT_COMPONENT.awareness = 0;
+        MONSTER_QUEST_COMPONENT_COMPONENT.awarenessDefined = true;
         Update();
     }
 
@@ -961,13 +960,13 @@ public class EditorComponentCustomMonster : EditorComponent
 
     public void SelectImage(string image)
     {
-        monsterComponent.imagePath = image;
+        MONSTER_QUEST_COMPONENT_COMPONENT.imagePath = image;
         Update();
     }
 
     public void ClearImage()
     {
-        monsterComponent.imagePath = "";
+        MONSTER_QUEST_COMPONENT_COMPONENT.imagePath = "";
         Update();
     }
 
@@ -994,13 +993,13 @@ public class EditorComponentCustomMonster : EditorComponent
 
     public void SelectImagePlace(string image)
     {
-        monsterComponent.imagePlace = image;
+        MONSTER_QUEST_COMPONENT_COMPONENT.imagePlace = image;
         Update();
     }
 
     public void ClearImagePlace()
     {
-        monsterComponent.imagePlace = "";
+        MONSTER_QUEST_COMPONENT_COMPONENT.imagePlace = "";
         Update();
     }
 
@@ -1009,10 +1008,10 @@ public class EditorComponentCustomMonster : EditorComponent
         UIWindowSelectionListTraits select = new UIWindowSelectionListTraits(SelectSetEvade, new StringKey("val", "SELECT", new StringKey("val", "EVADE")));
         
         select.AddItem("{NONE}", "");
-        select.AddNewComponentItem("Event");
-        foreach (KeyValuePair<string, QuestData.QuestComponent> kv in Game.Get().quest.qd.components)
+        select.AddNewComponentItem("EventQuestComponent");
+        foreach (KeyValuePair<string, QuestComponent> kv in Game.Get().quest.qd.components)
         {
-            if (kv.Value.typeDynamic.Equals("Event"))
+            if (kv.Value.typeDynamic.Equals("EventQuestComponent"))
             {
                 select.AddItem(kv.Value);
             }
@@ -1023,17 +1022,17 @@ public class EditorComponentCustomMonster : EditorComponent
     public void SelectSetEvade(string evade)
     {
         string toAdd = evade;
-        if (toAdd.Equals("{NEW:Event}"))
+        if (toAdd.Equals("{NEW:EventQuestComponent}"))
         {
             int i = 0;
-            while (game.quest.qd.components.ContainsKey("Event" + i))
+            while (game.quest.qd.components.ContainsKey("EventQuestComponent" + i))
             {
                 i++;
             }
-            toAdd = "Event" + i;
-            Game.Get().quest.qd.components.Add(toAdd, new QuestData.Event(toAdd));
+            toAdd = "EventQuestComponent" + i;
+            Game.Get().quest.qd.components.Add(toAdd, new EventQuestComponent(toAdd));
         }
-        monsterComponent.evadeEvent = toAdd;
+        MONSTER_QUEST_COMPONENT_COMPONENT.evadeEvent = toAdd;
         Update();
     }
 
@@ -1042,10 +1041,10 @@ public class EditorComponentCustomMonster : EditorComponent
         UIWindowSelectionListTraits select = new UIWindowSelectionListTraits(SelectSetHorror, new StringKey("val", "SELECT", new StringKey("val", "horror")));
 
         select.AddItem("{NONE}", "");
-        select.AddNewComponentItem("Event");
-        foreach (KeyValuePair<string, QuestData.QuestComponent> kv in Game.Get().quest.qd.components)
+        select.AddNewComponentItem("EventQuestComponent");
+        foreach (KeyValuePair<string, QuestComponent> kv in Game.Get().quest.qd.components)
         {
-            if (kv.Value.typeDynamic.Equals("Event"))
+            if (kv.Value.typeDynamic.Equals("EventQuestComponent"))
             {
                 select.AddItem(kv.Value);
             }
@@ -1056,17 +1055,17 @@ public class EditorComponentCustomMonster : EditorComponent
     public void SelectSetHorror(string horror)
     {
         string toAdd = horror;
-        if (toAdd.Equals("{NEW:Event}"))
+        if (toAdd.Equals("{NEW:EventQuestComponent}"))
         {
             int i = 0;
-            while (game.quest.qd.components.ContainsKey("Event" + i))
+            while (game.quest.qd.components.ContainsKey("EventQuestComponent" + i))
             {
                 i++;
             }
-            toAdd = "Event" + i;
-            Game.Get().quest.qd.components.Add(toAdd, new QuestData.Event(toAdd));
+            toAdd = "EventQuestComponent" + i;
+            Game.Get().quest.qd.components.Add(toAdd, new EventQuestComponent(toAdd));
         }
-        monsterComponent.horrorEvent = toAdd;
+        MONSTER_QUEST_COMPONENT_COMPONENT.horrorEvent = toAdd;
         Update();
     }
 }
