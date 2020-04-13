@@ -244,7 +244,7 @@ public class Game : MonoBehaviour
     }
 
     // This is called when a Quest is selected
-    public void StartQuest(Assets.Scripts.Content.Quest q)
+    public void StartQuest(Assets.Scripts.Content.QuestIniComponent q)
     {
         if (Path.GetExtension(Path.GetFileName(q.path)) == ".valkyrie")
         {

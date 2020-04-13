@@ -26,12 +26,12 @@ public class QuestData
     public Dictionary<string, string> rename;
 
     // Data from 'Quest' section
-    public Assets.Scripts.Content.Quest Quest;
+    public Assets.Scripts.Content.QuestIniComponent QuestIniComponent;
 
     Game game;
 
     // Create from Quest loader entry
-    public QuestData(Assets.Scripts.Content.Quest q)
+    public QuestData(Assets.Scripts.Content.QuestIniComponent q)
     {
         questPath = q.path + Path.DirectorySeparatorChar + "Quest.ini";
         LoadQuestData();
@@ -74,7 +74,7 @@ public class QuestData
             ValkyrieDebug.Log("Error: Quest section missing from Quest.ini");
             return;
         }
-        Quest = new Assets.Scripts.Content.Quest(questIniData.Get("Quest"));
+        QuestIniComponent = new Assets.Scripts.Content.QuestIniComponent(questIniData.Get("Quest"));
 
         // Find others (no addition files is not fatal)
         if (questIniData.Get("QuestData") != null)
@@ -183,7 +183,7 @@ public class QuestData
         }
         if (name.IndexOf(EventQuestComponent.type) == 0)
         {
-            EventQuestComponent c = new EventQuestComponent(name, content, source, Quest.format);
+            EventQuestComponent c = new EventQuestComponent(name, content, source, QuestIniComponent.format);
             components.Add(name, c);
         }
         if (name.IndexOf(SpawnQuestComponent.type) == 0)

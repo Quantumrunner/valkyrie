@@ -6,7 +6,7 @@ using ValkyrieTools;
 namespace Assets.Scripts.Content
 {
     // Quest ini component has special data
-    public class Quest
+    public class QuestIniComponent
     {
         public static int minumumFormat = 4;
         // Increment during changes, and again at release
@@ -52,11 +52,11 @@ namespace Assets.Scripts.Content
         public bool update_available = false;
 
         // -- data inside translation file (for unzipped Quest)
-        public string name_key { get { return "Quest.name"; } }
-        public string description_key { get { return "Quest.description"; } }
-        public string synopsys_key { get { return "Quest.synopsys"; } }
-        public string authors_key { get { return "Quest.authors"; } }
-        public string authors_short_key { get { return "Quest.authors_short"; } }
+        public string name_key { get { return "quest.name"; } }
+        public string description_key { get { return "quest.description"; } }
+        public string synopsys_key { get { return "quest.synopsys"; } }
+        public string authors_key { get { return "quest.authors"; } }
+        public string authors_short_key { get { return "quest.authors_short"; } }
 
         public StringKey name { get { return new StringKey("qst", name_key); } }
         public StringKey description { get { return new StringKey("qst", description_key); } }
@@ -65,7 +65,7 @@ namespace Assets.Scripts.Content
         public StringKey authors_short { get { return new StringKey("qst", authors_short_key); } }
 
         // Create from path
-        public Quest(string pathIn)
+        public QuestIniComponent(string pathIn)
         {
             path = pathIn;
             if (path.EndsWith("\\") || path.EndsWith("/"))
@@ -101,7 +101,7 @@ namespace Assets.Scripts.Content
         }
 
         // Create from ini data
-        public Quest(Dictionary<string, string> iniData)
+        public QuestIniComponent(Dictionary<string, string> iniData)
         {
             if (LocalizationRead.dicts.ContainsKey("qst"))
             {

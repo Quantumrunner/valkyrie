@@ -125,22 +125,22 @@ public class EditorTools
             using (FileStream stream = File.OpenRead(packageFile))
             {
                 byte[] checksum = SHA256Managed.Create().ComputeHash(stream);
-                game.quest.qd.Quest.version = System.BitConverter.ToString(checksum);
+                game.quest.qd.QuestIniComponent.version = System.BitConverter.ToString(checksum);
             }
 
-            string icon = game.quest.qd.Quest.image.Replace('\\', '/');
+            string icon = game.quest.qd.QuestIniComponent.image.Replace('\\', '/');
             if (icon.Length > 0)
             {
                 string iconName = Path.GetFileName(icon);
                 // Temp hack to get ToString to output local file
-                game.quest.qd.Quest.image = iconName;
+                game.quest.qd.QuestIniComponent.image = iconName;
                 string src = Path.Combine(Path.GetDirectoryName(game.quest.qd.questPath), icon);
                 string dest = Path.Combine(destination, iconName);
                 File.Copy(src, dest);
             }
-            string manifest = game.quest.qd.Quest.ToString();
+            string manifest = game.quest.qd.QuestIniComponent.ToString();
             // Restore icon
-            game.quest.qd.Quest.image = icon;
+            game.quest.qd.QuestIniComponent.image = icon;
 
             foreach (KeyValuePair<string, string> kv in LocalizationRead.selectDictionary("qst").ExtractAllMatches("Quest.name"))
             {

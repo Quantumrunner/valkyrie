@@ -31,7 +31,7 @@ namespace Assets.Scripts.Content.QuestComponent
         }
 
         // Create from ini data
-        public UiQuestComponent(string name, Dictionary<string, string> data, Game game, string path) : base(name, data, path, Quest.currentFormat)
+        public UiQuestComponent(string name, Dictionary<string, string> data, Game game, string path) : base(name, data, path, QuestIniComponent.currentFormat)
         {
             locationSpecified = true;
             typeDynamic = type;

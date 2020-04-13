@@ -1709,7 +1709,7 @@ public class PerilData : EventQuestComponent
     public StringKey perilText;
     override public StringKey text { get { return perilText; } }
 
-    public PerilData(string name, Dictionary<string, string> data) : base(name, data, "", Assets.Scripts.Content.Quest.currentFormat)
+    public PerilData(string name, Dictionary<string, string> data) : base(name, data, "", Assets.Scripts.Content.QuestIniComponent.currentFormat)
     {
         typeDynamic = type;
         if (data.ContainsKey("priority"))

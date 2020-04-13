@@ -59,10 +59,10 @@ public class ToolsButton
 
         game.testMode = true;
         // Fetch all of the Quest data and initialise the Quest
-        game.quest = new Quest(new Assets.Scripts.Content.Quest(path));
+        game.quest = new Quest(new Assets.Scripts.Content.QuestIniComponent(path));
         game.heroCanvas.SetupUI();
 
-        int heroCount = Random.Range(game.quest.qd.Quest.minHero, game.quest.qd.Quest.maxHero + 1);
+        int heroCount = Random.Range(game.quest.qd.QuestIniComponent.minHero, game.quest.qd.QuestIniComponent.maxHero + 1);
 
         List<HeroData> hOptions = new List<HeroData>(game.cd.heroes.Values);
         for (int i = 0; i < heroCount; i++)

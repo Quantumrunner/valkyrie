@@ -178,7 +178,7 @@ class SaveManager
                 }
                 
                 // Check that Quest in save is valid
-                Assets.Scripts.Content.Quest q = new Assets.Scripts.Content.Quest(questLoadPath);
+                Assets.Scripts.Content.QuestIniComponent q = new Assets.Scripts.Content.QuestIniComponent(questLoadPath);
                 if (!q.valid)
                 {
                     ValkyrieDebug.Log("Error: save contains unsupported Quest version." + System.Environment.NewLine);
@@ -317,7 +317,7 @@ class SaveManager
 
                 // use preload path rather than load
                 questLoadPath = questLoadPath.Replace(ContentData.ValkyrieLoadPath, ContentData.ValkyriePreloadPath);
-                Assets.Scripts.Content.Quest q = new Assets.Scripts.Content.Quest(questLoadPath);
+                Assets.Scripts.Content.QuestIniComponent q = new Assets.Scripts.Content.QuestIniComponent(questLoadPath);
                 if (!q.valid)
                 {
                     ValkyrieDebug.Log("Warning: Save " + num + " contains unsupported Quest version." + System.Environment.NewLine);

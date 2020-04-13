@@ -471,7 +471,7 @@ namespace Assets.Scripts.UI
             {
                 bool packRequired = false;
                 if (anyPack.Equals("") || anyPack.Equals("base")) packRequired = true;
-                foreach (string s in Game.Get().quest.qd.Quest.packs)
+                foreach (string s in Game.Get().quest.qd.QuestIniComponent.packs)
                 {
                     if (packRequired) break;
                     if (anyPack.Equals(s))

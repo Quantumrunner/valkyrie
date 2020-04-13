@@ -181,7 +181,7 @@ public class StatsManager
             gameStats.duration = 0;
         }
 
-        gameStats.quest_name = quest.qd.Quest.name.Translate();
+        gameStats.quest_name = quest.qd.QuestIniComponent.name.Translate();
 
     }
 

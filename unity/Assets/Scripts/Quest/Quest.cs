@@ -143,7 +143,7 @@ public class Quest
     }
 
     // Construct a new Quest from Quest data
-    public Quest(Assets.Scripts.Content.Quest q)
+    public Quest(Assets.Scripts.Content.QuestIniComponent q)
     {
         game = Game.Get();
 
@@ -181,7 +181,7 @@ public class Quest
 
         // Populate null hero list, these can then be selected as hero types
         heroes = new List<Hero>();
-        for (int i = 1; i <= qd.Quest.maxHero; i++)
+        for (int i = 1; i <= qd.QuestIniComponent.maxHero; i++)
         {
             heroes.Add(new Hero(null, i));
         }
@@ -1249,7 +1249,7 @@ public class Quest
 
         r += "path=" + qd.questPath + nl;
         r += "originalpath=" + originalPath + nl;
-        r += "questname=" + qd.Quest.name.Translate() + nl;
+        r += "questname=" + qd.QuestIniComponent.name.Translate() + nl;
 
         if (phase == MoMPhase.horror)
         {

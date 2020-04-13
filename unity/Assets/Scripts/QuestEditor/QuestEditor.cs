@@ -37,7 +37,7 @@ public class QuestEditor {
             Object.Destroy(go);
 
         // Read from file
-        game.quest = new Quest(new Assets.Scripts.Content.Quest(path));
+        game.quest = new Quest(new Assets.Scripts.Content.QuestIniComponent(path));
 
         // Is this needed?
         game.quest.RemoveAll();
@@ -65,7 +65,7 @@ public class QuestEditor {
             .AppendLine(game.version);
 
         // Save Quest meta content to a string
-        questData.AppendLine(game.quest.qd.Quest.ToString());
+        questData.AppendLine(game.quest.qd.QuestIniComponent.ToString());
 
         // Write to disk
         try

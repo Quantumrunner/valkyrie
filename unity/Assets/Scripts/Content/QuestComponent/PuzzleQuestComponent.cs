@@ -26,7 +26,7 @@ namespace Assets.Scripts.Content.QuestComponent
         }
 
         // Construct from ini data
-        public PuzzleQuestComponent(string name, Dictionary<string, string> data, string path) : base(name, data, path, Quest.currentFormat)
+        public PuzzleQuestComponent(string name, Dictionary<string, string> data, string path) : base(name, data, path, QuestIniComponent.currentFormat)
         {
             typeDynamic = type;
 

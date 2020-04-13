@@ -7,7 +7,7 @@ namespace Assets.Scripts.UI.Screens
 {
     public class QuestDetailsScreen
     {
-        public QuestDetailsScreen(Content.Quest q)
+        public QuestDetailsScreen(Content.QuestIniComponent q)
         {
             Game game = Game.Get();
             LocalizationRead.AddDictionary("qst", q.localizationDict);
@@ -125,7 +125,7 @@ namespace Assets.Scripts.UI.Screens
         /// Select to delete
         /// </summary>
         /// <param file="file">File name to delete</param>
-        public void Delete(Content.Quest q)
+        public void Delete(Content.QuestIniComponent q)
         {
             ValkyrieDebug.Log("INFO: Delete Quest");
 
@@ -165,7 +165,7 @@ namespace Assets.Scripts.UI.Screens
         }
 
         // Select a Quest
-        public void Start(Content.Quest q)
+        public void Start(Content.QuestIniComponent q)
         {
             ValkyrieDebug.Log("INFO: Start Quest from details screen");
 

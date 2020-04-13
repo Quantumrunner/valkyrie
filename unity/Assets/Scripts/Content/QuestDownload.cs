@@ -22,7 +22,7 @@ public class QuestDownload : MonoBehaviour
             return;
         }
 
-        Assets.Scripts.Content.Quest q = game.questsList.GetQuestData(key);
+        Assets.Scripts.Content.QuestIniComponent q = game.questsList.GetQuestData(key);
 
         string package = q.package_url + key + ".valkyrie";
         StartCoroutine(Download(package, delegate { Save(key); }));

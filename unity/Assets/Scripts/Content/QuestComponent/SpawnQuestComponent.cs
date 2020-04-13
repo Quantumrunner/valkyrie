@@ -48,7 +48,7 @@ namespace Assets.Scripts.Content.QuestComponent
         }
 
         // Create from ini data
-        public SpawnQuestComponent(string name, Dictionary<string, string> data, Game game, string path) : base(name, data, path, Quest.currentFormat)
+        public SpawnQuestComponent(string name, Dictionary<string, string> data, Game game, string path) : base(name, data, path, QuestIniComponent.currentFormat)
         {
             typeDynamic = type;
             // First try to a list of specific types

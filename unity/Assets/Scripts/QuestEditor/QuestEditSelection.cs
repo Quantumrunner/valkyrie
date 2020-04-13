@@ -7,7 +7,7 @@ using ValkyrieTools;
 
 public class QuestEditSelection
 {
-    public Dictionary<string, Assets.Scripts.Content.Quest> questList;
+    public Dictionary<string, Assets.Scripts.Content.QuestIniComponent> questList;
 
     // Create a pack with list of quests to edit
     public QuestEditSelection()
@@ -38,7 +38,7 @@ public class QuestEditSelection
 
         // List of quests
         int offset = 0;
-        foreach (KeyValuePair<string, Assets.Scripts.Content.Quest> q in questList)
+        foreach (KeyValuePair<string, Assets.Scripts.Content.QuestIniComponent> q in questList)
         {
             string key = q.Key;
             LocalizationRead.AddDictionary("qst", q.Value.localizationDict);
@@ -120,7 +120,7 @@ public class QuestEditSelection
 
         // List of quests
         int offset = 0;
-        foreach (KeyValuePair<string, Assets.Scripts.Content.Quest> q in questList)
+        foreach (KeyValuePair<string, Assets.Scripts.Content.QuestIniComponent> q in questList)
         {
             string key = q.Key;
             LocalizationRead.AddDictionary("qst", q.Value.localizationDict);
@@ -193,7 +193,7 @@ public class QuestEditSelection
 
         // List of quests
         int offset = 0;
-        foreach (KeyValuePair<string, Assets.Scripts.Content.Quest> q in questList)
+        foreach (KeyValuePair<string, Assets.Scripts.Content.QuestIniComponent> q in questList)
         {
             string key = q.Key;
             LocalizationRead.AddDictionary("qst", q.Value.localizationDict);
@@ -344,7 +344,7 @@ public class QuestEditSelection
             // Create basic Quest info
             questData.Add("[Quest]");
             questData.Add("type=" + game.gameType.TypeName());
-            questData.Add("format=" + Assets.Scripts.Content.Quest.currentFormat);
+            questData.Add("format=" + Assets.Scripts.Content.QuestIniComponent.currentFormat);
             questData.Add("defaultlanguage=" + game.currentLang); 
             questData.Add("");
             questData.Add("[QuestText]");

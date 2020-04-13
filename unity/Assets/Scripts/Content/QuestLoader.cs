@@ -7,9 +7,9 @@ using ValkyrieTools;
 public class QuestLoader {
 
     // Return a dictionary of all available quests
-    public static Dictionary<string, Assets.Scripts.Content.Quest> GetQuests(bool getHidden = false)
+    public static Dictionary<string, Assets.Scripts.Content.QuestIniComponent> GetQuests(bool getHidden = false)
     {
-        Dictionary<string, Assets.Scripts.Content.Quest> quests = new Dictionary<string, Assets.Scripts.Content.Quest>();
+        Dictionary<string, Assets.Scripts.Content.QuestIniComponent> quests = new Dictionary<string, Assets.Scripts.Content.QuestIniComponent>();
 
         Game game = Game.Get();
         // Look in the user application data directory
@@ -45,7 +45,7 @@ public class QuestLoader {
         foreach (string p in questDirectories)
         {
             // load Quest
-            Assets.Scripts.Content.Quest q = new Assets.Scripts.Content.Quest(p);
+            Assets.Scripts.Content.QuestIniComponent q = new Assets.Scripts.Content.QuestIniComponent(p);
             // Check Quest is valid and of the right type
             if (q.valid && q.type.Equals(game.gameType.TypeName()))
             {
@@ -63,9 +63,9 @@ public class QuestLoader {
     }
 
     // Return a single Quest, Quest name is without file extension
-    public static Assets.Scripts.Content.Quest GetSingleQuest(string questName, bool getHidden = false)
+    public static Assets.Scripts.Content.QuestIniComponent GetSingleQuest(string questName, bool getHidden = false)
     {
-        Assets.Scripts.Content.Quest quest = null;
+        Assets.Scripts.Content.QuestIniComponent questIniComponent = null;
 
         Game game = Game.Get();
         // Look in the user application data directory
@@ -77,7 +77,7 @@ public class QuestLoader {
         QuestLoader.ExtractSinglePackagePartial(path);
 
         // load Quest
-        Assets.Scripts.Content.Quest q = new Assets.Scripts.Content.Quest(Path.Combine(ContentData.TempValyriePath, Path.GetFileName(path)));
+        Assets.Scripts.Content.QuestIniComponent q = new Assets.Scripts.Content.QuestIniComponent(Path.Combine(ContentData.TempValyriePath, Path.GetFileName(path)));
         // Check Quest is valid and of the right type
         if (q.valid && q.type.Equals(game.gameType.TypeName()))
         {
@@ -85,18 +85,18 @@ public class QuestLoader {
             if (!q.hidden || getHidden)
             {
                 // Add Quest to Quest list
-                quest = q;
+                questIniComponent = q;
             }
         }
 
         // Return list of available quests
-        return quest;
+        return questIniComponent;
     }
 
     // Return list of quests available in the user path (includes packages)
-    public static Dictionary<string, Assets.Scripts.Content.Quest> GetUserQuests()
+    public static Dictionary<string, Assets.Scripts.Content.QuestIniComponent> GetUserQuests()
     {
-        Dictionary<string, Assets.Scripts.Content.Quest> quests = new Dictionary<string, Assets.Scripts.Content.Quest>();
+        Dictionary<string, Assets.Scripts.Content.QuestIniComponent> quests = new Dictionary<string, Assets.Scripts.Content.QuestIniComponent>();
 
         // Read user application data for quests
         string dataLocation = Game.AppData();
@@ -110,7 +110,7 @@ public class QuestLoader {
         foreach (string p in questDirectories)
         {
             // read Quest
-            Assets.Scripts.Content.Quest q = new Assets.Scripts.Content.Quest(p);
+            Assets.Scripts.Content.QuestIniComponent q = new Assets.Scripts.Content.QuestIniComponent(p);
             // Check if valid and correct type
             if (q.valid && q.type.Equals(Game.Get().gameType.TypeName()))
             {
@@ -122,9 +122,9 @@ public class QuestLoader {
     }
 
     // Return list of quests available in the user path unpackaged (editable)
-    public static Dictionary<string, Assets.Scripts.Content.Quest> GetUserUnpackedQuests()
+    public static Dictionary<string, Assets.Scripts.Content.QuestIniComponent> GetUserUnpackedQuests()
     {
-        var quests = new Dictionary<string, Assets.Scripts.Content.Quest>();
+        var quests = new Dictionary<string, Assets.Scripts.Content.QuestIniComponent>();
 
         // Read user application data for quests
         string dataLocation = Game.AppData();
@@ -142,7 +142,7 @@ public class QuestLoader {
                 continue;
             }
             // read Quest
-            var q = new Assets.Scripts.Content.Quest(p);
+            var q = new Assets.Scripts.Content.QuestIniComponent(p);
             // Check if valid and correct type
             if (q.valid && q.type.Equals(gameType))
             {

@@ -786,7 +786,7 @@ namespace Assets.Scripts.UI.Screens
         }
 
         // check if the Quest proposes at least one selected language
-        public bool HasSelectedLanguage(Content.Quest q)
+        public bool HasSelectedLanguage(Content.QuestIniComponent q)
         {
             foreach (KeyValuePair<string, bool> lang in langs_selected)
             {
@@ -873,7 +873,7 @@ namespace Assets.Scripts.UI.Screens
             // Loop through all available quests
             foreach (string key in questList)
             {
-                Content.Quest q = game.questsList.GetQuestData(key);
+                Content.QuestIniComponent q = game.questsList.GetQuestData(key);
                 UIElement frame = null;
                 is_expansion_missing = false;
 
@@ -1296,7 +1296,7 @@ namespace Assets.Scripts.UI.Screens
         {
             ValkyrieDebug.Log("INFO: Select Quest "+ key);
 
-            Content.Quest q = game.questsList.GetQuestData(key);
+            Content.QuestIniComponent q = game.questsList.GetQuestData(key);
 
             Destroyer.Dialog();
             CleanQuestList();
