@@ -2,6 +2,7 @@ using UnityEngine;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using Assets.Scripts.Quest;
 
 /*
  * Form : https://goo.gl/forms/jrC9oKh8EPMMdO2l2
@@ -120,7 +121,7 @@ public class StatsManager
         gameStats.language_selected = game.currentLang;
 
         // Get number of heroes
-        foreach (Quest.Hero h in quest.heroes)
+        foreach (Hero h in quest.heroes)
         {
             if (h.heroData != null)
             {

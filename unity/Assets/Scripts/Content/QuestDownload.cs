@@ -5,81 +5,85 @@ using Assets.Scripts.UI.Screens;
 using Assets.Scripts.Content;
 using ValkyrieTools;
 
-// Class for Quest selection window
-public class QuestDownload : MonoBehaviour
+namespace Assets.Scripts.Content
 {
-    public WWW download;
-    public Game game;
-    string key = "";
-
-    void Start()
+    // Class for Quest selection window
+    public class QuestDownload : MonoBehaviour
     {
-        game = Game.Get();
+        public WWW download;
+        public Game game;
+        string key = "";
 
-        if(key=="")
+        void Start()
         {
-            Debug.Log("Download key is not set, this should not happen");
-            return;
+            game = Game.Get();
+
+            if (key == "")
+            {
+                Debug.Log("Download key is not set, this should not happen");
+                return;
+            }
+
+            Assets.Scripts.Content.QuestIniComponent q = game.questsList.GetQuestData(key);
+
+            string package = q.package_url + key + ".valkyrie";
+            StartCoroutine(Download(package, delegate { Save(key); }));
         }
 
-        Assets.Scripts.Content.QuestIniComponent q = game.questsList.GetQuestData(key);
-
-        string package = q.package_url + key + ".valkyrie";
-        StartCoroutine(Download(package, delegate { Save(key); }));
-    }
-
-    /// <summary>
-    /// Set download key so it's available when start is called (after following Unity cycle )
-    /// </summary>
-    public void Download(string p_key)
-    {
-        key = p_key;
-    }
-
-    /// <summary>
-    /// Called after download finished to save to disk
-    /// </summary>
-    /// <param name="key">Quest id</param>
-    public void Save(string key)
-    {
-        // in case of error during download, do nothing
-        if (!string.IsNullOrEmpty(download.error) || download.bytesDownloaded <= 0)
-            return;
-
-        // Write to disk
-        QuestLoader.mkDir(ContentData.DownloadPath());
-        using (BinaryWriter writer = new BinaryWriter(File.Open(ContentData.DownloadPath() + Path.DirectorySeparatorChar + key + ".valkyrie", FileMode.Create)))
+        /// <summary>
+        /// Set download key so it's available when start is called (after following Unity cycle )
+        /// </summary>
+        public void Download(string p_key)
         {
-            writer.Write(download.bytes);
-            writer.Close();
+            key = p_key;
         }
 
-        // update local list of Quest and current status 
-        game.questsList.SetQuestAvailability(key, true);
-
-        // cleanup screen and go back to list of quests
-        Destroyer.Dialog();
-        game.questSelectionScreen.Show();
-    }
-
-    /// <summary>
-    /// Download and call function
-    /// </summary>
-    /// <param name="file">Path to download</param>
-    /// <param name="call">function to call on completion</param>
-    public IEnumerator Download(string file, UnityEngine.Events.UnityAction call)
-    {
-        download = new WWW(file);
-        new LoadingScreen(download, new StringKey("val", "DOWNLOAD_PACKAGE").Translate());
-        yield return download;
-        if (!string.IsNullOrEmpty(download.error))
+        /// <summary>
+        /// Called after download finished to save to disk
+        /// </summary>
+        /// <param name="key">Quest id</param>
+        public void Save(string key)
         {
-            // fixme not fatal
-            ValkyrieDebug.Log("Error while downloading :" + file);
-            ValkyrieDebug.Log(download.error);
-            //Application.Quit();
+            // in case of error during download, do nothing
+            if (!string.IsNullOrEmpty(download.error) || download.bytesDownloaded <= 0)
+                return;
+
+            // Write to disk
+            QuestLoader.mkDir(ContentData.DownloadPath());
+            using (BinaryWriter writer = new BinaryWriter(File.Open(
+                ContentData.DownloadPath() + Path.DirectorySeparatorChar + key + ".valkyrie", FileMode.Create)))
+            {
+                writer.Write(download.bytes);
+                writer.Close();
+            }
+
+            // update local list of Quest and current status 
+            game.questsList.SetQuestAvailability(key, true);
+
+            // cleanup screen and go back to list of quests
+            Destroyer.Dialog();
+            game.questSelectionScreen.Show();
         }
 
-        call();
+        /// <summary>
+        /// Download and call function
+        /// </summary>
+        /// <param name="file">Path to download</param>
+        /// <param name="call">function to call on completion</param>
+        public IEnumerator Download(string file, UnityEngine.Events.UnityAction call)
+        {
+            download = new WWW(file);
+            new LoadingScreen(download, new StringKey("val", "DOWNLOAD_PACKAGE").Translate());
+            yield return download;
+            if (!string.IsNullOrEmpty(download.error))
+            {
+                // fixme not fatal
+                ValkyrieDebug.Log("Error while downloading :" + file);
+                ValkyrieDebug.Log(download.error);
+                //Application.Quit();
+            }
+
+            call();
+        }
     }
 }

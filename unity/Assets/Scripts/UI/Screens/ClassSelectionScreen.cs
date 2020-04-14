@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 using Assets.Scripts.Content;
+using Assets.Scripts.Quest;
 
 namespace Assets.Scripts.UI.Screens
 {
@@ -33,7 +34,7 @@ namespace Assets.Scripts.UI.Screens
             // Get all heros
             int heroCount = 0;
             // Count number of selected heroes
-            foreach (Quest.Hero h in game.quest.heroes)
+            foreach (Hero h in game.quest.heroes)
             {
                 if (h.heroData != null) heroCount++;
             }
@@ -198,7 +199,7 @@ namespace Assets.Scripts.UI.Screens
             Game game = Game.Get();
 
             HashSet<string> items = new HashSet<string>();
-            foreach (Quest.Hero h in game.quest.heroes)
+            foreach (Hero h in game.quest.heroes)
             {
                 if (h.heroData == null) continue;
                 if (h.className.Length == 0) return;

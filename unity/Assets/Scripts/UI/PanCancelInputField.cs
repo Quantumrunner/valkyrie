@@ -1,4 +1,5 @@
-﻿using UnityEngine.EventSystems;
+﻿using Assets.Scripts.Quest;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 namespace Assets.Scripts.UI

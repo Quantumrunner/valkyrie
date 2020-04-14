@@ -1,6 +1,8 @@
 using UnityEngine;
 using System.Collections.Generic;
 using System.IO;
+using Assets.Scripts.Content;
+using Assets.Scripts.Quest;
 using ValkyrieTools;
 
 // This class provides functions to load and save games.

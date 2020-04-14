@@ -6,6 +6,7 @@ using Assets.Scripts.UI;
 using ValkyrieTools;
 using Ionic.Zip;
 using System.IO;
+using Assets.Scripts.Quest;
 
 // General controller for the game
 // There is one object of this class and it is used to find most game components
@@ -290,7 +291,7 @@ public class Game : MonoBehaviour
     {
         // Count up how many heros have been selected
         int count = 0;
-        foreach (Quest.Hero h in Game.Get().quest.heroes)
+        foreach (Hero h in Game.Get().quest.heroes)
         {
             if (h.heroData != null) count++;
         }

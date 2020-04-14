@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Text;
+using Assets.Scripts.Quest;
 using UnityEngine;
 
 namespace Assets.Scripts.Content.QuestComponent

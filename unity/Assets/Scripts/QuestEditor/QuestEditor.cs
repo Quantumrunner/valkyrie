@@ -5,6 +5,7 @@ using ValkyrieTools;
 using System.IO;
 using System.Text;
 using Assets.Scripts.Content.QuestComponent;
+using Assets.Scripts.Quest;
 
 // Quest editor static helper class
 public class QuestEditor {

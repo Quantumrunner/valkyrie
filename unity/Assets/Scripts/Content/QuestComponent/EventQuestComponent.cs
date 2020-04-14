@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Assets.Scripts.Quest;
 
 namespace Assets.Scripts.Content.QuestComponent
 {

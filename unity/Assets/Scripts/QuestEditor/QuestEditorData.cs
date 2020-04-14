@@ -3,6 +3,8 @@ using UnityEngine.EventSystems;
 using System.Collections.Generic;
 using Assets.Scripts.Content;
 using Assets.Scripts.Content.QuestComponent;
+using Assets.Scripts.Quest;
+using Assets.Scripts.Quest.BoardComponents;
 using Assets.Scripts.UI;
 
 // This class manages the Quest editor Interface
@@ -566,7 +568,7 @@ public class QuestEditorData {
         string last = "";
         foreach (RaycastResult hit in raycastResults)
         {
-            foreach (KeyValuePair<string, Quest.BoardComponent> kv in Game.Get().quest.boardItems)
+            foreach (KeyValuePair<string, BoardComponent> kv in Game.Get().quest.boardItems)
             {
                 if (kv.Value.unityObject == hit.gameObject)
                 {

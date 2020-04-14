@@ -2,32 +2,35 @@
 using Assets.Scripts.Content;
 using Assets.Scripts.UI;
 
-// Special class for the Menu button present while in a Quest
-public class SkillButton
+namespace Assets.Scripts.Quest
 {
-    private StringKey SKILLS = new StringKey("val", "SKILLS");
-
-    public SkillButton()
+    // Special class for the Menu button present while in a Quest
+    public class SkillButton
     {
-        Game game = Game.Get();
-        if (game.editMode) return;
+        private StringKey SKILLS = new StringKey("val", "SKILLS");
 
-        if (game.gameType is MoMGameType) return;
+        public SkillButton()
+        {
+            Game game = Game.Get();
+            if (game.editMode) return;
 
-        UIElement ui = new UIElement(Game.QUESTUI);
-        ui.SetLocation(10.5f, UIScaler.GetBottom(-2.5f), 5, 2);
-        ui.SetText(SKILLS);
-        ui.SetFont(game.gameType.GetHeaderFont());
-        ui.SetFontSize(UIScaler.GetMediumFont());
-        ui.SetButton(Skills);
-        new UIElementBorder(ui);
-    }
+            if (game.gameType is MoMGameType) return;
 
-    // When pressed bring up the approriate menu
-    public void Skills()
-    {
-        if (GameObject.FindGameObjectWithTag(Game.DIALOG) != null) return;
-        if (GameObject.FindGameObjectWithTag(Game.ACTIVATION) != null) return;
-        new SkillWindow();
+            UIElement ui = new UIElement(Game.QUESTUI);
+            ui.SetLocation(10.5f, UIScaler.GetBottom(-2.5f), 5, 2);
+            ui.SetText(SKILLS);
+            ui.SetFont(game.gameType.GetHeaderFont());
+            ui.SetFontSize(UIScaler.GetMediumFont());
+            ui.SetButton(Skills);
+            new UIElementBorder(ui);
+        }
+
+        // When pressed bring up the approriate menu
+        public void Skills()
+        {
+            if (GameObject.FindGameObjectWithTag(Game.DIALOG) != null) return;
+            if (GameObject.FindGameObjectWithTag(Game.ACTIVATION) != null) return;
+            new SkillWindow();
+        }
     }
 }

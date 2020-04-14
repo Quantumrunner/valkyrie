@@ -1,5 +1,6 @@
 using Assets.Scripts.Content;
 using Assets.Scripts.Content.QuestComponent;
+using Assets.Scripts.Quest;
 using Assets.Scripts.UI;
 
 public class EditorComponentActivation : EditorComponent

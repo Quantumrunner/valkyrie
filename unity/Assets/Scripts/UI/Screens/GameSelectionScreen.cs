@@ -4,6 +4,7 @@ using FFGAppImport;
 using ValkyrieTools;
 using System.Threading;
 using System.IO;
+using Assets.Scripts.Quest;
 
 namespace Assets.Scripts.UI.Screens
 {

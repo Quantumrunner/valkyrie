@@ -4,6 +4,7 @@ using Assets.Scripts.Content;
 using Assets.Scripts.UI;
 using System.IO;
 using Assets.Scripts.Content.QuestComponent;
+using Assets.Scripts.Quest;
 
 // Super class for all editor selectable components
 // Handles Ui and editing

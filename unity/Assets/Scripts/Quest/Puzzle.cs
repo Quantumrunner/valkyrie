@@ -1,7 +1,10 @@
-public class Puzzle
+namespace Assets.Scripts.Quest
 {
-    virtual public string ToString(string id)
+    public class Puzzle
     {
-        return "";
+        virtual public string ToString(string id)
+        {
+            return "";
+        }
     }
 }
