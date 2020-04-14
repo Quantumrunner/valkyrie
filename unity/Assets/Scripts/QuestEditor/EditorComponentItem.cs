@@ -1,405 +1,446 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
-using Assets.Scripts;
 using Assets.Scripts.Content;
 using Assets.Scripts.Content.QuestComponent;
 using Assets.Scripts.GameTypes;
-using Assets.Scripts.Quest;
+using Assets.Scripts.Quest.VariableTests;
 using Assets.Scripts.UI;
 
-public class EditorComponentItem : EditorComponent
+namespace Assets.Scripts.QuestEditor
 {
-    QItemQuestComponent ITEM_QUEST_COMPONENT_QUEST_COMPONENT_COMPONENT;
-
-    public EditorComponentItem(string nameIn) : base()
+    public class EditorComponentItem : EditorComponent
     {
-        Game game = Game.Get();
-        ITEM_QUEST_COMPONENT_QUEST_COMPONENT_COMPONENT = game.quest.qd.components[nameIn] as QItemQuestComponent;
-        component = ITEM_QUEST_COMPONENT_QUEST_COMPONENT_COMPONENT;
-        name = component.sectionName;
-        Update();
-    }
+        QItemQuestComponent ITEM_QUEST_COMPONENT_QUEST_COMPONENT_COMPONENT;
 
-    override protected void RefreshReference()
-    {
-        base.RefreshReference();
-        ITEM_QUEST_COMPONENT_QUEST_COMPONENT_COMPONENT = component as QItemQuestComponent;
-    }
-
-    override public float AddSubComponents(float offset)
-    {
-        Game game = Game.Get();
-
-        UIElement ui = null;
-        if (game.gameType is MoMGameType)
+        public EditorComponentItem(string nameIn) : base()
         {
-            ui = new UIElement(Game.EDITOR, scrollArea.GetScrollTransform());
-            ui.SetLocation(0, offset, 8, 1);
-            ui.SetText(new StringKey("val", "X_COLON", CommonStringKeys.STARTING_ITEM));
-
-            ui = new UIElement(Game.EDITOR, scrollArea.GetScrollTransform());
-            ui.SetLocation(8, offset, 4, 1);
-            ui.SetText(ITEM_QUEST_COMPONENT_QUEST_COMPONENT_COMPONENT.starting.ToString());
-            ui.SetButton(delegate { ToggleStarting(); });
-            new UIElementBorder(ui);
-            offset += 2;
+            Game game = Game.Get();
+            ITEM_QUEST_COMPONENT_QUEST_COMPONENT_COMPONENT = game.quest.qd.components[nameIn] as QItemQuestComponent;
+            component = ITEM_QUEST_COMPONENT_QUEST_COMPONENT_COMPONENT;
+            name = component.sectionName;
+            Update();
         }
 
-        ui = new UIElement(Game.EDITOR, scrollArea.GetScrollTransform());
-        ui.SetLocation(0.5f, offset, 18, 1);
-        ui.SetText(new StringKey("val", "X_COLON", CommonStringKeys.ITEM));
-
-        ui = new UIElement(Game.EDITOR, scrollArea.GetScrollTransform());
-        ui.SetLocation(18.5f, offset++, 1, 1);
-        ui.SetText(CommonStringKeys.PLUS, Color.green);
-        ui.SetButton(delegate { AddItem(); });
-        new UIElementBorder(ui, Color.green);
-
-        for (int i = 0; i < ITEM_QUEST_COMPONENT_QUEST_COMPONENT_COMPONENT.itemName.Length; i++)
+        override protected void RefreshReference()
         {
-            int tmp = i;
-            ui = new UIElement(Game.EDITOR, scrollArea.GetScrollTransform());
-            ui.SetText(ITEM_QUEST_COMPONENT_QUEST_COMPONENT_COMPONENT.itemName[i]);
-            ui.SetButton(delegate { SetItem(tmp); });
-            if (game.quest.qd.components.ContainsKey(ITEM_QUEST_COMPONENT_QUEST_COMPONENT_COMPONENT.itemName[tmp]))
-            {
-                ui.SetLocation(0.5f, offset, 17, 1);
-                UIElement link = new UIElement(Game.EDITOR, scrollArea.GetScrollTransform());
-                link.SetLocation(17.5f, offset, 1, 1);
-                link.SetText("<b>⇨</b>", Color.cyan);
-                link.SetTextAlignment(TextAnchor.LowerCenter);
-                link.SetButton(delegate { QuestEditorData.SelectComponent(ITEM_QUEST_COMPONENT_QUEST_COMPONENT_COMPONENT.itemName[tmp]); });
-                new UIElementBorder(link, Color.cyan);
-            }
-            else
-            {
-                ui.SetLocation(0.5f, offset, 18, 1);
-            }
-            new UIElementBorder(ui);
+            base.RefreshReference();
+            ITEM_QUEST_COMPONENT_QUEST_COMPONENT_COMPONENT = component as QItemQuestComponent;
+        }
 
-            if (ITEM_QUEST_COMPONENT_QUEST_COMPONENT_COMPONENT.traits.Length > 0 || ITEM_QUEST_COMPONENT_QUEST_COMPONENT_COMPONENT.itemName.Length > 1 || ITEM_QUEST_COMPONENT_QUEST_COMPONENT_COMPONENT.traitpool.Length > 0)
+        override public float AddSubComponents(float offset)
+        {
+            Game game = Game.Get();
+
+            UIElement ui = null;
+            if (game.gameType is MoMGameType)
             {
                 ui = new UIElement(Game.EDITOR, scrollArea.GetScrollTransform());
-                ui.SetLocation(18.5f, offset, 1, 1);
-                ui.SetText(CommonStringKeys.MINUS, Color.red);
-                ui.SetButton(delegate { RemoveItem(tmp); });
-                new UIElementBorder(ui, Color.red);
-            }
-            offset++;
-        }
+                ui.SetLocation(0, offset, 8, 1);
+                ui.SetText(new StringKey("val", "X_COLON", CommonStringKeys.STARTING_ITEM));
 
-        offset++;
-
-        ui = new UIElement(Game.EDITOR, scrollArea.GetScrollTransform());
-        ui.SetLocation(0, offset, 9, 1);
-        ui.SetText(new StringKey("val", "X_COLON", CommonStringKeys.TRAITS));
-
-        ui = new UIElement(Game.EDITOR, scrollArea.GetScrollTransform());
-        ui.SetLocation(9, offset, 1, 1);
-        ui.SetText(CommonStringKeys.PLUS, Color.green);
-        ui.SetButton(delegate { AddTrait(); });
-        new UIElementBorder(ui, Color.green);
-
-        float traitOffset = offset;
-        offset++;
-
-        for (int i = 0; i < ITEM_QUEST_COMPONENT_QUEST_COMPONENT_COMPONENT.traits.Length; i++)
-        {
-            int tmp = i;
-            ui = new UIElement(Game.EDITOR, scrollArea.GetScrollTransform());
-            ui.SetLocation(0, offset, 9, 1);
-            ui.SetText(new StringKey("val", ITEM_QUEST_COMPONENT_QUEST_COMPONENT_COMPONENT.traits[i]));
-
-            if (ITEM_QUEST_COMPONENT_QUEST_COMPONENT_COMPONENT.traits.Length > 1 || ITEM_QUEST_COMPONENT_QUEST_COMPONENT_COMPONENT.itemName.Length > 0 || ITEM_QUEST_COMPONENT_QUEST_COMPONENT_COMPONENT.traitpool.Length > 0)
-            {
                 ui = new UIElement(Game.EDITOR, scrollArea.GetScrollTransform());
-                ui.SetLocation(9, offset, 1, 1);
-                ui.SetText(CommonStringKeys.MINUS, Color.red);
-                ui.SetButton(delegate { RemoveTrait(tmp); });
-                new UIElementBorder(ui, Color.red);
+                ui.SetLocation(8, offset, 4, 1);
+                ui.SetText(ITEM_QUEST_COMPONENT_QUEST_COMPONENT_COMPONENT.starting.ToString());
+                ui.SetButton(delegate { ToggleStarting(); });
+                new UIElementBorder(ui);
+                offset += 2;
             }
-            offset++;
-        }
 
-        ui = new UIElement(Game.EDITOR, scrollArea.GetScrollTransform());
-        ui.SetLocation(10, traitOffset, 8.5f, 1);
-        ui.SetText(new StringKey("val", "X_COLON", new StringKey("val", "POOL_TRAITS")));
-
-        ui = new UIElement(Game.EDITOR, scrollArea.GetScrollTransform());
-        ui.SetLocation(18.5f, traitOffset++, 1, 1);
-        ui.SetText(CommonStringKeys.PLUS, Color.green);
-        ui.SetButton(delegate { AddTrait(true); });
-        new UIElementBorder(ui, Color.green);
-
-        for (int i = 0; i < ITEM_QUEST_COMPONENT_QUEST_COMPONENT_COMPONENT.traitpool.Length; i++)
-        {
-            int tmp = i;
             ui = new UIElement(Game.EDITOR, scrollArea.GetScrollTransform());
-            ui.SetLocation(10, traitOffset, 8.5f, 1);
-            ui.SetText(new StringKey("val", ITEM_QUEST_COMPONENT_QUEST_COMPONENT_COMPONENT.traitpool[i]));
+            ui.SetLocation(0.5f, offset, 18, 1);
+            ui.SetText(new StringKey("val", "X_COLON", CommonStringKeys.ITEM));
 
-            if (ITEM_QUEST_COMPONENT_QUEST_COMPONENT_COMPONENT.traitpool.Length > 1 || ITEM_QUEST_COMPONENT_QUEST_COMPONENT_COMPONENT.itemName.Length > 0 || ITEM_QUEST_COMPONENT_QUEST_COMPONENT_COMPONENT.traits.Length > 0)
-            {
-                ui = new UIElement(Game.EDITOR, scrollArea.GetScrollTransform());
-                ui.SetLocation(18.5f, traitOffset, 1, 1);
-                ui.SetText(CommonStringKeys.MINUS, Color.red);
-                ui.SetButton(delegate { RemoveTraitPool(tmp); });
-                new UIElementBorder(ui, Color.red);
-            }
-            traitOffset++;
-        }
-        if (offset < traitOffset) offset = traitOffset;
-        offset++;
-
-        offset = AddInspect(offset);
-
-        if (ITEM_QUEST_COMPONENT_QUEST_COMPONENT_COMPONENT.starting)
-        {
-            if(ITEM_QUEST_COMPONENT_QUEST_COMPONENT_COMPONENT.tests==null)
-                ITEM_QUEST_COMPONENT_QUEST_COMPONENT_COMPONENT.tests = new VarTests();
-
-            offset = AddEventVarConditionComponents(offset);
-        }
-
-        return offset;
-    }
-
-    public float AddInspect(float offset)
-    {
-        if (!(game.gameType is MoMGameType)) return offset;
-
-        UIElement ui = new UIElement(Game.EDITOR, scrollArea.GetScrollTransform());
-        ui.SetLocation(0, offset, 5, 1);
-        ui.SetText(new StringKey("val", "X_COLON", new StringKey("val", "INSPECT")));
-
-        ui = new UIElement(Game.EDITOR, scrollArea.GetScrollTransform());
-        ui.SetLocation(5, offset, 13.5f, 1);
-        ui.SetText(ITEM_QUEST_COMPONENT_QUEST_COMPONENT_COMPONENT.inspect);
-        ui.SetButton(delegate { PickInpsect(); });
-        new UIElementBorder(ui);
-
-        if (ITEM_QUEST_COMPONENT_QUEST_COMPONENT_COMPONENT.inspect.Length > 0)
-        {
             ui = new UIElement(Game.EDITOR, scrollArea.GetScrollTransform());
-            ui.SetLocation(18.5f, offset, 1, 1);
-            ui.SetText("<b>⇨</b>", Color.cyan);
-            ui.SetTextAlignment(TextAnchor.LowerCenter);
-            ui.SetButton(delegate { QuestEditorData.SelectComponent(ITEM_QUEST_COMPONENT_QUEST_COMPONENT_COMPONENT.inspect); });
-            new UIElementBorder(ui, Color.cyan);
-        }
-        return offset + 2;
-    }
-
-    public void ToggleStarting()
-    {
-        ITEM_QUEST_COMPONENT_QUEST_COMPONENT_COMPONENT.starting = !ITEM_QUEST_COMPONENT_QUEST_COMPONENT_COMPONENT.starting;
-        Update();
-    }
-
-    public void AddItem()
-    {
-        SetItem(-1);
-    }
-
-    public void SetItem(int index)
-    {
-        if (GameObject.FindGameObjectWithTag(Game.DIALOG) != null)
-        {
-            return;
-        }
-        Game game = Game.Get();
-        UIWindowSelectionListTraits select = new UIWindowSelectionListTraits(delegate(string s) { SelectAddItem(index, s); }, CommonStringKeys.SELECT_ITEM);
-
-        Dictionary<string, IEnumerable<string>> traits = new Dictionary<string, IEnumerable<string>>();
-        traits.Add(CommonStringKeys.SOURCE.Translate(), new string[] { "Quest" });
-
-        HashSet<string> usedItems = new HashSet<string>();
-        foreach (KeyValuePair<string, QuestComponent> kv in game.quest.qd.components)
-        {
-            QItemQuestComponent i = kv.Value as QItemQuestComponent;
-            if (i != null)
-            {
-                select.AddItem(i.sectionName, traits);
-                if (i.traits.Length == 0 && i.traitpool.Length == 0)
-                {
-                    usedItems.Add(i.itemName[0]);
-                }
-            }
-        }
-
-        foreach (KeyValuePair<string, ItemData> kv in game.cd.items)
-        {
-            if (usedItems.Contains(kv.Key))
-            {
-                select.AddItem(kv.Value, Color.grey);
-            }
-            else
-            {
-                select.AddItem(kv.Value);
-            }
-        }
-        select.ExcludeExpansions();
-        select.Draw();
-    }
-
-    public void SelectAddItem(int pos, string item)
-    {
-        if (pos == -1)
-        {
-            string[] newArray = new string[ITEM_QUEST_COMPONENT_QUEST_COMPONENT_COMPONENT.itemName.Length + 1];
+            ui.SetLocation(18.5f, offset++, 1, 1);
+            ui.SetText(CommonStringKeys.PLUS, Color.green);
+            ui.SetButton(delegate { AddItem(); });
+            new UIElementBorder(ui, Color.green);
 
             for (int i = 0; i < ITEM_QUEST_COMPONENT_QUEST_COMPONENT_COMPONENT.itemName.Length; i++)
             {
-                newArray[i] = ITEM_QUEST_COMPONENT_QUEST_COMPONENT_COMPONENT.itemName[i];
+                int tmp = i;
+                ui = new UIElement(Game.EDITOR, scrollArea.GetScrollTransform());
+                ui.SetText(ITEM_QUEST_COMPONENT_QUEST_COMPONENT_COMPONENT.itemName[i]);
+                ui.SetButton(delegate { SetItem(tmp); });
+                if (game.quest.qd.components.ContainsKey(ITEM_QUEST_COMPONENT_QUEST_COMPONENT_COMPONENT.itemName[tmp]))
+                {
+                    ui.SetLocation(0.5f, offset, 17, 1);
+                    UIElement link = new UIElement(Game.EDITOR, scrollArea.GetScrollTransform());
+                    link.SetLocation(17.5f, offset, 1, 1);
+                    link.SetText("<b>⇨</b>", Color.cyan);
+                    link.SetTextAlignment(TextAnchor.LowerCenter);
+                    link.SetButton(delegate
+                    {
+                        QuestEditorData.SelectComponent(
+                            ITEM_QUEST_COMPONENT_QUEST_COMPONENT_COMPONENT.itemName[tmp]);
+                    });
+                    new UIElementBorder(link, Color.cyan);
+                }
+                else
+                {
+                    ui.SetLocation(0.5f, offset, 18, 1);
+                }
+
+                new UIElementBorder(ui);
+
+                if (ITEM_QUEST_COMPONENT_QUEST_COMPONENT_COMPONENT.traits.Length > 0 ||
+                    ITEM_QUEST_COMPONENT_QUEST_COMPONENT_COMPONENT.itemName.Length > 1 ||
+                    ITEM_QUEST_COMPONENT_QUEST_COMPONENT_COMPONENT.traitpool.Length > 0)
+                {
+                    ui = new UIElement(Game.EDITOR, scrollArea.GetScrollTransform());
+                    ui.SetLocation(18.5f, offset, 1, 1);
+                    ui.SetText(CommonStringKeys.MINUS, Color.red);
+                    ui.SetButton(delegate { RemoveItem(tmp); });
+                    new UIElementBorder(ui, Color.red);
+                }
+
+                offset++;
             }
-            newArray[ITEM_QUEST_COMPONENT_QUEST_COMPONENT_COMPONENT.itemName.Length] = item;
-            ITEM_QUEST_COMPONENT_QUEST_COMPONENT_COMPONENT.itemName = newArray;
-        }
-        else
-        {
-            ITEM_QUEST_COMPONENT_QUEST_COMPONENT_COMPONENT.itemName[pos] = item;
-        }
-        Update();
-    }
 
-    public void RemoveItem(int index)
-    {
-        string[] newArray = new string[ITEM_QUEST_COMPONENT_QUEST_COMPONENT_COMPONENT.itemName.Length - 1];
+            offset++;
 
-        int j = 0;
-        for (int i = 0; i < ITEM_QUEST_COMPONENT_QUEST_COMPONENT_COMPONENT.itemName.Length; i++)
-        {
-            if (i != index)
-            {
-                newArray[j++] = ITEM_QUEST_COMPONENT_QUEST_COMPONENT_COMPONENT.itemName[i];
-            }
-        }
-        ITEM_QUEST_COMPONENT_QUEST_COMPONENT_COMPONENT.itemName = newArray;
-        Update();
-    }
+            ui = new UIElement(Game.EDITOR, scrollArea.GetScrollTransform());
+            ui.SetLocation(0, offset, 9, 1);
+            ui.SetText(new StringKey("val", "X_COLON", CommonStringKeys.TRAITS));
 
-    public void AddTrait(bool pool = false)
-    {
-        if (GameObject.FindGameObjectWithTag(Game.DIALOG) != null)
-        {
-            return;
-        }
-        Game game = Game.Get();
-        HashSet<string> traits = new HashSet<string>();
+            ui = new UIElement(Game.EDITOR, scrollArea.GetScrollTransform());
+            ui.SetLocation(9, offset, 1, 1);
+            ui.SetText(CommonStringKeys.PLUS, Color.green);
+            ui.SetButton(delegate { AddTrait(); });
+            new UIElementBorder(ui, Color.green);
 
-        foreach (KeyValuePair<string, ItemData> kv in game.cd.items)
-        {
-            foreach (string s in kv.Value.traits)
-            {
-                traits.Add(s);
-            }
-        }
-
-        UIWindowSelectionList select = new UIWindowSelectionList(delegate(string s) { SelectAddTrait(pool, s); }, new StringKey("val", "SELECT", CommonStringKeys.TRAITS));
-        foreach (string s in traits)
-        {
-            select.AddItem(new StringKey("val", s));
-        }
-        select.Draw();
-    }
-
-    public void SelectAddTrait(bool pool, string trait)
-    {
-        if (pool)
-        {
-            string[] newArray = new string[ITEM_QUEST_COMPONENT_QUEST_COMPONENT_COMPONENT.traitpool.Length + 1];
-
-            for (int i = 0; i < ITEM_QUEST_COMPONENT_QUEST_COMPONENT_COMPONENT.traitpool.Length; i++)
-            {
-                newArray[i] = ITEM_QUEST_COMPONENT_QUEST_COMPONENT_COMPONENT.traitpool[i];
-            }
-            newArray[ITEM_QUEST_COMPONENT_QUEST_COMPONENT_COMPONENT.traitpool.Length] = trait;
-            ITEM_QUEST_COMPONENT_QUEST_COMPONENT_COMPONENT.traitpool = newArray;
-        }
-        else
-        {
-            string[] newArray = new string[ITEM_QUEST_COMPONENT_QUEST_COMPONENT_COMPONENT.traits.Length + 1];
+            float traitOffset = offset;
+            offset++;
 
             for (int i = 0; i < ITEM_QUEST_COMPONENT_QUEST_COMPONENT_COMPONENT.traits.Length; i++)
             {
-                newArray[i] = ITEM_QUEST_COMPONENT_QUEST_COMPONENT_COMPONENT.traits[i];
+                int tmp = i;
+                ui = new UIElement(Game.EDITOR, scrollArea.GetScrollTransform());
+                ui.SetLocation(0, offset, 9, 1);
+                ui.SetText(new StringKey("val", ITEM_QUEST_COMPONENT_QUEST_COMPONENT_COMPONENT.traits[i]));
+
+                if (ITEM_QUEST_COMPONENT_QUEST_COMPONENT_COMPONENT.traits.Length > 1 ||
+                    ITEM_QUEST_COMPONENT_QUEST_COMPONENT_COMPONENT.itemName.Length > 0 ||
+                    ITEM_QUEST_COMPONENT_QUEST_COMPONENT_COMPONENT.traitpool.Length > 0)
+                {
+                    ui = new UIElement(Game.EDITOR, scrollArea.GetScrollTransform());
+                    ui.SetLocation(9, offset, 1, 1);
+                    ui.SetText(CommonStringKeys.MINUS, Color.red);
+                    ui.SetButton(delegate { RemoveTrait(tmp); });
+                    new UIElementBorder(ui, Color.red);
+                }
+
+                offset++;
             }
-            newArray[ITEM_QUEST_COMPONENT_QUEST_COMPONENT_COMPONENT.traits.Length] = trait;
+
+            ui = new UIElement(Game.EDITOR, scrollArea.GetScrollTransform());
+            ui.SetLocation(10, traitOffset, 8.5f, 1);
+            ui.SetText(new StringKey("val", "X_COLON", new StringKey("val", "POOL_TRAITS")));
+
+            ui = new UIElement(Game.EDITOR, scrollArea.GetScrollTransform());
+            ui.SetLocation(18.5f, traitOffset++, 1, 1);
+            ui.SetText(CommonStringKeys.PLUS, Color.green);
+            ui.SetButton(delegate { AddTrait(true); });
+            new UIElementBorder(ui, Color.green);
+
+            for (int i = 0; i < ITEM_QUEST_COMPONENT_QUEST_COMPONENT_COMPONENT.traitpool.Length; i++)
+            {
+                int tmp = i;
+                ui = new UIElement(Game.EDITOR, scrollArea.GetScrollTransform());
+                ui.SetLocation(10, traitOffset, 8.5f, 1);
+                ui.SetText(new StringKey("val", ITEM_QUEST_COMPONENT_QUEST_COMPONENT_COMPONENT.traitpool[i]));
+
+                if (ITEM_QUEST_COMPONENT_QUEST_COMPONENT_COMPONENT.traitpool.Length > 1 ||
+                    ITEM_QUEST_COMPONENT_QUEST_COMPONENT_COMPONENT.itemName.Length > 0 ||
+                    ITEM_QUEST_COMPONENT_QUEST_COMPONENT_COMPONENT.traits.Length > 0)
+                {
+                    ui = new UIElement(Game.EDITOR, scrollArea.GetScrollTransform());
+                    ui.SetLocation(18.5f, traitOffset, 1, 1);
+                    ui.SetText(CommonStringKeys.MINUS, Color.red);
+                    ui.SetButton(delegate { RemoveTraitPool(tmp); });
+                    new UIElementBorder(ui, Color.red);
+                }
+
+                traitOffset++;
+            }
+
+            if (offset < traitOffset) offset = traitOffset;
+            offset++;
+
+            offset = AddInspect(offset);
+
+            if (ITEM_QUEST_COMPONENT_QUEST_COMPONENT_COMPONENT.starting)
+            {
+                if (ITEM_QUEST_COMPONENT_QUEST_COMPONENT_COMPONENT.tests == null)
+                    ITEM_QUEST_COMPONENT_QUEST_COMPONENT_COMPONENT.tests = new VarTests();
+
+                offset = AddEventVarConditionComponents(offset);
+            }
+
+            return offset;
+        }
+
+        public float AddInspect(float offset)
+        {
+            if (!(game.gameType is MoMGameType)) return offset;
+
+            UIElement ui = new UIElement(Game.EDITOR, scrollArea.GetScrollTransform());
+            ui.SetLocation(0, offset, 5, 1);
+            ui.SetText(new StringKey("val", "X_COLON", new StringKey("val", "INSPECT")));
+
+            ui = new UIElement(Game.EDITOR, scrollArea.GetScrollTransform());
+            ui.SetLocation(5, offset, 13.5f, 1);
+            ui.SetText(ITEM_QUEST_COMPONENT_QUEST_COMPONENT_COMPONENT.inspect);
+            ui.SetButton(delegate { PickInpsect(); });
+            new UIElementBorder(ui);
+
+            if (ITEM_QUEST_COMPONENT_QUEST_COMPONENT_COMPONENT.inspect.Length > 0)
+            {
+                ui = new UIElement(Game.EDITOR, scrollArea.GetScrollTransform());
+                ui.SetLocation(18.5f, offset, 1, 1);
+                ui.SetText("<b>⇨</b>", Color.cyan);
+                ui.SetTextAlignment(TextAnchor.LowerCenter);
+                ui.SetButton(delegate
+                {
+                    QuestEditorData.SelectComponent(ITEM_QUEST_COMPONENT_QUEST_COMPONENT_COMPONENT.inspect);
+                });
+                new UIElementBorder(ui, Color.cyan);
+            }
+
+            return offset + 2;
+        }
+
+        public void ToggleStarting()
+        {
+            ITEM_QUEST_COMPONENT_QUEST_COMPONENT_COMPONENT.starting =
+                !ITEM_QUEST_COMPONENT_QUEST_COMPONENT_COMPONENT.starting;
+            Update();
+        }
+
+        public void AddItem()
+        {
+            SetItem(-1);
+        }
+
+        public void SetItem(int index)
+        {
+            if (GameObject.FindGameObjectWithTag(Game.DIALOG) != null)
+            {
+                return;
+            }
+
+            Game game = Game.Get();
+            UIWindowSelectionListTraits select =
+                new UIWindowSelectionListTraits(delegate(string s) { SelectAddItem(index, s); },
+                    CommonStringKeys.SELECT_ITEM);
+
+            Dictionary<string, IEnumerable<string>> traits = new Dictionary<string, IEnumerable<string>>();
+            traits.Add(CommonStringKeys.SOURCE.Translate(), new string[] {"Quest"});
+
+            HashSet<string> usedItems = new HashSet<string>();
+            foreach (KeyValuePair<string, QuestComponent> kv in game.quest.qd.components)
+            {
+                QItemQuestComponent i = kv.Value as QItemQuestComponent;
+                if (i != null)
+                {
+                    select.AddItem(i.sectionName, traits);
+                    if (i.traits.Length == 0 && i.traitpool.Length == 0)
+                    {
+                        usedItems.Add(i.itemName[0]);
+                    }
+                }
+            }
+
+            foreach (KeyValuePair<string, ItemData> kv in game.cd.items)
+            {
+                if (usedItems.Contains(kv.Key))
+                {
+                    select.AddItem(kv.Value, Color.grey);
+                }
+                else
+                {
+                    select.AddItem(kv.Value);
+                }
+            }
+
+            select.ExcludeExpansions();
+            select.Draw();
+        }
+
+        public void SelectAddItem(int pos, string item)
+        {
+            if (pos == -1)
+            {
+                string[] newArray = new string[ITEM_QUEST_COMPONENT_QUEST_COMPONENT_COMPONENT.itemName.Length + 1];
+
+                for (int i = 0; i < ITEM_QUEST_COMPONENT_QUEST_COMPONENT_COMPONENT.itemName.Length; i++)
+                {
+                    newArray[i] = ITEM_QUEST_COMPONENT_QUEST_COMPONENT_COMPONENT.itemName[i];
+                }
+
+                newArray[ITEM_QUEST_COMPONENT_QUEST_COMPONENT_COMPONENT.itemName.Length] = item;
+                ITEM_QUEST_COMPONENT_QUEST_COMPONENT_COMPONENT.itemName = newArray;
+            }
+            else
+            {
+                ITEM_QUEST_COMPONENT_QUEST_COMPONENT_COMPONENT.itemName[pos] = item;
+            }
+
+            Update();
+        }
+
+        public void RemoveItem(int index)
+        {
+            string[] newArray = new string[ITEM_QUEST_COMPONENT_QUEST_COMPONENT_COMPONENT.itemName.Length - 1];
+
+            int j = 0;
+            for (int i = 0; i < ITEM_QUEST_COMPONENT_QUEST_COMPONENT_COMPONENT.itemName.Length; i++)
+            {
+                if (i != index)
+                {
+                    newArray[j++] = ITEM_QUEST_COMPONENT_QUEST_COMPONENT_COMPONENT.itemName[i];
+                }
+            }
+
+            ITEM_QUEST_COMPONENT_QUEST_COMPONENT_COMPONENT.itemName = newArray;
+            Update();
+        }
+
+        public void AddTrait(bool pool = false)
+        {
+            if (GameObject.FindGameObjectWithTag(Game.DIALOG) != null)
+            {
+                return;
+            }
+
+            Game game = Game.Get();
+            HashSet<string> traits = new HashSet<string>();
+
+            foreach (KeyValuePair<string, ItemData> kv in game.cd.items)
+            {
+                foreach (string s in kv.Value.traits)
+                {
+                    traits.Add(s);
+                }
+            }
+
+            UIWindowSelectionList select = new UIWindowSelectionList(delegate(string s) { SelectAddTrait(pool, s); },
+                new StringKey("val", "SELECT", CommonStringKeys.TRAITS));
+            foreach (string s in traits)
+            {
+                select.AddItem(new StringKey("val", s));
+            }
+
+            select.Draw();
+        }
+
+        public void SelectAddTrait(bool pool, string trait)
+        {
+            if (pool)
+            {
+                string[] newArray = new string[ITEM_QUEST_COMPONENT_QUEST_COMPONENT_COMPONENT.traitpool.Length + 1];
+
+                for (int i = 0; i < ITEM_QUEST_COMPONENT_QUEST_COMPONENT_COMPONENT.traitpool.Length; i++)
+                {
+                    newArray[i] = ITEM_QUEST_COMPONENT_QUEST_COMPONENT_COMPONENT.traitpool[i];
+                }
+
+                newArray[ITEM_QUEST_COMPONENT_QUEST_COMPONENT_COMPONENT.traitpool.Length] = trait;
+                ITEM_QUEST_COMPONENT_QUEST_COMPONENT_COMPONENT.traitpool = newArray;
+            }
+            else
+            {
+                string[] newArray = new string[ITEM_QUEST_COMPONENT_QUEST_COMPONENT_COMPONENT.traits.Length + 1];
+
+                for (int i = 0; i < ITEM_QUEST_COMPONENT_QUEST_COMPONENT_COMPONENT.traits.Length; i++)
+                {
+                    newArray[i] = ITEM_QUEST_COMPONENT_QUEST_COMPONENT_COMPONENT.traits[i];
+                }
+
+                newArray[ITEM_QUEST_COMPONENT_QUEST_COMPONENT_COMPONENT.traits.Length] = trait;
+                ITEM_QUEST_COMPONENT_QUEST_COMPONENT_COMPONENT.traits = newArray;
+            }
+
+            Update();
+        }
+
+        public void RemoveTrait(int index)
+        {
+            string[] newArray = new string[ITEM_QUEST_COMPONENT_QUEST_COMPONENT_COMPONENT.traits.Length - 1];
+
+            int j = 0;
+            for (int i = 0; i < ITEM_QUEST_COMPONENT_QUEST_COMPONENT_COMPONENT.traits.Length; i++)
+            {
+                if (i != index)
+                {
+                    newArray[j++] = ITEM_QUEST_COMPONENT_QUEST_COMPONENT_COMPONENT.traits[i];
+                }
+            }
+
             ITEM_QUEST_COMPONENT_QUEST_COMPONENT_COMPONENT.traits = newArray;
+            Update();
         }
-        Update();
-    }
 
-    public void RemoveTrait(int index)
-    {
-        string[] newArray = new string[ITEM_QUEST_COMPONENT_QUEST_COMPONENT_COMPONENT.traits.Length - 1];
-
-        int j = 0;
-        for (int i = 0; i < ITEM_QUEST_COMPONENT_QUEST_COMPONENT_COMPONENT.traits.Length; i++)
+        public void RemoveTraitPool(int index)
         {
-            if (i != index)
+            string[] newArray = new string[ITEM_QUEST_COMPONENT_QUEST_COMPONENT_COMPONENT.traitpool.Length - 1];
+
+            int j = 0;
+            for (int i = 0; i < ITEM_QUEST_COMPONENT_QUEST_COMPONENT_COMPONENT.traitpool.Length; i++)
             {
-                newArray[j++] = ITEM_QUEST_COMPONENT_QUEST_COMPONENT_COMPONENT.traits[i];
+                if (i != index)
+                {
+                    newArray[j++] = ITEM_QUEST_COMPONENT_QUEST_COMPONENT_COMPONENT.traitpool[i];
+                }
             }
+
+            ITEM_QUEST_COMPONENT_QUEST_COMPONENT_COMPONENT.traitpool = newArray;
+            Update();
         }
-        ITEM_QUEST_COMPONENT_QUEST_COMPONENT_COMPONENT.traits = newArray;
-        Update();
-    }
 
-    public void RemoveTraitPool(int index)
-    {
-        string[] newArray = new string[ITEM_QUEST_COMPONENT_QUEST_COMPONENT_COMPONENT.traitpool.Length - 1];
-
-        int j = 0;
-        for (int i = 0; i < ITEM_QUEST_COMPONENT_QUEST_COMPONENT_COMPONENT.traitpool.Length; i++)
+        public void PickInpsect()
         {
-            if (i != index)
+            if (GameObject.FindGameObjectWithTag(Game.DIALOG) != null)
             {
-                newArray[j++] = ITEM_QUEST_COMPONENT_QUEST_COMPONENT_COMPONENT.traitpool[i];
+                return;
             }
-        }
-        ITEM_QUEST_COMPONENT_QUEST_COMPONENT_COMPONENT.traitpool = newArray;
-        Update();
-    }
 
-    public void PickInpsect()
-    {
-        if (GameObject.FindGameObjectWithTag(Game.DIALOG) != null)
-        {
-            return;
-        }
-        Game game = Game.Get();
+            Game game = Game.Get();
 
-        UIWindowSelectionListTraits select = new UIWindowSelectionListTraits(SelectInspectEvent, new StringKey("val", "SELECT", CommonStringKeys.SELECT_ITEM));
+            UIWindowSelectionListTraits select = new UIWindowSelectionListTraits(SelectInspectEvent,
+                new StringKey("val", "SELECT", CommonStringKeys.SELECT_ITEM));
 
-        select.AddItem("{NONE}", "");
-        select.AddNewComponentItem("Event");
+            select.AddItem("{NONE}", "");
+            select.AddNewComponentItem("Event");
 
-        foreach (KeyValuePair<string, QuestComponent> kv in game.quest.qd.components)
-        {
-            if(kv.Value.typeDynamic.Equals("Event"))
+            foreach (KeyValuePair<string, QuestComponent> kv in game.quest.qd.components)
             {
-                select.AddItem(kv.Value);
+                if (kv.Value.typeDynamic.Equals("Event"))
+                {
+                    select.AddItem(kv.Value);
+                }
             }
-        }
-        select.Draw();
-    }
 
-    public void SelectInspectEvent(string eventName)
-    {
-        string toAdd = eventName;
-        if (eventName.Equals("{NEW:Event}"))
+            select.Draw();
+        }
+
+        public void SelectInspectEvent(string eventName)
         {
-            int i = 0;
-            while (game.quest.qd.components.ContainsKey("Event" + i))
+            string toAdd = eventName;
+            if (eventName.Equals("{NEW:Event}"))
             {
-                i++;
-            }
-            toAdd = "Event" + i;
-            Game.Get().quest.qd.components.Add(toAdd, new EventQuestComponent(toAdd));
-        }
+                int i = 0;
+                while (game.quest.qd.components.ContainsKey("Event" + i))
+                {
+                    i++;
+                }
 
-        ITEM_QUEST_COMPONENT_QUEST_COMPONENT_COMPONENT.inspect = toAdd;
-        Update();
+                toAdd = "Event" + i;
+                Game.Get().quest.qd.components.Add(toAdd, new EventQuestComponent(toAdd));
+            }
+
+            ITEM_QUEST_COMPONENT_QUEST_COMPONENT_COMPONENT.inspect = toAdd;
+            Update();
+        }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using Assets.Scripts.Content;
 using Assets.Scripts.Quest;
+using Assets.Scripts.QuestEditor;
 
 namespace Assets.Scripts.UI
 {

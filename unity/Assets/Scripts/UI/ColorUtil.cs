@@ -4,8 +4,6 @@ using Assets.Scripts.Quest;
 
 namespace Assets.Scripts.UI
 {
-
-
     // Util class to convert colour names to RGB strings
     // Returns input if not found
     public class ColorUtil

@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Text;
-using Assets.Scripts.Quest;
+using Assets.Scripts.Quest.VariableTests;
 using UnityEngine;
 
 namespace Assets.Scripts.Content.QuestComponent

@@ -5,6 +5,7 @@ using System.IO;
 using System.Collections;
 using Assets.Scripts.GameTypes;
 using Assets.Scripts.HttpManagement;
+using Assets.Scripts.StatsManager;
 using ValkyrieTools;
 
 namespace Assets.Scripts.UI.Screens

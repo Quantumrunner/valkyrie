@@ -1,105 +1,109 @@
-﻿using UnityEngine;
-using System.Collections.Generic;
-using Assets.Scripts;
+﻿using System.Collections.Generic;
 using Assets.Scripts.Content;
 using Assets.Scripts.GameTypes;
 using Assets.Scripts.Quest;
-using Assets.Scripts.UI.Screens;
 using Assets.Scripts.UI;
+using Assets.Scripts.UI.Screens;
+using UnityEngine;
 
-// Special class for the Menu button present while in a Quest
-public class ToolsButton
+namespace Assets.Scripts.QuestEditor
 {
-    private StringKey TOOLS = new StringKey("val", "TOOLS");
-
-    public ToolsButton()
+    // Special class for the Menu button present while in a Quest
+    public class ToolsButton
     {
-        Game game = Game.Get();
-        if (!game.editMode) return;
+        private StringKey TOOLS = new StringKey("val", "TOOLS");
 
-        UIElement ui = new UIElement(Game.QUESTUI);
-        ui.SetLocation(UIScaler.GetRight(-6), 0, 6, 1);
-        ui.SetText(new StringKey("val", "COMPONENTS"));
-        ui.SetButton(delegate { QuestEditorData.TypeSelect(); });
-        new UIElementBorder(ui);
-
-        ui = new UIElement(Game.QUESTUI);
-        ui.SetLocation(UIScaler.GetRight(-10), 0, 4, 1);
-        ui.SetText(TOOLS);
-        ui.SetButton(EditorTools.Create);
-        new UIElementBorder(ui);
-
-        ui = new UIElement(Game.QUESTUI);
-        ui.SetLocation(UIScaler.GetRight(-18), 0, 8, 1);
-        ui.SetText(new StringKey("val", "SAVE_TEST"));
-        ui.SetButton(Test);
-        new UIElementBorder(ui);
-    }
-
-    public void Test()
-    {
-        if (GameObject.FindGameObjectWithTag(Game.DIALOG) != null) return;
-
-        QuestEditor.Save();
-
-        Game game = Game.Get();
-        string path = game.quest.questPath;
-        Destroyer.Destroy();
-
-        // All content data has been loaded by editor, cleanup everything
-        game.cd = new ContentData(game.gameType.DataDirectory());
-        // Load the base content
-        game.cd.LoadContentID("");
-        // Load current configuration
-        Dictionary<string, string> packs = game.config.data.Get(game.gameType.TypeName() + "Packs");
-        if (packs != null)
+        public ToolsButton()
         {
-            foreach (KeyValuePair<string, string> kv in packs)
+            Game game = Game.Get();
+            if (!game.editMode) return;
+
+            UIElement ui = new UIElement(Game.QUESTUI);
+            ui.SetLocation(UIScaler.GetRight(-6), 0, 6, 1);
+            ui.SetText(new StringKey("val", "COMPONENTS"));
+            ui.SetButton(delegate { QuestEditorData.TypeSelect(); });
+            new UIElementBorder(ui);
+
+            ui = new UIElement(Game.QUESTUI);
+            ui.SetLocation(UIScaler.GetRight(-10), 0, 4, 1);
+            ui.SetText(TOOLS);
+            ui.SetButton(EditorTools.Create);
+            new UIElementBorder(ui);
+
+            ui = new UIElement(Game.QUESTUI);
+            ui.SetLocation(UIScaler.GetRight(-18), 0, 8, 1);
+            ui.SetText(new StringKey("val", "SAVE_TEST"));
+            ui.SetButton(Test);
+            new UIElementBorder(ui);
+        }
+
+        public void Test()
+        {
+            if (GameObject.FindGameObjectWithTag(Game.DIALOG) != null) return;
+
+            QuestEditor.Save();
+
+            Game game = Game.Get();
+            string path = game.quest.questPath;
+            Destroyer.Destroy();
+
+            // All content data has been loaded by editor, cleanup everything
+            game.cd = new ContentData(game.gameType.DataDirectory());
+            // Load the base content
+            game.cd.LoadContentID("");
+            // Load current configuration
+            Dictionary<string, string> packs = game.config.data.Get(game.gameType.TypeName() + "Packs");
+            if (packs != null)
             {
-                game.cd.LoadContentID(kv.Key);
+                foreach (KeyValuePair<string, string> kv in packs)
+                {
+                    game.cd.LoadContentID(kv.Key);
+                }
             }
-        }
 
-        game.testMode = true;
-        // Fetch all of the Quest data and initialise the Quest
-        game.quest = new Quest(new Assets.Scripts.Content.QuestIniComponent(path));
-        game.heroCanvas.SetupUI();
+            game.testMode = true;
+            // Fetch all of the Quest data and initialise the Quest
+            game.quest = new Quest.Quest(new Assets.Scripts.Content.QuestIniComponent(path));
+            game.heroCanvas.SetupUI();
 
-        int heroCount = Random.Range(game.quest.qd.QuestIniComponent.minHero, game.quest.qd.QuestIniComponent.maxHero + 1);
+            int heroCount = Random.Range(game.quest.qd.QuestIniComponent.minHero, game.quest.qd.QuestIniComponent.maxHero + 1);
 
-        List<HeroData> hOptions = new List<HeroData>(game.cd.heroes.Values);
-        for (int i = 0; i < heroCount; i++)
-        {
-            game.quest.heroes[i].heroData = hOptions[Random.Range(0, hOptions.Count)];
-            game.quest.vars.SetValue("#" + game.quest.heroes[i].heroData.sectionName, 1);
-            hOptions.Remove(game.quest.heroes[i].heroData);
-        }
+            List<HeroData> hOptions = new List<HeroData>(game.cd.heroes.Values);
+            for (int i = 0; i < heroCount; i++)
+            {
+                game.quest.heroes[i].heroData = hOptions[Random.Range(0, hOptions.Count)];
+                game.quest.vars.SetValue("#" + game.quest.heroes[i].heroData.sectionName, 1);
+                hOptions.Remove(game.quest.heroes[i].heroData);
+            }
 
-        // Starting morale is number of heros
-        game.quest.vars.SetValue("$%morale", heroCount);
-        // Set Quest flag based on hero count
-        game.quest.vars.SetValue("#heroes", heroCount);
-        game.quest.heroesSelected = true;
+            // Starting morale is number of heros
+            game.quest.vars.SetValue("$%morale", heroCount);
+            // Set Quest flag based on hero count
+            game.quest.vars.SetValue("#heroes", heroCount);
+            game.quest.heroesSelected = true;
 
-        // Clear off heros if not required
-        if (!game.gameType.DisplayHeroes())
-        {
-            game.heroCanvas.Clean();
-        }
-        else
-        {
-            game.heroCanvas.UpdateImages();
-            game.heroCanvas.UpdateStatus();
-        }
+            // Clear off heros if not required
+            if (!game.gameType.DisplayHeroes())
+            {
+                game.heroCanvas.Clean();
+            }
+            else
+            {
+                game.heroCanvas.UpdateImages();
+                game.heroCanvas.UpdateStatus();
+            }
 
-        // Draw morale if required
-        if (game.gameType is D2EGameType)
-        {
-            new ClassSelectionScreen();
-        }
-        else
-        {
-            new InvestigatorItems();
+            // Draw morale if required
+            if (game.gameType is D2EGameType)
+            {
+                new ClassSelectionScreen();
+            }
+            else
+            {
+                new InvestigatorItems();
+            }
         }
     }
 }
+
+

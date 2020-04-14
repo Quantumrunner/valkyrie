@@ -5,7 +5,6 @@ using Assets.Scripts.UI.Screens;
 
 namespace Assets.Scripts
 {
-
     // This is a helper class because we often need to clean things up.
     public class Destroyer
     {

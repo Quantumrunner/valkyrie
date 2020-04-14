@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using ValkyrieTools;
 
-namespace Assets.Scripts.Quest
+namespace Assets.Scripts.Quest.VariableTests
 {
     public class VarTests
     {
@@ -283,130 +283,5 @@ namespace Assets.Scripts.Quest
                 }
             }
         }
-    }
-
-    abstract public class VarTestsComponent : System.Object
-    {
-        abstract public string GetClassVarTestsComponentType();
-    }
-
-    public class VarTestsLogicalOperator : VarTestsComponent
-    {
-        public string op;
-
-        public VarTestsLogicalOperator()
-        {
-            op = "AND";
-        }
-
-        public VarTestsLogicalOperator(string inOp)
-        {
-            op = inOp;
-        }
-
-        override public string ToString()
-        {
-            return op;
-        }
-
-        public void NextLogicalOperator()
-        {
-            if (op == "AND")
-                op = "OR";
-            else
-                op = "AND";
-        }
-
-        public static string GetVarTestsComponentType()
-        {
-            return "VarTestsLogicalOperator";
-        }
-
-        override public string GetClassVarTestsComponentType()
-        {
-            return GetVarTestsComponentType();
-        }
-    }
-
-    public class VarTestsParenthesis : VarTestsComponent
-    {
-        public string parenthesis;
-
-        public VarTestsParenthesis()
-        {
-        }
-
-        // can be "(" or ")"
-        public VarTestsParenthesis(string inOp)
-        {
-            parenthesis = inOp;
-        }
-
-        override public string ToString()
-        {
-            return parenthesis;
-        }
-
-        public static string GetVarTestsComponentType()
-        {
-            return "VarTestsParenthesis";
-        }
-
-        override public string GetClassVarTestsComponentType()
-        {
-            return GetVarTestsComponentType();
-        }
-
-    }
-
-    public class VarOperation : VarTestsComponent
-    {
-        public string var = "";
-        public string operation = "";
-        public string value = "";
-
-        public VarOperation()
-        {
-        }
-
-        public VarOperation(string inOp)
-        {
-            string[] splitted_string = inOp.Split(",".ToCharArray(), System.StringSplitOptions.RemoveEmptyEntries);
-
-            if (splitted_string.Length != 3)
-            {
-                ValkyrieDebug.Log("Invalid var operation: " + inOp);
-            }
-
-            var = splitted_string[0];
-            operation = splitted_string[1];
-            value = splitted_string[2];
-
-            // Support old internal var names (depreciated, format 3)
-            var = UpdateVarName(var);
-            value = UpdateVarName(value);
-        }
-
-        override public string ToString()
-        {
-            return var + ',' + operation + ',' + value;
-        }
-
-        private string UpdateVarName(string s)
-        {
-            if (s.Equals("#fire")) return "$fire";
-            return s;
-        }
-
-        public static string GetVarTestsComponentType()
-        {
-            return "VarOperation";
-        }
-
-        override public string GetClassVarTestsComponentType()
-        {
-            return GetVarTestsComponentType();
-        }
-
     }
 }

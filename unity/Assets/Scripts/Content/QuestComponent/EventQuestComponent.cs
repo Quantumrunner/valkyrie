@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using Assets.Scripts.Quest;
+using Assets.Scripts.Quest.VariableTests;
 
 namespace Assets.Scripts.Content.QuestComponent
 {

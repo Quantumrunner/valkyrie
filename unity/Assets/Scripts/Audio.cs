@@ -6,7 +6,6 @@ using ValkyrieTools;
 
 namespace Assets.Scripts
 {
-
     public class Audio : MonoBehaviour
     {
         public AudioSource audioSource;

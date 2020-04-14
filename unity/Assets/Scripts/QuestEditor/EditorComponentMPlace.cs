@@ -1,87 +1,94 @@
-﻿using Assets.Scripts;
-using Assets.Scripts.Content;
+﻿using Assets.Scripts.Content;
 using Assets.Scripts.Content.QuestComponent;
 using Assets.Scripts.Quest;
 using Assets.Scripts.UI;
 
-public class EditorComponentMPlace : EditorComponent
+namespace Assets.Scripts.QuestEditor
 {
-    MPlaceQuestComponent M_PLACE_QUEST_COMPONENT_QUEST_COMPONENT_COMPONENT;
-
-    public EditorComponentMPlace(string nameIn) : base()
+    public class EditorComponentMPlace : EditorComponent
     {
-        Game game = Game.Get();
-        M_PLACE_QUEST_COMPONENT_QUEST_COMPONENT_COMPONENT = game.quest.qd.components[nameIn] as MPlaceQuestComponent;
-        component = M_PLACE_QUEST_COMPONENT_QUEST_COMPONENT_COMPONENT;
-        name = component.sectionName;
-        Update();
-    }
+        MPlaceQuestComponent M_PLACE_QUEST_COMPONENT_QUEST_COMPONENT_COMPONENT;
 
-    override protected void RefreshReference()
-    {
-        base.RefreshReference();
-        M_PLACE_QUEST_COMPONENT_QUEST_COMPONENT_COMPONENT = component as MPlaceQuestComponent;
-    }
-
-    override public float AddSubComponents(float offset)
-    {
-        CameraController.SetCamera(M_PLACE_QUEST_COMPONENT_QUEST_COMPONENT_COMPONENT.location);
-        Game game = Game.Get();
-
-        UIElement ui = new UIElement(Game.EDITOR, scrollArea.GetScrollTransform());
-        ui.SetLocation(0, offset, 4, 1);
-        ui.SetText(new StringKey("val", "X_COLON", CommonStringKeys.POSITION));
-
-        ui = new UIElement(Game.EDITOR, scrollArea.GetScrollTransform());
-        ui.SetLocation(4, offset, 4, 1);
-        ui.SetText(CommonStringKeys.POSITION_SNAP);
-        ui.SetButton(delegate { GetPosition(); });
-        new UIElementBorder(ui);
-        offset += 2;
-
-        ui = new UIElement(Game.EDITOR, scrollArea.GetScrollTransform());
-        ui.SetLocation(0, offset, 6, 1);
-        ui.SetText(new StringKey("val", "X_COLON", new StringKey("val", "ROTATION")));
-
-        StringKey rotateKey = new StringKey("val","RIGHT");
-        if (M_PLACE_QUEST_COMPONENT_QUEST_COMPONENT_COMPONENT.rotate)
+        public EditorComponentMPlace(string nameIn) : base()
         {
-            rotateKey = new StringKey("val", "DOWN");
+            Game game = Game.Get();
+            M_PLACE_QUEST_COMPONENT_QUEST_COMPONENT_COMPONENT =
+                game.quest.qd.components[nameIn] as MPlaceQuestComponent;
+            component = M_PLACE_QUEST_COMPONENT_QUEST_COMPONENT_COMPONENT;
+            name = component.sectionName;
+            Update();
         }
 
-        ui = new UIElement(Game.EDITOR, scrollArea.GetScrollTransform());
-        ui.SetLocation(6, offset, 4, 1);
-        ui.SetText(rotateKey);
-        ui.SetButton(delegate { Rotate(); });
-        new UIElementBorder(ui);
-        offset += 2;
-
-        StringKey mast = new StringKey("val","MONSTER_MINION");
-        if (M_PLACE_QUEST_COMPONENT_QUEST_COMPONENT_COMPONENT.master)
+        override protected void RefreshReference()
         {
-            mast = new StringKey("val","MONSTER_MASTER");
+            base.RefreshReference();
+            M_PLACE_QUEST_COMPONENT_QUEST_COMPONENT_COMPONENT = component as MPlaceQuestComponent;
         }
-        ui = new UIElement(Game.EDITOR, scrollArea.GetScrollTransform());
-        ui.SetLocation(0.5f, offset, 8, 1);
-        ui.SetText(mast);
-        ui.SetButton(delegate { MasterToggle(); });
-        new UIElementBorder(ui);
-        offset += 2;
 
-        game.tokenBoard.AddHighlight(M_PLACE_QUEST_COMPONENT_QUEST_COMPONENT_COMPONENT.location, "MonsterLoc", Game.EDITOR);
+        override public float AddSubComponents(float offset)
+        {
+            CameraController.SetCamera(M_PLACE_QUEST_COMPONENT_QUEST_COMPONENT_COMPONENT.location);
+            Game game = Game.Get();
 
-        return offset;
-    }
+            UIElement ui = new UIElement(Game.EDITOR, scrollArea.GetScrollTransform());
+            ui.SetLocation(0, offset, 4, 1);
+            ui.SetText(new StringKey("val", "X_COLON", CommonStringKeys.POSITION));
 
-    public void Rotate()
-    {
-        M_PLACE_QUEST_COMPONENT_QUEST_COMPONENT_COMPONENT.rotate = !M_PLACE_QUEST_COMPONENT_QUEST_COMPONENT_COMPONENT.rotate;
-        Update();
-    }
+            ui = new UIElement(Game.EDITOR, scrollArea.GetScrollTransform());
+            ui.SetLocation(4, offset, 4, 1);
+            ui.SetText(CommonStringKeys.POSITION_SNAP);
+            ui.SetButton(delegate { GetPosition(); });
+            new UIElementBorder(ui);
+            offset += 2;
 
-    public void MasterToggle()
-    {
-        M_PLACE_QUEST_COMPONENT_QUEST_COMPONENT_COMPONENT.master = !M_PLACE_QUEST_COMPONENT_QUEST_COMPONENT_COMPONENT.master;
-        Update();
+            ui = new UIElement(Game.EDITOR, scrollArea.GetScrollTransform());
+            ui.SetLocation(0, offset, 6, 1);
+            ui.SetText(new StringKey("val", "X_COLON", new StringKey("val", "ROTATION")));
+
+            StringKey rotateKey = new StringKey("val", "RIGHT");
+            if (M_PLACE_QUEST_COMPONENT_QUEST_COMPONENT_COMPONENT.rotate)
+            {
+                rotateKey = new StringKey("val", "DOWN");
+            }
+
+            ui = new UIElement(Game.EDITOR, scrollArea.GetScrollTransform());
+            ui.SetLocation(6, offset, 4, 1);
+            ui.SetText(rotateKey);
+            ui.SetButton(delegate { Rotate(); });
+            new UIElementBorder(ui);
+            offset += 2;
+
+            StringKey mast = new StringKey("val", "MONSTER_MINION");
+            if (M_PLACE_QUEST_COMPONENT_QUEST_COMPONENT_COMPONENT.master)
+            {
+                mast = new StringKey("val", "MONSTER_MASTER");
+            }
+
+            ui = new UIElement(Game.EDITOR, scrollArea.GetScrollTransform());
+            ui.SetLocation(0.5f, offset, 8, 1);
+            ui.SetText(mast);
+            ui.SetButton(delegate { MasterToggle(); });
+            new UIElementBorder(ui);
+            offset += 2;
+
+            game.tokenBoard.AddHighlight(M_PLACE_QUEST_COMPONENT_QUEST_COMPONENT_COMPONENT.location, "MonsterLoc",
+                Game.EDITOR);
+
+            return offset;
+        }
+
+        public void Rotate()
+        {
+            M_PLACE_QUEST_COMPONENT_QUEST_COMPONENT_COMPONENT.rotate =
+                !M_PLACE_QUEST_COMPONENT_QUEST_COMPONENT_COMPONENT.rotate;
+            Update();
+        }
+
+        public void MasterToggle()
+        {
+            M_PLACE_QUEST_COMPONENT_QUEST_COMPONENT_COMPONENT.master =
+                !M_PLACE_QUEST_COMPONENT_QUEST_COMPONENT_COMPONENT.master;
+            Update();
+        }
     }
 }

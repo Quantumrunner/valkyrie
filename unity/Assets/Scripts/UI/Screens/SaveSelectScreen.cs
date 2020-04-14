@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace Assets.Scripts.UI.Screens
 {
-    class SaveSelectScreen
+    public class SaveSelectScreen
     {
         public bool save;
         List<SaveData> saves;

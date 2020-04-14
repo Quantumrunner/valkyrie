@@ -120,7 +120,7 @@ namespace Assets.Scripts.Quest
             game.audioControl.StopMusic();
 
             ValkyrieDebug.Log("Starting Editor" + System.Environment.NewLine);
-            QuestEditor.Begin(path);
+            QuestEditor.QuestEditor.Begin(path);
         }
     }
 }

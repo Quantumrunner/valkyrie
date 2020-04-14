@@ -8,6 +8,7 @@ using Ionic.Zip;
 using System.IO;
 using Assets.Scripts.GameTypes;
 using Assets.Scripts.Quest;
+using Assets.Scripts.QuestEditor;
 
 namespace Assets.Scripts
 {
@@ -100,7 +101,7 @@ namespace Assets.Scripts
         public bool testMode = false;
 
         // Stats manager for Quest rating
-        public StatsManager stats;
+        public StatsManager.StatsManager stats;
 
         // Quests manager
         public QuestsManager questsList;
@@ -169,7 +170,7 @@ namespace Assets.Scripts
             GameObject go = new GameObject("audio");
             audioControl = go.AddComponent<Audio>();
             updateList = new List<IUpdateListener>();
-            stats = new StatsManager();
+            stats = new StatsManager.StatsManager();
             stats.DownloadStats();
 
             if (config.data.Get("UserConfig") == null)

@@ -5,7 +5,7 @@ using Assets.Scripts.Quest;
 
 namespace Assets.Scripts.UI.Screens
 {
-    class ClassSelectionScreen
+    public class ClassSelectionScreen
     {
         protected List<float> scrollOffset = new List<float>();
         protected List<UIElementScrollVertical> scrollArea = new List<UIElementScrollVertical>();
