@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using Assets.Scripts.Content;
 using System.IO;
 using System.Collections;
+using Assets.Scripts.GameTypes;
+using Assets.Scripts.HttpManagement;
 using ValkyrieTools;
 
 namespace Assets.Scripts.UI.Screens

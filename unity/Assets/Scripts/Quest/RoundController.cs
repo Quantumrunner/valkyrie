@@ -3,7 +3,8 @@ using System.Collections.Generic;
 using ValkyrieTools;
 using Assets.Scripts.Content;
 using Assets.Scripts.Content.QuestComponent;
-using Assets.Scripts.Quest;
+using Assets.Scripts.GameTypes;
+using Assets.Scripts.Save;
 
 namespace Assets.Scripts.Quest
 {

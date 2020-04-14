@@ -1,5 +1,6 @@
 ﻿using Assets.Scripts.Content;
 using System.Collections.Generic;
+using Assets.Scripts.Save;
 using UnityEngine;
 
 namespace Assets.Scripts.UI.Screens
@@ -7,7 +8,7 @@ namespace Assets.Scripts.UI.Screens
     class SaveSelectScreen
     {
         public bool save;
-        List<SaveManager.SaveData> saves;
+        List<SaveData> saves;
         Game game = Game.Get();
         private readonly StringKey SELECT_SAVE = new StringKey("val", "SELECT_SAVE");
         private readonly StringKey SAVE = new StringKey("val", "SAVE");

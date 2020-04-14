@@ -5,6 +5,7 @@ using Assets.Scripts.Content;
 using Assets.Scripts.Content.QuestComponent;
 using Assets.Scripts.Quest.BoardComponents;
 using Assets.Scripts.Quest.Events;
+using Assets.Scripts.Save;
 using UnityEngine;
 using ValkyrieTools;
 

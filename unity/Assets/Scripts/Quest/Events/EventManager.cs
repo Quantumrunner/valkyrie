@@ -2,6 +2,7 @@
 using System.IO;
 using Assets.Scripts.Content;
 using Assets.Scripts.Content.QuestComponent;
+using Assets.Scripts.GameTypes;
 using Assets.Scripts.UI.Screens;
 using UnityEngine;
 using ValkyrieTools;

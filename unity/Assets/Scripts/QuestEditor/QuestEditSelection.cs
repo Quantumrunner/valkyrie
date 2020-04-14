@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 using System.IO;
+using Assets.Scripts;
 using Assets.Scripts.Content;
 using Assets.Scripts.UI;
 using ValkyrieTools;

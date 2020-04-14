@@ -3,7 +3,6 @@ using Assets.Scripts.UI;
 using UnityEngine;
 using System.Collections.Generic;
 using Assets.Scripts.Content.QuestComponent;
-using Assets.Scripts.Quest;
 using Assets.Scripts.Quest.BoardComponents;
 using Assets.Scripts.Quest.Events;
 

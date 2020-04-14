@@ -4,8 +4,10 @@ using System.Collections.Generic;
 using ValkyrieTools;
 using System.IO;
 using System.Text;
+using Assets.Scripts;
 using Assets.Scripts.Content.QuestComponent;
 using Assets.Scripts.Quest;
+using Assets.Scripts.UI;
 
 // Quest editor static helper class
 public class QuestEditor {

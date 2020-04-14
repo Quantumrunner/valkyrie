@@ -2,9 +2,10 @@
 using System.Collections.Generic;
 using Assets.Scripts.Content;
 using Assets.Scripts.Content.QuestComponent;
-using Assets.Scripts.Quest;
+using Assets.Scripts.GameTypes;
 using Assets.Scripts.Quest.BoardComponents;
 using Assets.Scripts.Quest.Events;
+using Assets.Scripts.UI;
 using ValkyrieTools;
 
 namespace Assets.Scripts.Quest

@@ -1,6 +1,5 @@
 ﻿using UnityEngine;
 using Assets.Scripts.Content;
-using Assets.Scripts.Quest;
 using Assets.Scripts.Quest.Events;
 using Assets.Scripts.UI;
 using ValkyrieTools;

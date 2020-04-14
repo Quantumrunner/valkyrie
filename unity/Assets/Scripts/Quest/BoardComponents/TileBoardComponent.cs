@@ -1,11 +1,8 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Assets.Scripts.Content;
+﻿using Assets.Scripts.Content;
 using Assets.Scripts.Content.QuestComponent;
+using Assets.Scripts.GameTypes;
 using UnityEngine;
 using ValkyrieTools;
-using Object = System.Object;
 
 namespace Assets.Scripts.Quest.BoardComponents
 {

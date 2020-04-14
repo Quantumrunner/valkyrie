@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Assets.Scripts.Content;
 using Assets.Scripts.UI;
 using System.IO;
+using Assets.Scripts;
 
 public class EditorComponentQuest : EditorComponent
 {

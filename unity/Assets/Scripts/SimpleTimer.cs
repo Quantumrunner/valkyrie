@@ -1,26 +1,29 @@
 ﻿using UnityEngine;
 using System;
 
-public class SimpleTimer : MonoBehaviour
+namespace Assets.Scripts
 {
-    public float targetTime = 0.0f;
-    private Action triggerEnd;
 
-    public void Init(float time, Action f)
+    public class SimpleTimer : MonoBehaviour
     {
-        targetTime = time;
-        triggerEnd = f;
-    }
+        public float targetTime = 0.0f;
+        private Action triggerEnd;
 
-    void Update()
-    {
-        targetTime -= Time.deltaTime;
-
-        if (targetTime <= 0.0f)
+        public void Init(float time, Action f)
         {
-            if (triggerEnd != null)
-                triggerEnd();
+            targetTime = time;
+            triggerEnd = f;
+        }
+
+        void Update()
+        {
+            targetTime -= Time.deltaTime;
+
+            if (targetTime <= 0.0f)
+            {
+                if (triggerEnd != null)
+                    triggerEnd();
+            }
         }
     }
 }
-

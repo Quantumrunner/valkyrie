@@ -1,6 +1,5 @@
 ﻿using UnityEngine;
 using Assets.Scripts.Content;
-using Assets.Scripts.Quest;
 using Assets.Scripts.UI;
 
 namespace Assets.Scripts.Quest

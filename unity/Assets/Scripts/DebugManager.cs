@@ -1,30 +1,35 @@
 ﻿using UnityEngine;
 using Fabric.Crashlytics;
 
-public class DebugManager : MonoBehaviour
+namespace Assets.Scripts
 {
-    static public void Enable()
-    {
-        Application.logMessageReceivedThreaded += HandleLog;
-    }
 
-    static public void Disable()
+    public class DebugManager : MonoBehaviour
     {
-        Application.logMessageReceivedThreaded -= HandleLog;
-    }
-
-    static void HandleLog(string logString, string stackTrace, LogType type)
-    {
-
-        // only capture log from main thread, otherwise crashes
-        if (Application.platform == RuntimePlatform.Android && Game.Get().mainThread.Equals(System.Threading.Thread.CurrentThread))
+        static public void Enable()
         {
-            Crashlytics.Log(logString);
+            Application.logMessageReceivedThreaded += HandleLog;
         }
-    }
 
-    static public void Crash()
-    {
-        Crashlytics.Crash();
+        static public void Disable()
+        {
+            Application.logMessageReceivedThreaded -= HandleLog;
+        }
+
+        static void HandleLog(string logString, string stackTrace, LogType type)
+        {
+
+            // only capture log from main thread, otherwise crashes
+            if (Application.platform == RuntimePlatform.Android &&
+                Game.Get().mainThread.Equals(System.Threading.Thread.CurrentThread))
+            {
+                Crashlytics.Log(logString);
+            }
+        }
+
+        static public void Crash()
+        {
+            Crashlytics.Crash();
+        }
     }
 }

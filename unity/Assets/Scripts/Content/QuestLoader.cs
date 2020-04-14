@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 using System.IO;
+using Assets.Scripts.GameTypes;
 using ValkyrieTools;
 
 namespace Assets.Scripts.Content

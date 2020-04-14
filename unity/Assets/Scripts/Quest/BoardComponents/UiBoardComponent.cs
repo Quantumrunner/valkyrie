@@ -1,13 +1,9 @@
-﻿using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
+﻿using System.IO;
 using Assets.Scripts.Content;
 using Assets.Scripts.Content.QuestComponent;
 using Assets.Scripts.Quest.Events;
 using Assets.Scripts.UI;
 using UnityEngine;
-using Object = System.Object;
 
 namespace Assets.Scripts.Quest.BoardComponents
 {

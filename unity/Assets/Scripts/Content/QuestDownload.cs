@@ -2,7 +2,6 @@
 using System.Collections;
 using System.IO;
 using Assets.Scripts.UI.Screens;
-using Assets.Scripts.Content;
 using ValkyrieTools;
 
 namespace Assets.Scripts.Content

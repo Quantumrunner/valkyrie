@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Assets.Scripts.Content;
+﻿using Assets.Scripts.Content;
+using Assets.Scripts.GameTypes;
 using Assets.Scripts.Quest.Events;
 
 namespace Assets.Scripts.Quest

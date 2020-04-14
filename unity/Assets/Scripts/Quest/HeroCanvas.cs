@@ -1,7 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 using Assets.Scripts.Content;
-using Assets.Scripts.Quest;
+using Assets.Scripts.GameTypes;
+using Assets.Scripts.UI;
 using Assets.Scripts.UI.Screens;
 
 namespace Assets.Scripts.Quest

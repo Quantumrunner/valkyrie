@@ -4,160 +4,168 @@ using System.Collections.Generic;
 using Assets.Scripts.Content;
 using ValkyrieTools;
 
-public class Audio : MonoBehaviour
+namespace Assets.Scripts
 {
-    public AudioSource audioSource;
-    public AudioSource audioSourceEffect;
-    public GameObject effectsObject;
-    public AudioClip eventClip;
-    public List<AudioClip> music;
-    public bool fadeOut = false;
-    public bool fetchingMusic = false;
-    public int musicIndex = 0;
-    public float effectVolume;
-    public float musicVolume;
-    public List<AudioClip> defaultQuestMusic;
 
-    void Start()
+    public class Audio : MonoBehaviour
     {
-        Game game = Game.Get();
-        audioSource = gameObject.AddComponent<AudioSource>();
-        string vSet = game.config.data.Get("UserConfig", "music");
-        float.TryParse(vSet, out musicVolume);
-        if (vSet.Length == 0) musicVolume = 1;
-        audioSource.volume = musicVolume;
+        public AudioSource audioSource;
+        public AudioSource audioSourceEffect;
+        public GameObject effectsObject;
+        public AudioClip eventClip;
+        public List<AudioClip> music;
+        public bool fadeOut = false;
+        public bool fetchingMusic = false;
+        public int musicIndex = 0;
+        public float effectVolume;
+        public float musicVolume;
+        public List<AudioClip> defaultQuestMusic;
 
-        gameObject.transform.SetParent(game.cc.gameObject.transform);
-        music = new List<AudioClip>();
-        defaultQuestMusic = null;
-
-        effectsObject = new GameObject("audioeffects");
-        effectsObject.transform.SetParent(game.cc.gameObject.transform);
-        audioSourceEffect = effectsObject.AddComponent<AudioSource>();
-        vSet = game.config.data.Get("UserConfig", "effects");
-        float.TryParse(vSet, out effectVolume);
-        if (vSet.Length == 0) effectVolume = 1;
-    }
-
-    private void FixedUpdate()
-    {
-        if (fadeOut)
+        public void Start()
         {
-            audioSource.volume -= 0.01f;
-            if (audioSource.volume <= 0)
-            {
-                audioSource.volume = 0;
-                fadeOut = false;
-                audioSource.Stop();
-            }
-        }
-        if (!audioSource.isPlaying)
-        {
+            Game game = Game.Get();
+            audioSource = gameObject.AddComponent<AudioSource>();
+            string vSet = game.config.data.Get("UserConfig", "music");
+            float.TryParse(vSet, out musicVolume);
+            if (vSet.Length == 0) musicVolume = 1;
             audioSource.volume = musicVolume;
-            UpdateMusic();
+
+            gameObject.transform.SetParent(game.cc.gameObject.transform);
+            music = new List<AudioClip>();
+            defaultQuestMusic = null;
+
+            effectsObject = new GameObject("audioeffects");
+            effectsObject.transform.SetParent(game.cc.gameObject.transform);
+            audioSourceEffect = effectsObject.AddComponent<AudioSource>();
+            vSet = game.config.data.Get("UserConfig", "effects");
+            float.TryParse(vSet, out effectVolume);
+            if (vSet.Length == 0) effectVolume = 1;
         }
-    }
 
-    public void StopMusic()
-    {
-        StartCoroutine(PlayMusic(new List<string>(), false));
-    }
-    
-    public void PlayDefaultQuestMusic(List<string> fileNames)
-    {
-        StartCoroutine(PlayMusic(fileNames, true));
-    }
-
-    public void PlayMusic(List<string> fileNames)
-    {
-        StartCoroutine(PlayMusic(fileNames, false));
-    }
-
-    public void PlayTrait(string trait)
-    {
-        List<string> files = new List<string>();
-        foreach (AudioData ad in Game.Get().cd.audio.Values)
+        private void FixedUpdate()
         {
-            if (ad.ContainsTrait(trait))
+            if (fadeOut)
             {
-                files.Add(ad.file);
+                audioSource.volume -= 0.01f;
+                if (audioSource.volume <= 0)
+                {
+                    audioSource.volume = 0;
+                    fadeOut = false;
+                    audioSource.Stop();
+                }
+            }
+
+            if (!audioSource.isPlaying)
+            {
+                audioSource.volume = musicVolume;
+                UpdateMusic();
             }
         }
-        if (files.Count > 0) StartCoroutine(PlayEffect(files[Random.Range(0, files.Count)]));
-    }
 
-    public void Play(string file)
-    {
-        if (file.Length > 0) StartCoroutine(PlayEffect(file));
-    }
-
-    public void PlayTest()
-    {
-        AudioClip test = (AudioClip)Resources.Load("test");
-        audioSourceEffect.PlayOneShot(test, effectVolume);
-    }
-
-    private IEnumerator PlayMusic(List<string> fileNames, bool isDefaultQuestMusic)
-    {
-        while (fetchingMusic)
+        public void StopMusic()
         {
-            yield return null;
+            StartCoroutine(PlayMusic(new List<string>(), false));
         }
-        fetchingMusic = true;
-        List<AudioClip> newMusic = new List<AudioClip>();
-        foreach (string s in fileNames)
+
+        public void PlayDefaultQuestMusic(List<string> fileNames)
         {
-            string fileName = s;
+            StartCoroutine(PlayMusic(fileNames, true));
+        }
+
+        public void PlayMusic(List<string> fileNames)
+        {
+            StartCoroutine(PlayMusic(fileNames, false));
+        }
+
+        public void PlayTrait(string trait)
+        {
+            List<string> files = new List<string>();
+            foreach (AudioData ad in Game.Get().cd.audio.Values)
+            {
+                if (ad.ContainsTrait(trait))
+                {
+                    files.Add(ad.file);
+                }
+            }
+
+            if (files.Count > 0) StartCoroutine(PlayEffect(files[Random.Range(0, files.Count)]));
+        }
+
+        public void Play(string file)
+        {
+            if (file.Length > 0) StartCoroutine(PlayEffect(file));
+        }
+
+        public void PlayTest()
+        {
+            AudioClip test = (AudioClip) Resources.Load("test");
+            audioSourceEffect.PlayOneShot(test, effectVolume);
+        }
+
+        private IEnumerator PlayMusic(List<string> fileNames, bool isDefaultQuestMusic)
+        {
+            while (fetchingMusic)
+            {
+                yield return null;
+            }
+
+            fetchingMusic = true;
+            List<AudioClip> newMusic = new List<AudioClip>();
+            foreach (string s in fileNames)
+            {
+                string fileName = s;
+                var file = new WWW(new System.Uri(fileName).AbsoluteUri);
+                yield return file;
+                newMusic.Add(file.GetAudioClip());
+            }
+
+            music = newMusic;
+            if (isDefaultQuestMusic)
+            {
+                defaultQuestMusic = music;
+            }
+
+            musicIndex = 0;
+            fetchingMusic = false;
+            if (audioSource.isPlaying) fadeOut = true;
+        }
+
+        public IEnumerator PlayEffect(string fileName)
+        {
             var file = new WWW(new System.Uri(fileName).AbsoluteUri);
             yield return file;
-            newMusic.Add(file.GetAudioClip());
+            if (file.error != null)
+            {
+                ValkyrieDebug.Log("Warning: Unable to load audio: " + fileName + " Error: " + file.error);
+            }
+            else
+            {
+                audioSourceEffect.PlayOneShot(file.GetAudioClip(), effectVolume);
+            }
         }
-        music = newMusic;
-        if (isDefaultQuestMusic)
+
+        public void UpdateMusic()
         {
-            defaultQuestMusic = music;
+            if (music.Count == 0)
+                return;
+
+            // if previous music has ended, play or restart default Quest music
+            if (musicIndex >= music.Count)
+            {
+                music = defaultQuestMusic;
+                musicIndex = 0;
+            }
+
+            audioSource.clip = music[musicIndex];
+            audioSource.Play();
+            // Set next music
+            musicIndex++;
         }
 
-        musicIndex = 0;
-        fetchingMusic = false;
-        if (audioSource.isPlaying) fadeOut = true;
-    }
-
-    public IEnumerator PlayEffect(string fileName)
-    {
-        var file = new WWW(new System.Uri(fileName).AbsoluteUri);
-        yield return file;
-        if (file.error != null)
+        public void StopAudioEffect()
         {
-            ValkyrieDebug.Log("Warning: Unable to load audio: " + fileName + " Error: " + file.error);
+            if (audioSourceEffect != null)
+                audioSourceEffect.Stop();
         }
-        else
-        {
-            audioSourceEffect.PlayOneShot(file.GetAudioClip(), effectVolume);
-        }
-    }
-
-    public void UpdateMusic()
-    {
-        if (music.Count == 0)
-            return;
-
-        // if previous music has ended, play or restart default Quest music
-        if (musicIndex >= music.Count)
-        {
-            music = defaultQuestMusic;
-            musicIndex = 0;
-        }
-
-        audioSource.clip = music[musicIndex];
-        audioSource.Play();
-        // Set next music
-        musicIndex++;
-    }
-
-    public void StopAudioEffect()
-    {
-        if(audioSourceEffect!=null)
-            audioSourceEffect.Stop();
     }
 }

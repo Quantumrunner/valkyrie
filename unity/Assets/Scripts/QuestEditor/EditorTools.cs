@@ -6,6 +6,7 @@ using System.IO;
 using Ionic.Zip;
 using ValkyrieTools;
 using System.Collections.Generic;
+using Assets.Scripts;
 
 public class EditorTools
 {
