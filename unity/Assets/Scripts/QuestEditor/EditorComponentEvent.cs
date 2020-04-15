@@ -2,8 +2,7 @@
 using System.IO;
 using System.Collections.Generic;
 using Assets.Scripts.Content;
-using Assets.Scripts.Content.ContentData;
-using Assets.Scripts.Content.QuestComponents;
+using Assets.Scripts.Content.QuestComponent;
 using Assets.Scripts.GameTypes;
 using Assets.Scripts.Quest;
 using Assets.Scripts.UI;
@@ -1378,7 +1377,7 @@ namespace Assets.Scripts.QuestEditor
 
                 toAdd = "Puzzle" + i;
                 Game.Get().quest.qd.components.Add(toAdd,
-                    new PuzzleQuestComponent(toAdd));
+                    new Assets.Scripts.Content.QuestComponent.PuzzleQuestComponent(toAdd));
             }
 
             if (replace)

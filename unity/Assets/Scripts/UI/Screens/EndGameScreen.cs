@@ -1,5 +1,4 @@
 ﻿using Assets.Scripts.Content;
-using Assets.Scripts.Content.ContentData;
 using UnityEngine;
 using ValkyrieTools;
 
@@ -49,11 +48,11 @@ namespace Assets.Scripts.UI.Screens
             Texture2D bgTex;
             if (game.gameType.TypeName() == "MoM")
             {
-                bgTex = ContentDataBase.FileToTexture(game.cd.images[IMG_BG_MOM].image);
+                bgTex = ContentData.FileToTexture(game.cd.images[IMG_BG_MOM].image);
             }
             else if (game.gameType.TypeName() == "D2E")
             {
-                bgTex = ContentDataBase.FileToTexture(game.cd.images[IMG_BG_DESCENT].image);
+                bgTex = ContentData.FileToTexture(game.cd.images[IMG_BG_DESCENT].image);
             }
             else
             {

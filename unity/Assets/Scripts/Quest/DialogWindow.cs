@@ -1,10 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 using Assets.Scripts.Content;
-using Assets.Scripts.Content.ContentData;
 using Assets.Scripts.Quest.Events;
-using Assets.Scripts.Quest.Heroes;
-using Assets.Scripts.Quest.Logs;
 using Assets.Scripts.UI;
 using ValkyrieTools;
 
@@ -227,7 +224,7 @@ namespace Assets.Scripts.Quest
 
             if (!game.quest.itemSelect.ContainsKey(item)) return;
 
-            Texture2D tex = ContentDataBase.FileToTexture(game.cd.items[game.quest.itemSelect[item]].image);
+            Texture2D tex = ContentData.FileToTexture(game.cd.items[game.quest.itemSelect[item]].image);
             Sprite sprite = Sprite.Create(tex, new Rect(0, 0, tex.width, tex.height), Vector2.zero, 1, 0,
                 SpriteMeshType.FullRect);
 

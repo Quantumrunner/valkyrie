@@ -1,7 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 using Assets.Scripts.Content;
-using Assets.Scripts.Content.ContentData;
 
 namespace Assets.Scripts.UI.Screens
 {
@@ -52,7 +51,7 @@ namespace Assets.Scripts.UI.Screens
             foreach (PackTypeData type in game.cd.packTypes.Values)
             {
                 // Create a sprite with the category image
-                Texture2D tex = ContentDataBase.FileToTexture(type.image);
+                Texture2D tex = ContentData.FileToTexture(type.image);
 
                 string typeId = type.sectionName.Substring("PackType".Length);
 
@@ -147,7 +146,7 @@ namespace Assets.Scripts.UI.Screens
             float offset = 0.5f;
             bool left = true;
             // Note this is currently unordered
-            foreach (ContentPack cp in game.cd.allPacks)
+            foreach (ContentData.ContentPack cp in game.cd.allPacks)
             {
                 // If the id is "" this is base content and can be ignored
                 if (cp.id.Length > 0 && cp.type.Equals(type))
@@ -161,7 +160,7 @@ namespace Assets.Scripts.UI.Screens
                     }
 
                     // Create a sprite with the pack's image
-                    Texture2D tex = ContentDataBase.FileToTexture(cp.image);
+                    Texture2D tex = ContentData.FileToTexture(cp.image);
                     ui = new UIElement(scrollArea.GetScrollTransform());
                     if (left)
                     {
@@ -255,7 +254,7 @@ namespace Assets.Scripts.UI.Screens
         {
             Game game = Game.Get();
             // Clear content data in case something has changed
-            game.cd = new ContentDataBase(game.gameType.DataDirectory());
+            game.cd = new ContentData(game.gameType.DataDirectory());
             // Load the base content - pack will be loaded later if required
             game.cd.LoadContentID("");
 

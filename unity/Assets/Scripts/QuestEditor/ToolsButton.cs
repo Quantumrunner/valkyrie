@@ -1,9 +1,7 @@
 ﻿using System.Collections.Generic;
 using Assets.Scripts.Content;
-using Assets.Scripts.Content.ContentData;
 using Assets.Scripts.GameTypes;
 using Assets.Scripts.Quest;
-using Assets.Scripts.Quest.Investigators;
 using Assets.Scripts.UI;
 using Assets.Scripts.UI.Screens;
 using UnityEngine;
@@ -50,7 +48,7 @@ namespace Assets.Scripts.QuestEditor
             Destroyer.Destroy();
 
             // All content data has been loaded by editor, cleanup everything
-            game.cd = new ContentDataBase(game.gameType.DataDirectory());
+            game.cd = new ContentData(game.gameType.DataDirectory());
             // Load the base content
             game.cd.LoadContentID("");
             // Load current configuration

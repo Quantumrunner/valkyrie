@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.IO;
 using Assets.Scripts.HttpManagement;
 using Assets.Scripts.Quest;
-using Assets.Scripts.Quest.Heroes;
 using UnityEngine;
 
 namespace Assets.Scripts.StatsManager

@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using Assets.Scripts.Content;
 using System.IO;
-using Assets.Scripts.Content.ContentData;
 
 namespace Assets.Scripts.UI
 {
@@ -59,26 +58,26 @@ namespace Assets.Scripts.UI
             {
                 Vector2 texPos = new Vector2(game.cd.tokens[key].x, game.cd.tokens[key].y);
                 Vector2 texSize = new Vector2(game.cd.tokens[key].width, game.cd.tokens[key].height);
-                return ContentDataBase.FileToTexture(game.cd.tokens[key].image, texPos, texSize);
+                return ContentData.FileToTexture(game.cd.tokens[key].image, texPos, texSize);
             }
             else if (game.cd.puzzles.ContainsKey(key))
             {
-                return ContentDataBase.FileToTexture(game.cd.puzzles[key].image);
+                return ContentData.FileToTexture(game.cd.puzzles[key].image);
             }
             else if (game.cd.images.ContainsKey(key))
             {
                 Vector2 texPos = new Vector2(game.cd.images[key].x, game.cd.images[key].y);
                 Vector2 texSize = new Vector2(game.cd.images[key].width, game.cd.images[key].height);
-                return ContentDataBase.FileToTexture(game.cd.images[key].image, texPos, texSize);
+                return ContentData.FileToTexture(game.cd.images[key].image, texPos, texSize);
             }
             else if (game.cd.tileSides.ContainsKey(key))
             {
                 aspect = game.cd.tileSides[key].aspect;
-                return ContentDataBase.FileToTexture(game.cd.tileSides[key].image);
+                return ContentData.FileToTexture(game.cd.tileSides[key].image);
             }
             else if (File.Exists(Path.GetDirectoryName(game.quest.qd.questPath) + Path.DirectorySeparatorChar + key))
             {
-                return ContentDataBase.FileToTexture(Path.GetDirectoryName(game.quest.qd.questPath) + Path.DirectorySeparatorChar + key);
+                return ContentData.FileToTexture(Path.GetDirectoryName(game.quest.qd.questPath) + Path.DirectorySeparatorChar + key);
             }
             return null;
         }

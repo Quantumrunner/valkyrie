@@ -1,4 +1,4 @@
-﻿using Assets.Scripts.Content.QuestComponents;
+﻿using Assets.Scripts.Content.QuestComponent;
 using UnityEngine;
 using ValkyrieTools;
 
@@ -11,10 +11,10 @@ namespace Assets.Scripts.Quest.BoardComponents
     // Note that MoM Explore tokens are tokens and do not use this
     public class DoorBoardComponent : BoardComponent
     {
-        public DoorQuestComponent QDoorQuestComponent;
+        public Assets.Scripts.Content.QuestComponent.DoorQuestComponent QDoorQuestComponent;
 
         // Constuct with Quest data and reference to Game
-        public DoorBoardComponent(DoorQuestComponent questDoorQuestComponent, Game gameObject) : base(gameObject)
+        public DoorBoardComponent(Assets.Scripts.Content.QuestComponent.DoorQuestComponent questDoorQuestComponent, Game gameObject) : base(gameObject)
         {
             QDoorQuestComponent = questDoorQuestComponent;
 

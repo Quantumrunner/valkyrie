@@ -1,4 +1,4 @@
-﻿using Assets.Scripts.Content.QuestComponents;
+﻿using Assets.Scripts.Content.QuestComponent;
 using Assets.Scripts.UI;
 using UnityEngine;
 
@@ -77,7 +77,7 @@ namespace Assets.Scripts.Quest.BoardComponents
             // Check format is valid
             if ((colorRGB.Length != 7) || (colorRGB[0] != '#'))
             {
-                game.quest.log.Add(new global::Assets.Scripts.Quest.Logs.LogEntry("Warning: Color must be in #RRGGBB format or a known name: " + colorName, true));
+                game.quest.log.Add(new global::Assets.Scripts.Quest.LogEntry("Warning: Color must be in #RRGGBB format or a known name: " + colorName, true));
             }
 
             // State with white (used for alpha)

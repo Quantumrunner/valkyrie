@@ -1,7 +1,6 @@
 ﻿using System.IO;
 using Assets.Scripts.Content;
-using Assets.Scripts.Content.ContentData;
-using Assets.Scripts.Content.QuestComponents;
+using Assets.Scripts.Content.QuestComponent;
 using Assets.Scripts.Quest.Events;
 using Assets.Scripts.UI;
 using UnityEngine;
@@ -43,11 +42,11 @@ namespace Assets.Scripts.Quest.BoardComponents
             {
                 Vector2 texPos = new Vector2(game.cd.images[QUiQuestComponent.imageName].x, game.cd.images[QUiQuestComponent.imageName].y);
                 Vector2 texSize = new Vector2(game.cd.images[QUiQuestComponent.imageName].width, game.cd.images[QUiQuestComponent.imageName].height);
-                newTex = ContentDataBase.FileToTexture(game.cd.images[QUiQuestComponent.imageName].image, texPos, texSize);
+                newTex = ContentData.FileToTexture(game.cd.images[QUiQuestComponent.imageName].image, texPos, texSize);
             }
             else if (QUiQuestComponent.imageName.Length > 0)
             {
-                newTex = ContentDataBase.FileToTexture(Quest.FindLocalisedMultimediaFile(QUiQuestComponent.imageName, Path.GetDirectoryName(game.quest.qd.questPath)));
+                newTex = ContentData.FileToTexture(Quest.FindLocalisedMultimediaFile(QUiQuestComponent.imageName, Path.GetDirectoryName(game.quest.qd.questPath)));
             }
 
             // Create object

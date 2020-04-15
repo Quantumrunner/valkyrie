@@ -6,15 +6,8 @@ using Assets.Scripts.UI;
 using ValkyrieTools;
 using Ionic.Zip;
 using System.IO;
-using Assets.Scripts.Content.ContentData;
 using Assets.Scripts.GameTypes;
 using Assets.Scripts.Quest;
-using Assets.Scripts.Quest.Heroes;
-using Assets.Scripts.Quest.Inventory;
-using Assets.Scripts.Quest.Logs;
-using Assets.Scripts.Quest.Monsters;
-using Assets.Scripts.Quest.Skills;
-using Assets.Scripts.Quest.Tokens;
 using Assets.Scripts.QuestEditor;
 
 namespace Assets.Scripts
@@ -48,7 +41,7 @@ namespace Assets.Scripts
 
         // These components are referenced here for easy of use
         // Data included in content packs
-        public ContentDataBase cd;
+        public ContentData cd;
 
         // Data for the current Quest
         public Quest.Quest quest;
@@ -206,7 +199,7 @@ namespace Assets.Scripts
             // On android extract streaming assets for use
             if (Application.platform == RuntimePlatform.Android)
             {
-                System.IO.Directory.CreateDirectory(ContentDataBase.ContentPath());
+                System.IO.Directory.CreateDirectory(ContentData.ContentPath());
                 using (ZipFile jar = ZipFile.Read(Application.dataPath))
                 {
                     foreach (ZipEntry e in jar)
@@ -214,13 +207,13 @@ namespace Assets.Scripts
                         if (!e.FileName.StartsWith("assets")) continue;
                         if (e.FileName.StartsWith("assets/bin")) continue;
 
-                        e.Extract(ContentDataBase.ContentPath() + "../..", ExtractExistingFileAction.OverwriteSilently);
+                        e.Extract(ContentData.ContentPath() + "../..", ExtractExistingFileAction.OverwriteSilently);
                     }
                 }
             }
 
             DictionaryI18n valDict = new DictionaryI18n();
-            foreach (string file in System.IO.Directory.GetFiles(ContentDataBase.ContentPath() + "../text",
+            foreach (string file in System.IO.Directory.GetFiles(ContentData.ContentPath() + "../text",
                 "Localization*.txt"))
             {
                 valDict.AddDataFromFile(file);
@@ -287,7 +280,7 @@ namespace Assets.Scripts
             if (Path.GetExtension(Path.GetFileName(q.path)) == ".valkyrie")
             {
                 // extract the full package
-                QuestLoader.ExtractSinglePackageFull(ContentDataBase.DownloadPath() + Path.DirectorySeparatorChar +
+                QuestLoader.ExtractSinglePackageFull(ContentData.DownloadPath() + Path.DirectorySeparatorChar +
                                                      Path.GetFileName(q.path));
             }
 

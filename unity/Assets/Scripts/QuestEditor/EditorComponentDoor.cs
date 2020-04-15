@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 using Assets.Scripts.Content;
-using Assets.Scripts.Content.QuestComponents;
+using Assets.Scripts.Content.QuestComponent;
 using Assets.Scripts.UI;
 
 namespace Assets.Scripts.QuestEditor

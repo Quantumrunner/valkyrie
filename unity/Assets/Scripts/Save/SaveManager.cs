@@ -2,10 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using Assets.Scripts.Content;
-using Assets.Scripts.Content.ContentData;
 using Assets.Scripts.Quest;
-using Assets.Scripts.Quest.Inventory;
-using Assets.Scripts.Quest.Skills;
 using Assets.Scripts.UI;
 using UnityEngine;
 using ValkyrieTools;
@@ -23,7 +20,7 @@ namespace Assets.Scripts.Save
         {
             string number = num.ToString();
             if (num == 0) number = "Auto";
-            return Path.Combine(ContentDataBase.GameTypePath, "Save") + Path.DirectorySeparatorChar + "save" + number +
+            return Path.Combine(ContentData.GameTypePath, "Save") + Path.DirectorySeparatorChar + "save" + number +
                    ".vSave";
         }
 
@@ -45,17 +42,17 @@ namespace Assets.Scripts.Save
                     Directory.CreateDirectory(Game.AppData());
                 }
 
-                if (!Directory.Exists(ContentDataBase.GameTypePath))
+                if (!Directory.Exists(ContentData.GameTypePath))
                 {
-                    Directory.CreateDirectory(ContentDataBase.GameTypePath);
+                    Directory.CreateDirectory(ContentData.GameTypePath);
                 }
 
-                if (!Directory.Exists(Path.Combine(ContentDataBase.GameTypePath, "Save")))
+                if (!Directory.Exists(Path.Combine(ContentData.GameTypePath, "Save")))
                 {
-                    Directory.CreateDirectory(Path.Combine(ContentDataBase.GameTypePath, "Save"));
+                    Directory.CreateDirectory(Path.Combine(ContentData.GameTypePath, "Save"));
                 }
 
-                string tempValkyriePath = ContentDataBase.TempValyriePath;
+                string tempValkyriePath = ContentData.TempValyriePath;
                 if (!Directory.Exists(tempValkyriePath))
                 {
                     Directory.CreateDirectory(tempValkyriePath);
@@ -125,7 +122,7 @@ namespace Assets.Scripts.Save
                 string quest_content_path;
                 if (game.quest.fromSavegame)
                 {
-                    quest_content_path = ContentDataBase.ValkyrieLoadQuestPath;
+                    quest_content_path = ContentData.ValkyrieLoadQuestPath;
                 }
                 else
                 {
@@ -169,12 +166,12 @@ namespace Assets.Scripts.Save
             {
                 if (File.Exists(SaveFile(num)))
                 {
-                    if (!Directory.Exists(ContentDataBase.TempValyriePath))
+                    if (!Directory.Exists(ContentData.TempValyriePath))
                     {
-                        Directory.CreateDirectory(ContentDataBase.TempValyriePath);
+                        Directory.CreateDirectory(ContentData.TempValyriePath);
                     }
 
-                    string valkyrieLoadPath = Path.Combine(ContentDataBase.TempValyriePath, "Load");
+                    string valkyrieLoadPath = Path.Combine(ContentData.TempValyriePath, "Load");
 
                     if (!Directory.Exists(valkyrieLoadPath))
                     {
@@ -196,7 +193,7 @@ namespace Assets.Scripts.Save
                     // loading a Quest saved for the first time
                     if (questLoadPath.Contains(questOriginalPath))
                     {
-                        questLoadPath = questLoadPath.Replace(questOriginalPath, ContentDataBase.ValkyrieLoadQuestPath);
+                        questLoadPath = questLoadPath.Replace(questOriginalPath, ContentData.ValkyrieLoadQuestPath);
                     }
 
                     // Check that Quest in save is valid

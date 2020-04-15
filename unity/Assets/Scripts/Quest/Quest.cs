@@ -2,14 +2,9 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using Assets.Scripts.Content;
-using Assets.Scripts.Content.ContentData;
-using Assets.Scripts.Content.QuestComponents;
+using Assets.Scripts.Content.QuestComponent;
 using Assets.Scripts.Quest.BoardComponents;
 using Assets.Scripts.Quest.Events;
-using Assets.Scripts.Quest.Heroes;
-using Assets.Scripts.Quest.Logs;
-using Assets.Scripts.Quest.Monsters;
-using Assets.Scripts.Quest.Puzzles;
 using Assets.Scripts.Save;
 using UnityEngine;
 using ValkyrieTools;
@@ -637,7 +632,7 @@ namespace Assets.Scripts.Quest
             string questToTransition = game.quest.originalPath + Path.DirectorySeparatorChar + path;
             if (game.quest.fromSavegame)
             {
-                questToTransition = ContentDataBase.ValkyrieLoadQuestPath + Path.DirectorySeparatorChar + path;
+                questToTransition = ContentData.ValkyrieLoadQuestPath + Path.DirectorySeparatorChar + path;
             }
 
             qd = new QuestData(questToTransition);
@@ -885,17 +880,17 @@ namespace Assets.Scripts.Quest
                 }
                 if (boardItem.IndexOf("Door") == 0)
                 {
-                    boardItems.Add(boardItem, new DoorBoardComponent(qd.components[boardItem] as DoorQuestComponent, game));
+                    boardItems.Add(boardItem, new DoorBoardComponent(qd.components[boardItem] as Assets.Scripts.Content.QuestComponent.DoorQuestComponent, game));
                     ordered_boardItems.Add(boardItem);
                 }
                 if (boardItem.IndexOf("Token") == 0)
                 {
-                    boardItems.Add(boardItem, new TokenBoardComponent(qd.components[boardItem] as TokenQuestComponent, game));
+                    boardItems.Add(boardItem, new TokenBoardComponent(qd.components[boardItem] as Assets.Scripts.Content.QuestComponent.TokenQuestComponent, game));
                     ordered_boardItems.Add(boardItem);
                 }
                 if (boardItem.IndexOf("Tile") == 0)
                 {
-                    boardItems.Add(boardItem, new TileBoardComponent(qd.components[boardItem] as TileQuestComponent, game));
+                    boardItems.Add(boardItem, new TileBoardComponent(qd.components[boardItem] as Assets.Scripts.Content.QuestComponent.TileQuestComponent, game));
                     ordered_boardItems.Add(boardItem);
                 }
                 if (boardItem.IndexOf("Ui") == 0)
@@ -1095,19 +1090,19 @@ namespace Assets.Scripts.Quest
             if (boardItems.ContainsKey(name)) return;
 
             // Add to board
-            if (qc is TileQuestComponent)
+            if (qc is Assets.Scripts.Content.QuestComponent.TileQuestComponent)
             {
-                boardItems.Add(name, new TileBoardComponent((TileQuestComponent)qc, game));
+                boardItems.Add(name, new TileBoardComponent((Assets.Scripts.Content.QuestComponent.TileQuestComponent)qc, game));
                 ordered_boardItems.Add(name);
             }
-            if (qc is DoorQuestComponent)
+            if (qc is Assets.Scripts.Content.QuestComponent.DoorQuestComponent)
             {
-                boardItems.Add(name, new DoorBoardComponent((DoorQuestComponent)qc, game));
+                boardItems.Add(name, new DoorBoardComponent((Assets.Scripts.Content.QuestComponent.DoorQuestComponent)qc, game));
                 ordered_boardItems.Add(name);
             }
-            if (qc is TokenQuestComponent)
+            if (qc is Assets.Scripts.Content.QuestComponent.TokenQuestComponent)
             {
-                boardItems.Add(name, new TokenBoardComponent((TokenQuestComponent)qc, game));
+                boardItems.Add(name, new TokenBoardComponent((Assets.Scripts.Content.QuestComponent.TokenQuestComponent)qc, game));
                 ordered_boardItems.Add(name);
             }
             if (qc is UiQuestComponent)

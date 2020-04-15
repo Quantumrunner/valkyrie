@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using Assets.Scripts.Content;
 using Assets.Scripts.UI;
 using System.IO;
-using Assets.Scripts.Content.ContentData;
 
 namespace Assets.Scripts.QuestEditor
 {
@@ -431,7 +430,7 @@ namespace Assets.Scripts.QuestEditor
             }
 
             UIWindowSelectionList select = new UIWindowSelectionList(SelectQuestAddPack, SELECT_PACK);
-            foreach (ContentPack pack in Game.Get().cd.allPacks)
+            foreach (ContentData.ContentPack pack in Game.Get().cd.allPacks)
             {
                 if (pack.id.Length > 0)
                 {

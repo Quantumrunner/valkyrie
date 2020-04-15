@@ -3,10 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Text.RegularExpressions;
 using Assets.Scripts.Content;
-using Assets.Scripts.Content.ContentData;
-using Assets.Scripts.Content.QuestComponents;
-using Assets.Scripts.Quest.Heroes;
-using Assets.Scripts.Quest.Logs;
+using Assets.Scripts.Content.QuestComponent;
 using ValkyrieTools;
 
 namespace Assets.Scripts.Quest.Events
@@ -15,7 +12,7 @@ namespace Assets.Scripts.Quest.Events
     public class ValkyrieEvent
     {
         public Game game;
-        public EventQuestComponent QEventQuestComponent;
+        public Assets.Scripts.Content.QuestComponent.EventQuestComponent QEventQuestComponent;
         public bool cancelable;
 
         // Create event from Quest data
@@ -24,7 +21,7 @@ namespace Assets.Scripts.Quest.Events
             game = Game.Get();
             if (game.quest.qd.components.ContainsKey(name))
             {
-                QEventQuestComponent = game.quest.qd.components[name] as EventQuestComponent;
+                QEventQuestComponent = game.quest.qd.components[name] as Assets.Scripts.Content.QuestComponent.EventQuestComponent;
             }
         }
 
@@ -199,7 +196,7 @@ namespace Assets.Scripts.Quest.Events
                         string questToTransition = game.quest.originalPath + Path.DirectorySeparatorChar + s;
                         if (game.quest.fromSavegame)
                         {
-                            questToTransition = ContentDataBase.ValkyrieLoadQuestPath + Path.DirectorySeparatorChar + s;
+                            questToTransition = ContentData.ValkyrieLoadQuestPath + Path.DirectorySeparatorChar + s;
                         }
                         if (File.Exists(questToTransition))
                         {

@@ -1,7 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 using Assets.Scripts.Quest;
-using Assets.Scripts.Quest.Logs;
 
 namespace Assets.Scripts.UI
 {

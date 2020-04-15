@@ -1,5 +1,4 @@
-﻿using Assets.Scripts.Quest.Puzzles;
-using Assets.Scripts.UI;
+﻿using Assets.Scripts.UI;
 using UnityEngine;
 
 namespace Assets.Scripts.Quest

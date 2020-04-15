@@ -1,6 +1,5 @@
 ﻿using Assets.Scripts.Content;
 using System.Collections.Generic;
-using Assets.Scripts.Content.ContentData;
 using Assets.Scripts.Save;
 using UnityEngine;
 using ValkyrieTools;

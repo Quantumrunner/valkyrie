@@ -1,8 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 using System.IO;
-using Assets.Scripts.Content.ContentData;
-using Assets.Scripts.Content.QuestComponents;
+using Assets.Scripts.Content.QuestComponent;
 using ValkyrieTools;
 
 namespace Assets.Scripts.Content
@@ -11,7 +10,7 @@ namespace Assets.Scripts.Content
     public class QuestData
     {
         // All components in the Quest
-        public Dictionary<string, QuestComponent> components;
+        public Dictionary<string, QuestComponent.QuestComponent> components;
 
         // Custom activations
         public Dictionary<string, ActivationData> questActivations;
@@ -53,7 +52,7 @@ namespace Assets.Scripts.Content
             ValkyrieDebug.Log("Loading Quest from: \"" + questPath + "\"" + System.Environment.NewLine);
             game = Game.Get();
 
-            components = new Dictionary<string, QuestComponent>();
+            components = new Dictionary<string, QuestComponent.QuestComponent>();
             questActivations = new Dictionary<string, ActivationData>();
 
             // Read the main Quest file
@@ -144,7 +143,7 @@ namespace Assets.Scripts.Content
                 }
 
                 // Update all references to this component
-                foreach (QuestComponent qc in components.Values)
+                foreach (QuestComponent.QuestComponent qc in components.Values)
                 {
                     foreach (KeyValuePair<string, string> kv in rename)
                     {
@@ -222,10 +221,10 @@ namespace Assets.Scripts.Content
                 components.Add(fixedName, c);
             }
 
-            if (name.IndexOf(PuzzleQuestComponent.type) == 0)
+            if (name.IndexOf(Assets.Scripts.Content.QuestComponent.PuzzleQuestComponent.type) == 0)
             {
-                PuzzleQuestComponent c =
-                    new PuzzleQuestComponent(name, content, source);
+                Assets.Scripts.Content.QuestComponent.PuzzleQuestComponent c =
+                    new Assets.Scripts.Content.QuestComponent.PuzzleQuestComponent(name, content, source);
                 components.Add(name, c);
             }
 

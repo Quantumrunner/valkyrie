@@ -48,9 +48,9 @@ namespace Assets.Scripts.Content
                 return;
 
             // Write to disk
-            QuestLoader.mkDir(Assets.Scripts.Content.ContentData.ContentDataBase.DownloadPath());
+            QuestLoader.mkDir(ContentData.DownloadPath());
             using (BinaryWriter writer = new BinaryWriter(File.Open(
-                Assets.Scripts.Content.ContentData.ContentDataBase.DownloadPath() + Path.DirectorySeparatorChar + key + ".valkyrie", FileMode.Create)))
+                ContentData.DownloadPath() + Path.DirectorySeparatorChar + key + ".valkyrie", FileMode.Create)))
             {
                 writer.Write(download.bytes);
                 writer.Close();

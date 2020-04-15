@@ -1,6 +1,5 @@
 ﻿using Assets.Scripts.Content;
-using Assets.Scripts.Content.ContentData;
-using Assets.Scripts.Content.QuestComponents;
+using Assets.Scripts.Content.QuestComponent;
 using ValkyrieTools;
 
 namespace Assets.Scripts.Quest.Events

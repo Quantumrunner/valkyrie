@@ -2,7 +2,6 @@
 using Assets.Scripts.Content;
 using Assets.Scripts.GameTypes;
 using Assets.Scripts.Quest;
-using Assets.Scripts.Quest.Logs;
 
 namespace Assets.Scripts.UI
 {

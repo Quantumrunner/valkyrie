@@ -1,5 +1,4 @@
 ﻿using Assets.Scripts.Content;
-using Assets.Scripts.Quest.Monsters;
 using Assets.Scripts.UI;
 using UnityEngine;
 

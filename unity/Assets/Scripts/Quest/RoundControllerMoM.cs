@@ -1,9 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 using Assets.Scripts.Content;
-using Assets.Scripts.Quest.Heroes;
-using Assets.Scripts.Quest.Logs;
-using Assets.Scripts.Quest.Monsters;
 using Assets.Scripts.Save;
 
 namespace Assets.Scripts.Quest

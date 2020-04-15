@@ -1,5 +1,4 @@
 ﻿using Assets.Scripts.Content;
-using Assets.Scripts.Content.ContentData;
 using Assets.Scripts.Quest;
 using UnityEngine;
 using Assets.Scripts.UI.Screens;
@@ -31,7 +30,7 @@ namespace Assets.Scripts
         public static void Destroy()
         {
             Resources.UnloadUnusedAssets();
-            ContentDataBase.textureCache = null;
+            ContentData.textureCache = null;
             // Clean up everything marked as 'dialog'
             Dialog();
 

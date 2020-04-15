@@ -1,7 +1,5 @@
 ﻿using Assets.Scripts.Content;
-using Assets.Scripts.Content.ContentData;
-using Assets.Scripts.Content.QuestComponents;
-using Assets.Scripts.Quest.Logs;
+using Assets.Scripts.Content.QuestComponent;
 using UnityEngine;
 using ValkyrieTools;
 
@@ -11,10 +9,10 @@ namespace Assets.Scripts.Quest.BoardComponents
     public class TokenBoardComponent : BoardComponent
     {
         // Quest info on the token
-        public TokenQuestComponent QTokenQuestComponent;
+        public Assets.Scripts.Content.QuestComponent.TokenQuestComponent QTokenQuestComponent;
 
         // Construct with Quest info and reference to Game
-        public TokenBoardComponent(TokenQuestComponent questTokenQuestComponent, Game gameObject) : base(gameObject)
+        public TokenBoardComponent(Assets.Scripts.Content.QuestComponent.TokenQuestComponent questTokenQuestComponent, Game gameObject) : base(gameObject)
         {
             QTokenQuestComponent = questTokenQuestComponent;
 
@@ -33,7 +31,7 @@ namespace Assets.Scripts.Quest.BoardComponents
             // Get texture for token
             Vector2 texPos = new Vector2(game.cd.tokens[tokenName].x, game.cd.tokens[tokenName].y);
             Vector2 texSize = new Vector2(game.cd.tokens[tokenName].width, game.cd.tokens[tokenName].height);
-            Texture2D newTex = ContentDataBase.FileToTexture(game.cd.tokens[tokenName].image, texPos, texSize);
+            Texture2D newTex = ContentData.FileToTexture(game.cd.tokens[tokenName].image, texPos, texSize);
             if (newTex == null)
             {
                 ValkyrieDebug.Log("Error: Token " + tokenName + " does not have a valid picture");

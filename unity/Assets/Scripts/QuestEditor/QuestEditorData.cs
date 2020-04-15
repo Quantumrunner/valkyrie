@@ -2,8 +2,7 @@
 using UnityEngine.EventSystems;
 using System.Collections.Generic;
 using Assets.Scripts.Content;
-using Assets.Scripts.Content.ContentData;
-using Assets.Scripts.Content.QuestComponents;
+using Assets.Scripts.Content.QuestComponent;
 using Assets.Scripts.GameTypes;
 using Assets.Scripts.Quest;
 using Assets.Scripts.Quest.BoardComponents;
@@ -268,7 +267,7 @@ namespace Assets.Scripts.QuestEditor
                 return;
             }
 
-            if (game.quest.qd.components[name] is PuzzleQuestComponent)
+            if (game.quest.qd.components[name] is Assets.Scripts.Content.QuestComponent.PuzzleQuestComponent)
             {
                 SelectAsPuzzle(name);
                 return;
@@ -513,7 +512,7 @@ namespace Assets.Scripts.QuestEditor
             }
 
             game.quest.qd.components.Add("Puzzle" + index,
-                new PuzzleQuestComponent("Puzzle" + index));
+                new Assets.Scripts.Content.QuestComponent.PuzzleQuestComponent("Puzzle" + index));
             SelectComponent("Puzzle" + index);
         }
 

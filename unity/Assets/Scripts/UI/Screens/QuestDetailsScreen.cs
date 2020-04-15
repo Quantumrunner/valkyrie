@@ -1,7 +1,6 @@
 using UnityEngine;
 using Assets.Scripts.Content;
 using System.IO;
-using Assets.Scripts.Content.ContentData;
 using Assets.Scripts.GameTypes;
 using ValkyrieTools;
 
@@ -29,7 +28,7 @@ namespace Assets.Scripts.UI.Screens
             {
                 ui = new UIElement();
                 ui.SetLocation(UIScaler.GetHCenter(-20), 4, 8, 8);
-                ui.SetImage(ContentDataBase.FileToTexture(Path.Combine(q.path, q.image)));
+                ui.SetImage(ContentData.FileToTexture(Path.Combine(q.path, q.image)));
                 new UIElementBorder(ui);
             }
 
@@ -135,7 +134,7 @@ namespace Assets.Scripts.UI.Screens
 
             if (Path.GetExtension(Path.GetFileName(q.path)) == ".valkyrie")
             {
-                toDelete = ContentDataBase.DownloadPath() + Path.DirectorySeparatorChar + Path.GetFileName(q.path);
+                toDelete = ContentData.DownloadPath() + Path.DirectorySeparatorChar + Path.GetFileName(q.path);
                 File.Delete(toDelete);
 
                 // update Quest status : downloaded/updated

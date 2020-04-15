@@ -1,6 +1,5 @@
 ﻿using Assets.Scripts.Content;
 using System.Collections.Generic;
-using Assets.Scripts.Content.ContentData;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using ValkyrieTools;
@@ -80,7 +79,7 @@ namespace Assets.Scripts.UI.Screens
             ui.SetFont(game.gameType.GetHeaderFont());
             ui.SetFontSize(UIScaler.GetMediumFont());
 
-            Texture2D SampleTex = ContentDataBase.FileToTexture(game.cd.images[IMG_LOW_EDITOR_TRANSPARENCY].image);
+            Texture2D SampleTex = ContentData.FileToTexture(game.cd.images[IMG_LOW_EDITOR_TRANSPARENCY].image);
             Sprite SampleSprite = Sprite.Create(SampleTex, new Rect(0, 0, SampleTex.width, SampleTex.height), Vector2.zero, 1);
             ui = new UIElement(Game.DIALOG);
             ui.SetLocation(UIScaler.GetHCenter()-3, 8, 6, 6);
@@ -89,7 +88,7 @@ namespace Assets.Scripts.UI.Screens
             if(game.editorTransparency == 0.2f)
                 new UIElementBorder(ui, Color.white);
 
-            SampleTex = ContentDataBase.FileToTexture(game.cd.images[IMG_MEDIUM_EDITOR_TRANSPARENCY].image);
+            SampleTex = ContentData.FileToTexture(game.cd.images[IMG_MEDIUM_EDITOR_TRANSPARENCY].image);
             SampleSprite = Sprite.Create(SampleTex, new Rect(0, 0, SampleTex.width, SampleTex.height), Vector2.zero, 1);
             ui = new UIElement(Game.DIALOG);
             ui.SetLocation(UIScaler.GetHCenter() - 3, 15, 6, 6);
@@ -98,7 +97,7 @@ namespace Assets.Scripts.UI.Screens
             if (game.editorTransparency == 0.3f)
                 new UIElementBorder(ui, Color.white);
             
-            SampleTex = ContentDataBase.FileToTexture(game.cd.images[IMG_HIGH_EDITOR_TRANSPARENCY].image);
+            SampleTex = ContentData.FileToTexture(game.cd.images[IMG_HIGH_EDITOR_TRANSPARENCY].image);
             SampleSprite = Sprite.Create(SampleTex, new Rect(0, 0, SampleTex.width, SampleTex.height), Vector2.zero, 1);
             ui = new UIElement(Game.DIALOG);
             ui.SetLocation(UIScaler.GetHCenter() - 3, 22, 6, 6);

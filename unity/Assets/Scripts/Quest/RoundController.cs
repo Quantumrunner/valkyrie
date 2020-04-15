@@ -2,12 +2,8 @@
 using System.Collections.Generic;
 using ValkyrieTools;
 using Assets.Scripts.Content;
-using Assets.Scripts.Content.ContentData;
-using Assets.Scripts.Content.QuestComponents;
+using Assets.Scripts.Content.QuestComponent;
 using Assets.Scripts.GameTypes;
-using Assets.Scripts.Quest.Heroes;
-using Assets.Scripts.Quest.Logs;
-using Assets.Scripts.Quest.Monsters;
 using Assets.Scripts.Save;
 
 namespace Assets.Scripts.Quest

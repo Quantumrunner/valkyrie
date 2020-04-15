@@ -1,7 +1,6 @@
 ﻿using UnityEngine;
 using Assets.Scripts.Content;
 using Assets.Scripts.Quest.Events;
-using Assets.Scripts.Quest.Monsters;
 using Assets.Scripts.UI;
 using ValkyrieTools;
 
@@ -10,6 +9,7 @@ namespace Assets.Scripts.Quest
     // Monster information dialog (additional rules)
     public class InfoDialog
     {
+
         public InfoDialog(Monster m)
         {
             if (m == null)
