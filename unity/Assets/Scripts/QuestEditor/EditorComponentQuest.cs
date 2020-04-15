@@ -430,7 +430,7 @@ namespace Assets.Scripts.QuestEditor
             }
 
             UIWindowSelectionList select = new UIWindowSelectionList(SelectQuestAddPack, SELECT_PACK);
-            foreach (ContentData.ContentPack pack in Game.Get().cd.allPacks)
+            foreach (ContentPack pack in Game.Get().cd.allPacks)
             {
                 if (pack.id.Length > 0)
                 {

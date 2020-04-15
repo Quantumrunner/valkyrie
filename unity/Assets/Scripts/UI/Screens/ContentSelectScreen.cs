@@ -146,7 +146,7 @@ namespace Assets.Scripts.UI.Screens
             float offset = 0.5f;
             bool left = true;
             // Note this is currently unordered
-            foreach (ContentData.ContentPack cp in game.cd.allPacks)
+            foreach (ContentPack cp in game.cd.allPacks)
             {
                 // If the id is "" this is base content and can be ignored
                 if (cp.id.Length > 0 && cp.type.Equals(type))

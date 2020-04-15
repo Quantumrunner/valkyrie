@@ -640,7 +640,7 @@ namespace Assets.Scripts.QuestEditor
             select.AddItem("#heroes", traits);
             select.AddItem("#round", traits);
             select.AddItem("#eliminated", traits);
-            foreach (ContentData.ContentPack pack in Game.Get().cd.allPacks)
+            foreach (ContentPack pack in Game.Get().cd.allPacks)
             {
                 if (pack.id.Length > 0)
                 {
@@ -921,7 +921,7 @@ namespace Assets.Scripts.QuestEditor
             select.AddItem("#heroes", traits);
             select.AddItem("#round", traits);
             select.AddItem("#eliminated", traits);
-            foreach (ContentData.ContentPack pack in Game.Get().cd.allPacks)
+            foreach (ContentPack pack in Game.Get().cd.allPacks)
             {
                 if (pack.id.Length > 0)
                 {
