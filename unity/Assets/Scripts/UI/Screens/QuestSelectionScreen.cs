@@ -246,12 +246,12 @@ namespace Assets.Scripts.UI.Screens
             {
                 ValkyrieDebug.Log("INFO: Set online mode for quests");
 
-                game.questsList.SetMode(QuestsManager.QuestListMode.ONLINE);
+                game.questsList.SetMode(QuestListMode.ONLINE);
             }
             else
             {
                 ValkyrieDebug.Log("INFO: Set offline mode for quests");
-                game.questsList.SetMode(QuestsManager.QuestListMode.LOCAL);
+                game.questsList.SetMode(QuestListMode.LOCAL);
             }
 
             DrawOnlineModeButton();
@@ -339,18 +339,18 @@ namespace Assets.Scripts.UI.Screens
             text_connection_status = new UIElement();
 
             // Display connection status message
-            if (game.questsList.quest_list_mode == QuestsManager.QuestListMode.ERROR_DOWNLOAD)
+            if (game.questsList.quest_list_mode == QuestListMode.ERROR_DOWNLOAD)
             {
                 // error download (no connection, timeout, of file not available)
                 text_connection_status.SetText(OFFLINE_DUE_TO_ERROR, Color.red);
             }
-            else if (game.questsList.quest_list_mode == QuestsManager.QuestListMode.DOWNLOADING)
+            else if (game.questsList.quest_list_mode == QuestListMode.DOWNLOADING)
             {
                 // Download ongoing
                 text_connection_status.SetText(DOWNLOAD_ONGOING, Color.cyan);
                 game.questsList.Register_cb_download(RemoteQuestsListDownload_cb);
             }
-            else if (game.questsList.quest_list_mode == QuestsManager.QuestListMode.ONLINE)
+            else if (game.questsList.quest_list_mode == QuestListMode.ONLINE)
             {
                 // Download done, we are online
                 text_connection_status.SetText(GO_OFFLINE, Color.red);
@@ -570,7 +570,7 @@ namespace Assets.Scripts.UI.Screens
                 button_color = Color.grey;
                 if (s.name == sort_criteria)
                     button_color = Color.white;
-                if (game.questsList.quest_list_mode != QuestsManager.QuestListMode.ONLINE)
+                if (game.questsList.quest_list_mode != QuestListMode.ONLINE)
                     button_color = Color.red;
 
                 // local var required as button is called later with this value
@@ -581,7 +581,7 @@ namespace Assets.Scripts.UI.Screens
                 ui.SetText(s.button_text, button_color);
                 ui.SetFont(Game.Get().gameType.GetHeaderFont());
                 ui.SetFontSize(font_size_sort_buttons);
-                if (game.questsList.quest_list_mode == QuestsManager.QuestListMode.ONLINE)
+                if (game.questsList.quest_list_mode == QuestListMode.ONLINE)
                     ui.SetButton(delegate { SetSort(local_name); });
                 new UIElementBorder(ui, button_color);
 
@@ -685,7 +685,7 @@ namespace Assets.Scripts.UI.Screens
 
         public void SetSort(string sort_selected_option)
         {
-            if (game.questsList.quest_list_mode == QuestsManager.QuestListMode.ONLINE)
+            if (game.questsList.quest_list_mode == QuestListMode.ONLINE)
             { 
                 // save sort configuration
                 game.config.data.Add("UserConfig", "sortCriteria", sort_selected_option);
@@ -717,7 +717,7 @@ namespace Assets.Scripts.UI.Screens
             Dictionary<string, string> config_values = game.config.data.Get("UserConfig");
 
             // check if connected on internet, and display scenario list accordingly (local or online)
-            if (game.questsList.quest_list_mode == QuestsManager.QuestListMode.ONLINE)
+            if (game.questsList.quest_list_mode == QuestListMode.ONLINE)
             {
                 if (config_values.ContainsKey("sortCriteria"))
                 {
@@ -797,7 +797,7 @@ namespace Assets.Scripts.UI.Screens
                 if (!lang.Value)
                     continue;
 
-                if (game.questsList.quest_list_mode != QuestsManager.QuestListMode.ONLINE)
+                if (game.questsList.quest_list_mode != QuestListMode.ONLINE)
                 {
                     // check list of languages when offline
                     if (q.localizationDict == null)
@@ -859,12 +859,12 @@ namespace Assets.Scripts.UI.Screens
             last_update_info = null;
 
             // wait for the Quest list to be downloaded
-            while(game.questsList.quest_list_mode==QuestsManager.QuestListMode.DOWNLOADING)
+            while(game.questsList.quest_list_mode==QuestListMode.DOWNLOADING)
             {
                 yield return null;
             }
 
-            if(game.questsList.quest_list_mode != QuestsManager.QuestListMode.ONLINE)
+            if(game.questsList.quest_list_mode != QuestListMode.ONLINE)
             {
                 // Get and load a list of all locally available quests
                 game.questsList.LoadAllLocalQuests();
@@ -913,7 +913,7 @@ namespace Assets.Scripts.UI.Screens
                 // Get data translation
                 string name_translation = "";
                 string synopsys_translation = "";
-                if (game.questsList.quest_list_mode == QuestsManager.QuestListMode.ONLINE)
+                if (game.questsList.quest_list_mode == QuestListMode.ONLINE)
                 {
                     // Quest name is local language, or default language
                     if (q.languages_name != null &&
@@ -952,7 +952,7 @@ namespace Assets.Scripts.UI.Screens
                 ui.SetBGColor(Color.clear);
                 if (q.image.Length > 0)
                 {
-                    if (game.questsList.quest_list_mode != QuestsManager.QuestListMode.ONLINE)
+                    if (game.questsList.quest_list_mode != QuestListMode.ONLINE)
                     {
                         DrawScenarioPicture(ContentData.FileToTexture(Path.Combine(q.path, q.image)), ui); ;
                     }
@@ -974,7 +974,7 @@ namespace Assets.Scripts.UI.Screens
                 // languages flags
                 if (
                     (q.languages_name!=null && q.languages_name.Count>0) ||
-                    (q.localizationDict!=null && game.questsList.quest_list_mode != QuestsManager.QuestListMode.ONLINE)
+                    (q.localizationDict!=null && game.questsList.quest_list_mode != QuestListMode.ONLINE)
                     )
                 {
                     List<string> languages = null;
@@ -1105,7 +1105,7 @@ namespace Assets.Scripts.UI.Screens
                 {
                     ui.SetImage(button_no_entry);
                 }
-                else if (game.questsList.quest_list_mode != QuestsManager.QuestListMode.ONLINE)
+                else if (game.questsList.quest_list_mode != QuestListMode.ONLINE)
                 {
                     ui.SetImage(button_play);
                     ui.SetButton(delegate { Selection(key); });
@@ -1304,7 +1304,7 @@ namespace Assets.Scripts.UI.Screens
             Destroyer.Dialog();
             CleanQuestList();
 
-            if (game.questsList.quest_list_mode != QuestsManager.QuestListMode.ONLINE)
+            if (game.questsList.quest_list_mode != QuestListMode.ONLINE)
             {
                 // Play
                 ValkyrieDebug.Log("INFO: ... and launch offline Quest");
