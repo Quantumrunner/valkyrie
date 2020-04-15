@@ -1,5 +1,7 @@
 ﻿using UnityEngine;
 using Assets.Scripts.Content;
+using Assets.Scripts.Content.ContentData;
+using Assets.Scripts.Quest.Heroes;
 using Assets.Scripts.UI;
 
 namespace Assets.Scripts.Quest
@@ -36,9 +38,9 @@ namespace Assets.Scripts.Quest
             UIElement bg = new UIElement(Game.TRANSITION);
             Texture2D bgTex;
             if (phase == MoMPhase.investigator)
-                bgTex = ContentData.FileToTexture(game.cd.images[IMG_BG_INVESTIGATORS_PHASE].image);
+                bgTex = ContentDataBase.FileToTexture(game.cd.images[IMG_BG_INVESTIGATORS_PHASE].image);
             else
-                bgTex = ContentData.FileToTexture(game.cd.images[IMG_BG_MYTHOS_PHASE].image);
+                bgTex = ContentDataBase.FileToTexture(game.cd.images[IMG_BG_MYTHOS_PHASE].image);
             bg.SetImage(bgTex);
             bg.SetLocation(0, 0, UIScaler.GetWidthUnits(), UIScaler.GetHeightUnits());
 
@@ -74,7 +76,7 @@ namespace Assets.Scripts.Quest
                     if (h.heroData != null)
                     {
                         // Draw pictures
-                        Texture2D newTex = ContentData.FileToTexture(h.heroData.image);
+                        Texture2D newTex = ContentDataBase.FileToTexture(h.heroData.image);
 
                         ui = new UIElement(Game.TRANSITION, bg.GetTransform());
                         ui.SetLocation(UIScaler.GetHCenter(offset), UIScaler.GetVCenter(), heroSize, heroSize);

@@ -1,5 +1,6 @@
 ﻿using System.IO;
 using Assets.Scripts.Content;
+using Assets.Scripts.Content.ContentData;
 using UnityEngine;
 using ValkyrieTools;
 
@@ -18,12 +19,12 @@ namespace Assets.Scripts.Save
             if (!File.Exists(SaveManager.SaveFile(num))) return;
             try
             {
-                if (!Directory.Exists(ContentData.TempValyriePath))
+                if (!Directory.Exists(ContentDataBase.TempValyriePath))
                 {
-                    Directory.CreateDirectory(ContentData.TempValyriePath);
+                    Directory.CreateDirectory(ContentDataBase.TempValyriePath);
                 }
 
-                string valkyrieLoadPath = Path.Combine(ContentData.TempValyriePath, "Preload");
+                string valkyrieLoadPath = Path.Combine(ContentDataBase.TempValyriePath, "Preload");
                 if (!Directory.Exists(valkyrieLoadPath))
                 {
                     Directory.CreateDirectory(valkyrieLoadPath);
@@ -32,7 +33,7 @@ namespace Assets.Scripts.Save
                 ZipManager.Extract(valkyrieLoadPath, SaveManager.SaveFile(num),
                     ZipManager.Extract_mode.ZIPMANAGER_EXTRACT_SAVE_INI_PIC);
 
-                image = ContentData.FileToTexture(Path.Combine(valkyrieLoadPath, "image.png"));
+                image = ContentDataBase.FileToTexture(Path.Combine(valkyrieLoadPath, "image.png"));
 
                 string data = File.ReadAllText(Path.Combine(valkyrieLoadPath, "save.ini"));
                 IniData saveData = IniRead.ReadFromString(data);
@@ -45,12 +46,12 @@ namespace Assets.Scripts.Save
                 // loading a Quest saved for the first time
                 if (questLoadPath.Contains(questOriginalPath))
                 {
-                    questLoadPath = questLoadPath.Replace(questOriginalPath, ContentData.ValkyrieLoadQuestPath);
+                    questLoadPath = questLoadPath.Replace(questOriginalPath, ContentDataBase.ValkyrieLoadQuestPath);
                 }
 
                 // use preload path rather than load
                 questLoadPath =
-                    questLoadPath.Replace(ContentData.ValkyrieLoadPath, ContentData.ValkyriePreloadPath);
+                    questLoadPath.Replace(ContentDataBase.ValkyrieLoadPath, ContentDataBase.ValkyriePreloadPath);
                 Assets.Scripts.Content.QuestIniComponent q =
                     new Assets.Scripts.Content.QuestIniComponent(questLoadPath);
                 if (!q.valid)

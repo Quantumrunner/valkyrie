@@ -1,7 +1,9 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 using Assets.Scripts.Content;
+using Assets.Scripts.Content.ContentData;
 using Assets.Scripts.Quest;
+using Assets.Scripts.Quest.Heroes;
 
 namespace Assets.Scripts.UI.Screens
 {
@@ -165,7 +167,7 @@ namespace Assets.Scripts.UI.Screens
                 scrollOffset.Add(0);
             }
 
-            Texture2D heroTex = ContentData.FileToTexture(game.quest.heroes[hero].heroData.image);
+            Texture2D heroTex = ContentDataBase.FileToTexture(game.quest.heroes[hero].heroData.image);
             Sprite heroSprite = Sprite.Create(heroTex, new Rect(0, 0, heroTex.width, heroTex.height), Vector2.zero, 1);
             ui = new UIElement(Game.HEROSELECT);
             ui.SetLocation(xOffset + 2.5f, 3.5f, 4, 4);

@@ -1,5 +1,5 @@
 ﻿using Assets.Scripts.Content;
-using Assets.Scripts.Content.QuestComponent;
+using Assets.Scripts.Content.QuestComponents;
 using Assets.Scripts.Quest;
 using Assets.Scripts.UI;
 

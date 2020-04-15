@@ -1,7 +1,8 @@
 ﻿using Assets.Scripts.Content;
 using System.Collections.Generic;
 using System.IO;
-using Assets.Scripts.Content.QuestComponent;
+using Assets.Scripts.Content.ContentData;
+using Assets.Scripts.Content.QuestComponents;
 using Assets.Scripts.Quest.Events;
 using UnityEngine;
 

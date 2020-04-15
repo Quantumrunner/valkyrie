@@ -40,17 +40,6 @@ namespace Assets.Scripts.Content
         // Callback when download is done
         Action<bool> cb_download = null;
 
-        // Current mode to get Quest list
-        // Default is local, it changes when file has been downloaded
-        // It can also be set by user
-        public enum QuestListMode
-        {
-            ONLINE,
-            LOCAL,
-            DOWNLOADING,
-            ERROR_DOWNLOAD
-        };
-
         public QuestListMode quest_list_mode = QuestListMode.LOCAL;
         bool force_local_quest = false;
 
@@ -144,7 +133,7 @@ namespace Assets.Scripts.Content
         private void CheckLocalAvailability()
         {
             // load information on local quests
-            IniData localManifest = IniRead.ReadFromIni(ContentData.DownloadPath() + "/manifest.ini");
+            IniData localManifest = IniRead.ReadFromIni(Assets.Scripts.Content.ContentData.ContentDataBase.DownloadPath() + "/manifest.ini");
 
             if (localManifest == null)
                 return;
@@ -165,7 +154,7 @@ namespace Assets.Scripts.Content
         {
             // update list of local Quest
             IniData localManifest = IniRead.ReadFromString("");
-            string saveLocation = ContentData.DownloadPath();
+            string saveLocation = Assets.Scripts.Content.ContentData.ContentDataBase.DownloadPath();
 
             if (File.Exists(saveLocation + "/manifest.ini"))
             {

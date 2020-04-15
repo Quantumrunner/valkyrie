@@ -1,5 +1,5 @@
-﻿using UnityEngine;
-using Fabric.Crashlytics;
+﻿using Fabric.Crashlytics;
+using UnityEngine;
 
 namespace Assets.Scripts
 {

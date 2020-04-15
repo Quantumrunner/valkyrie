@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections.Generic;
+using Assets.Scripts.Quest.Logs;
 using Assets.Scripts.Quest.VariableTests;
 
 namespace Assets.Scripts.Quest

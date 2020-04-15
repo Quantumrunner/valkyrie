@@ -20,16 +20,16 @@ namespace Assets.Scripts.Content
             // Look in the user application data directory
             string dataLocation = Game.AppData();
             mkDir(dataLocation);
-            mkDir(ContentData.DownloadPath());
+            mkDir(Assets.Scripts.Content.ContentData.ContentDataBase.DownloadPath());
 
             // Get a list of downloaded Quest not packed
-            List<string> questDirectories = GetUnpackedQuests(ContentData.DownloadPath());
+            List<string> questDirectories = GetUnpackedQuests(Assets.Scripts.Content.ContentData.ContentDataBase.DownloadPath());
 
             // Extract only required files from downloaded packages 
-            ExtractPackages(ContentData.DownloadPath());
+            ExtractPackages(Assets.Scripts.Content.ContentData.ContentDataBase.DownloadPath());
 
             // Get the list of extracted packages
-            questDirectories.AddRange(GetUnpackedQuests(ContentData.TempValyriePath));
+            questDirectories.AddRange(GetUnpackedQuests(Assets.Scripts.Content.ContentData.ContentDataBase.TempValyriePath));
 
             // Add the list of editor Quest
             if (game.gameType is MoMGameType)
@@ -79,14 +79,14 @@ namespace Assets.Scripts.Content
             // Look in the user application data directory
             string dataLocation = Game.AppData();
             mkDir(dataLocation);
-            mkDir(ContentData.DownloadPath());
+            mkDir(Assets.Scripts.Content.ContentData.ContentDataBase.DownloadPath());
 
-            string path = ContentData.DownloadPath() + Path.DirectorySeparatorChar + questName + ".valkyrie";
+            string path = Assets.Scripts.Content.ContentData.ContentDataBase.DownloadPath() + Path.DirectorySeparatorChar + questName + ".valkyrie";
             QuestLoader.ExtractSinglePackagePartial(path);
 
             // load Quest
             Assets.Scripts.Content.QuestIniComponent q =
-                new Assets.Scripts.Content.QuestIniComponent(Path.Combine(ContentData.TempValyriePath,
+                new Assets.Scripts.Content.QuestIniComponent(Path.Combine(Assets.Scripts.Content.ContentData.ContentDataBase.TempValyriePath,
                     Path.GetFileName(path)));
             // Check Quest is valid and of the right type
             if (q.valid && q.type.Equals(game.gameType.TypeName()))
@@ -115,7 +115,7 @@ namespace Assets.Scripts.Content
             List<string> questDirectories = GetUnpackedQuests(dataLocation);
 
             // Read extracted packages
-            questDirectories.AddRange(GetUnpackedQuests(ContentData.TempValyriePath));
+            questDirectories.AddRange(GetUnpackedQuests(Assets.Scripts.Content.ContentData.ContentDataBase.TempValyriePath));
 
             // go through all found quests
             foreach (string p in questDirectories)
@@ -142,7 +142,7 @@ namespace Assets.Scripts.Content
             mkDir(dataLocation);
             List<string> questDirectories = GetUnpackedQuests(dataLocation);
 
-            string tempPath = ContentData.TempPath;
+            string tempPath = Assets.Scripts.Content.ContentData.ContentDataBase.TempPath;
             string gameType = Game.Get().gameType.TypeName();
             // go through all found quests
             foreach (string p in questDirectories)
@@ -196,7 +196,7 @@ namespace Assets.Scripts.Content
         public static void ExtractSinglePackageFull(string path)
         {
             // Extract into temp
-            string tempValkyriePath = ContentData.TempValyriePath;
+            string tempValkyriePath = Assets.Scripts.Content.ContentData.ContentDataBase.TempValyriePath;
             mkDir(tempValkyriePath);
 
             string extractedPath = Path.Combine(tempValkyriePath, Path.GetFileName(path));
@@ -211,7 +211,7 @@ namespace Assets.Scripts.Content
         public static void ExtractSinglePackagePartial(string path)
         {
             // Extract into temp
-            string extractedPath = Path.Combine(ContentData.TempValyriePath, Path.GetFileName(path));
+            string extractedPath = Path.Combine(Assets.Scripts.Content.ContentData.ContentDataBase.TempValyriePath, Path.GetFileName(path));
             ZipManager.Extract(extractedPath, path, ZipManager.Extract_mode.ZIPMANAGER_EXTRACT_INI_TXT_PIC);
         }
 
@@ -227,7 +227,7 @@ namespace Assets.Scripts.Content
             // Extract all packages
             foreach (string f in archives)
             {
-                string extractedPath = Path.Combine(ContentData.TempValyriePath, Path.GetFileName(f));
+                string extractedPath = Path.Combine(Assets.Scripts.Content.ContentData.ContentDataBase.TempValyriePath, Path.GetFileName(f));
                 ZipManager.Extract(extractedPath, f, ZipManager.Extract_mode.ZIPMANAGER_EXTRACT_INI_TXT_PIC);
             }
         }
@@ -272,7 +272,7 @@ namespace Assets.Scripts.Content
         public static void CleanTemp()
         {
             // Nothing to do if no temporary files
-            string tempValkyriePath = ContentData.TempValyriePath;
+            string tempValkyriePath = Assets.Scripts.Content.ContentData.ContentDataBase.TempValyriePath;
             if (!Directory.Exists(tempValkyriePath))
             {
                 return;

@@ -1,7 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 using Assets.Scripts.Content;
-using Assets.Scripts.Content.QuestComponent;
+using Assets.Scripts.Content.ContentData;
+using Assets.Scripts.Content.QuestComponents;
 using Assets.Scripts.GameTypes;
 using Assets.Scripts.UI;
 

@@ -1,8 +1,12 @@
 ﻿using System.Collections.Generic;
 using System.IO;
 using Assets.Scripts.Content;
-using Assets.Scripts.Content.QuestComponent;
+using Assets.Scripts.Content.ContentData;
+using Assets.Scripts.Content.QuestComponents;
 using Assets.Scripts.GameTypes;
+using Assets.Scripts.Quest.Logs;
+using Assets.Scripts.Quest.Monsters;
+using Assets.Scripts.Quest.Puzzles;
 using Assets.Scripts.UI.Screens;
 using UnityEngine;
 using ValkyrieTools;
@@ -52,7 +56,7 @@ namespace Assets.Scripts.Quest.Events
             // Find Quest events
             foreach (KeyValuePair<string, QuestComponent> kv in game.quest.qd.components)
             {
-                if (kv.Value is Assets.Scripts.Content.QuestComponent.EventQuestComponent)
+                if (kv.Value is EventQuestComponent)
                 {
                     // If the event is a monster type cast it
                     if (kv.Value is SpawnQuestComponent)
@@ -122,7 +126,7 @@ namespace Assets.Scripts.Quest.Events
                 string questToTransition = game.quest.originalPath + Path.DirectorySeparatorChar + name;
                 if (game.quest.fromSavegame)
                 {
-                    questToTransition = ContentData.ValkyrieLoadQuestPath + Path.DirectorySeparatorChar + name;
+                    questToTransition = ContentDataBase.ValkyrieLoadQuestPath + Path.DirectorySeparatorChar + name;
                 }
 
                 if (File.Exists(questToTransition))
@@ -310,10 +314,10 @@ namespace Assets.Scripts.Quest.Events
                 CameraController.SetCamera(e.QEventQuestComponent.location);
             }
 
-            if (e.QEventQuestComponent is Assets.Scripts.Content.QuestComponent.PuzzleQuestComponent)
+            if (e.QEventQuestComponent is PuzzleQuestComponent)
             {
-                Assets.Scripts.Content.QuestComponent.PuzzleQuestComponent p =
-                    e.QEventQuestComponent as Assets.Scripts.Content.QuestComponent.PuzzleQuestComponent;
+                PuzzleQuestComponent p =
+                    e.QEventQuestComponent as PuzzleQuestComponent;
                 if (p.puzzleClass.Equals("slide"))
                 {
                     new PuzzleSlideWindow(e);
@@ -392,10 +396,10 @@ namespace Assets.Scripts.Quest.Events
                 game.tokenBoard.AddHighlight(e.QEventQuestComponent);
             }
 
-            if (e.QEventQuestComponent is Assets.Scripts.Content.QuestComponent.PuzzleQuestComponent)
+            if (e.QEventQuestComponent is PuzzleQuestComponent)
             {
-                Assets.Scripts.Content.QuestComponent.PuzzleQuestComponent p =
-                    e.QEventQuestComponent as Assets.Scripts.Content.QuestComponent.PuzzleQuestComponent;
+                PuzzleQuestComponent p =
+                    e.QEventQuestComponent as PuzzleQuestComponent;
                 if (p.puzzleClass.Equals("slide"))
                 {
                     new PuzzleSlideWindow(e);
@@ -424,7 +428,7 @@ namespace Assets.Scripts.Quest.Events
         }
 
         // Event ended
-        public void EndEvent(Assets.Scripts.Content.QuestComponent.EventQuestComponent eventQuestComponentData,
+        public void EndEvent(EventQuestComponent eventQuestComponentData,
             int state = 0)
         {
             // Get list of next events
@@ -444,7 +448,7 @@ namespace Assets.Scripts.Quest.Events
                     string questToTransition = game.quest.originalPath + Path.DirectorySeparatorChar + s;
                     if (game.quest.fromSavegame)
                     {
-                        questToTransition = ContentData.ValkyrieLoadQuestPath + Path.DirectorySeparatorChar + s;
+                        questToTransition = ContentDataBase.ValkyrieLoadQuestPath + Path.DirectorySeparatorChar + s;
                     }
 
                     if (File.Exists(questToTransition))

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using Assets.Scripts.Content;
+using Assets.Scripts.Content.ContentData;
 using Assets.Scripts.UI;
 using ValkyrieTools;
 
@@ -94,7 +95,7 @@ namespace Assets.Scripts.QuestEditor
         {
             Game game = Game.Get();
             // All content data has been loaded by editor, cleanup everything
-            game.cd = new ContentData(game.gameType.DataDirectory());
+            game.cd = new ContentDataBase(game.gameType.DataDirectory());
             // Load the base content - pack will be loaded later if required
             game.cd.LoadContentID("");
 
@@ -248,7 +249,7 @@ namespace Assets.Scripts.QuestEditor
             if (Path.GetExtension(Path.GetFileName(key)) == ".valkyrie")
             {
                 // extract the full package
-                QuestLoader.ExtractSinglePackageFull(ContentData.DownloadPath() + Path.DirectorySeparatorChar +
+                QuestLoader.ExtractSinglePackageFull(ContentDataBase.DownloadPath() + Path.DirectorySeparatorChar +
                                                      Path.GetFileName(key));
             }
 

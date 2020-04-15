@@ -1,4 +1,5 @@
 ﻿using Assets.Scripts.Content;
+using Assets.Scripts.Content.ContentData;
 using Assets.Scripts.GameTypes;
 using Assets.Scripts.Quest.Events;
 

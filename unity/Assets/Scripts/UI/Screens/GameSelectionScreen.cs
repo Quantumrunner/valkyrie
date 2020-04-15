@@ -4,6 +4,7 @@ using FFGAppImport;
 using ValkyrieTools;
 using System.Threading;
 using System.IO;
+using Assets.Scripts.Content.ContentData;
 using Assets.Scripts.GameTypes;
 using Assets.Scripts.Quest;
 
@@ -332,7 +333,7 @@ namespace Assets.Scripts.UI.Screens
                 game.gameType = new D2EGameType();
 
                 // Loading list of content - doing this later is not required
-                game.cd = new ContentData(game.gameType.DataDirectory());
+                game.cd = new ContentDataBase(game.gameType.DataDirectory());
                 // Check if we found anything
                 if (game.cd.GetPacks().Count == 0)
                 {
@@ -416,7 +417,7 @@ namespace Assets.Scripts.UI.Screens
                 game.gameType = new MoMGameType();
 
                 // Loading list of content - doing this later is not required
-                game.cd = new ContentData(game.gameType.DataDirectory());
+                game.cd = new ContentDataBase(game.gameType.DataDirectory());
                 // Check if we found anything
                 if (game.cd.GetPacks().Count == 0)
                 {
@@ -467,7 +468,7 @@ namespace Assets.Scripts.UI.Screens
             if (LocalizationRead.selectDictionary("ffg") == null)
             {
                 DictionaryI18n ffgDict = new DictionaryI18n();
-                foreach (string file in Directory.GetFiles(ContentData.ImportPath() + "/text", "Localization_*.txt"))
+                foreach (string file in Directory.GetFiles(ContentDataBase.ImportPath() + "/text", "Localization_*.txt"))
                 {
                     ffgDict.AddDataFromFile(file);
                 }
@@ -475,7 +476,7 @@ namespace Assets.Scripts.UI.Screens
 
                 // CoSH used for Dunwich Horror data
                 DictionaryI18n cshDict = new DictionaryI18n();
-                foreach (string file in Directory.GetFiles(ContentData.ImportPath() + "/text", "SCENARIO_CULT_OF_SENTINEL_HILL_MAD22_*.txt"))
+                foreach (string file in Directory.GetFiles(ContentDataBase.ImportPath() + "/text", "SCENARIO_CULT_OF_SENTINEL_HILL_MAD22_*.txt"))
                 {
                     cshDict.AddDataFromFile(file);
                 }

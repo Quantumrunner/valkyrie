@@ -374,7 +374,7 @@ namespace Assets.Scripts.Content
             string authors_short_translation = "";
 
             // if languages_authors_short is available, we are online in scenarios explorer and don't have access to .txt files yet
-            if (Game.Get().questsList.quest_list_mode == QuestsManager.QuestListMode.ONLINE)
+            if (Game.Get().questsList.quest_list_mode == QuestListMode.ONLINE)
             {
                 if (languages_authors_short.Count != 0)
                 {

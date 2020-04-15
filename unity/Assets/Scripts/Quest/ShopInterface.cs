@@ -2,9 +2,11 @@ using Assets.Scripts.Content;
 using Assets.Scripts.UI;
 using UnityEngine;
 using System.Collections.Generic;
-using Assets.Scripts.Content.QuestComponent;
+using Assets.Scripts.Content.ContentData;
+using Assets.Scripts.Content.QuestComponents;
 using Assets.Scripts.Quest.BoardComponents;
 using Assets.Scripts.Quest.Events;
+using Assets.Scripts.Quest.Logs;
 
 
 namespace Assets.Scripts.Quest
@@ -135,7 +137,7 @@ namespace Assets.Scripts.Quest
                 ui = new UIElement(Game.SHOP, scrollArea.GetScrollTransform());
                 ui.SetLocation(2.5f, vOffset + 0.5f, 4, 4);
                 ui.SetButton(delegate { Buy(itemName); });
-                Texture2D itemTex = ContentData.FileToTexture(game.cd.items[s].image);
+                Texture2D itemTex = ContentDataBase.FileToTexture(game.cd.items[s].image);
                 Sprite itemSprite = Sprite.Create(itemTex, new Rect(0, 0, itemTex.width, itemTex.height), Vector2.zero,
                     1, 0, SpriteMeshType.FullRect);
                 ui.SetImage(itemSprite);
@@ -206,7 +208,7 @@ namespace Assets.Scripts.Quest
                 ui = new UIElement(Game.SHOP, scrollArea.GetScrollTransform());
                 ui.SetLocation(2.5f, vOffset + 0.5f, 4, 4);
                 ui.SetButton(delegate { Sell(itemName); });
-                Texture2D itemTex = ContentData.FileToTexture(game.cd.items[s].image);
+                Texture2D itemTex = ContentDataBase.FileToTexture(game.cd.items[s].image);
                 Sprite itemSprite = Sprite.Create(itemTex, new Rect(0, 0, itemTex.width, itemTex.height), Vector2.zero,
                     1, 0, SpriteMeshType.FullRect);
                 ui.SetImage(itemSprite);

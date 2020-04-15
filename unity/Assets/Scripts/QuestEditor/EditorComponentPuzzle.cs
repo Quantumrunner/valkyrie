@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using Assets.Scripts.Content;
 using Assets.Scripts.UI;
 using System.IO;
+using Assets.Scripts.Content.ContentData;
+using Assets.Scripts.Content.QuestComponents;
 using Assets.Scripts.Quest.Events;
 using ValkyrieTools;
 
@@ -23,7 +25,7 @@ namespace Assets.Scripts.QuestEditor
         private readonly StringKey PUZZLE_SELECT_SKILL = new StringKey("val", "PUZZLE_SELECT_SKILL");
         private readonly StringKey SELECT_IMAGE = new StringKey("val", "SELECT_IMAGE");
 
-        Assets.Scripts.Content.QuestComponent.PuzzleQuestComponent PUZZLE_QUEST_COMPONENT_QUEST_COMPONENT_COMPONENT;
+        PuzzleQuestComponent PUZZLE_QUEST_COMPONENT_QUEST_COMPONENT_COMPONENT;
 
         UIElementEditable levelUIE;
         UIElementEditable altLevelUIE;
@@ -59,7 +61,7 @@ namespace Assets.Scripts.QuestEditor
         override public float AddSubEventComponents(float offset)
         {
             PUZZLE_QUEST_COMPONENT_QUEST_COMPONENT_COMPONENT =
-                component as Assets.Scripts.Content.QuestComponent.PuzzleQuestComponent;
+                component as PuzzleQuestComponent;
 
             UIElement ui = new UIElement(Game.EDITOR, scrollArea.GetScrollTransform());
             ui.SetLocation(0, offset, 3, 1);

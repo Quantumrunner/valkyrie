@@ -1,5 +1,6 @@
 ﻿using Assets.Scripts.Content;
-using Assets.Scripts.Content.QuestComponent;
+using Assets.Scripts.Content.ContentData;
+using Assets.Scripts.Content.QuestComponents;
 using Assets.Scripts.GameTypes;
 using UnityEngine;
 using ValkyrieTools;
@@ -10,12 +11,12 @@ namespace Assets.Scripts.Quest.BoardComponents
     public class TileBoardComponent : BoardComponent
     {
         // This is the Quest information
-        public Assets.Scripts.Content.QuestComponent.TileQuestComponent QTileQuestComponent;
+        public TileQuestComponent QTileQuestComponent;
         // This is the component information
         public TileSideData cTile;
 
         // Construct with data from the Quest, pass Game for speed
-        public TileBoardComponent(Assets.Scripts.Content.QuestComponent.TileQuestComponent questTileQuestComponent, Game gameObject) : base(gameObject)
+        public TileBoardComponent(TileQuestComponent questTileQuestComponent, Game gameObject) : base(gameObject)
         {
             QTileQuestComponent = questTileQuestComponent;
 
@@ -38,7 +39,7 @@ namespace Assets.Scripts.Quest.BoardComponents
 
             // Attempt to load image
             var mTile = game.cd.tileSides[QTileQuestComponent.tileSideName];
-            Texture2D newTex = ContentData.FileToTexture(mTile.image);
+            Texture2D newTex = ContentDataBase.FileToTexture(mTile.image);
             if (newTex == null)
             {
                 // Fatal if missing

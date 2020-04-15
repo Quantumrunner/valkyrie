@@ -1,4 +1,5 @@
 ﻿using Assets.Scripts.Content;
+using Assets.Scripts.Content.ContentData;
 using UnityEngine;
 
 namespace Assets.Scripts.GameTypes
@@ -8,7 +9,7 @@ namespace Assets.Scripts.GameTypes
     {
         public override string DataDirectory()
         {
-            return ContentData.ContentPath() + "IA/";
+            return ContentDataBase.ContentPath() + "IA/";
         }
 
         public override StringKey HeroName()

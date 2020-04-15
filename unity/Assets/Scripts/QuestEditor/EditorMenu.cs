@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using Assets.Scripts.Content;
+using Assets.Scripts.Content.ContentData;
 using Assets.Scripts.UI;
 
 namespace Assets.Scripts.QuestEditor
@@ -66,7 +67,7 @@ namespace Assets.Scripts.QuestEditor
         {
             Game game = Game.Get();
             // All content data has been loaded by editor, cleanup everything
-            game.cd = new ContentData(game.gameType.DataDirectory());
+            game.cd = new ContentDataBase(game.gameType.DataDirectory());
             // Load the base content - pack will be loaded later if required
             game.cd.LoadContentID("");
 

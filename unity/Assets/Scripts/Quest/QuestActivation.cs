@@ -1,5 +1,6 @@
 ﻿using Assets.Scripts.Content;
-using Assets.Scripts.Content.QuestComponent;
+using Assets.Scripts.Content.ContentData;
+using Assets.Scripts.Content.QuestComponents;
 
 namespace Assets.Scripts.Quest
 {
