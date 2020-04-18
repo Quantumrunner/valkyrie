@@ -77,8 +77,9 @@
 		}
 
 		private static void StartChecking ()
-		{
-			if (!Net.Validator.Initialize (FileUtils.NormalizePathForPlatform (Application.dataPath))) {
+        {
+            var platformPath = FileUtils.NormalizePathForPlatform(Application.dataPath);
+            if (!Net.Validator.Initialize (platformPath)) {
 				Utils.Warn ("Failed to initialize validator");
 			}
 
