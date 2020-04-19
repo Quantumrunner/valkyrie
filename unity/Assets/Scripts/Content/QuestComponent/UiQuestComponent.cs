@@ -5,7 +5,7 @@ namespace Assets.Scripts.Content.QuestComponent
     // Ui is an image/button that is displayed to the user
     public class UiQuestComponent : EventQuestComponent
     {
-        new public static string type = "Ui";
+        new public static string type = "UI";
         public string imageName = "";
         public bool verticalUnits = false;
         public int hAlign = 0;
