@@ -117,44 +117,58 @@ namespace Assets.Scripts.Quest.Events
         public static string getComponentText(QuestComponent component)
         {
             Game game = Game.Get();
-            switch (component.GetType().Name)
+            if (component is TileQuestComponent)
             {
-                case "Event":
-                    if (!game.quest.heroSelection.ContainsKey(component.sectionName) || game.quest.heroSelection[component.sectionName].Count == 0)
-                    {
-                        return component.sectionName;
-                    }
-                    return game.quest.heroSelection[component.sectionName][0].heroData.name.Translate();
-                case "Tile":
-                    // Replaced with the name of the Tile
-                    return game.cd.tileSides[((TileQuestComponent)component).tileSideName].name.Translate();
-                case "CustomMonster":
-                    // Replaced with the custom nonster name
-                    return ((CustomMonsterQuestComponent)component).monsterName.Translate();
-                case "Spawn":
-                    if (!game.quest.monsterSelect.ContainsKey(component.sectionName))
-                    {
-                        return component.sectionName;
-                    }
-                    // Replaced with the text shown in the spawn
-                    string monsterName = game.quest.monsterSelect[component.sectionName];
-                    if (monsterName.StartsWith("Custom"))
-                    {
-                        return ((CustomMonsterQuestComponent)game.quest.qd.components[monsterName]).monsterName.Translate();
-                    }
-                    else
-                    {
-                        return game.cd.monsters[game.quest.monsterSelect[component.sectionName]].name.Translate();
-                    }
-                case "QItem":
-                    if (!game.quest.itemSelect.ContainsKey(component.sectionName))
-                    {
-                        return component.sectionName;
-                    }
-                    // Replaced with the first element in the list
-                    return game.cd.items[game.quest.itemSelect[component.sectionName]].name.Translate();
-                default:
+                // Replaced with the name of the Tile
+                return game.cd.tileSides[((TileQuestComponent) component).tileSideName].name.Translate();
+            }
+            else if (component is CustomMonsterQuestComponent)
+            {
+                // Replaced with the custom nonster name
+                return ((CustomMonsterQuestComponent) component).monsterName.Translate();
+            }
+            else if (component is SpawnQuestComponent)
+            {
+                if (!game.quest.monsterSelect.ContainsKey(component.sectionName))
+                {
                     return component.sectionName;
+                }
+
+                // Replaced with the text shown in the spawn
+                string monsterName = game.quest.monsterSelect[component.sectionName];
+                if (monsterName.StartsWith("Custom"))
+                {
+                    return ((CustomMonsterQuestComponent) game.quest.qd.components[monsterName]).monsterName
+                        .Translate();
+                }
+                else
+                {
+                    return game.cd.monsters[game.quest.monsterSelect[component.sectionName]].name.Translate();
+                }
+            }
+            else if (component is EventQuestComponent)
+            {
+                if (!game.quest.heroSelection.ContainsKey(component.sectionName) ||
+                    game.quest.heroSelection[component.sectionName].Count == 0)
+                {
+                    return component.sectionName;
+                }
+
+                return game.quest.heroSelection[component.sectionName][0].heroData.name.Translate();
+            }
+            else if (component is QItemQuestComponent)
+            {
+                if (!game.quest.itemSelect.ContainsKey(component.sectionName))
+                {
+                    return component.sectionName;
+                }
+
+                // Replaced with the first element in the list
+                return game.cd.items[game.quest.itemSelect[component.sectionName]].name.Translate();
+            }
+            else
+            {
+                return component.sectionName;
             }
         }
 
