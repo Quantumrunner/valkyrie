@@ -1,7 +1,7 @@
 name: Scenario Grabber
 run-name: Scenario Grabber triggered by ${{ github.actor }}
 on:
-  workflow_dispatch:
+  pull_request:
     inputs:
       gameType:
         description: 'Game type (e.g. MoM, D2E, etc.)'
