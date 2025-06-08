@@ -1,0 +1,127 @@
+name: Scenario Grabber
+
+on:
+  workflow_dispatch:
+    inputs:
+      gameType:
+        description: 'Game type (e.g. MoM, D2E, etc.)'
+        required: true
+
+jobs:
+  grab-scenarios:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install dependencies
+        run: npm install ini node-fetch
+
+      - name: Run Scenario Grabber
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GAME_TYPE: ${{ github.event.inputs.gameType }}
+        run: |
+          node <<'EOF'
+          const fetch = require('node-fetch');
+          const ini = require('ini');
+          const fs = require('fs');
+
+          async function fetchWithRetry(uri, options, retries = 3) {
+            let lastErr;
+            for (let i = 0; i < retries; i++) {
+              try {
+                const res = await fetch(uri, options);
+                if (!res.ok) throw new Error(`HTTP ${res.status}`);
+                return res;
+              } catch (err) {
+                lastErr = err;
+                await new Promise(r => setTimeout(r, 100));
+              }
+            }
+            throw lastErr;
+          }
+
+          async function main() {
+            const gameType = process.env.GAME_TYPE;
+            const githubToken = process.env.GITHUB_TOKEN;
+            const manifestUrl = `https://raw.githubusercontent.com/NPBruce/valkyrie-store/master/${gameType}/manifest.ini`;
+
+            const options = {
+              headers: { Authorization: `token ${githubToken}` }
+            };
+
+            // Fetch manifest.ini
+            const manifestRes = await fetchWithRetry(manifestUrl, options);
+            const manifestText = await manifestRes.text();
+            const manifest = ini.parse(manifestText);
+
+            let allContent = '';
+            let scenarioCount = 0;
+
+            for (const section in manifest) {
+              if (section === '__DEFAULT_SECTION__') continue;
+              scenarioCount++;
+              const url = manifest[section].external;
+              const iniUrl = `${url}${section}.ini`;
+
+              // Fetch scenario ini
+              const scenarioRes = await fetchWithRetry(iniUrl, options);
+              const scenarioText = await scenarioRes.text();
+              let scenarioIni = ini.parse(scenarioText);
+
+              // Add url to Quest section
+              if (!scenarioIni.Quest) scenarioIni.Quest = {};
+              scenarioIni.Quest.url = url;
+
+              // Fetch latest commit date if github link
+              if (iniUrl.includes('raw.githubusercontent.com')) {
+                const regex = /https:\/\/raw\.githubusercontent\.com\/(.+?\/.+?)\/(.+?)\/(.+\/*.*)\.ini/;
+                const match = iniUrl.match(regex);
+                if (match) {
+                  const commitInfoUrl = `https://api.github.com/repos/${match[1]}/commits?sha=${match[2]}&path=${match[3]}.valkyrie`;
+                  const commitRes = await fetchWithRetry(commitInfoUrl, options);
+                  const commitData = await commitRes.json();
+                  if (commitData.length > 0) {
+                    scenarioIni.Quest.latest_update = commitData[0].commit.committer.date;
+                  } else {
+                    scenarioIni.Quest.latest_update = "unknown";
+                  }
+                }
+              } else {
+                scenarioIni.Quest.latest_update = "1970-01-01T12:28:29Z";
+              }
+
+              // Rename [Quest] to [ScenarioName]
+              scenarioIni[section] = scenarioIni.Quest;
+              delete scenarioIni.Quest;
+
+              // Stringify and append
+              allContent += ini.encode(scenarioIni, { section: '' }) + '\n';
+            }
+
+            const date = new Date().toISOString().slice(0, -5);
+            const technicalInfo = `# Generated the ${date}'UTC' with ${scenarioCount} scenarios\n`;
+            const finalContent = technicalInfo + allContent;
+
+            const filename = `Valkyrie${gameType}Scenarios.ini`;
+            fs.writeFileSync(filename, finalContent, 'utf8');
+            console.log(`Wrote ${filename}`);
+          }
+
+          main().catch(err => {
+            console.error(err);
+            process.exit(1);
+          });
+          EOF
+
+      - name: Upload generated ini file
+        uses: actions/upload-artifact@v3
+        with:
+          name: scenarios-ini
+          path: Valkyrie${{ github.event.inputs.gameType }}Scenarios.ini
